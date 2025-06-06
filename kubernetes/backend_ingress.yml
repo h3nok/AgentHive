@@ -1,0 +1,25 @@
+apiVersion: k8s.nginx.org/v1
+kind: VirtualServerRoute
+metadata:
+  name: tsc-chattsc-backend-vsr
+spec:
+  host: eae-apis-ENV-REGION.ssc.tsc
+  upstreams:
+  - name: tsc-chattsc-backend-route
+    service: tsc-chattsc-backend-svc
+    port: 8000
+    client-max-body-size: 30m
+  subroutes:
+  - path: ~/tsc-chattsc-api/?(.*)
+    action:
+      proxy:
+        upstream: tsc-chattsc-backend-route
+        rewritePath: /$1
+        requestHeaders:
+          set:
+          - name: Host
+            value: ${host}
+          - name: X-Forwarded-Host
+            value: ${host}
+          - name: X-Forwarded-Proto
+            value: ${scheme}

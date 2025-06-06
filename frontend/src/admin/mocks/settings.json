@@ -1,0 +1,20 @@
+{
+  "llmDefaults": {
+    "temperature": 0.7,
+    "maxTokens": 2048,
+    "topP": 0.9,
+    "defaultModel": "GPT-4"
+  },
+  "quotas": {
+    "perAgentMonthly": 10000,
+    "perUserMonthly": 1000
+  },
+  "dataRetentionDays": 90,
+  "maintenanceMode": false,
+  "branding": {
+    "logoUrl": "/logo.png",
+    "primaryColor": "#C8102E",
+    "accentColor": "#333",
+    "welcomeMessage": "Welcome to AutoTractor Admin Hub!"
+  }
+} 

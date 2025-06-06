@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- Background Chat Bubble -->
+  <g>
+    <!-- Main bubble shape -->
+    <rect x="10" y="10" width="108" height="68" rx="34" fill="#f44336" />
+    
+    <!-- Tail/pointer of the bubble -->
+    <polygon points="42,78 30,100 54,78" fill="#f44336" />
+  </g>
+  
+  <!-- AutoTractor Text -->
+  <text x="64" y="58" font-family="monospace" font-size="30" font-weight="900" text-anchor="middle" fill="#ffffff">AT</text>
+</svg> 

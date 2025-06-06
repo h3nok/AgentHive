@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Console</title>
+</head>
+<body>
+    <h1>Processing Animation Debug</h1>
+    <p>Open the browser console and navigate to <a href="/">the main app</a> to see debug logs.</p>
+    
+    <script>
+        console.log('Debug page loaded. Navigate to the main app to see processing animation logs.');
+        
+        // Test the API directly
+        async function testAPI() {
+            console.log('Testing API directly...');
+            try {
+                const response = await fetch('http://localhost:8000/agent/query', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'text/event-stream'
+                    },
+                    body: JSON.stringify({
+                        session_id: 'debug-test',
+                        query: 'Hello, test the processing animation'
+                    })
+                });
+                
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value);
+                    console.log('API Response Chunk:', chunk);
+                }
+            } catch (error) {
+                console.error('API Test Error:', error);
+            }
+        }
+        
+        // Expose test function globally
+        window.testAPI = testAPI;
+        console.log('Run testAPI() to test the backend directly');
+    </script>
+</body>
+</html>

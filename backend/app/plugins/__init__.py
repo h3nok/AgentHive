@@ -1,0 +1,1 @@
+"""Plugins module for extensible agent capabilities.""" 

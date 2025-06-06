@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UKG Demo Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .trigger-test {
+            margin: 10px 0;
+            padding: 10px;
+            border-left: 4px solid #4caf50;
+            background: #f8f9fa;
+        }
+        .trigger-test.no-match {
+            border-left-color: #ccc;
+            background: #f8f8f8;
+        }
+        .message-sequence {
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin: 10px 0;
+            background: #fff;
+        }
+        .system-message {
+            background: rgba(25, 118, 210, 0.08);
+            border: 1px solid rgba(25, 118, 210, 0.2);
+            padding: 10px 15px;
+            border-radius: 20px;
+            margin: 8px 0;
+            text-align: center;
+            color: #1976d2;
+            font-weight: 500;
+        }
+        .hr-agent-message {
+            background: rgba(244, 246, 248, 0.9);
+            border: 1px solid rgba(76, 175, 80, 0.1);
+            padding: 15px;
+            border-radius: 20px 20px 20px 8px;
+            margin: 10px 0;
+            position: relative;
+        }
+        .hr-agent-message::before {
+            content: "HR";
+            position: absolute;
+            top: -25px;
+            left: 40px;
+            background: #4caf50;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 50%;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .form-demo {
+            border: 1px solid #e0e0e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            background: #fafafa;
+        }
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 15px;
+            background: rgba(244, 246, 248, 0.9);
+            border-radius: 20px;
+            margin: 10px 0;
+            max-width: 200px;
+        }
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #4caf50;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <h1>🏢 UKG Demo System Test</h1>
+    
+    <div class="test-section">
+        <h2>1. Trigger Detection Test</h2>
+        <p>Testing if messages properly trigger UKG demo flows:</p>
+        
+        <div id="triggerTests"></div>
+    </div>
+    
+    <div class="test-section">
+        <h2>2. Time-Off Request Flow Demo</h2>
+        <p>Expected sequence for: <strong>"I need to request time off"</strong></p>
+        
+        <div class="message-sequence">
+            <div class="system-message">🔍 Analyzing your request...</div>
+            <div class="system-message">🏷️ Classifying as Time-Off request...</div>
+            <div class="system-message">🎯 Routing to HR department...</div>
+            <div class="system-message">🔗 Connecting to HR Agent...</div>
+            
+            <div class="typing-indicator">
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot" style="animation-delay: 0.16s;"></div>
+                    <div class="typing-dot" style="animation-delay: 0.32s;"></div>
+                </div>
+                <span>HR Agent is typing...</span>
+            </div>
+            
+            <div class="hr-agent-message">
+                I can help you submit a time-off request. Please fill out the following details:
+                
+                <div class="form-demo">
+                    <h4>Time-Off Request Form</h4>
+                    <p>📅 Start Date: [Date Picker]</p>
+                    <p>📅 End Date: [Date Picker]</p>
+                    <p>📋 Type: [Vacation | Sick Leave | Personal Day | Bereavement]</p>
+                    <p>📝 Reason: [Optional Text Field]</p>
+                    <p>📊 Total days: [Auto-calculated]</p>
+                    <button style="background: #c60c30; color: white; padding: 10px 20px; border: none; border-radius: 5px;">Submit Time-Off Request</button>
+                </div>
+            </div>
+            
+            <div class="system-message">✅ Validating request details...</div>
+            <div class="system-message">📤 Sending request to manager for approval...</div>
+            
+            <div class="hr-agent-message">
+                ✅ <strong>Time-off request submitted successfully!</strong><br><br>
+                📋 <strong>Request Details:</strong><br>
+                • <strong>Start Date:</strong> 2025-06-10<br>
+                • <strong>End Date:</strong> 2025-06-12<br>
+                • <strong>Type:</strong> Vacation<br><br>
+                📧 You will receive an email confirmation shortly. Your manager will be notified for approval.
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>3. Clock In/Out Flow Demo</h2>
+        <p>Expected sequence for: <strong>"I want to clock in"</strong></p>
+        
+        <div class="message-sequence">
+            <div class="system-message">🔍 Analyzing your request...</div>
+            <div class="system-message">🏷️ Classifying as Time Clock action...</div>
+            <div class="system-message">🎯 Routing to HR Time Management...</div>
+            <div class="system-message">🔗 Connecting to HR Agent...</div>
+            
+            <div class="hr-agent-message">
+                Time clock action processed successfully!
+            </div>
+            
+            <div class="hr-agent-message">
+                📍 <strong>Time:</strong> 2:34 PM on 6/4/2025<br>
+                📍 <strong>Location:</strong> Main Office (GPS: 37.7749° N, 122.4194° W)<br>
+                📍 <strong>Status:</strong> Successfully recorded
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-section">
+        <h2>4. Integration Status</h2>
+        <div id="integrationStatus">
+            <p>✅ Trigger detection implemented</p>
+            <p>✅ System message flow with delays</p>
+            <p>✅ HR Agent typing indicator</p>
+            <p>✅ Form rendering for time-off requests</p>
+            <p>✅ Form validation and submission</p>
+            <p>✅ Clock in/out confirmation flow</p>
+            <p>✅ Material-UI styling</p>
+            <p>⚠️ Needs testing: End-to-end workflow</p>
+        </div>
+    </div>
+
+    <script>
+        // Test trigger detection
+        const triggers = {
+            timeOff: ['time off', 'vacation', 'pto', 'leave request', 'time-off request'],
+            clockInOut: ['clock in', 'clock out', 'punch in', 'punch out', 'time clock', 'check in', 'check out']
+        };
+
+        const testMessages = [
+            'I need to request time off',
+            'I want to clock in',
+            'vacation request',
+            'punch out',
+            'pto request',
+            'check in please',
+            'normal message',
+            'hello there'
+        ];
+
+        function testTrigger(message) {
+            const lowerMessage = message.toLowerCase().trim();
+            
+            // Check time-off triggers
+            for (const trigger of triggers.timeOff) {
+                if (lowerMessage.includes(trigger.toLowerCase())) {
+                    return { triggered: true, flow: 'time-off-request' };
+                }
+            }
+            
+            // Check clock triggers
+            for (const trigger of triggers.clockInOut) {
+                if (lowerMessage.includes(trigger.toLowerCase())) {
+                    return { triggered: true, flow: 'clock-in-out' };
+                }
+            }
+            
+            return { triggered: false, flow: 'none' };
+        }
+
+        // Run tests
+        const testContainer = document.getElementById('triggerTests');
+        testMessages.forEach(message => {
+            const result = testTrigger(message);
+            const div = document.createElement('div');
+            div.className = result.triggered ? 'trigger-test' : 'trigger-test no-match';
+            div.innerHTML = `
+                <strong>"${message}"</strong> → 
+                ${result.triggered ? `✅ ${result.flow}` : '❌ no trigger'}
+            `;
+            testContainer.appendChild(div);
+        });
+
+        console.log('UKG Demo Test Page Loaded');
+        console.log('Next steps: Test in actual app at http://localhost:5175');
+    </script>
+</body>
+</html>

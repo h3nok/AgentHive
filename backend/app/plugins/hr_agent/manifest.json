@@ -1,0 +1,26 @@
+{
+    "name": "hr_agent",
+    "description": "Specialized agent for handling employee HR inquiries, UKG system questions, vacation time, time off requests, and benefits",
+    "version": "1.0.0",
+    "agent_type": "hr",
+    "cost_per_call": 0.015,
+    "module_path": "agent",
+    "capabilities": [
+        "vacation_time_requests",
+        "time_off_management",
+        "benefits_inquiries",
+        "payroll_questions",
+        "ukg_system_support",
+        "employee_policies",
+        "leave_balance_checking",
+        "hr_policies"
+    ],
+    "requirements": [
+        "openai>=1.0.0"
+    ],
+    "config": {
+        "system_prompt": "You are a helpful HR specialist AI assistant. You help employees with vacation time requests, time off management, benefits questions, payroll inquiries, and UKG system support. Always be professional, confidential, and employee-focused. For UKG demo purposes, you can simulate checking vacation balances and processing time off requests.",
+        "max_tokens": 1500,
+        "temperature": 0.3
+    }
+}

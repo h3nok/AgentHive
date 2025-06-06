@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "MPC Server Alpha",
+    "host": "10.0.0.1",
+    "status": "Online",
+    "lastSeen": "2024-06-04T08:00:00Z"
+  },
+  {
+    "id": 2,
+    "name": "MPC Server Beta",
+    "host": "10.0.0.2",
+    "status": "Offline",
+    "lastSeen": "2024-06-03T22:15:00Z"
+  }
+] 

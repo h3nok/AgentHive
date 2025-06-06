@@ -1,0 +1,739 @@
+/* -----------------------------------------------------------------------------
+   chatThread.css – Chat interface styling for MessageRow components
+   Combined modern and classic styles for proper layout and markdown rendering
+   -------------------------------------------------------------------------- */
+
+/* CSS custom properties - Enhanced with Quantum Variables */
+:root {
+  --rail      : 800px;        /* slightly wider than 720px input */
+  --side-pad  : 24px;         /* gutter */
+  --input-h   : 72px;         /* matches chat input height */
+  --red       : #C60C30;      /* barn red */
+  --shadow-user: 0 2px 6px rgba(198, 12, 48, 0.18);
+  
+  /* 🚀 QUANTUM ENHANCEMENT VARIABLES */
+  --quantum-primary: hsl(220, 100%, 60%);
+  --quantum-secondary: hsl(180, 80%, 50%);
+  --quantum-accent: hsl(300, 90%, 70%);
+  --neural-synapse: rgba(0, 255, 255, 0.6);
+  --neural-connection: rgba(255, 0, 255, 0.4);
+  --holo-shift-1: hsl(240, 100%, 70%);
+  --holo-shift-2: hsl(300, 100%, 70%);
+  --holo-shift-3: hsl(180, 100%, 70%);
+  --phi: 1.618033988749;
+  --space-quantum: calc(1rem * var(--phi));
+  --space-micro: calc(var(--space-quantum) / var(--phi) / var(--phi));
+  --space-macro: calc(var(--space-quantum) * var(--phi));
+}
+
+/* Chat Thread Container */
+.chat-thread-container {
+  background: #fff;
+  position: relative;
+  max-width: 1200px; /* constrain overall */
+  margin: 0 auto;   /* centre in viewport */
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.chat-thread-container.dark {
+  background: #1a1a1a;
+}
+
+/* 1. Thread (centre rail) --------------------------------------------------- */
+.thread {
+  max-width: var(--rail);
+  margin: 0 auto;
+  padding-left: var(--side-pad);
+  padding-right: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+/* 2. Scrollable message column --------------------------------------------- */
+.chat-messages {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  /* Padding to keep first and last messages visible */
+  padding-top: var(--nav-h);
+  padding-bottom: calc(var(--input-h) + 96px); /* extra blank space above input */
+  padding-left: 0;
+  padding-right: 0;
+
+  /* Scroll padding so scrollIntoView aligns correctly */
+  scroll-padding-top: var(--nav-h);
+  scroll-padding-bottom: calc(var(--input-h) + 96px);
+
+  /* Completely hide scrollbar while preserving scrollability */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* Completely hide scrollbar while preserving scrollability */
+.chat-messages::-webkit-scrollbar { display: none; }
+
+/* 3. Message row ------------------------------------------------------------ */
+.msgRow { 
+  display:flex; 
+  align-items:flex-end; 
+  gap:8px; 
+  margin-top:16px; 
+  overflow:visible;
+  padding: 8px 24px;
+  position: relative;
+  transition: background-color 0.1s ease;
+  max-width: 100%;
+  margin: 0 auto;
+  width: 100%; /* take full width of rail so bubbles can grow */
+}
+.msgRow.same { margin-top:4px; }
+.msgRow.user { flex-direction:row-reverse; justify-content: flex-start; }
+.msgRow.assistant { justify-content: flex-start; }
+
+.msgRow:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.msgRow.dark:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* 4. Avatar ----------------------------------------------------------------- */
+.avatar { 
+  width:36px;
+  height:36px;
+  flex-shrink:0;
+  border-radius:50%;
+  font-size:16px;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--red);
+  color:#fff; 
+}
+
+.msg-avatar {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.msg-avatar.streaming {
+  animation: avatar-pulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 0 2px rgba(29, 155, 240, 0.3);
+}
+
+@media(max-width:480px){ .avatar, .msg-avatar{display:none;} }
+
+/* 5. Bubble body ------------------------------------------------------------ */
+.bubble{ 
+  position:relative; 
+  padding:12px 16px; 
+  font-size:15px; 
+  line-height:1.46; 
+  word-break:break-word; 
+  overflow:visible;
+  max-width: 55%;
+  min-width: 200px;
+  word-wrap: break-word;
+  border-radius: 18px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.2s ease;
+}
+
+.bubble:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* -- USER bubble ------------------------------------------------------------ */
+.bubble.user{ 
+  background:var(--red); 
+  color:#fff; 
+  border-radius:12px 12px 4px 12px; 
+  max-width:60%; 
+  box-shadow:var(--shadow-user);
+  border-bottom-right-radius: 4px;
+}
+@media(max-width:768px){ .bubble.user{ max-width:80%; } }
+@media(max-width:576px){ .bubble.user{ max-width:90%; } }
+.bubble.user::after{ 
+  content:''; 
+  position:absolute; 
+  bottom:8px; 
+  right:-6px; 
+  border-left:6px solid var(--red); 
+  border-top:6px solid transparent;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-left-color: var(--red);
+  border-bottom: none;
+  border-top-color: var(--red);
+}
+
+.bubble.user.dark {
+  background: #0A84FF;
+}
+
+.bubble.user.dark::after {
+  border-left-color: #0A84FF;
+  border-top-color: #0A84FF;
+}
+
+/* -- ASSISTANT bubble (transparent) ---------------------------------------- */
+.bubble.assistant{ 
+  background:#f1f3f4 !important; 
+  box-shadow:none !important; 
+  padding-left:0; 
+  border-radius:0; 
+  max-width:100%; 
+  color:#1F1F1F;
+  border-bottom-left-radius: 4px;
+}
+[data-theme="dark"] .bubble.assistant{ color:#ECECEC; background: #2A2A2A !important; }
+.bubble.assistant::after{ 
+  display:none;
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -6px;
+  width: 0;
+  height: 0;
+  border: 6px solid transparent;
+  border-right-color: #f1f3f4;
+  border-bottom: none;
+  border-top-color: #f1f3f4;
+}
+
+.bubble.assistant.dark::after {
+  border-right-color: #2A2A2A;
+  border-top-color: #2A2A2A;
+}
+
+/* Message Content Container - Enhanced with Quantum Morphing */
+.msg-content {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 55%;
+  position: relative;
+  
+  /* 🚀 QUANTUM ENHANCEMENT: Dynamic morphing based on content */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+/* Advanced message bubble with quantum field effects */
+.msg-content::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    45deg,
+    var(--holo-shift-1),
+    var(--holo-shift-2),
+    var(--holo-shift-3),
+    var(--holo-shift-1)
+  );
+  background-size: 400% 400%;
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  animation: quantum-field-pulse 4s ease-in-out infinite;
+  filter: blur(8px);
+  transition: opacity 0.3s ease;
+}
+
+.msg-content:hover::before {
+  opacity: 0.3;
+  animation-duration: 2s;
+}
+
+/* Importance-based glow effect */
+.msg-content[data-importance="high"] {
+  position: relative;
+  overflow: hidden;
+}
+
+.msg-content[data-importance="high"]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 215, 0, 0.2) 50%,
+    transparent 70%
+  );
+  animation: importance-glow 2s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Sentiment-based styling */
+.msg-content[data-sentiment="positive"] {
+  border-left: 4px solid var(--quantum-secondary);
+  box-shadow: 0 0 15px rgba(0, 255, 150, 0.2);
+}
+
+.msg-content[data-sentiment="negative"] {
+  border-left: 4px solid #ff4757;
+  box-shadow: 0 0 15px rgba(255, 71, 87, 0.2);
+}
+
+.msg-content[data-sentiment="neutral"] {
+  border-left: 4px solid var(--quantum-accent);
+  box-shadow: 0 0 15px rgba(255, 255, 0, 0.2);
+}
+
+/* Message text content */
+.msg-content .message-text {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: pre-wrap;
+}
+
+/* 6. Timestamp -------------------------------------------------------------- */
+.timestamp{ 
+  font-size:12px;
+  margin-top:4px;
+  color:rgba(0,0,0,.45);
+  opacity:0;
+  transition:opacity .2s;
+  text-align:left; 
+}
+.msgRow.user .timestamp{ text-align:right; }
+[data-theme="dark"] .timestamp{ color:rgba(255,255,255,.55); }
+.msgRow:hover .timestamp{ opacity:1; }
+
+/* 7. Caret animation (LoadingDots now has its own CSS file) ---------------- */
+.caretBlink{ 
+  display:inline-block;
+  width:2px;
+  height:1em;
+  margin-left:2px;
+  background:currentColor;
+  animation:caretBlink 1s steps(1) infinite; 
+}
+@keyframes caretBlink{50%{opacity:0}}
+
+/* 8. Bubble Actions -------------------------------------------------------- */
+.bubbleActions {
+  z-index: 1100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s;
+  position: absolute;
+  top: 50%;
+  right: -40px;
+  transform: translateY(-50%);
+}
+
+.msgRow:hover .bubbleActions,
+.bubbleActions:focus-within,
+.bubbleActions:hover {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.msgRow.user .bubbleActions {
+  right: auto;
+  left: -40px;
+}
+
+.bubble-actions .action-button {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #666;
+}
+
+.dark .bubble-actions .action-button {
+  background: rgba(30, 30, 30, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.bubble-actions .action-button:hover {
+  background: rgba(255, 255, 255, 1);
+  color: #333;
+}
+
+.dark .bubble-actions .action-button:hover {
+  background: rgba(30, 30, 30, 0.9);
+  color: #fff;
+}
+
+/* 9. Reduced-motion users -------------------------------------------------- */
+@media(prefers-reduced-motion:reduce){ 
+  .caretBlink, .bubbleActions{ animation:none; transition:none; }
+  .msgRow{animation:none}
+  .msg-avatar.streaming {
+    animation: none;
+  }
+}
+
+/* 10. Keyframe animations -------------------------------------------------- */
+@keyframes avatar-pulse {
+  0%, 100% { 
+    transform: scale(1); 
+    opacity: 1; 
+  }
+  50% { 
+    transform: scale(1.05); 
+    opacity: 0.9; 
+  }
+}
+
+/* 🚀 QUANTUM ANIMATION KEYFRAMES - Never Seen Before */
+@keyframes quantum-field-pulse {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.3;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+    opacity: 0.6;
+  }
+  75% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes neural-pulse {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+}
+
+@keyframes holographic-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes importance-glow {
+  0%, 100% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes quantum-stream {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.3;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes morphing-border {
+  0% {
+    border-radius: 8px;
+    transform: rotate(0deg);
+  }
+  25% {
+    border-radius: 16px 8px;
+    transform: rotate(1deg);
+  }
+  50% {
+    border-radius: 24px;
+    transform: rotate(0deg);
+  }
+  75% {
+    border-radius: 8px 16px;
+    transform: rotate(-1deg);
+  }
+  100% {
+    border-radius: 8px;
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes data-flow {
+  0% {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100px);
+    opacity: 0;
+  }
+}
+
+@keyframes consciousness-expand {
+  0% {
+    transform: scale(1) rotate(0deg);
+    box-shadow: 0 0 0 0 rgba(0, 255, 255, 0.7);
+  }
+  50% {
+    transform: scale(1.05) rotate(180deg);
+    box-shadow: 0 0 0 20px rgba(0, 255, 255, 0);
+  }
+  100% {
+    transform: scale(1) rotate(360deg);
+    box-shadow: 0 0 0 0 rgba(0, 255, 255, 0);
+  }
+}
+
+/* Advanced streaming animation with quantum effects */
+.quantum-streaming::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 255, 0.4),
+    transparent
+  );
+  animation: data-flow 2s linear infinite;
+  z-index: 1;
+}
+
+/* High-importance message quantum field */
+.msg-content[data-importance="critical"]::before {
+  animation: consciousness-expand 3s ease-in-out infinite;
+}
+
+/* Neural network visualization for complex messages */
+.msg-content[data-complexity="high"] {
+  position: relative;
+  overflow: visible;
+}
+
+.msg-content[data-complexity="high"]::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background-image: 
+    radial-gradient(circle at 20% 20%, var(--neural-synapse) 1px, transparent 1px),
+    radial-gradient(circle at 80% 80%, var(--neural-connection) 1px, transparent 1px),
+    radial-gradient(circle at 60% 40%, var(--neural-synapse) 1px, transparent 1px);
+  background-size: 20px 20px, 25px 25px, 15px 15px;
+  opacity: 0.3;
+  animation: neural-pulse 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* 11. Responsive Design ---------------------------------------------------- */
+@media (max-width: 768px) {
+  .chat-thread-container {
+    max-width: 100%;
+  }
+  
+  .msgRow {
+    padding: 6px 16px;
+  }
+  
+  .bubble {
+    font-size: 14px;
+    padding: 10px 14px;
+    max-width: 75%;
+    min-width: 150px;
+  }
+  
+  .msg-content {
+    max-width: 75%;
+  }
+  
+  .msg-avatar {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+@media (max-width: 480px) {
+  .msgRow {
+    padding: 4px 12px;
+  }
+  
+  .bubble {
+    max-width: 85%;
+    min-width: 120px;
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+  
+  .msg-content {
+    max-width: 85%;
+  }
+  
+  .msg-avatar {
+    width: 28px;
+    height: 28px;
+  }
+}
+
+/* 12. Markdown Table Styling ------------------------------------------------- */
+/* Essential table styles for proper markdown table rendering */
+.bubble table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 14px;
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bubble.dark table {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bubble th,
+.bubble td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  vertical-align: top;
+  word-wrap: break-word;
+  max-width: 200px;
+}
+
+.bubble.dark th,
+.bubble.dark td {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bubble th:last-child,
+.bubble td:last-child {
+  border-right: none;
+}
+
+.bubble th {
+  background: rgba(200, 16, 46, 0.08);
+  color: #c8102e;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.bubble.dark th {
+  background: rgba(200, 16, 46, 0.15);
+  color: #ff6b6b;
+}
+
+.bubble tbody tr:nth-of-type(odd) {
+  background: rgba(0, 0, 0, 0.02);
+}
+
+.bubble.dark tbody tr:nth-of-type(odd) {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.bubble tbody tr:hover {
+  background: rgba(200, 16, 46, 0.06);
+  transition: background-color 0.2s ease;
+}
+
+.bubble.dark tbody tr:hover {
+  background: rgba(200, 16, 46, 0.12);
+}
+
+.bubble table caption {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #666;
+  font-size: 14px;
+}
+
+.bubble.dark table caption {
+  color: #ccc;
+}
+
+/* Responsive table handling */
+@media (max-width: 768px) {
+  .bubble table {
+    font-size: 12px;
+    margin: 12px 0;
+  }
+  
+  .bubble th,
+  .bubble td {
+    padding: 8px 12px;
+    max-width: 150px;
+  }
+  
+  .bubble th {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .bubble table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    border: none;
+  }
+  
+  .bubble th,
+  .bubble td {
+    padding: 6px 8px;
+    min-width: 80px;
+    max-width: none;
+  }
+}
+
+/* Table container for horizontal scrolling */
+.bubble .table-container {
+  overflow-x: auto;
+  margin: 16px 0;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.bubble.dark .table-container {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}

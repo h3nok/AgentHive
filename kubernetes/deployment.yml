@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tsc-chattsc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tsc-chattsc
+  template:
+    metadata:
+      labels:
+        app: tsc-chattsc
+    spec:
+      containers:
+      - name: frontend
+        image: dateaeacreu2n.azurecr.io/lease-abstraction-poc-frontend:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "8Gi"
+            cpu: "4000m"
+          requests:
+            memory: "2Gi"
+            cpu: "1000m"
+        ports:
+        - containerPort: 3000

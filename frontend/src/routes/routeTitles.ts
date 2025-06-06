@@ -1,0 +1,16 @@
+export const ROUTE_TITLES: Record<string, string> = {
+  '/': 'Home',
+  '/agents': 'Agent Catalog',
+  '/agents/:id': 'Agent Details',
+  '/chat/:agentId': 'Chat',
+  '/chats': 'Chat',
+  '/chats/:sessionId': 'Chat',
+  '/session/:sessionId': 'Chat',
+  '/admin/dashboard': 'Admin Dashboard',
+  '/admin/agents': 'Agent Catalog',
+  '/admin/agents/:id': 'Agent Details',
+  '/admin/users': 'User Management',
+  '/admin/reports': 'Reports',
+  '/admin/settings': 'Settings',
+  '/lease-agent': 'Lease Abstraction',
+};

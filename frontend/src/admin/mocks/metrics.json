@@ -1,0 +1,16 @@
+{
+  "conversations": [
+    { "id": 101, "user": "Alice Smith", "intent": "lease", "topAgent": "LeaseAgent", "startedAt": "2024-06-01T09:00:00Z", "duration": 120 },
+    { "id": 102, "user": "Bob Johnson", "intent": "chart", "topAgent": "ChartAgent", "startedAt": "2024-06-01T10:00:00Z", "duration": 90 }
+  ],
+  "agentUtilization": [
+    { "agent": "LeaseAgent", "percent": 45 },
+    { "agent": "ChartAgent", "percent": 20 },
+    { "agent": "UGKAgent", "percent": 15 },
+    { "agent": "Others", "percent": 20 }
+  ],
+  "responseTimes": [
+    { "agent": "LeaseAgent", "avgMs": 1200 },
+    { "agent": "ChartAgent", "avgMs": 900 }
+  ]
+} 

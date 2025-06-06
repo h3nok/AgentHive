@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" fill="none">
+  <!-- Hay bales -->
+  <rect x="20" y="80" width="30" height="20" rx="10" fill="#D4A373" stroke="#A67C52" stroke-width="2"/>
+  <rect x="60" y="85" width="30" height="20" rx="10" fill="#D4A373" stroke="#A67C52" stroke-width="2"/>
+  <rect x="35" y="70" width="30" height="20" rx="10" fill="#E5B88A" stroke="#A67C52" stroke-width="2"/>
+  
+  <!-- Hay texture lines -->
+  <path d="M25 85 L45 85 M30 90 L40 90 M65 90 L85 90 M70 95 L80 95 M40 75 L60 75 M45 80 L55 80" stroke="#A67C52" stroke-width="1" opacity="0.5"/>
+  
+  <!-- Cat body -->
+  <ellipse cx="64" cy="50" rx="20" ry="25" fill="#4A4A4A"/>
+  
+  <!-- Cat head -->
+  <circle cx="64" cy="30" r="15" fill="#4A4A4A"/>
+  
+  <!-- Cat ears -->
+  <path d="M50 25 L48 15 L55 20 Z" fill="#4A4A4A"/>
+  <path d="M73 20 L80 15 L78 25 Z" fill="#4A4A4A"/>
+  
+  <!-- Cat inner ears -->
+  <path d="M52 20 L51 17 L54 19 Z" fill="#FFB6C1"/>
+  <path d="M74 19 L77 17 L76 20 Z" fill="#FFB6C1"/>
+  
+  <!-- Cat eyes -->
+  <circle cx="58" cy="28" r="3" fill="#90EE90"/>
+  <circle cx="70" cy="28" r="3" fill="#90EE90"/>
+  <circle cx="58" cy="29" r="1.5" fill="#000000"/>
+  <circle cx="70" cy="29" r="1.5" fill="#000000"/>
+  
+  <!-- Cat nose -->
+  <path d="M64 35 L62 33 L66 33 Z" fill="#FFB6C1"/>
+  
+  <!-- Cat whiskers -->
+  <path d="M48 32 L40 30 M48 35 L40 35 M80 32 L88 30 M80 35 L88 35" stroke="#FFFFFF" stroke-width="1" opacity="0.8"/>
+  
+  <!-- Cat tail -->
+  <path d="M80 60 Q95 55 90 40 Q88 30 85 35" stroke="#4A4A4A" stroke-width="8" fill="none" stroke-linecap="round"/>
+</svg> 

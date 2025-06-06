@@ -1,0 +1,80 @@
+id: ukg_time_off
+name: "Request PTO via UKG"
+description: "Handles PTO requests end-to-end: balance check, submit, notify manager."
+triggers:
+  - intent: time_off_request
+    entities: [start_date, end_date, time_off_type]
+steps:
+  - id: extract_params
+    type: llm_extract
+    prompt: "Extract start_date, end_date, and reason from: '{{user_input}}'"
+    next: form_step
+
+  - id: form_step
+    type: form
+    form:
+      title: "Time-Off Request Form"
+      fields:
+        - id: start_date
+          label: "Start Date"
+          type: "date"
+          required: true
+        - id: end_date
+          label: "End Date"
+          type: "date"
+          required: true
+        - id: time_off_type
+          label: "Type of Time Off"
+          type: "select"
+          options: ["Vacation", "Sick Leave", "Personal Day", "Bereavement", "FMLA", "Jury Duty"]
+          required: true
+        - id: reason
+          label: "Reason (Optional)"
+          type: "text"
+          required: false
+    next: balance_check
+
+  - id: balance_check
+    type: connector_call
+    connector: ukg
+    action: get_balance
+    params:
+      employee_id: "{{session.user_id}}"
+      time_off_type: "{{form_data.time_off_type}}"
+    save_as: pto_balance
+    next:
+      condition:
+        if: "{{pto_balance >= requested_days}}"
+        then: submit_request
+        else: insufficient
+
+  - id: insufficient
+    type: respond
+    message: "You only have {{pto_balance}} days. Do you want to request unpaid time?"
+    end: true
+
+  - id: submit_request
+    type: connector_call
+    connector: ukg
+    action: submit_time_off
+    params:
+      employee_id: "{{session.user_id}}"
+      start: "{{form_data.start_date}}"
+      end: "{{form_data.end_date}}"
+      reason: "{{form_data.reason}}"
+    save_as: ukg_request_id
+    next: notify_manager
+
+  - id: notify_manager
+    type: connector_call
+    connector: ukg
+    action: get_manager
+    params:
+      employee_id: "{{session.user_id}}"
+    save_as: manager_info
+    next: final_ack
+
+  - id: final_ack
+    type: respond
+    message: "PTO request #{{ukg_request_id}} submitted 🎉 Your manager ({{manager_info.manager_name}}) will review it shortly."
+    end: true 

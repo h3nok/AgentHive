@@ -1,0 +1,15 @@
+import React from 'react';
+import { Box, Typography } from '@mui/material';
+
+const ReportsPage: React.FC = () => (
+  <Box sx={{ p: 4 }}>
+    <Typography variant="h4" gutterBottom>
+      Reports
+    </Typography>
+    <Typography variant="body1" color="text.secondary">
+      Coming soon
+    </Typography>
+  </Box>
+);
+
+export default ReportsPage;

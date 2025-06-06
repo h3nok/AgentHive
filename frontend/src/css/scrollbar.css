@@ -1,0 +1,59 @@
+/* Custom Scrollbar - Enterprise Theme */
+
+/* Chat Messages Scrollbar */
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(198, 12, 48, 0.3); /* barnRed with transparency */
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(198, 12, 48, 0.5); /* barnRed with more opacity on hover */
+}
+
+.chat-messages::-webkit-scrollbar-thumb:active {
+  background: rgba(198, 12, 48, 0.7); /* barnRed with high opacity when active */
+}
+
+/* Dark Mode Scrollbar */
+.dark .chat-messages::-webkit-scrollbar-thumb {
+  background: rgba(244, 246, 248, 0.3); /* assistantGray with transparency */
+}
+
+.dark .chat-messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(244, 246, 248, 0.5); /* assistantGray with more opacity on hover */
+}
+
+.dark .chat-messages::-webkit-scrollbar-thumb:active {
+  background: rgba(244, 246, 248, 0.7); /* assistantGray with high opacity when active */
+}
+
+/* Firefox fallback */
+.chat-messages {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(198, 12, 48, 0.3) transparent;
+}
+
+.dark .chat-messages {
+  scrollbar-color: rgba(244, 246, 248, 0.3) transparent;
+}
+
+/* Accessibility - High contrast mode */
+@media (prefers-contrast: high) {
+  .chat-messages::-webkit-scrollbar-thumb {
+    background: #C60C30; /* Full barnRed for high contrast */
+  }
+  
+  .dark .chat-messages::-webkit-scrollbar-thumb {
+    background: #F4F6F8; /* Full assistantGray for high contrast */
+  }
+}

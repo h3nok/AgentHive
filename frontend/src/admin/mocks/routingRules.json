@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "name": "Chart Prompts",
+    "conditionType": "Keyword",
+    "conditionDetail": "chart|graph|plot",
+    "targetAgents": ["ChartAgent"],
+    "priority": 1,
+    "status": "Active",
+    "createdAt": "2024-05-01T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "name": "Lease Questions",
+    "conditionType": "Intent",
+    "conditionDetail": "lease",
+    "targetAgents": ["LeaseAgent"],
+    "priority": 2,
+    "status": "Active",
+    "createdAt": "2024-05-10T14:30:00Z"
+  }
+] 

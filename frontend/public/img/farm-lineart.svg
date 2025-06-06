@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" fill="none" stroke="currentColor" stroke-width="1" opacity="0.1">
+  <!-- Barn -->
+  <path d="M200 400 L200 300 L300 250 L400 300 L400 400 Z"/>
+  <path d="M225 400 L225 350 L275 350 L275 400"/>
+  <path d="M325 400 L325 350 L375 350 L375 400"/>
+  
+  <!-- Silo -->
+  <circle cx="500" cy="350" r="50"/>
+  <rect x="450" y="350" width="100" height="50"/>
+  
+  <!-- Fence -->
+  <path d="M100 450 L100 420 M120 450 L120 420 M140 450 L140 420 M160 450 L160 420"/>
+  <path d="M100 430 L160 430"/>
+  
+  <!-- Tractor -->
+  <rect x="600" y="380" width="80" height="40" rx="5"/>
+  <circle cx="620" cy="430" r="15"/>
+  <circle cx="660" cy="430" r="15"/>
+  
+  <!-- Wheat -->
+  <path d="M50 500 Q60 480 50 460 Q40 480 50 500"/>
+  <path d="M70 500 Q80 480 70 460 Q60 480 70 500"/>
+  <path d="M90 500 Q100 480 90 460 Q80 480 90 500"/>
+  
+  <!-- Sun -->
+  <circle cx="700" cy="100" r="30"/>
+  <path d="M700 50 L700 60 M700 140 L700 150 M650 100 L660 100 M740 100 L750 100"/>
+  
+  <!-- Clouds -->
+  <ellipse cx="150" cy="80" rx="40" ry="20"/>
+  <ellipse cx="180" cy="75" rx="30" ry="15"/>
+  
+  <!-- Tree -->
+  <rect x="295" y="180" width="10" height="40"/>
+  <circle cx="300" cy="160" r="30"/>
+</svg> 

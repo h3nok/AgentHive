@@ -1,0 +1,23 @@
+services:
+  gateway:
+    build:
+      context: ..
+      dockerfile: services/gateway/Dockerfile
+    ports:
+      - "4000:4000"
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+  orchestrator:
+    build:
+      context: ..
+      dockerfile: services/orchestrator/Dockerfile
+    depends_on:
+      - redis
+    ports:
+      - "5000:5000"
+    environment:
+      - MODEL_DEFAULT=gpt-4o
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"

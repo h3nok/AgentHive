@@ -1,0 +1,791 @@
+2025-05-09 10:43:49 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 10:46:00 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 10:47:51 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 10:51:47 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 10:52:03 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 10:53:44 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 10:53:55 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-09 10:53:55 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-09 10:54:00 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 10:54:00 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-09 10:54:00 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-09 10:54:00 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': 'bar', 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 10:54:00 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-09 10:54:00 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-09 10:54:19 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-09 10:54:19 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-09 10:54:25 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': 'bar', 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 10:54:25 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-09 10:54:25 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-09 10:54:25 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 10:54:25 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-09 10:54:25 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-09 10:56:26 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 10:56:59 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 10:57:29 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:00:21 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:01:03 - app.services.agent_service - INFO - Processing query: 'What is the lease expiration date for each property?'
+2025-05-09 11:01:03 - app.services.agent_service - INFO - Processing query: 'What is the lease expiration date for each property?'
+2025-05-09 11:01:10 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_expiration', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 11:01:10 - app.services.agent_service - INFO - Detected intent: lease_expiration (ambiguous: False)
+2025-05-09 11:01:10 - app.services.agent_service - INFO - Processing SQL query for intent: lease_expiration
+2025-05-09 11:01:10 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_expiration', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': 'bar', 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 11:01:10 - app.services.agent_service - INFO - Detected intent: lease_expiration (ambiguous: False)
+2025-05-09 11:01:10 - app.services.agent_service - INFO - Processing SQL query for intent: lease_expiration
+2025-05-09 11:01:19 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(CASE\n        WHEN LOWER(m.NAME) LIKE '%expiration%' \n          OR LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%'\n        THEN TO_DATE(e.ANSWER)\n        ELSE NULL\n      END) AS LEASE_EXPIRATION_DATE\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m\n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 11:01:19 - app.services.agent_service - WARNING - Database error: Database error: 251006: Password is empty. Query was generated but couldn't be executed.
+2025-05-09 11:01:22 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(CASE\n        WHEN LOWER(m.NAME) LIKE '%expiration%'\n          OR LOWER(m.NAME) LIKE '%end date%'\n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%'\n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%'\n        THEN TO_DATE(e.ANSWER)\n    END) AS LEASE_EXPIRATION_DATE\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m\n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 11:01:22 - app.services.agent_service - WARNING - Database error: Database error: 251006: Password is empty. Query was generated but couldn't be executed.
+2025-05-09 11:02:15 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:02:31 - app.services.agent_service - INFO - Processing query: 'What is the lease expiration date for each property?'
+2025-05-09 11:02:31 - app.services.agent_service - INFO - Processing query: 'What is the lease expiration date for each property?'
+2025-05-09 11:02:37 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_expiration', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': 'bar', 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 11:02:37 - app.services.agent_service - INFO - Detected intent: lease_expiration (ambiguous: False)
+2025-05-09 11:02:37 - app.services.agent_service - INFO - Processing SQL query for intent: lease_expiration
+2025-05-09 11:02:37 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_expiration', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 11:02:37 - app.services.agent_service - INFO - Detected intent: lease_expiration (ambiguous: False)
+2025-05-09 11:02:37 - app.services.agent_service - INFO - Processing SQL query for intent: lease_expiration
+2025-05-09 11:02:48 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(CASE \n          WHEN LOWER(m.NAME) LIKE '%expiration%' \n            OR LOWER(m.NAME) LIKE '%end date%' \n            OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n            OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n          THEN TO_DATE(e.ANSWER)\n        END) AS LEASE_EXPIRATION_DATE\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 11:02:48 - app.services.agent_service - WARNING - Database error: Database error: 251006: Password is empty. Query was generated but couldn't be executed.
+2025-05-09 11:02:48 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n  e.STORE_NO,\n  MAX(CASE \n    WHEN LOWER(m.NAME) LIKE '%expiration%' \n      OR LOWER(m.NAME) LIKE '%end date%' \n      OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n      OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n    THEN TO_DATE(e.ANSWER) \n  END) AS lease_expiration_date\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 11:02:48 - app.services.agent_service - WARNING - Database error: Database error: 251006: Password is empty. Query was generated but couldn't be executed.
+2025-05-09 11:12:33 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:13:31 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:17:30 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:17:39 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:20:54 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:21:28 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:22:34 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:24:01 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:27:27 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:31:21 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:37:01 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:40:41 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:41:08 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:43:38 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:49:25 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 11:51:43 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:04:02 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:04:41 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:04:56 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:05:09 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:05:28 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:05:40 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:05:50 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:06:03 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:06:15 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:07:08 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:07:35 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:12:05 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:12:13 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:12:24 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:12:33 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:12:43 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:12:51 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:12:59 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:13:21 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:17:33 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:17:52 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:18:02 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:18:45 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:19:23 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:22:32 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:23:13 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:23:26 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:23:35 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:28:52 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:30:08 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:30:45 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:32:40 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:33:14 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:37:52 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:41:05 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:54:41 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 12:57:10 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 13:03:30 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 13:04:13 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 13:04:25 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 13:06:08 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 13:06:43 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 13:11:09 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 13:14:39 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 13:24:24 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 13:26:07 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 13:29:46 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 13:30:05 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 14:45:47 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 14:58:45 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 15:00:08 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 15:03:28 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 15:07:24 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 15:08:49 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 15:08:58 - app.services.agent_service - INFO - Processing query: 'Helo'
+2025-05-09 15:08:58 - app.services.agent_service - INFO - Processing query: 'Helo'
+2025-05-09 15:09:02 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 15:09:02 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-09 15:09:02 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-09 15:09:05 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 15:09:05 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-09 15:09:05 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-09 15:10:25 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 15:10:43 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-09 15:10:43 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-09 15:10:49 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 15:10:49 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-09 15:10:49 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-09 15:10:50 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': 'bar', 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 15:10:50 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-09 15:10:50 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-09 15:11:00 - app.services.agent_service - INFO - Processing query: 'What is the lease expiration date for each property?'
+2025-05-09 15:11:00 - app.services.agent_service - INFO - Processing query: 'What is the lease expiration date for each property?'
+2025-05-09 15:11:04 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_expiration', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 15:11:04 - app.services.agent_service - INFO - Detected intent: lease_expiration (ambiguous: False)
+2025-05-09 15:11:04 - app.services.agent_service - INFO - Processing SQL query for intent: lease_expiration
+2025-05-09 15:11:05 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_expiration', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 15:11:05 - app.services.agent_service - INFO - Detected intent: lease_expiration (ambiguous: False)
+2025-05-09 15:11:05 - app.services.agent_service - INFO - Processing SQL query for intent: lease_expiration
+2025-05-09 15:11:13 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(\n        CASE\n            WHEN LOWER(m.NAME) LIKE '%expiration%'\n              OR LOWER(m.NAME) LIKE '%end date%'\n              OR LOWER(m.DESCRIPTION) LIKE '%expiration%'\n              OR LOWER(m.DESCRIPTION) LIKE '%lease end%'\n            THEN TO_DATE(e.ANSWER)\n        END\n    ) AS lease_expiration_date\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m\n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_ENTITY_MASTER', 'REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 15:11:13 - app.services.agent_service - WARNING - Database error: Database error: 251006: Password is empty. Query was generated but couldn't be executed.
+2025-05-09 15:11:16 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n  e.STORE_NO,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%expiration%' \n          OR LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS lease_expiration_date\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m \n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_ENTITY_MASTER', 'REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 15:11:16 - app.services.agent_service - WARNING - Database error: Database error: 251006: Password is empty. Query was generated but couldn't be executed.
+2025-05-09 16:39:05 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 16:40:09 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 16:40:21 - app.services.agent_service - INFO - Processing query: 'What is the lease expiration date for each property?'
+2025-05-09 16:40:22 - app.services.agent_service - INFO - Processing query: 'What is the lease expiration date for each property?'
+2025-05-09 16:40:25 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_expiration', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 16:40:25 - app.services.agent_service - INFO - Detected intent: lease_expiration (ambiguous: False)
+2025-05-09 16:40:25 - app.services.agent_service - INFO - Processing SQL query for intent: lease_expiration
+2025-05-09 16:40:27 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_expiration', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 16:40:27 - app.services.agent_service - INFO - Detected intent: lease_expiration (ambiguous: False)
+2025-05-09 16:40:27 - app.services.agent_service - INFO - Processing SQL query for intent: lease_expiration
+2025-05-09 16:40:36 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%expiration%' \n          OR LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS LEASE_EXPIRATION_DATE\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m\n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:40:36 - app.services.agent_service - WARNING - Database error: Database error: Private key file exists but could not be loaded. Check if passphrase is required.. Query was generated but couldn't be executed.
+2025-05-09 16:40:36 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n    e.STORE_NO,\n    MAX(CASE \n            WHEN LOWER(m.NAME) LIKE '%expiration%' \n              OR LOWER(m.NAME) LIKE '%end date%' \n              OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n              OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n            THEN TO_DATE(e.ANSWER) \n         END) AS lease_expiration_date\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:40:36 - app.services.agent_service - WARNING - Database error: Database error: Private key file exists but could not be loaded. Check if passphrase is required.. Query was generated but couldn't be executed.
+2025-05-09 16:43:10 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 16:43:46 - app.services.agent_service - INFO - Processing query: 'What is the lease expiration date for each property?'
+2025-05-09 16:43:46 - app.services.agent_service - INFO - Processing query: 'What is the lease expiration date for each property?'
+2025-05-09 16:43:50 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_expiration', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 16:43:50 - app.services.agent_service - INFO - Detected intent: lease_expiration (ambiguous: False)
+2025-05-09 16:43:50 - app.services.agent_service - INFO - Processing SQL query for intent: lease_expiration
+2025-05-09 16:43:51 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_expiration', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 16:43:51 - app.services.agent_service - INFO - Detected intent: lease_expiration (ambiguous: False)
+2025-05-09 16:43:51 - app.services.agent_service - INFO - Processing SQL query for intent: lease_expiration
+2025-05-09 16:43:59 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(CASE \n            WHEN LOWER(m.NAME) LIKE '%expiration%' \n              OR LOWER(m.NAME) LIKE '%end date%'\n              OR LOWER(m.DESCRIPTION) LIKE '%expiration%'\n              OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n            THEN TO_DATE(e.ANSWER)\n         END) AS LEASE_EXPIRATION_DATE\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:43:59 - app.services.agent_service - WARNING - Database error: Database error: Private key file exists but could not be loaded. Check if passphrase is required.. Query was generated but couldn't be executed.
+2025-05-09 16:44:00 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.store_no,\n  MAX(CASE\n        WHEN LOWER(m.name) LIKE '%expiration%'\n          OR LOWER(m.name) LIKE '%end date%'\n          OR LOWER(m.description) LIKE '%expiration%'\n          OR LOWER(m.description) LIKE '%lease end%'\n        THEN TO_DATE(e.answer)\n      END) AS lease_expiration_date\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m\n  ON e.entity_id = m.entity_id\nGROUP BY e.store_no\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:44:00 - app.services.agent_service - WARNING - Database error: Database error: Private key file exists but could not be loaded. Check if passphrase is required.. Query was generated but couldn't be executed.
+2025-05-09 16:52:33 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-09 16:53:44 - app.services.agent_service - INFO - Processing query: 'What is the lease expiration date for each property?'
+2025-05-09 16:53:44 - app.services.agent_service - INFO - Processing query: 'What is the lease expiration date for each property?'
+2025-05-09 16:53:48 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_expiration', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 16:53:48 - app.services.agent_service - INFO - Detected intent: lease_expiration (ambiguous: False)
+2025-05-09 16:53:48 - app.services.agent_service - INFO - Processing SQL query for intent: lease_expiration
+2025-05-09 16:53:49 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_expiration', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-09 16:53:49 - app.services.agent_service - INFO - Detected intent: lease_expiration (ambiguous: False)
+2025-05-09 16:53:49 - app.services.agent_service - INFO - Processing SQL query for intent: lease_expiration
+2025-05-09 16:53:57 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n    e.STORE_NO,\n    MAX(CASE \n            WHEN LOWER(m.NAME) LIKE '%expiration%' \n              OR LOWER(m.NAME) LIKE '%end date%' \n              OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n              OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n            THEN TO_DATE(e.ANSWER) \n         END) AS LEASE_EXPIRATION_DATE\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m \n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:53:57 - app.services.agent_service - WARNING - Database error: Database error: Private key file exists but could not be loaded. Check if passphrase is required.. Query was generated but couldn't be executed.
+2025-05-09 16:53:58 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(CASE\n        WHEN LOWER(m.NAME) LIKE '%expiration%'\n          OR LOWER(m.NAME) LIKE '%end date%'\n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%'\n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%'\n        THEN TO_DATE(e.ANSWER)\n      END) AS LEASE_EXPIRATION_DATE\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:53:58 - app.services.agent_service - WARNING - Database error: Database error: Private key file exists but could not be loaded. Check if passphrase is required.. Query was generated but couldn't be executed.
+2025-05-09 23:57:18 - app.services.agent_service - INFO - Processing query: 'Extract all key dates from this contract'
+2025-05-09 23:57:18 - app.services.agent_service - INFO - Processing query: 'Extract all key dates from this contract'
+2025-05-09 23:57:24 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_details', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 0.95}
+2025-05-09 23:57:24 - app.services.agent_service - INFO - Detected intent: lease_details (ambiguous: False)
+2025-05-09 23:57:24 - app.services.agent_service - INFO - Processing SQL query for intent: lease_details
+2025-05-09 23:57:26 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_details', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 0.95}
+2025-05-09 23:57:26 - app.services.agent_service - INFO - Detected intent: lease_details (ambiguous: False)
+2025-05-09 23:57:26 - app.services.agent_service - INFO - Processing SQL query for intent: lease_details
+2025-05-09 23:57:41 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%start date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%start date%' \n          OR LOWER(m.TYPE) LIKE '%start date%' \n        THEN TO_DATE(e.ANSWER) \n    END) AS start_date,\n    MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%end date%' \n          OR LOWER(m.TYPE) LIKE '%end date%' \n        THEN TO_DATE(e.ANSWER) \n    END) AS end_date,\n    MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%expiration date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration date%' \n          OR LOWER(m.TYPE) LIKE '%expiration date%' \n        THEN TO_DATE(e.ANSWER) \n    END) AS expiration_date,\n    MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%commencement date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%commencement date%' \n          OR LOWER(m.TYPE) LIKE '%commencement date%' \n        THEN TO_DATE(e.ANSWER) \n    END) AS commencement_date\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m\n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_details'}}
+2025-05-09 23:57:41 - app.services.agent_service - WARNING - Database error: Database error: Private key file exists but could not be loaded. Check if passphrase is required.. Query was generated but couldn't be executed.
+2025-05-09 23:57:46 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n  e.STORE_NO,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%start date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%start date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS start_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%end date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS end_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%expiration date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS expiration_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%renewal date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%renewal date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS renewal_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%termination date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%termination date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS termination_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%agreement date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%agreement date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS agreement_date\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m\n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_details'}}
+2025-05-09 23:57:46 - app.services.agent_service - WARNING - Database error: Database error: Private key file exists but could not be loaded. Check if passphrase is required.. Query was generated but couldn't be executed.
+2025-05-10 00:01:34 - app.services.agent_service - INFO - Processing query: 'Summarize the payment terms in this agreement'
+2025-05-10 00:01:34 - app.services.agent_service - INFO - Processing query: 'Summarize the payment terms in this agreement'
+2025-05-10 00:01:38 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_terms', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 0.95}
+2025-05-10 00:01:38 - app.services.agent_service - INFO - Detected intent: lease_terms (ambiguous: False)
+2025-05-10 00:01:38 - app.services.agent_service - INFO - Processing SQL query for intent: lease_terms
+2025-05-10 00:01:39 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_terms', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': 'bar', 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-10 00:01:39 - app.services.agent_service - INFO - Detected intent: lease_terms (ambiguous: False)
+2025-05-10 00:01:39 - app.services.agent_service - INFO - Processing SQL query for intent: lease_terms
+2025-05-10 00:01:48 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n  e.STORE_NO,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%payment terms%' \n          OR LOWER(m.DESCRIPTION) LIKE '%payment terms%' \n          OR LOWER(m.TYPE) LIKE '%payment terms%' \n        THEN e.ANSWER \n      END) AS payment_terms\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m \n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_terms'}}
+2025-05-10 00:01:48 - app.services.agent_service - WARNING - Database error: Database error: Private key file exists but could not be loaded. Check if passphrase is required.. Query was generated but couldn't be executed.
+2025-05-10 00:01:49 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n    e.STORE_NO,\n    MAX(CASE WHEN lower(m.name) LIKE '%rent%' THEN e.ANSWER END) AS rent,\n    MAX(CASE WHEN lower(m.name) LIKE '%tax%' THEN e.ANSWER END) AS taxes,\n    MAX(CASE WHEN lower(m.name) LIKE '%cam%' THEN e.ANSWER END) AS cam,\n    MAX(CASE WHEN lower(m.name) LIKE '%insurance%' THEN e.ANSWER END) AS insurance\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m \n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_terms'}}
+2025-05-10 00:01:49 - app.services.agent_service - WARNING - Database error: Database error: Private key file exists but could not be loaded. Check if passphrase is required.. Query was generated but couldn't be executed.
+2025-05-10 00:31:51 - app.services.agent_service - INFO - Processing query: 'Extract all key dates from this contract'
+2025-05-10 00:31:51 - app.services.agent_service - INFO - Processing query: 'Extract all key dates from this contract'
+2025-05-10 00:31:55 - app.services.agent_service - INFO - Processing query: 'What are the termination conditions in this document?'
+2025-05-10 00:31:55 - app.services.agent_service - INFO - Processing query: 'What are the termination conditions in this document?'
+2025-05-10 00:32:01 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_terms', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 0.95}
+2025-05-10 00:32:01 - app.services.agent_service - INFO - Detected intent: lease_terms (ambiguous: False)
+2025-05-10 00:32:01 - app.services.agent_service - INFO - Processing SQL query for intent: lease_terms
+2025-05-10 00:32:04 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_terms', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': 'bar', 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 0.95}
+2025-05-10 00:32:04 - app.services.agent_service - INFO - Detected intent: lease_terms (ambiguous: False)
+2025-05-10 00:32:04 - app.services.agent_service - INFO - Processing SQL query for intent: lease_terms
+2025-05-10 00:32:12 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(CASE\n        WHEN LOWER(m.NAME) LIKE '%termination%'\n          OR LOWER(m.DESCRIPTION) LIKE '%termination%'\n          OR LOWER(m.TYPE) LIKE '%termination%'\n        THEN e.ANSWER\n      END) AS termination_conditions\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_terms'}}
+2025-05-10 00:32:12 - app.services.agent_service - WARNING - Database error: Database error: Private key file exists but could not be loaded. Check if passphrase is required.. Query was generated but couldn't be executed.
+2025-05-10 00:32:14 - app.services.agent_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(\n    CASE\n      WHEN LOWER(m.NAME) LIKE '%termination%' \n        OR LOWER(m.DESCRIPTION) LIKE '%termination%' \n        OR LOWER(m.TYPE) LIKE '%termination%'\n      THEN e.ANSWER\n    END\n  ) AS termination_conditions\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_terms'}}
+2025-05-10 00:32:14 - app.services.agent_service - WARNING - Database error: Database error: Private key file exists but could not be loaded. Check if passphrase is required.. Query was generated but couldn't be executed.
+2025-05-10 17:45:56 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-10 20:32:21 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-11 20:33:31 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-22 11:49:38 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-22 11:51:40 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-22 11:54:14 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-22 12:13:46 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-22 12:18:20 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-22 12:25:55 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-22 12:32:40 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-22 12:33:10 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-22 17:06:32 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-23 09:36:36 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-25 12:24:25 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-26 11:32:47 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-26 12:40:42 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-26 14:32:25 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-26 14:54:48 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-26 15:16:34 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 13:04:40 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:10:10 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:14:19 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:14:33 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:14:40 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:16:58 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:17:06 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:28:57 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:29:05 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:29:12 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:32:47 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:47:37 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:47:37 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:47:48 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:47:48 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:50:16 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:50:16 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:50:27 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:50:27 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:51:38 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:51:38 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:51:47 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:51:47 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:52:48 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:52:48 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:54:24 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:57:02 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:57:52 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 15:58:58 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:00:04 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:19:37 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:19:42 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:23:36 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:24:35 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:24:44 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:26:22 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:30:12 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:30:24 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:30:37 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:30:50 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:31:05 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:31:16 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:31:23 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:39:49 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:39:57 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:40:03 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:42:38 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:48:10 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 16:49:09 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 18:26:34 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 19:32:53 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 20:13:13 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 20:13:29 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 20:32:58 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-29 20:33:02 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-29 20:33:02 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-29 20:33:02 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-29 20:33:17 - app.services.agent_service - INFO - Processing query: 'Hi'
+2025-05-29 20:33:22 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-29 20:33:22 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-29 20:33:22 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-29 21:22:30 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-29 21:23:35 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': 'bar', 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-29 21:23:35 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-29 21:23:35 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-29 21:58:40 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-29 21:59:21 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-29 21:59:21 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-29 21:59:21 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-29 22:06:42 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-29 22:53:38 - app.services.agent_service - INFO - Processing query: 'Can you show me all recurring expense schedules?'
+2025-05-29 22:53:47 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_details', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 0.9}
+2025-05-29 22:53:47 - app.services.agent_service - INFO - Detected intent: lease_details (ambiguous: False)
+2025-05-29 22:53:47 - app.services.agent_service - INFO - Processing SQL query for intent: lease_details
+2025-05-29 22:53:47 - app.services.agent_service - ERROR - Error during SQL generation: 'TSCNLQService' object has no attribute 'nlq_to_sql'
+Traceback (most recent call last):
+  File "/Users/henokghebrechristos/Repo/TSC/chattsc/app/services/agent_service.py", line 387, in _process_sql_query
+    sql_result = await self.sql_service.nlq_to_sql(query)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TSCNLQService' object has no attribute 'nlq_to_sql'
+2025-05-30 08:01:17 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 08:01:22 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 08:01:22 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 08:01:22 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 08:02:28 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 08:02:32 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 08:02:32 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 08:02:32 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 09:33:21 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 09:33:35 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 09:33:35 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 09:33:35 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 09:46:17 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 09:46:50 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 09:46:50 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 09:46:50 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 09:50:15 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 09:51:26 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 09:51:26 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 09:51:26 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 09:51:55 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 09:52:27 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 10:10:57 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 10:11:01 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 10:11:01 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 10:11:01 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 10:21:37 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 10:21:42 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': 'bar', 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 10:21:42 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 10:21:42 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 10:22:21 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 10:22:26 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 10:22:26 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 10:22:26 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 10:25:09 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 10:25:16 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 10:25:16 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 10:25:16 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 10:29:28 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 10:29:34 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': 'bar', 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 10:29:34 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 10:29:34 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 10:38:31 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 10:38:36 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 10:38:36 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 10:38:36 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 11:04:36 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 11:04:43 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 11:04:48 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 11:04:48 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 11:04:48 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 11:19:46 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 11:29:29 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 11:29:37 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 11:29:37 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 11:29:37 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 11:37:23 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 11:37:30 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 11:37:30 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 11:37:30 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 12:08:10 - app.services.agent_service - INFO - Processing query: 'What is the lease expiration date for each property?'
+2025-05-30 12:08:14 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_expiration', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 12:08:14 - app.services.agent_service - INFO - Detected intent: lease_expiration (ambiguous: False)
+2025-05-30 12:08:14 - app.services.agent_service - INFO - Processing SQL query for intent: lease_expiration
+2025-05-30 12:08:14 - app.services.agent_service - ERROR - Error during SQL generation: 'TSCNLQService' object has no attribute 'nlq_to_sql'
+Traceback (most recent call last):
+  File "/Users/henokghebrechristos/Repo/TSC/chattsc/app/services/agent_service.py", line 387, in _process_sql_query
+    sql_result = await self.sql_service.nlq_to_sql(query)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TSCNLQService' object has no attribute 'nlq_to_sql'
+2025-05-30 12:57:55 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 13:05:30 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 13:19:17 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 13:19:21 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 13:19:21 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 13:19:21 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 14:15:43 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 14:15:55 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 14:15:55 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 14:15:55 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 14:49:12 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 14:49:16 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': 'bar', 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 14:49:16 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 14:49:16 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 14:49:35 - app.services.agent_service - INFO - Processing query: 'Hi'
+2025-05-30 14:49:35 - app.services.agent_service - INFO - Processing query: 'List all leases expiring within the next six months.'
+2025-05-30 14:49:39 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_expiration', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': 'next six months', 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 14:49:39 - app.services.agent_service - INFO - Detected intent: lease_expiration (ambiguous: False)
+2025-05-30 14:49:39 - app.services.agent_service - INFO - Processing SQL query for intent: lease_expiration
+2025-05-30 14:49:39 - app.services.agent_service - ERROR - Error during SQL generation: 'TSCNLQService' object has no attribute 'nlq_to_sql'
+Traceback (most recent call last):
+  File "/Users/henokghebrechristos/Repo/TSC/chattsc/app/services/agent_service.py", line 387, in _process_sql_query
+    sql_result = await self.sql_service.nlq_to_sql(query)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TSCNLQService' object has no attribute 'nlq_to_sql'
+2025-05-30 14:49:41 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 14:49:41 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 14:49:41 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 14:51:22 - app.services.agent_service - INFO - Processing query: 'Thank you'
+2025-05-30 14:51:25 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'gratitude', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 14:51:25 - app.services.agent_service - INFO - Detected intent: gratitude (ambiguous: False)
+2025-05-30 14:51:25 - app.services.agent_service - INFO - Processing conversation for intent: gratitude
+2025-05-30 14:55:59 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 14:56:03 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 14:56:03 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 14:56:03 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 15:12:23 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:12:49 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:13:34 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:14:00 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:14:32 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:15:22 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:16:05 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:16:46 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:17:23 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:17:30 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:18:06 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:18:42 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:18:49 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:18:56 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:19:51 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:20:43 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:20:52 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:20:58 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:21:41 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:22:11 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 15:22:19 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:23:05 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:33:00 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:33:20 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:33:30 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:33:45 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:34:07 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:34:21 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:34:32 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:34:36 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:35:02 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:35:09 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:35:22 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:35:55 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:36:11 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:36:27 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:36:34 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:36:42 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:36:49 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:37:00 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:37:04 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:37:15 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:37:26 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:37:27 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:37:36 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:37:41 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 17:37:45 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 18:10:05 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 18:10:15 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 18:10:23 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 18:11:18 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 18:11:36 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 18:11:56 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 18:12:24 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:40:34 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:42:40 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:42:46 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-30 21:42:50 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': 'bar', 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-30 21:42:50 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-30 21:42:50 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-30 21:42:53 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:42:59 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:43:16 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:43:59 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:44:38 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:44:45 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:45:02 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:45:10 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:45:17 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:45:22 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:45:28 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:45:57 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:46:07 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:46:23 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:46:52 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:47:14 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:47:28 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:47:33 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:47:38 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:47:55 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:48:05 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-30 21:49:06 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 08:20:05 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 08:20:57 - app.services.agent_service - INFO - Processing query: 'Thank you'
+2025-05-31 08:21:02 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'gratitude', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-31 08:21:02 - app.services.agent_service - INFO - Detected intent: gratitude (ambiguous: False)
+2025-05-31 08:21:02 - app.services.agent_service - INFO - Processing conversation for intent: gratitude
+2025-05-31 10:17:03 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-31 10:17:06 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-31 10:17:06 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-31 10:17:06 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-31 16:01:17 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-31 16:01:22 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-31 16:01:22 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-31 16:01:22 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-31 16:05:57 - app.services.agent_service - INFO - Processing query: 'Tell me about Tractor Supply Company's product offerings'
+2025-05-31 16:06:01 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'off_topic', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': False}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-31 16:06:01 - app.services.agent_service - INFO - Detected intent: off_topic (ambiguous: False)
+2025-05-31 16:06:01 - app.services.agent_service - INFO - Processing conversation for intent: off_topic
+2025-05-31 16:23:35 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-31 16:23:41 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-31 16:23:41 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-31 16:23:41 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-31 16:26:39 - app.services.agent_service - INFO - Processing query: 'Thanks'
+2025-05-31 16:26:42 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'gratitude', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-31 16:26:42 - app.services.agent_service - INFO - Detected intent: gratitude (ambiguous: False)
+2025-05-31 16:26:42 - app.services.agent_service - INFO - Processing conversation for intent: gratitude
+2025-05-31 16:31:22 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:44:35 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:44:35 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:46:02 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:46:02 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:46:44 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:46:44 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:46:55 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:46:55 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:47:27 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:47:27 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:47:37 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:47:37 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:48:34 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:48:35 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:49:43 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:49:44 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:50:34 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:50:34 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:50:49 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:50:49 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:51:03 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:51:03 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:51:23 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:51:23 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:51:35 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:51:35 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:51:45 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:51:45 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:51:59 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:51:59 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:52:09 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:52:09 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:52:18 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:52:18 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:52:27 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:52:27 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:52:35 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:52:35 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:52:48 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:52:48 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:52:57 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:52:57 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:53:13 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:53:13 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:53:22 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:53:22 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:53:31 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 16:53:31 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:18:50 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:18:50 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:24:07 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:25:05 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:25:31 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:25:38 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:25:54 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:26:05 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:26:12 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:26:23 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:27:01 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:28:19 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:28:49 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:29:10 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:29:15 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:29:27 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:29:35 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:29:40 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:29:50 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:29:56 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:30:02 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:30:07 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:31:04 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:31:12 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:31:19 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:32:38 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:32:53 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:34:56 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:52:02 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:54:38 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:54:47 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 17:59:07 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 18:05:15 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 18:11:23 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 18:12:55 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 18:13:56 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:05:46 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:28:57 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:29:05 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:29:49 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:31:12 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:31:39 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:39:39 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:41:17 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:42:09 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:43:20 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:44:02 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:44:26 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:45:46 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:46:06 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:46:21 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:47:52 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:48:16 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:48:30 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:49:28 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 19:53:18 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 21:48:28 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:13:17 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:14:50 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:19:42 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:20:01 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:20:06 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:22:15 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:22:22 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:25:45 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:28:45 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:29:15 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:31:18 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:31:34 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:32:07 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:37:38 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:42:30 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:42:58 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:43:06 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:43:16 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:43:31 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:43:38 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:43:44 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:43:50 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:43:57 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:44:03 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:44:09 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:44:29 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 22:46:15 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 23:18:25 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-05-31 23:25:17 - app.services.agent_service - INFO - Processing query: 'test message'
+2025-05-31 23:25:27 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'unknown', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': True, 'confidence': 0.3}
+2025-05-31 23:25:27 - app.services.agent_service - INFO - Detected intent: unknown (ambiguous: True)
+2025-05-31 23:25:27 - app.services.agent_service - INFO - Stored clarification context: {'original_query': 'test message', 'intent': 'unknown', 'ambiguity_type': '', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}}
+2025-05-31 23:30:50 - app.services.agent_service - INFO - Processing query: 'What are the lease expiration dates for store number 123?'
+2025-05-31 23:30:55 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_expiration', 'parameters': {'store_number': 123, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-31 23:30:55 - app.services.agent_service - INFO - Detected intent: lease_expiration (ambiguous: False)
+2025-05-31 23:30:55 - app.services.agent_service - INFO - Processing SQL query for intent: lease_expiration
+2025-05-31 23:30:55 - app.services.agent_service - ERROR - Error during SQL generation: 'TSCNLQService' object has no attribute 'nlq_to_sql'
+Traceback (most recent call last):
+  File "/Users/henokghebrechristos/Repo/TSC/chattsc/app/services/agent_service.py", line 387, in _process_sql_query
+    sql_result = await self.sql_service.nlq_to_sql(query)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'TSCNLQService' object has no attribute 'nlq_to_sql'
+2025-05-31 23:32:01 - app.services.agent_service - INFO - Processing query: 'Hello, how can you help me today?'
+2025-05-31 23:32:06 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-31 23:32:06 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-31 23:32:06 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-05-31 23:38:32 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-05-31 23:38:36 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-05-31 23:38:36 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-05-31 23:38:36 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-06-01 00:02:42 - app.services.agent_service - INFO - Processing query: 'Hello, can you help me?'
+2025-06-01 00:02:46 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-06-01 00:02:46 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-06-01 00:02:46 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-06-01 00:03:50 - app.services.agent_service - INFO - Processing query: 'This is an end-to-end test message'
+2025-06-01 00:04:00 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'off_topic', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': False}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-06-01 00:04:00 - app.services.agent_service - INFO - Detected intent: off_topic (ambiguous: False)
+2025-06-01 00:04:00 - app.services.agent_service - INFO - Processing conversation for intent: off_topic
+2025-06-01 09:46:18 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 09:46:51 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 09:47:06 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 09:47:23 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 09:56:12 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 09:58:54 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 10:06:33 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 10:09:17 - app.services.agent_service - INFO - Processing query: 'test message'
+2025-06-01 10:09:17 - app.services.agent_service - WARNING - Backend routing failed with status 404
+2025-06-01 10:09:27 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'unknown', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': False}, 'needs_chart': False, 'chart': {'type': 'bar', 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 0.1}
+2025-06-01 10:09:27 - app.services.agent_service - INFO - Detected intent: unknown (ambiguous: False)
+2025-06-01 10:09:27 - app.services.agent_service - INFO - Processing conversation for intent: unknown
+2025-06-01 10:10:29 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-06-01 10:10:29 - app.services.agent_service - WARNING - Backend routing failed with status 404
+2025-06-01 10:10:36 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-06-01 10:10:36 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-06-01 10:10:36 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-06-01 10:16:52 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 10:20:41 - app.services.agent_service - INFO - Processing query: 'hello'
+2025-06-01 10:20:41 - app.services.agent_service - WARNING - Backend routing failed with status 404
+2025-06-01 10:20:45 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-06-01 10:20:45 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-06-01 10:20:45 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-06-01 10:21:38 - app.services.agent_service - INFO - Processing query: 'What is the processing status test?'
+2025-06-01 10:21:38 - app.services.agent_service - WARNING - Backend routing failed with status 404
+2025-06-01 10:21:42 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'unknown', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': True, 'confidence': 0.5}
+2025-06-01 10:21:42 - app.services.agent_service - INFO - Detected intent: unknown (ambiguous: True)
+2025-06-01 10:21:42 - app.services.agent_service - INFO - Stored clarification context: {'original_query': 'What is the processing status test?', 'intent': 'unknown', 'ambiguity_type': '', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}}
+2025-06-01 10:21:52 - app.services.agent_service - INFO - Processing query: 'test'
+2025-06-01 10:21:52 - app.services.agent_service - WARNING - Backend routing failed with status 404
+2025-06-01 10:21:58 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'unknown', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 0.5}
+2025-06-01 10:21:58 - app.services.agent_service - INFO - Detected intent: unknown (ambiguous: False)
+2025-06-01 10:21:58 - app.services.agent_service - INFO - Processing conversation for intent: unknown
+2025-06-01 10:25:12 - app.services.agent_service - INFO - Processing query: 'Tell me about processing animations'
+2025-06-01 10:25:12 - app.services.agent_service - WARNING - Backend routing failed with status 404
+2025-06-01 10:25:16 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'off_topic', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': False}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-06-01 10:25:16 - app.services.agent_service - INFO - Detected intent: off_topic (ambiguous: False)
+2025-06-01 10:25:16 - app.services.agent_service - INFO - Processing conversation for intent: off_topic
+2025-06-01 10:26:40 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 10:27:36 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 10:28:02 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 10:28:07 - app.services.agent_service - INFO - Processing query: 'Hello, test the processing animation'
+2025-06-01 10:28:07 - app.services.agent_service - WARNING - Backend routing failed with status 404
+2025-06-01 10:28:12 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-06-01 10:28:12 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-06-01 10:28:12 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-06-01 10:28:47 - app.services.agent_service - INFO - Processing query: 'Thanks'
+2025-06-01 10:28:47 - app.services.agent_service - WARNING - Backend routing failed with status 404
+2025-06-01 10:28:51 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'gratitude', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-06-01 10:28:51 - app.services.agent_service - INFO - Detected intent: gratitude (ambiguous: False)
+2025-06-01 10:28:51 - app.services.agent_service - INFO - Processing conversation for intent: gratitude
+2025-06-01 10:29:36 - app.services.agent_service - INFO - Processing query: 'Hello'
+2025-06-01 10:29:36 - app.services.agent_service - WARNING - Backend routing failed with status 404
+2025-06-01 10:29:42 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'greeting', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-06-01 10:29:42 - app.services.agent_service - INFO - Detected intent: greeting (ambiguous: False)
+2025-06-01 10:29:42 - app.services.agent_service - INFO - Processing conversation for intent: greeting
+2025-06-01 10:34:02 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 10:36:20 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 11:06:09 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 11:56:27 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 12:00:33 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 12:12:43 - app.services.agent_service - INFO - Processing query: 'THanks'
+2025-06-01 12:12:43 - app.services.agent_service - WARNING - Backend routing failed with status 404
+2025-06-01 12:12:47 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'gratitude', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': False, 'confidence': 1.0}
+2025-06-01 12:12:47 - app.services.agent_service - INFO - Detected intent: gratitude (ambiguous: False)
+2025-06-01 12:12:47 - app.services.agent_service - INFO - Processing conversation for intent: gratitude
+2025-06-01 12:15:17 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 12:48:27 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 14:26:16 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 14:40:56 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 14:41:26 - app.services.agent_service - INFO - Processing query: 'Hello, I need help with my lease agreement'
+2025-06-01 14:41:26 - app.services.agent_service - WARNING - Backend routing failed with status 404
+2025-06-01 14:41:36 - app.services.agent_service - DEBUG - Detected intent: {'intent': 'lease_details', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}, 'needs_chart': False, 'chart': {'type': None, 'x': None, 'y': None, 'fields': []}, 'is_ambiguous': True, 'confidence': 0.8}
+2025-06-01 14:41:36 - app.services.agent_service - INFO - Detected intent: lease_details (ambiguous: True)
+2025-06-01 14:41:36 - app.services.agent_service - INFO - Stored clarification context: {'original_query': 'Hello, I need help with my lease agreement', 'intent': 'lease_details', 'ambiguity_type': '', 'parameters': {'store_number': None, 'aka_identifier': None, 'timeframe': None, 'covenant_type': None, 'landlord_name': None, 'state': None, 'maintenance_type': None, 'is_in_scope': True}}
+2025-06-01 14:49:08 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 14:56:15 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 15:22:21 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 15:22:39 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 19:40:01 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 19:41:31 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 19:42:11 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 19:42:39 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 19:42:45 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 19:45:17 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 19:47:36 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach
+2025-06-01 19:48:02 - app.services.agent_service - INFO - LeaseAgentService initialized with prompt-template approach

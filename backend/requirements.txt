@@ -1,0 +1,67 @@
+# Core Framework
+fastapi>=0.109.0
+uvicorn[standard]>=0.27.0
+pydantic>=2.6.0
+pydantic-settings>=2.1.0
+python-multipart>=0.0.6
+
+# Async & Concurrency
+asyncio==3.4.3
+aiofiles==23.2.1
+celery[redis]==5.3.6
+
+# Database & Storage
+asyncpg>=0.29.0
+psycopg2-binary>=2.9.9
+redis>=5.0.0
+sqlalchemy>=2.0.0
+alembic>=1.13.0
+pgvector==0.2.5
+
+# LLM & AI
+openai==1.14.2
+langchain==0.1.13
+langchain-openai==0.1.1
+tiktoken==0.6.0
+numpy==1.26.4
+
+# Observability & Monitoring
+opentelemetry-api==1.24.0
+opentelemetry-sdk==1.24.0
+opentelemetry-instrumentation-fastapi==0.45b0
+opentelemetry-instrumentation-redis==0.45b0
+opentelemetry-instrumentation-asyncpg==0.45b0
+opentelemetry-exporter-otlp==1.24.0
+prometheus-client==0.20.0
+structlog==24.1.0
+
+# Security & Auth
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+python-dotenv==1.0.1
+
+# Utilities
+httpx>=0.26.0
+tenacity==8.2.3
+pyyaml==6.0.1
+click==8.1.7
+
+# Testing
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+pytest-cov==5.0.0
+factory-boy==3.3.0
+faker==24.2.0
+
+# Development
+black>=24.1.0
+ruff==0.3.4
+mypy>=1.8.0
+pre-commit==3.7.0
+isort>=5.13.0
+flake8>=7.0.0
+
+# Added from the code block
+Jinja2
+PyYAML
+requests 

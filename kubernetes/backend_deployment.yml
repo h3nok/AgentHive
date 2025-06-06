@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lease-abstraction-poc-backend
+  labels:
+    app: lease-abstraction-poc-backend
+spec:
+  replicas: 2  # Starting with 2 replicas for HPA
+  selector:
+    matchLabels:
+      app: lease-abstraction-poc-backend
+  template:
+    metadata:
+      labels:
+        app: lease-abstraction-poc-backend
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      containers:
+      - name: backend
+        image: dateaeacreu2n.azurecr.io/lease-abstraction-poc-backend:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "8Gi"
+            cpu: "4000m"
+          requests:
+            memory: "1Gi"  # Reduced request for better scaling
+            cpu: "500m"    # Reduced request for better scaling
+        ports:
+        - containerPort: 8000
+          name: http
+        - containerPort: 8080
+          name: metrics
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        envFrom:
+        - secretRef:
+            name: lease-abstraction-poc-env
+        env:
+        - name: PROMETHEUS_METRICS_ENABLED
+          value: "true"
+        - name: METRICS_PORT
+          value: "8080"
+        - name: CACHE_ENABLED
+          value: "true"
+        - name: CACHE_REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: lease-abstraction-poc-env
+              key: REDIS_URL
+              optional: true
+        volumeMounts:
+        - name: snowflake-key-volume
+          mountPath: /app/snowflake.p8
+          subPath: snowflake.p8
+          readOnly: true
+      volumes:
+      - name: snowflake-key-volume
+        secret:
+          secretName: snowflake-key

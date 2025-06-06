@@ -1,0 +1,1 @@
+// Deprecated – replaced by index.ts barrel

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loading Animations Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .test-container {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .user-message {
+            background-color: #e3f2fd;
+            text-align: right;
+        }
+        .assistant-message {
+            background-color: #f5f5f5;
+            border: 1px solid red;
+            position: relative;
+        }
+        .loading {
+            display: inline-block;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        .streaming-dots {
+            animation: dots 1.4s ease-in-out infinite;
+        }
+        .status-message {
+            color: #666;
+            font-style: italic;
+            margin: 5px 0;
+        }
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .button:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        .button.loading {
+            background-color: #ff5722;
+        }
+        .log-container {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 10px;
+            height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Frontend Loading Animations Test</h1>
+    
+    <div class="test-container">
+        <h2>Test Chat Interface</h2>
+        <div id="chat-messages">
+            <div class="message user-message">
+                Hello, can you help me with a question?
+            </div>
+        </div>
+        
+        <div>
+            <input type="text" id="message-input" placeholder="Type your message..." style="width: 70%; padding: 10px;">
+            <button id="send-button" class="button">Send</button>
+        </div>
+        
+        <div style="margin-top: 20px;">
+            <button id="test-loading" class="button">Test Loading Animation</button>
+            <button id="test-streaming" class="button">Test Streaming Animation</button>
+            <button id="test-real-api" class="button">Test Real API Call</button>
+        </div>
+    </div>
+
+    <div class="test-container">
+        <h2>API Response Log</h2>
+        <div id="log-container" class="log-container"></div>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chat-messages');
+        const messageInput = document.getElementById('message-input');
+        const sendButton = document.getElementById('send-button');
+        const logContainer = document.getElementById('log-container');
+
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            logContainer.innerHTML += `[${timestamp}] ${message}\n`;
+            logContainer.scrollTop = logContainer.scrollHeight;
+        }
+
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user-message' : 'assistant-message'}`;
+            messageDiv.innerHTML = content;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            return messageDiv;
+        }
+
+        function showLoadingAnimation() {
+            const loadingDiv = addMessage(`
+                <div class="status-message">📡 Connecting to model...</div>
+                <div class="loading">
+                    <div class="spinner"></div> Processing your request...
+                </div>
+            `);
+            
+            // Simulate loading state on send button
+            sendButton.disabled = true;
+            sendButton.className = 'button loading';
+            sendButton.innerHTML = '<div class="spinner" style="width: 16px; height: 16px; border-width: 2px;"></div>';
+            
+            return loadingDiv;
+        }
+
+        function showStreamingAnimation(messageDiv) {
+            messageDiv.innerHTML = `
+                <div class="status-message">💭 thinking</div>
+                <div class="status-message">🔍 Routing: general agent (confidence: 95%)</div>
+                <div class="streaming-dots">Streaming response</div>
+            `;
+        }
+
+        function simulateWordByWordStreaming(messageDiv, text) {
+            const words = text.split(' ');
+            let currentText = '';
+            let wordIndex = 0;
+
+            messageDiv.innerHTML = `
+                <div class="status-message">💭 thinking</div>
+                <div class="status-message">🔍 Routing: general agent (confidence: 95%)</div>
+                <div id="streaming-text"></div>
+            `;
+
+            const streamingTextDiv = messageDiv.querySelector('#streaming-text');
+
+            const interval = setInterval(() => {
+                if (wordIndex < words.length) {
+                    currentText += words[wordIndex] + ' ';
+                    streamingTextDiv.textContent = currentText;
+                    wordIndex++;
+                } else {
+                    clearInterval(interval);
+                    // Reset send button
+                    sendButton.disabled = false;
+                    sendButton.className = 'button';
+                    sendButton.innerHTML = 'Send';
+                    log('✅ Streaming completed');
+                }
+            }, 100);
+        }
+
+        async function testRealApiCall(message) {
+            log(`🔄 Calling real API with message: "${message}"`);
+            
+            const loadingDiv = showLoadingAnimation();
+            
+            try {
+                const response = await fetch('http://localhost:8000/v1/agent/query', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'text/event-stream',
+                    },
+                    body: JSON.stringify({
+                        query: message,
+                        session_id: 'test-frontend-' + Date.now()
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                log('✅ Connected to API, processing stream...');
+                
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let fullResponse = '';
+
+                // Start streaming animation
+                loadingDiv.innerHTML = `
+                    <div class="status-message">💭 thinking</div>
+                    <div class="status-message">🔍 Processing with intelligent routing...</div>
+                    <div id="streaming-response"></div>
+                `;
+                
+                const streamingResponseDiv = loadingDiv.querySelector('#streaming-response');
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    const chunk = decoder.decode(value);
+                    const lines = chunk.split('\n');
+
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            try {
+                                const data = JSON.parse(line.slice(6));
+                                log(`📦 Received: ${JSON.stringify(data)}`);
+                                
+                                if (data.type === 'status') {
+                                    loadingDiv.querySelector('.status-message').textContent = `💭 ${data.delta}`;
+                                } else if (data.type === 'routing_metadata') {
+                                    const routing = data.data;
+                                    loadingDiv.querySelector('.status-message:nth-child(2)').textContent = 
+                                        `🔍 Routing: ${routing.selected_agent} agent (confidence: ${Math.round(routing.confidence * 100)}%)`;
+                                } else if (data.type === 'delta') {
+                                    fullResponse += data.delta;
+                                    streamingResponseDiv.textContent = fullResponse;
+                                } else if (data.type === 'done') {
+                                    log('✅ Stream completed successfully');
+                                    break;
+                                } else if (data.type === 'error') {
+                                    log(`❌ Error: ${data.delta}`);
+                                    streamingResponseDiv.textContent = `Error: ${data.delta}`;
+                                }
+                            } catch (e) {
+                                log(`⚠️ Failed to parse JSON: ${line}`);
+                            }
+                        }
+                    }
+                }
+
+                // Reset send button
+                sendButton.disabled = false;
+                sendButton.className = 'button';
+                sendButton.innerHTML = 'Send';
+
+            } catch (error) {
+                log(`❌ API Error: ${error.message}`);
+                loadingDiv.innerHTML = `<div style="color: red;">Error: ${error.message}</div>`;
+                
+                // Reset send button
+                sendButton.disabled = false;
+                sendButton.className = 'button';
+                sendButton.innerHTML = 'Send';
+            }
+        }
+
+        // Event listeners
+        document.getElementById('test-loading').addEventListener('click', () => {
+            log('🧪 Testing loading animation...');
+            const loadingDiv = showLoadingAnimation();
+            setTimeout(() => {
+                showStreamingAnimation(loadingDiv);
+                setTimeout(() => {
+                    sendButton.disabled = false;
+                    sendButton.className = 'button';
+                    sendButton.innerHTML = 'Send';
+                    log('✅ Loading animation test completed');
+                }, 2000);
+            }, 1000);
+        });
+
+        document.getElementById('test-streaming').addEventListener('click', () => {
+            log('🧪 Testing streaming animation...');
+            const messageDiv = addMessage('');
+            simulateWordByWordStreaming(messageDiv, 'This is a simulated streaming response that appears word by word to demonstrate the loading animations and streaming functionality.');
+        });
+
+        document.getElementById('test-real-api').addEventListener('click', () => {
+            const message = messageInput.value.trim() || 'Hello, can you help me test the loading animations?';
+            addMessage(message, true);
+            messageInput.value = '';
+            testRealApiCall(message);
+        });
+
+        sendButton.addEventListener('click', () => {
+            const message = messageInput.value.trim();
+            if (message) {
+                addMessage(message, true);
+                messageInput.value = '';
+                testRealApiCall(message);
+            }
+        });
+
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendButton.click();
+            }
+        });
+
+        // Initial log
+        log('🚀 Loading animations test page loaded');
+        log('📡 API endpoint: http://localhost:8000/v1/agent/query');
+    </script>
+</body>
+</html>

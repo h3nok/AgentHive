@@ -1,0 +1,175 @@
+/* Global CSS for Tractor Supply Co theme */
+
+:root {
+  --tsc-red: #c8102e;
+  --tsc-tan: #f2f2f2;
+  --tsc-hay: #f8f8f8;
+  --tsc-barn: #e8e8e8;
+  --tsc-earth: #d9d9d9;
+  --tsc-gray: #5f5f5f;
+  --tsc-night: #1e1e1e;
+  --tsc-dark-tan: #3b2f2f;
+  --nav-h: 64px;
+  --input-h: 72px;
+  --z-nav: 1200;
+  --z-input: 1100;
+  --railW: 56px; /* default collapsed rail width */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto Slab", serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  /* Diagonal grain background overlay */
+  background-image: url('/diagonal-grain.svg');
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  background-attachment: fixed;
+  
+  /* Light mode (default) */
+  background-color: #fafafa;
+  color: #1a1a1a;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a {
+  color: var(--tsc-red);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Dark mode scrollbar */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #171717; /* bg-neutral-900 */
+    color: #e5e5e5; /* text-neutral-200 */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.3);
+  }
+}
+
+body.dark {
+  background-color: #171717; /* bg-neutral-900 */
+  color: #e5e5e5; /* text-neutral-200 */
+}
+
+body.light {
+  background-color: #fafafa;
+  color: #1a1a1a;
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid #c8102e;
+  outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+  background-color: rgba(200, 16, 46, 0.2);
+  color: inherit;
+}
+
+::-moz-selection {
+  background-color: rgba(200, 16, 46, 0.2);
+  color: inherit;
+}
+
+/* Utility classes for Tailwind-like styling */
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.gap-1 {
+  gap: 0.25rem;
+}
+
+.gap-3 {
+  gap: 0.75rem;
+}
+
+.text-red-600 {
+  color: #c8102e;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.bg-white\/70 {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.backdrop-blur-lg {
+  backdrop-filter: blur(16px);
+}
+
+.ring-1 {
+  box-shadow: 0 0 0 1px currentColor;
+}
+
+.ring-red-300 {
+  --tw-ring-color: rgba(252, 165, 165, 1);
+}
+
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+/* Additional custom properties for consistent theming */
+:root {
+  --tsc-red: #c8102e;
+  --tsc-red-light: rgba(200, 16, 46, 0.1);
+  --tsc-red-dark: #a50e26;
+  --border-radius-lg: 1rem;
+  --border-radius-xl: 1.5rem;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+/* When sidebar is open, widen the rail CSS variable */
+.rail-open {
+  --railW: 260px;
+} 

@@ -1,0 +1,486 @@
+2025-05-09 10:43:49 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:43:49 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:46:00 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:46:00 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:47:51 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:47:51 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:51:47 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:51:47 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:52:03 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:52:03 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:53:44 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:53:44 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:56:26 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:56:26 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:56:59 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:56:59 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:57:29 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 10:57:29 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:00:21 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:00:21 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:01:10 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 11:01:10 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 11:01:10 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 11:01:10 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 11:01:10 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 11:01:10 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 11:01:10 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 11:01:10 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 11:01:19 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(CASE\n        WHEN LOWER(m.NAME) LIKE '%expiration%' \n          OR LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%'\n        THEN TO_DATE(e.ANSWER)\n        ELSE NULL\n      END) AS LEASE_EXPIRATION_DATE\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m\n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 11:01:19 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 11:01:19 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 11:01:19 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 11:01:19 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 11:01:19 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(CASE\n        WHEN LOWER(m.NAME) LIKE '%expiration%' \n          OR LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%'\n        THEN TO_DATE(e.ANSWER)\n        ELSE NULL\n      END) AS LEASE_EXPIRATION_DATE\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m\n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 11:01:19 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(CASE\n        WHEN LOWER(m.NAME) LIKE '%expiration%' \n          OR LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%'\n        THEN TO_DATE(e.ANSWER)\n        ELSE NULL\n      END) AS LEASE_EXPIRATION_DATE\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m\n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 11:01:19 - nlq_service - ERROR - Error executing NLQ: 251006: Password is empty
+2025-05-09 11:01:22 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(CASE\n        WHEN LOWER(m.NAME) LIKE '%expiration%'\n          OR LOWER(m.NAME) LIKE '%end date%'\n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%'\n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%'\n        THEN TO_DATE(e.ANSWER)\n    END) AS LEASE_EXPIRATION_DATE\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m\n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 11:01:22 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 11:01:22 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 11:01:22 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 11:01:22 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 11:01:22 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(CASE\n        WHEN LOWER(m.NAME) LIKE '%expiration%'\n          OR LOWER(m.NAME) LIKE '%end date%'\n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%'\n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%'\n        THEN TO_DATE(e.ANSWER)\n    END) AS LEASE_EXPIRATION_DATE\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m\n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 11:01:22 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(CASE\n        WHEN LOWER(m.NAME) LIKE '%expiration%'\n          OR LOWER(m.NAME) LIKE '%end date%'\n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%'\n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%'\n        THEN TO_DATE(e.ANSWER)\n    END) AS LEASE_EXPIRATION_DATE\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m\n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 11:01:22 - nlq_service - ERROR - Error executing NLQ: 251006: Password is empty
+2025-05-09 11:02:15 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:02:15 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:02:37 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 11:02:37 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 11:02:37 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 11:02:37 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 11:02:37 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 11:02:37 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 11:02:37 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 11:02:37 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 11:02:48 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(CASE \n          WHEN LOWER(m.NAME) LIKE '%expiration%' \n            OR LOWER(m.NAME) LIKE '%end date%' \n            OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n            OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n          THEN TO_DATE(e.ANSWER)\n        END) AS LEASE_EXPIRATION_DATE\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 11:02:48 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 11:02:48 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 11:02:48 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 11:02:48 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 11:02:48 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(CASE \n          WHEN LOWER(m.NAME) LIKE '%expiration%' \n            OR LOWER(m.NAME) LIKE '%end date%' \n            OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n            OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n          THEN TO_DATE(e.ANSWER)\n        END) AS LEASE_EXPIRATION_DATE\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 11:02:48 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(CASE \n          WHEN LOWER(m.NAME) LIKE '%expiration%' \n            OR LOWER(m.NAME) LIKE '%end date%' \n            OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n            OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n          THEN TO_DATE(e.ANSWER)\n        END) AS LEASE_EXPIRATION_DATE\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 11:02:48 - nlq_service - ERROR - Error executing NLQ: 251006: Password is empty
+2025-05-09 11:02:48 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n  e.STORE_NO,\n  MAX(CASE \n    WHEN LOWER(m.NAME) LIKE '%expiration%' \n      OR LOWER(m.NAME) LIKE '%end date%' \n      OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n      OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n    THEN TO_DATE(e.ANSWER) \n  END) AS lease_expiration_date\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 11:02:48 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 11:02:48 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 11:02:48 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 11:02:48 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 11:02:48 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n  e.STORE_NO,\n  MAX(CASE \n    WHEN LOWER(m.NAME) LIKE '%expiration%' \n      OR LOWER(m.NAME) LIKE '%end date%' \n      OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n      OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n    THEN TO_DATE(e.ANSWER) \n  END) AS lease_expiration_date\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 11:02:48 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n  e.STORE_NO,\n  MAX(CASE \n    WHEN LOWER(m.NAME) LIKE '%expiration%' \n      OR LOWER(m.NAME) LIKE '%end date%' \n      OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n      OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n    THEN TO_DATE(e.ANSWER) \n  END) AS lease_expiration_date\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 11:02:48 - nlq_service - ERROR - Error executing NLQ: 251006: Password is empty
+2025-05-09 11:12:33 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:12:33 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:13:31 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:13:31 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:17:30 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:17:30 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:17:39 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:17:39 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:20:54 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:20:54 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:21:28 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:21:28 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:22:34 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:22:34 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:24:01 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:24:01 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:27:27 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:27:27 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:31:21 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:31:21 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:37:01 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:37:01 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:40:41 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:40:41 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:41:08 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:41:08 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:43:38 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:43:38 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:49:25 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:49:25 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:51:43 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 11:51:43 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:04:02 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:04:02 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:04:41 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:04:41 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:04:56 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:04:56 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:05:09 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:05:09 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:05:28 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:05:28 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:05:40 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:05:40 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:05:50 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:05:50 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:06:03 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:06:03 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:06:15 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:06:15 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:07:08 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:07:08 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:07:35 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:07:35 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:12:05 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:12:05 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:12:13 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:12:13 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:12:24 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:12:24 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:12:33 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:12:33 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:12:43 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:12:43 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:12:51 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:12:51 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:12:59 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:12:59 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:13:21 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:13:21 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:17:33 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:17:33 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:17:52 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:17:52 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:18:02 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:18:02 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:18:45 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:18:45 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:19:23 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:19:23 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:22:32 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:22:32 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:23:13 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:23:13 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:23:26 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:23:26 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:23:35 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:23:35 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:28:52 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:28:52 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:30:08 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:30:08 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:30:45 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:30:45 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:32:40 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:32:40 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:33:14 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:33:14 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:37:52 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:37:52 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:41:05 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:41:05 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:54:41 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:54:41 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:57:10 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 12:57:10 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:03:30 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:03:30 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:04:13 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:04:13 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:04:25 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:04:25 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:06:08 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:06:08 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:06:43 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:06:43 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:11:09 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:11:09 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:14:39 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:14:39 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:24:24 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:24:24 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:26:07 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:26:07 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:29:46 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:29:46 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:30:05 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 13:30:05 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 14:45:47 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 14:45:47 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 14:58:45 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 14:58:45 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 15:00:08 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 15:00:08 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 15:03:28 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 15:03:28 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 15:07:24 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 15:07:24 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 15:08:49 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 15:08:49 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 15:10:25 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 15:10:25 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 15:11:04 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 15:11:04 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 15:11:04 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 15:11:04 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 15:11:05 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 15:11:05 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 15:11:05 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 15:11:05 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 15:11:13 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(\n        CASE\n            WHEN LOWER(m.NAME) LIKE '%expiration%'\n              OR LOWER(m.NAME) LIKE '%end date%'\n              OR LOWER(m.DESCRIPTION) LIKE '%expiration%'\n              OR LOWER(m.DESCRIPTION) LIKE '%lease end%'\n            THEN TO_DATE(e.ANSWER)\n        END\n    ) AS lease_expiration_date\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m\n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_ENTITY_MASTER', 'REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 15:11:13 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 15:11:13 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 15:11:13 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 15:11:13 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 15:11:13 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(\n        CASE\n            WHEN LOWER(m.NAME) LIKE '%expiration%'\n              OR LOWER(m.NAME) LIKE '%end date%'\n              OR LOWER(m.DESCRIPTION) LIKE '%expiration%'\n              OR LOWER(m.DESCRIPTION) LIKE '%lease end%'\n            THEN TO_DATE(e.ANSWER)\n        END\n    ) AS lease_expiration_date\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m\n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_ENTITY_MASTER', 'REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 15:11:13 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(\n        CASE\n            WHEN LOWER(m.NAME) LIKE '%expiration%'\n              OR LOWER(m.NAME) LIKE '%end date%'\n              OR LOWER(m.DESCRIPTION) LIKE '%expiration%'\n              OR LOWER(m.DESCRIPTION) LIKE '%lease end%'\n            THEN TO_DATE(e.ANSWER)\n        END\n    ) AS lease_expiration_date\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m\n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_ENTITY_MASTER', 'REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 15:11:13 - nlq_service - ERROR - Error executing NLQ: 251006: Password is empty
+2025-05-09 15:11:16 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n  e.STORE_NO,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%expiration%' \n          OR LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS lease_expiration_date\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m \n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_ENTITY_MASTER', 'REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 15:11:16 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 15:11:16 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 15:11:16 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 15:11:16 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 15:11:16 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n  e.STORE_NO,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%expiration%' \n          OR LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS lease_expiration_date\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m \n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_ENTITY_MASTER', 'REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 15:11:16 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n  e.STORE_NO,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%expiration%' \n          OR LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS lease_expiration_date\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m \n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_ENTITY_MASTER', 'REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 15:11:16 - nlq_service - ERROR - Error executing NLQ: 251006: Password is empty
+2025-05-09 16:39:05 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 16:39:05 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 16:40:09 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 16:40:09 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 16:40:25 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 16:40:25 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 16:40:25 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 16:40:25 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 16:40:27 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 16:40:27 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 16:40:27 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 16:40:27 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 16:40:36 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%expiration%' \n          OR LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS LEASE_EXPIRATION_DATE\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m\n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:40:36 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 16:40:36 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 16:40:36 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 16:40:36 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 16:40:36 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%expiration%' \n          OR LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS LEASE_EXPIRATION_DATE\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m\n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:40:36 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%expiration%' \n          OR LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS LEASE_EXPIRATION_DATE\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m\n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:40:36 - nlq_service - ERROR - Error executing NLQ: Private key file exists but could not be loaded. Check if passphrase is required.
+2025-05-09 16:40:36 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n    e.STORE_NO,\n    MAX(CASE \n            WHEN LOWER(m.NAME) LIKE '%expiration%' \n              OR LOWER(m.NAME) LIKE '%end date%' \n              OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n              OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n            THEN TO_DATE(e.ANSWER) \n         END) AS lease_expiration_date\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:40:36 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 16:40:36 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 16:40:36 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 16:40:36 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 16:40:36 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n    e.STORE_NO,\n    MAX(CASE \n            WHEN LOWER(m.NAME) LIKE '%expiration%' \n              OR LOWER(m.NAME) LIKE '%end date%' \n              OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n              OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n            THEN TO_DATE(e.ANSWER) \n         END) AS lease_expiration_date\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:40:36 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n    e.STORE_NO,\n    MAX(CASE \n            WHEN LOWER(m.NAME) LIKE '%expiration%' \n              OR LOWER(m.NAME) LIKE '%end date%' \n              OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n              OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n            THEN TO_DATE(e.ANSWER) \n         END) AS lease_expiration_date\nFROM REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['REAL_ESTATE_LEASE_EXTRACTED_ENTITES', 'REAL_ESTATE_LEASE_ENTITY_MASTER'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:40:36 - nlq_service - ERROR - Error executing NLQ: Private key file exists but could not be loaded. Check if passphrase is required.
+2025-05-09 16:43:10 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 16:43:10 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 16:43:50 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 16:43:50 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 16:43:50 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 16:43:50 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 16:43:51 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 16:43:51 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 16:43:51 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 16:43:51 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 16:43:59 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(CASE \n            WHEN LOWER(m.NAME) LIKE '%expiration%' \n              OR LOWER(m.NAME) LIKE '%end date%'\n              OR LOWER(m.DESCRIPTION) LIKE '%expiration%'\n              OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n            THEN TO_DATE(e.ANSWER)\n         END) AS LEASE_EXPIRATION_DATE\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:43:59 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 16:43:59 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 16:43:59 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 16:43:59 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 16:43:59 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(CASE \n            WHEN LOWER(m.NAME) LIKE '%expiration%' \n              OR LOWER(m.NAME) LIKE '%end date%'\n              OR LOWER(m.DESCRIPTION) LIKE '%expiration%'\n              OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n            THEN TO_DATE(e.ANSWER)\n         END) AS LEASE_EXPIRATION_DATE\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:43:59 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(CASE \n            WHEN LOWER(m.NAME) LIKE '%expiration%' \n              OR LOWER(m.NAME) LIKE '%end date%'\n              OR LOWER(m.DESCRIPTION) LIKE '%expiration%'\n              OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n            THEN TO_DATE(e.ANSWER)\n         END) AS LEASE_EXPIRATION_DATE\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:43:59 - nlq_service - ERROR - Error executing NLQ: Private key file exists but could not be loaded. Check if passphrase is required.
+2025-05-09 16:44:00 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.store_no,\n  MAX(CASE\n        WHEN LOWER(m.name) LIKE '%expiration%'\n          OR LOWER(m.name) LIKE '%end date%'\n          OR LOWER(m.description) LIKE '%expiration%'\n          OR LOWER(m.description) LIKE '%lease end%'\n        THEN TO_DATE(e.answer)\n      END) AS lease_expiration_date\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m\n  ON e.entity_id = m.entity_id\nGROUP BY e.store_no\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:44:00 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 16:44:00 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 16:44:00 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 16:44:00 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 16:44:00 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.store_no,\n  MAX(CASE\n        WHEN LOWER(m.name) LIKE '%expiration%'\n          OR LOWER(m.name) LIKE '%end date%'\n          OR LOWER(m.description) LIKE '%expiration%'\n          OR LOWER(m.description) LIKE '%lease end%'\n        THEN TO_DATE(e.answer)\n      END) AS lease_expiration_date\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m\n  ON e.entity_id = m.entity_id\nGROUP BY e.store_no\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:44:00 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.store_no,\n  MAX(CASE\n        WHEN LOWER(m.name) LIKE '%expiration%'\n          OR LOWER(m.name) LIKE '%end date%'\n          OR LOWER(m.description) LIKE '%expiration%'\n          OR LOWER(m.description) LIKE '%lease end%'\n        THEN TO_DATE(e.answer)\n      END) AS lease_expiration_date\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m\n  ON e.entity_id = m.entity_id\nGROUP BY e.store_no\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:44:00 - nlq_service - ERROR - Error executing NLQ: Private key file exists but could not be loaded. Check if passphrase is required.
+2025-05-09 16:52:33 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 16:52:33 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-09 16:53:48 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 16:53:48 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 16:53:48 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 16:53:48 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 16:53:49 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 16:53:49 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 16:53:49 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 16:53:49 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 16:53:57 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n    e.STORE_NO,\n    MAX(CASE \n            WHEN LOWER(m.NAME) LIKE '%expiration%' \n              OR LOWER(m.NAME) LIKE '%end date%' \n              OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n              OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n            THEN TO_DATE(e.ANSWER) \n         END) AS LEASE_EXPIRATION_DATE\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m \n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:53:57 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 16:53:57 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 16:53:57 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 16:53:57 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 16:53:57 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n    e.STORE_NO,\n    MAX(CASE \n            WHEN LOWER(m.NAME) LIKE '%expiration%' \n              OR LOWER(m.NAME) LIKE '%end date%' \n              OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n              OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n            THEN TO_DATE(e.ANSWER) \n         END) AS LEASE_EXPIRATION_DATE\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m \n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:53:57 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n    e.STORE_NO,\n    MAX(CASE \n            WHEN LOWER(m.NAME) LIKE '%expiration%' \n              OR LOWER(m.NAME) LIKE '%end date%' \n              OR LOWER(m.DESCRIPTION) LIKE '%expiration%' \n              OR LOWER(m.DESCRIPTION) LIKE '%lease end%' \n            THEN TO_DATE(e.ANSWER) \n         END) AS LEASE_EXPIRATION_DATE\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m \n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:53:57 - nlq_service - ERROR - Error executing NLQ: Private key file exists but could not be loaded. Check if passphrase is required.
+2025-05-09 16:53:58 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(CASE\n        WHEN LOWER(m.NAME) LIKE '%expiration%'\n          OR LOWER(m.NAME) LIKE '%end date%'\n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%'\n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%'\n        THEN TO_DATE(e.ANSWER)\n      END) AS LEASE_EXPIRATION_DATE\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:53:58 - nlq_service - DEBUG - Processing NLQ: What is the lease expiration date for each property?
+2025-05-09 16:53:58 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 16:53:58 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 16:53:58 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 16:53:58 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(CASE\n        WHEN LOWER(m.NAME) LIKE '%expiration%'\n          OR LOWER(m.NAME) LIKE '%end date%'\n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%'\n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%'\n        THEN TO_DATE(e.ANSWER)\n      END) AS LEASE_EXPIRATION_DATE\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:53:58 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(CASE\n        WHEN LOWER(m.NAME) LIKE '%expiration%'\n          OR LOWER(m.NAME) LIKE '%end date%'\n          OR LOWER(m.DESCRIPTION) LIKE '%expiration%'\n          OR LOWER(m.DESCRIPTION) LIKE '%lease end%'\n        THEN TO_DATE(e.ANSWER)\n      END) AS LEASE_EXPIRATION_DATE\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_expiration'}}
+2025-05-09 16:53:58 - nlq_service - ERROR - Error executing NLQ: Private key file exists but could not be loaded. Check if passphrase is required.
+2025-05-09 23:57:24 - nlq_service - DEBUG - Processing NLQ: Extract all key dates from this contract
+2025-05-09 23:57:24 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 23:57:24 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 23:57:24 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 23:57:26 - nlq_service - DEBUG - Processing NLQ: Extract all key dates from this contract
+2025-05-09 23:57:26 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 23:57:26 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 23:57:26 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 23:57:41 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%start date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%start date%' \n          OR LOWER(m.TYPE) LIKE '%start date%' \n        THEN TO_DATE(e.ANSWER) \n    END) AS start_date,\n    MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%end date%' \n          OR LOWER(m.TYPE) LIKE '%end date%' \n        THEN TO_DATE(e.ANSWER) \n    END) AS end_date,\n    MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%expiration date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration date%' \n          OR LOWER(m.TYPE) LIKE '%expiration date%' \n        THEN TO_DATE(e.ANSWER) \n    END) AS expiration_date,\n    MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%commencement date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%commencement date%' \n          OR LOWER(m.TYPE) LIKE '%commencement date%' \n        THEN TO_DATE(e.ANSWER) \n    END) AS commencement_date\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m\n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_details'}}
+2025-05-09 23:57:41 - nlq_service - DEBUG - Processing NLQ: Extract all key dates from this contract
+2025-05-09 23:57:41 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 23:57:41 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 23:57:41 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 23:57:41 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%start date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%start date%' \n          OR LOWER(m.TYPE) LIKE '%start date%' \n        THEN TO_DATE(e.ANSWER) \n    END) AS start_date,\n    MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%end date%' \n          OR LOWER(m.TYPE) LIKE '%end date%' \n        THEN TO_DATE(e.ANSWER) \n    END) AS end_date,\n    MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%expiration date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration date%' \n          OR LOWER(m.TYPE) LIKE '%expiration date%' \n        THEN TO_DATE(e.ANSWER) \n    END) AS expiration_date,\n    MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%commencement date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%commencement date%' \n          OR LOWER(m.TYPE) LIKE '%commencement date%' \n        THEN TO_DATE(e.ANSWER) \n    END) AS commencement_date\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m\n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_details'}}
+2025-05-09 23:57:41 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n    e.STORE_NO,\n    MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%start date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%start date%' \n          OR LOWER(m.TYPE) LIKE '%start date%' \n        THEN TO_DATE(e.ANSWER) \n    END) AS start_date,\n    MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%end date%' \n          OR LOWER(m.TYPE) LIKE '%end date%' \n        THEN TO_DATE(e.ANSWER) \n    END) AS end_date,\n    MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%expiration date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration date%' \n          OR LOWER(m.TYPE) LIKE '%expiration date%' \n        THEN TO_DATE(e.ANSWER) \n    END) AS expiration_date,\n    MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%commencement date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%commencement date%' \n          OR LOWER(m.TYPE) LIKE '%commencement date%' \n        THEN TO_DATE(e.ANSWER) \n    END) AS commencement_date\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m\n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_details'}}
+2025-05-09 23:57:41 - nlq_service - ERROR - Error executing NLQ: Private key file exists but could not be loaded. Check if passphrase is required.
+2025-05-09 23:57:46 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n  e.STORE_NO,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%start date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%start date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS start_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%end date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS end_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%expiration date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS expiration_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%renewal date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%renewal date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS renewal_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%termination date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%termination date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS termination_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%agreement date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%agreement date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS agreement_date\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m\n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_details'}}
+2025-05-09 23:57:46 - nlq_service - DEBUG - Processing NLQ: Extract all key dates from this contract
+2025-05-09 23:57:46 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-09 23:57:46 - nlq_service - DEBUG - Entity hints: None
+2025-05-09 23:57:46 - nlq_service - DEBUG - SQL hint: None
+2025-05-09 23:57:46 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n  e.STORE_NO,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%start date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%start date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS start_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%end date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS end_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%expiration date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS expiration_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%renewal date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%renewal date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS renewal_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%termination date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%termination date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS termination_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%agreement date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%agreement date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS agreement_date\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m\n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_details'}}
+2025-05-09 23:57:46 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n  e.STORE_NO,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%start date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%start date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS start_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%end date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%end date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS end_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%expiration date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%expiration date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS expiration_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%renewal date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%renewal date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS renewal_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%termination date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%termination date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS termination_date,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%agreement date%' \n          OR LOWER(m.DESCRIPTION) LIKE '%agreement date%' \n        THEN TO_DATE(e.ANSWER) \n      END) AS agreement_date\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m\n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_details'}}
+2025-05-09 23:57:46 - nlq_service - ERROR - Error executing NLQ: Private key file exists but could not be loaded. Check if passphrase is required.
+2025-05-10 00:01:38 - nlq_service - DEBUG - Processing NLQ: Summarize the payment terms in this agreement
+2025-05-10 00:01:38 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-10 00:01:38 - nlq_service - DEBUG - Entity hints: None
+2025-05-10 00:01:38 - nlq_service - DEBUG - SQL hint: None
+2025-05-10 00:01:39 - nlq_service - DEBUG - Processing NLQ: Summarize the payment terms in this agreement
+2025-05-10 00:01:39 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-10 00:01:39 - nlq_service - DEBUG - Entity hints: None
+2025-05-10 00:01:39 - nlq_service - DEBUG - SQL hint: None
+2025-05-10 00:01:48 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n  e.STORE_NO,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%payment terms%' \n          OR LOWER(m.DESCRIPTION) LIKE '%payment terms%' \n          OR LOWER(m.TYPE) LIKE '%payment terms%' \n        THEN e.ANSWER \n      END) AS payment_terms\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m \n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_terms'}}
+2025-05-10 00:01:48 - nlq_service - DEBUG - Processing NLQ: Summarize the payment terms in this agreement
+2025-05-10 00:01:48 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-10 00:01:48 - nlq_service - DEBUG - Entity hints: None
+2025-05-10 00:01:48 - nlq_service - DEBUG - SQL hint: None
+2025-05-10 00:01:48 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n  e.STORE_NO,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%payment terms%' \n          OR LOWER(m.DESCRIPTION) LIKE '%payment terms%' \n          OR LOWER(m.TYPE) LIKE '%payment terms%' \n        THEN e.ANSWER \n      END) AS payment_terms\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m \n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_terms'}}
+2025-05-10 00:01:48 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n  e.STORE_NO,\n  MAX(CASE \n        WHEN LOWER(m.NAME) LIKE '%payment terms%' \n          OR LOWER(m.DESCRIPTION) LIKE '%payment terms%' \n          OR LOWER(m.TYPE) LIKE '%payment terms%' \n        THEN e.ANSWER \n      END) AS payment_terms\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m \n  ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_terms'}}
+2025-05-10 00:01:48 - nlq_service - ERROR - Error executing NLQ: Private key file exists but could not be loaded. Check if passphrase is required.
+2025-05-10 00:01:49 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n    e.STORE_NO,\n    MAX(CASE WHEN lower(m.name) LIKE '%rent%' THEN e.ANSWER END) AS rent,\n    MAX(CASE WHEN lower(m.name) LIKE '%tax%' THEN e.ANSWER END) AS taxes,\n    MAX(CASE WHEN lower(m.name) LIKE '%cam%' THEN e.ANSWER END) AS cam,\n    MAX(CASE WHEN lower(m.name) LIKE '%insurance%' THEN e.ANSWER END) AS insurance\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m \n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_terms'}}
+2025-05-10 00:01:49 - nlq_service - DEBUG - Processing NLQ: Summarize the payment terms in this agreement
+2025-05-10 00:01:49 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-10 00:01:49 - nlq_service - DEBUG - Entity hints: None
+2025-05-10 00:01:49 - nlq_service - DEBUG - SQL hint: None
+2025-05-10 00:01:49 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n    e.STORE_NO,\n    MAX(CASE WHEN lower(m.name) LIKE '%rent%' THEN e.ANSWER END) AS rent,\n    MAX(CASE WHEN lower(m.name) LIKE '%tax%' THEN e.ANSWER END) AS taxes,\n    MAX(CASE WHEN lower(m.name) LIKE '%cam%' THEN e.ANSWER END) AS cam,\n    MAX(CASE WHEN lower(m.name) LIKE '%insurance%' THEN e.ANSWER END) AS insurance\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m \n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_terms'}}
+2025-05-10 00:01:49 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT \n    e.STORE_NO,\n    MAX(CASE WHEN lower(m.name) LIKE '%rent%' THEN e.ANSWER END) AS rent,\n    MAX(CASE WHEN lower(m.name) LIKE '%tax%' THEN e.ANSWER END) AS taxes,\n    MAX(CASE WHEN lower(m.name) LIKE '%cam%' THEN e.ANSWER END) AS cam,\n    MAX(CASE WHEN lower(m.name) LIKE '%insurance%' THEN e.ANSWER END) AS insurance\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m \n    ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_terms'}}
+2025-05-10 00:01:49 - nlq_service - ERROR - Error executing NLQ: Private key file exists but could not be loaded. Check if passphrase is required.
+2025-05-10 00:32:01 - nlq_service - DEBUG - Processing NLQ: What are the termination conditions in this document?
+2025-05-10 00:32:01 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-10 00:32:01 - nlq_service - DEBUG - Entity hints: None
+2025-05-10 00:32:01 - nlq_service - DEBUG - SQL hint: None
+2025-05-10 00:32:04 - nlq_service - DEBUG - Processing NLQ: What are the termination conditions in this document?
+2025-05-10 00:32:04 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-10 00:32:04 - nlq_service - DEBUG - Entity hints: None
+2025-05-10 00:32:04 - nlq_service - DEBUG - SQL hint: None
+2025-05-10 00:32:12 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(CASE\n        WHEN LOWER(m.NAME) LIKE '%termination%'\n          OR LOWER(m.DESCRIPTION) LIKE '%termination%'\n          OR LOWER(m.TYPE) LIKE '%termination%'\n        THEN e.ANSWER\n      END) AS termination_conditions\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_terms'}}
+2025-05-10 00:32:12 - nlq_service - DEBUG - Processing NLQ: What are the termination conditions in this document?
+2025-05-10 00:32:12 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-10 00:32:12 - nlq_service - DEBUG - Entity hints: None
+2025-05-10 00:32:12 - nlq_service - DEBUG - SQL hint: None
+2025-05-10 00:32:12 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(CASE\n        WHEN LOWER(m.NAME) LIKE '%termination%'\n          OR LOWER(m.DESCRIPTION) LIKE '%termination%'\n          OR LOWER(m.TYPE) LIKE '%termination%'\n        THEN e.ANSWER\n      END) AS termination_conditions\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_terms'}}
+2025-05-10 00:32:12 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(CASE\n        WHEN LOWER(m.NAME) LIKE '%termination%'\n          OR LOWER(m.DESCRIPTION) LIKE '%termination%'\n          OR LOWER(m.TYPE) LIKE '%termination%'\n        THEN e.ANSWER\n      END) AS termination_conditions\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_terms'}}
+2025-05-10 00:32:12 - nlq_service - ERROR - Error executing NLQ: Private key file exists but could not be loaded. Check if passphrase is required.
+2025-05-10 00:32:14 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(\n    CASE\n      WHEN LOWER(m.NAME) LIKE '%termination%' \n        OR LOWER(m.DESCRIPTION) LIKE '%termination%' \n        OR LOWER(m.TYPE) LIKE '%termination%'\n      THEN e.ANSWER\n    END\n  ) AS termination_conditions\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_terms'}}
+2025-05-10 00:32:14 - nlq_service - DEBUG - Processing NLQ: What are the termination conditions in this document?
+2025-05-10 00:32:14 - nlq_service - DEBUG - Using LLM-based SQL generator
+2025-05-10 00:32:14 - nlq_service - DEBUG - Entity hints: None
+2025-05-10 00:32:14 - nlq_service - DEBUG - SQL hint: None
+2025-05-10 00:32:14 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(\n    CASE\n      WHEN LOWER(m.NAME) LIKE '%termination%' \n        OR LOWER(m.DESCRIPTION) LIKE '%termination%' \n        OR LOWER(m.TYPE) LIKE '%termination%'\n      THEN e.ANSWER\n    END\n  ) AS termination_conditions\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_terms'}}
+2025-05-10 00:32:14 - nlq_service - DEBUG - SQL generation result: {'success': True, 'query': "SELECT\n  e.STORE_NO,\n  MAX(\n    CASE\n      WHEN LOWER(m.NAME) LIKE '%termination%' \n        OR LOWER(m.DESCRIPTION) LIKE '%termination%' \n        OR LOWER(m.TYPE) LIKE '%termination%'\n      THEN e.ANSWER\n    END\n  ) AS termination_conditions\nFROM TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e\nLEFT JOIN TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID\nGROUP BY e.STORE_NO\nLIMIT 100;", 'confidence': 0.9, 'tables': ['TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER', 'TSC_DEV_DB.STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES'], 'metadata': {'source': 'llm', 'intent': 'lease_terms'}}
+2025-05-10 00:32:14 - nlq_service - ERROR - Error executing NLQ: Private key file exists but could not be loaded. Check if passphrase is required.
+2025-05-10 17:45:56 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-10 17:45:56 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-10 20:32:21 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-10 20:32:21 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-11 20:33:31 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-11 20:33:31 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 11:49:38 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 11:49:38 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 11:51:40 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 11:51:40 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 11:54:14 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 11:54:14 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 12:13:46 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 12:13:46 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 12:18:20 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 12:18:20 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 12:25:55 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 12:25:55 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 12:32:40 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 12:32:40 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 12:33:10 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 12:33:10 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 17:06:32 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-22 17:06:32 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-23 09:36:36 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-23 09:36:36 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-25 12:24:25 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-25 12:24:25 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-26 11:32:47 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-26 11:32:47 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-26 12:40:42 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-26 12:40:42 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-26 14:32:25 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-26 14:32:25 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-26 14:54:48 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-26 14:54:48 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-26 15:16:34 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-26 15:16:34 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 13:04:40 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 13:04:40 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:10:10 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:10:10 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:14:19 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:14:19 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:14:33 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:14:33 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:14:40 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:14:40 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:16:58 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:16:58 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:17:06 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:17:06 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:28:57 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:28:57 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:29:05 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:29:05 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:29:12 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:29:12 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:32:47 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:32:47 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:47:37 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:47:37 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:47:37 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:47:37 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:47:48 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:47:48 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:47:48 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:47:48 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:50:16 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:50:16 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:50:16 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:50:16 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:50:27 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:50:27 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:50:27 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:50:27 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:51:38 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:51:38 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:51:38 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:51:38 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:51:47 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:51:47 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:51:47 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:51:47 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:52:48 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:52:48 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:52:48 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:52:48 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:54:24 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:54:24 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:57:02 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:57:02 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:57:52 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:57:52 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:58:58 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 15:58:58 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 16:00:04 - nlq_service - INFO - SnowflakeCortexService initialized
+2025-05-29 16:00:04 - nlq_service - INFO - SnowflakeCortexService initialized

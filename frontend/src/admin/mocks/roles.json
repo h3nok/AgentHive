@@ -1,0 +1,16 @@
+[
+  {
+    "id": 1,
+    "name": "Admin",
+    "description": "Full access to all admin features.",
+    "permissions": ["users:read", "users:write", "agents:read", "agents:write", "routing:edit"],
+    "createdAt": "2024-05-01T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "name": "User",
+    "description": "Basic user with limited access.",
+    "permissions": ["users:read"],
+    "createdAt": "2024-05-10T14:30:00Z"
+  }
+] 

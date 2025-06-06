@@ -1,0 +1,27 @@
+id: ukg_clock
+name: "Clock In/Out via UKG"
+description: "Handles employee clock in and clock out via UKG."
+triggers:
+  - intent: clock_action
+    entities: [clock_action, timestamp, location]
+steps:
+  - id: extract_params
+    type: llm_extract
+    prompt: "Extract clock_action (in/out), timestamp, and location from: '{{user_input}}'"
+    next: submit_clock
+
+  - id: submit_clock
+    type: connector_call
+    connector: ukg
+    action: "{{ctx.clock_action}}"
+    params:
+      employee_id: "{{session.user_id}}"
+      timestamp: "{{ctx.timestamp}}"
+      location: "{{ctx.location}}"
+    save_as: clock_result
+    next: final_ack
+
+  - id: final_ack
+    type: respond
+    message: "Clock {{ctx.clock_action}} successful at {{ctx.timestamp}} ({{ctx.location}})."
+    end: true 

@@ -1,0 +1,637 @@
+2025-05-11 20:33:30.874!utc | INFO | Using uvloop for enhanced async performance
+2025-05-11 20:33:30.905!utc | INFO | LLMService → provider=azure
+2025-05-11 20:33:30.905!utc | INFO | LLMSQLGenerator initialized
+2025-05-11 20:33:31.076!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-11 20:33:31.076!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-11 20:33:31.077!utc | INFO | Private key passphrase provided: True
+2025-05-11 20:33:31.077!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-11 20:33:31.077!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-11 20:33:31.077!utc | INFO | LLMService → provider=azure
+2025-05-11 20:33:31.078!utc | INFO | LLMSQLGenerator initialized
+2025-05-11 20:33:31.078!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-11 20:33:31.078!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-11 20:33:31.078!utc | INFO | Private key passphrase provided: True
+2025-05-11 20:33:31.078!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-11 20:33:31.078!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-11 20:33:31.079!utc | INFO | SnowflakeCortexService initialized
+2025-05-11 20:33:31.079!utc | INFO | LLMService → provider=azure
+2025-05-11 20:33:31.079!utc | INFO | LLMService → provider=azure
+2025-05-11 20:33:31.079!utc | INFO | LLMSQLGenerator initialized
+2025-05-11 20:33:31.079!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-11 20:33:31.079!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-11 20:33:31.079!utc | INFO | Private key passphrase provided: True
+2025-05-11 20:33:31.080!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-11 20:33:31.080!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-11 20:33:31.080!utc | INFO | SnowflakeCortexService initialized
+2025-05-11 20:33:31.080!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-11 20:33:31.159!utc | INFO | Starting Lease Administration Agent API
+2025-05-11 20:33:31.160!utc | INFO | Using LLM provider: azure
+2025-05-11 20:33:31.160!utc | INFO | Initializing Redis client
+2025-05-11 20:33:31.160!utc | INFO | Selected Database Backend: redis
+2025-05-11 20:33:31.160!utc | INFO | Attempting Redis connection (Attempt 1):
+2025-05-11 20:33:31.160!utc | INFO |   Host: localhost
+2025-05-11 20:33:31.160!utc | INFO |   Port: 6379
+2025-05-11 20:33:31.161!utc | INFO |   DB: 0
+2025-05-11 20:33:31.161!utc | INFO |   Password: Provided
+2025-05-11 20:33:31.195!utc | INFO | ✅ Redis connection successful
+2025-05-11 20:33:31.196!utc | INFO | Redis Server Version: 7.2.7
+2025-05-11 20:33:31.196!utc | INFO | Connected to Database: 0
+2025-05-11 20:33:31.196!utc | INFO | Redis client initialized successfully
+2025-05-11 20:33:31.196!utc | INFO | Redis client initialized successfully
+2025-05-11 20:33:31.196!utc | INFO | Initializing Redis models
+2025-05-11 20:33:31.196!utc | INFO | Using provided Redis client for models
+2025-05-11 20:33:31.196!utc | INFO | Redis models initialized successfully
+2025-05-12 09:16:39.927!utc | INFO | Shutting down Lease Administration Agent API
+2025-05-12 09:16:39.927!utc | ERROR | Error closing LLM service connections: 'LLMService' object has no attribute 'close'
+2025-05-22 11:49:38.167!utc | INFO | Using uvloop for enhanced async performance
+2025-05-22 11:49:38.253!utc | INFO | LLMService → provider=azure
+2025-05-22 11:49:38.254!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 11:49:38.576!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 11:49:38.577!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 11:49:38.577!utc | INFO | Private key passphrase provided: True
+2025-05-22 11:49:38.577!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 11:49:38.577!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 11:49:38.578!utc | INFO | LLMService → provider=azure
+2025-05-22 11:49:38.578!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 11:49:38.578!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 11:49:38.578!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 11:49:38.578!utc | INFO | Private key passphrase provided: True
+2025-05-22 11:49:38.578!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 11:49:38.579!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 11:49:38.579!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 11:49:38.579!utc | INFO | LLMService → provider=azure
+2025-05-22 11:49:38.579!utc | INFO | LLMService → provider=azure
+2025-05-22 11:49:38.579!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 11:49:38.579!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 11:49:38.580!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 11:49:38.580!utc | INFO | Private key passphrase provided: True
+2025-05-22 11:49:38.580!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 11:49:38.580!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 11:49:38.580!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 11:49:38.580!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-22 11:49:38.951!utc | INFO | Starting Lease Administration Agent API
+2025-05-22 11:49:38.951!utc | INFO | Using LLM provider: azure
+2025-05-22 11:49:38.952!utc | INFO | Initializing Redis client
+2025-05-22 11:49:38.952!utc | INFO | Selected Database Backend: redis
+2025-05-22 11:49:38.952!utc | INFO | Attempting Redis connection (Attempt 1):
+2025-05-22 11:49:38.952!utc | INFO |   Host: localhost
+2025-05-22 11:49:38.952!utc | INFO |   Port: 6379
+2025-05-22 11:49:38.952!utc | INFO |   DB: 0
+2025-05-22 11:49:38.952!utc | INFO |   Password: Provided
+2025-05-22 11:49:38.956!utc | INFO | ✅ Redis connection successful
+2025-05-22 11:49:38.957!utc | INFO | Redis Server Version: 8.0.0
+2025-05-22 11:49:38.957!utc | INFO | Connected to Database: 0
+2025-05-22 11:49:38.957!utc | INFO | Redis client initialized successfully
+2025-05-22 11:49:38.957!utc | INFO | Redis client initialized successfully
+2025-05-22 11:49:38.957!utc | INFO | Initializing Redis models
+2025-05-22 11:49:38.958!utc | INFO | Using provided Redis client for models
+2025-05-22 11:49:38.958!utc | INFO | Redis models initialized successfully
+2025-05-22 11:51:39.967!utc | INFO | Using uvloop for enhanced async performance
+2025-05-22 11:51:39.982!utc | INFO | LLMService → provider=azure
+2025-05-22 11:51:39.982!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 11:51:40.061!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 11:51:40.062!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 11:51:40.062!utc | INFO | Private key passphrase provided: True
+2025-05-22 11:51:40.062!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 11:51:40.062!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 11:51:40.062!utc | INFO | LLMService → provider=azure
+2025-05-22 11:51:40.063!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 11:51:40.063!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 11:51:40.063!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 11:51:40.063!utc | INFO | Private key passphrase provided: True
+2025-05-22 11:51:40.063!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 11:51:40.063!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 11:51:40.064!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 11:51:40.064!utc | INFO | LLMService → provider=azure
+2025-05-22 11:51:40.064!utc | INFO | LLMService → provider=azure
+2025-05-22 11:51:40.064!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 11:51:40.064!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 11:51:40.065!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 11:51:40.065!utc | INFO | Private key passphrase provided: True
+2025-05-22 11:51:40.065!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 11:51:40.065!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 11:51:40.065!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 11:51:40.065!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-22 11:51:40.103!utc | INFO | Starting Lease Administration Agent API
+2025-05-22 11:51:40.103!utc | INFO | Using LLM provider: azure
+2025-05-22 11:51:40.103!utc | INFO | Initializing Redis client
+2025-05-22 11:51:40.103!utc | INFO | Selected Database Backend: redis
+2025-05-22 11:51:40.103!utc | INFO | Attempting Redis connection (Attempt 1):
+2025-05-22 11:51:40.103!utc | INFO |   Host: localhost
+2025-05-22 11:51:40.104!utc | INFO |   Port: 6379
+2025-05-22 11:51:40.104!utc | INFO |   DB: 0
+2025-05-22 11:51:40.104!utc | INFO |   Password: Provided
+2025-05-22 11:51:40.107!utc | INFO | ✅ Redis connection successful
+2025-05-22 11:51:40.107!utc | INFO | Redis Server Version: 8.0.0
+2025-05-22 11:51:40.107!utc | INFO | Connected to Database: 0
+2025-05-22 11:51:40.107!utc | INFO | Redis client initialized successfully
+2025-05-22 11:51:40.107!utc | INFO | Redis client initialized successfully
+2025-05-22 11:51:40.107!utc | INFO | Initializing Redis models
+2025-05-22 11:51:40.108!utc | INFO | Using provided Redis client for models
+2025-05-22 11:51:40.108!utc | INFO | Redis models initialized successfully
+2025-05-22 11:54:12.851!utc | INFO | Shutting down Lease Administration Agent API
+2025-05-22 11:54:14.870!utc | INFO | Using uvloop for enhanced async performance
+2025-05-22 11:54:14.885!utc | INFO | LLMService → provider=azure
+2025-05-22 11:54:14.885!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 11:54:14.967!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 11:54:14.967!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 11:54:14.967!utc | INFO | Private key passphrase provided: True
+2025-05-22 11:54:14.967!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 11:54:14.968!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 11:54:14.968!utc | INFO | LLMService → provider=azure
+2025-05-22 11:54:14.968!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 11:54:14.968!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 11:54:14.969!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 11:54:14.969!utc | INFO | Private key passphrase provided: True
+2025-05-22 11:54:14.969!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 11:54:14.969!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 11:54:14.969!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 11:54:14.969!utc | INFO | LLMService → provider=azure
+2025-05-22 11:54:14.970!utc | INFO | LLMService → provider=azure
+2025-05-22 11:54:14.970!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 11:54:14.970!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 11:54:14.970!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 11:54:14.970!utc | INFO | Private key passphrase provided: True
+2025-05-22 11:54:14.970!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 11:54:14.970!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 11:54:14.971!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 11:54:14.971!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-22 11:54:15.007!utc | INFO | Starting Lease Administration Agent API
+2025-05-22 11:54:15.007!utc | INFO | Using LLM provider: azure
+2025-05-22 11:54:15.007!utc | INFO | Initializing Redis client
+2025-05-22 11:54:15.008!utc | INFO | Selected Database Backend: redis
+2025-05-22 11:54:15.008!utc | INFO | Attempting Redis connection (Attempt 1):
+2025-05-22 11:54:15.008!utc | INFO |   Host: localhost
+2025-05-22 11:54:15.008!utc | INFO |   Port: 6379
+2025-05-22 11:54:15.008!utc | INFO |   DB: 0
+2025-05-22 11:54:15.009!utc | INFO |   Password: Provided
+2025-05-22 11:54:15.011!utc | INFO | ✅ Redis connection successful
+2025-05-22 11:54:15.012!utc | INFO | Redis Server Version: 8.0.0
+2025-05-22 11:54:15.012!utc | INFO | Connected to Database: 0
+2025-05-22 11:54:15.012!utc | INFO | Redis client initialized successfully
+2025-05-22 11:54:15.012!utc | INFO | Redis client initialized successfully
+2025-05-22 11:54:15.012!utc | INFO | Initializing Redis models
+2025-05-22 11:54:15.012!utc | INFO | Using provided Redis client for models
+2025-05-22 11:54:15.012!utc | INFO | Redis models initialized successfully
+2025-05-22 12:13:46.299!utc | INFO | Using uvloop for enhanced async performance
+2025-05-22 12:13:46.315!utc | INFO | LLMService → provider=azure
+2025-05-22 12:13:46.315!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 12:13:46.405!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 12:13:46.405!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 12:13:46.406!utc | INFO | Private key passphrase provided: True
+2025-05-22 12:13:46.406!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 12:13:46.406!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 12:13:46.407!utc | INFO | LLMService → provider=azure
+2025-05-22 12:13:46.407!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 12:13:46.407!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 12:13:46.407!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 12:13:46.407!utc | INFO | Private key passphrase provided: True
+2025-05-22 12:13:46.407!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 12:13:46.408!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 12:13:46.408!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 12:13:46.408!utc | INFO | LLMService → provider=azure
+2025-05-22 12:13:46.408!utc | INFO | LLMService → provider=azure
+2025-05-22 12:13:46.408!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 12:13:46.408!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 12:13:46.409!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 12:13:46.409!utc | INFO | Private key passphrase provided: True
+2025-05-22 12:13:46.409!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 12:13:46.409!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 12:13:46.409!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 12:13:46.409!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-22 12:13:46.447!utc | INFO | Starting Lease Administration Agent API
+2025-05-22 12:13:46.447!utc | INFO | Using LLM provider: azure
+2025-05-22 12:13:46.448!utc | INFO | Initializing Redis client
+2025-05-22 12:13:46.448!utc | INFO | Selected Database Backend: redis
+2025-05-22 12:13:46.448!utc | INFO | Attempting Redis connection (Attempt 1):
+2025-05-22 12:13:46.448!utc | INFO |   Host: localhost
+2025-05-22 12:13:46.448!utc | INFO |   Port: 6379
+2025-05-22 12:13:46.448!utc | INFO |   DB: 0
+2025-05-22 12:13:46.449!utc | INFO |   Password: Provided
+2025-05-22 12:13:46.451!utc | INFO | ✅ Redis connection successful
+2025-05-22 12:13:46.452!utc | INFO | Redis Server Version: 8.0.0
+2025-05-22 12:13:46.452!utc | INFO | Connected to Database: 0
+2025-05-22 12:13:46.452!utc | INFO | Redis client initialized successfully
+2025-05-22 12:13:46.452!utc | INFO | Redis client initialized successfully
+2025-05-22 12:13:46.452!utc | INFO | Initializing Redis models
+2025-05-22 12:13:46.452!utc | INFO | Using provided Redis client for models
+2025-05-22 12:13:46.453!utc | INFO | Redis models initialized successfully
+2025-05-22 12:18:18.793!utc | INFO | Shutting down Lease Administration Agent API
+2025-05-22 12:18:18.793!utc | INFO | Closed LLM service connections
+2025-05-22 12:18:20.826!utc | INFO | Using uvloop for enhanced async performance
+2025-05-22 12:18:20.841!utc | INFO | LLMService → provider=azure
+2025-05-22 12:18:20.842!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 12:18:20.922!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 12:18:20.923!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 12:18:20.923!utc | INFO | Private key passphrase provided: True
+2025-05-22 12:18:20.923!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 12:18:20.923!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 12:18:20.924!utc | INFO | LLMService → provider=azure
+2025-05-22 12:18:20.924!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 12:18:20.924!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 12:18:20.924!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 12:18:20.924!utc | INFO | Private key passphrase provided: True
+2025-05-22 12:18:20.925!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 12:18:20.925!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 12:18:20.925!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 12:18:20.925!utc | INFO | LLMService → provider=azure
+2025-05-22 12:18:20.925!utc | INFO | LLMService → provider=azure
+2025-05-22 12:18:20.926!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 12:18:20.926!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 12:18:20.926!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 12:18:20.926!utc | INFO | Private key passphrase provided: True
+2025-05-22 12:18:20.926!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 12:18:20.926!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 12:18:20.926!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 12:18:20.927!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-22 12:18:20.962!utc | INFO | Starting Lease Administration Agent API
+2025-05-22 12:18:20.963!utc | INFO | Using LLM provider: azure
+2025-05-22 12:18:20.963!utc | INFO | Initializing Redis client
+2025-05-22 12:18:20.963!utc | INFO | Selected Database Backend: redis
+2025-05-22 12:18:20.963!utc | INFO | Attempting Redis connection (Attempt 1):
+2025-05-22 12:18:20.963!utc | INFO |   Host: localhost
+2025-05-22 12:18:20.963!utc | INFO |   Port: 6379
+2025-05-22 12:18:20.964!utc | INFO |   DB: 0
+2025-05-22 12:18:20.964!utc | INFO |   Password: Provided
+2025-05-22 12:18:20.966!utc | INFO | ✅ Redis connection successful
+2025-05-22 12:18:20.967!utc | INFO | Redis Server Version: 8.0.0
+2025-05-22 12:18:20.967!utc | INFO | Connected to Database: 0
+2025-05-22 12:18:20.967!utc | INFO | Redis client initialized successfully
+2025-05-22 12:18:20.967!utc | INFO | Redis client initialized successfully
+2025-05-22 12:18:20.967!utc | INFO | Initializing Redis models
+2025-05-22 12:18:20.968!utc | INFO | Using provided Redis client for models
+2025-05-22 12:18:20.968!utc | INFO | Redis models initialized successfully
+2025-05-22 12:25:55.178!utc | INFO | Using uvloop for enhanced async performance
+2025-05-22 12:25:55.194!utc | INFO | LLMService → provider=azure
+2025-05-22 12:25:55.194!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 12:25:55.283!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 12:25:55.284!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 12:25:55.284!utc | INFO | Private key passphrase provided: True
+2025-05-22 12:25:55.284!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 12:25:55.284!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 12:25:55.285!utc | INFO | LLMService → provider=azure
+2025-05-22 12:25:55.285!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 12:25:55.285!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 12:25:55.285!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 12:25:55.285!utc | INFO | Private key passphrase provided: True
+2025-05-22 12:25:55.285!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 12:25:55.286!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 12:25:55.286!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 12:25:55.286!utc | INFO | LLMService → provider=azure
+2025-05-22 12:25:55.286!utc | INFO | LLMService → provider=azure
+2025-05-22 12:25:55.286!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 12:25:55.287!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 12:25:55.287!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 12:25:55.287!utc | INFO | Private key passphrase provided: True
+2025-05-22 12:25:55.287!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 12:25:55.287!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 12:25:55.287!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 12:25:55.287!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-22 12:25:55.324!utc | INFO | Starting Lease Administration Agent API
+2025-05-22 12:25:55.324!utc | INFO | Using LLM provider: azure
+2025-05-22 12:25:55.325!utc | INFO | Initializing Redis client
+2025-05-22 12:25:55.325!utc | INFO | Selected Database Backend: redis
+2025-05-22 12:25:55.325!utc | INFO | Attempting Redis connection (Attempt 1):
+2025-05-22 12:25:55.325!utc | INFO |   Host: localhost
+2025-05-22 12:25:55.326!utc | INFO |   Port: 6379
+2025-05-22 12:25:55.326!utc | INFO |   DB: 0
+2025-05-22 12:25:55.326!utc | INFO |   Password: Provided
+2025-05-22 12:25:55.328!utc | INFO | ✅ Redis connection successful
+2025-05-22 12:25:55.329!utc | INFO | Redis Server Version: 8.0.0
+2025-05-22 12:25:55.329!utc | INFO | Connected to Database: 0
+2025-05-22 12:25:55.329!utc | INFO | Redis client initialized successfully
+2025-05-22 12:25:55.329!utc | INFO | Redis client initialized successfully
+2025-05-22 12:25:55.329!utc | INFO | Initializing Redis models
+2025-05-22 12:25:55.329!utc | INFO | Using provided Redis client for models
+2025-05-22 12:25:55.329!utc | INFO | Redis models initialized successfully
+2025-05-22 12:32:38.435!utc | INFO | Shutting down Lease Administration Agent API
+2025-05-22 12:32:38.435!utc | INFO | Closed LLM service connections
+2025-05-22 12:32:40.272!utc | INFO | Using uvloop for enhanced async performance
+2025-05-22 12:32:40.287!utc | INFO | LLMService → provider=azure
+2025-05-22 12:32:40.287!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 12:32:40.377!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 12:32:40.377!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 12:32:40.378!utc | INFO | Private key passphrase provided: True
+2025-05-22 12:32:40.378!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 12:32:40.378!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 12:32:40.378!utc | INFO | LLMService → provider=azure
+2025-05-22 12:32:40.379!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 12:32:40.379!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 12:32:40.379!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 12:32:40.379!utc | INFO | Private key passphrase provided: True
+2025-05-22 12:32:40.379!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 12:32:40.380!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 12:32:40.380!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 12:32:40.380!utc | INFO | LLMService → provider=azure
+2025-05-22 12:32:40.381!utc | INFO | LLMService → provider=azure
+2025-05-22 12:32:40.381!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 12:32:40.381!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 12:32:40.381!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 12:32:40.381!utc | INFO | Private key passphrase provided: True
+2025-05-22 12:32:40.381!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 12:32:40.382!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 12:32:40.382!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 12:32:40.382!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-22 12:32:40.420!utc | INFO | Starting Lease Administration Agent API
+2025-05-22 12:32:40.421!utc | INFO | Using LLM provider: azure
+2025-05-22 12:32:40.421!utc | INFO | Initializing Redis client
+2025-05-22 12:32:40.421!utc | INFO | Selected Database Backend: redis
+2025-05-22 12:32:40.421!utc | INFO | Attempting Redis connection (Attempt 1):
+2025-05-22 12:32:40.421!utc | INFO |   Host: localhost
+2025-05-22 12:32:40.422!utc | INFO |   Port: 6379
+2025-05-22 12:32:40.422!utc | INFO |   DB: 0
+2025-05-22 12:32:40.422!utc | INFO |   Password: Provided
+2025-05-22 12:32:40.424!utc | INFO | ✅ Redis connection successful
+2025-05-22 12:32:40.425!utc | INFO | Redis Server Version: 8.0.0
+2025-05-22 12:32:40.425!utc | INFO | Connected to Database: 0
+2025-05-22 12:32:40.425!utc | INFO | Redis client initialized successfully
+2025-05-22 12:32:40.426!utc | INFO | Redis client initialized successfully
+2025-05-22 12:32:40.426!utc | INFO | Initializing Redis models
+2025-05-22 12:32:40.426!utc | INFO | Using provided Redis client for models
+2025-05-22 12:32:40.426!utc | INFO | Redis models initialized successfully
+2025-05-22 12:33:08.390!utc | INFO | Shutting down Lease Administration Agent API
+2025-05-22 12:33:10.139!utc | INFO | Using uvloop for enhanced async performance
+2025-05-22 12:33:10.154!utc | INFO | LLMService → provider=azure
+2025-05-22 12:33:10.154!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 12:33:10.240!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 12:33:10.241!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 12:33:10.241!utc | INFO | Private key passphrase provided: True
+2025-05-22 12:33:10.241!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 12:33:10.241!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 12:33:10.242!utc | INFO | LLMService → provider=azure
+2025-05-22 12:33:10.242!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 12:33:10.242!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 12:33:10.242!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 12:33:10.242!utc | INFO | Private key passphrase provided: True
+2025-05-22 12:33:10.243!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 12:33:10.243!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 12:33:10.243!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 12:33:10.243!utc | INFO | LLMService → provider=azure
+2025-05-22 12:33:10.243!utc | INFO | LLMService → provider=azure
+2025-05-22 12:33:10.244!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 12:33:10.244!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 12:33:10.244!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 12:33:10.244!utc | INFO | Private key passphrase provided: True
+2025-05-22 12:33:10.244!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 12:33:10.244!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 12:33:10.245!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 12:33:10.245!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-22 12:33:10.282!utc | INFO | Starting Lease Administration Agent API
+2025-05-22 12:33:10.282!utc | INFO | Using LLM provider: azure
+2025-05-22 12:33:10.282!utc | INFO | Initializing Redis client
+2025-05-22 12:33:10.282!utc | INFO | Selected Database Backend: redis
+2025-05-22 12:33:10.282!utc | INFO | Attempting Redis connection (Attempt 1):
+2025-05-22 12:33:10.282!utc | INFO |   Host: localhost
+2025-05-22 12:33:10.282!utc | INFO |   Port: 6379
+2025-05-22 12:33:10.282!utc | INFO |   DB: 0
+2025-05-22 12:33:10.283!utc | INFO |   Password: Provided
+2025-05-22 12:33:10.285!utc | INFO | ✅ Redis connection successful
+2025-05-22 12:33:10.286!utc | INFO | Redis Server Version: 8.0.0
+2025-05-22 12:33:10.286!utc | INFO | Connected to Database: 0
+2025-05-22 12:33:10.286!utc | INFO | Redis client initialized successfully
+2025-05-22 12:33:10.286!utc | INFO | Redis client initialized successfully
+2025-05-22 12:33:10.286!utc | INFO | Initializing Redis models
+2025-05-22 12:33:10.286!utc | INFO | Using provided Redis client for models
+2025-05-22 12:33:10.287!utc | INFO | Redis models initialized successfully
+2025-05-22 17:06:32.520!utc | INFO | Using uvloop for enhanced async performance
+2025-05-22 17:06:32.543!utc | INFO | LLMService → provider=azure
+2025-05-22 17:06:32.543!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 17:06:32.806!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 17:06:32.806!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 17:06:32.807!utc | INFO | Private key passphrase provided: True
+2025-05-22 17:06:32.807!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 17:06:32.807!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 17:06:32.807!utc | INFO | LLMService → provider=azure
+2025-05-22 17:06:32.808!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 17:06:32.808!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 17:06:32.808!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 17:06:32.808!utc | INFO | Private key passphrase provided: True
+2025-05-22 17:06:32.808!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 17:06:32.808!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 17:06:32.809!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 17:06:32.809!utc | INFO | LLMService → provider=azure
+2025-05-22 17:06:32.809!utc | INFO | LLMService → provider=azure
+2025-05-22 17:06:32.809!utc | INFO | LLMSQLGenerator initialized
+2025-05-22 17:06:32.809!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-22 17:06:32.809!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-22 17:06:32.810!utc | INFO | Private key passphrase provided: True
+2025-05-22 17:06:32.810!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-22 17:06:32.810!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-22 17:06:32.810!utc | INFO | SnowflakeCortexService initialized
+2025-05-22 17:06:32.810!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-22 17:06:32.885!utc | INFO | Starting Lease Administration Agent API
+2025-05-22 17:06:32.885!utc | INFO | Using LLM provider: azure
+2025-05-22 17:06:32.886!utc | INFO | Initializing Redis client
+2025-05-22 17:06:32.886!utc | INFO | Selected Database Backend: redis
+2025-05-22 17:06:32.886!utc | INFO | Attempting Redis connection (Attempt 1):
+2025-05-22 17:06:32.886!utc | INFO |   Host: localhost
+2025-05-22 17:06:32.886!utc | INFO |   Port: 6379
+2025-05-22 17:06:32.887!utc | INFO |   DB: 0
+2025-05-22 17:06:32.887!utc | INFO |   Password: Provided
+2025-05-22 17:06:32.890!utc | INFO | ✅ Redis connection successful
+2025-05-22 17:06:32.891!utc | INFO | Redis Server Version: 8.0.0
+2025-05-22 17:06:32.891!utc | INFO | Connected to Database: 0
+2025-05-22 17:06:32.891!utc | INFO | Redis client initialized successfully
+2025-05-22 17:06:32.891!utc | INFO | Redis client initialized successfully
+2025-05-22 17:06:32.892!utc | INFO | Initializing Redis models
+2025-05-22 17:06:32.892!utc | INFO | Using provided Redis client for models
+2025-05-22 17:06:32.892!utc | INFO | Redis models initialized successfully
+2025-05-23 09:26:03.468!utc | INFO | Shutting down Lease Administration Agent API
+2025-05-23 09:36:36.817!utc | INFO | Using uvloop for enhanced async performance
+2025-05-23 09:36:36.843!utc | INFO | LLMService → provider=azure
+2025-05-23 09:36:36.843!utc | INFO | LLMSQLGenerator initialized
+2025-05-23 09:36:36.982!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-23 09:36:36.982!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-23 09:36:36.982!utc | INFO | Private key passphrase provided: True
+2025-05-23 09:36:36.983!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-23 09:36:36.983!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-23 09:36:36.983!utc | INFO | LLMService → provider=azure
+2025-05-23 09:36:36.983!utc | INFO | LLMSQLGenerator initialized
+2025-05-23 09:36:36.983!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-23 09:36:36.984!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-23 09:36:36.984!utc | INFO | Private key passphrase provided: True
+2025-05-23 09:36:36.984!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-23 09:36:36.984!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-23 09:36:36.984!utc | INFO | SnowflakeCortexService initialized
+2025-05-23 09:36:36.984!utc | INFO | LLMService → provider=azure
+2025-05-23 09:36:36.985!utc | INFO | LLMService → provider=azure
+2025-05-23 09:36:36.985!utc | INFO | LLMSQLGenerator initialized
+2025-05-23 09:36:36.985!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-23 09:36:36.985!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-23 09:36:36.985!utc | INFO | Private key passphrase provided: True
+2025-05-23 09:36:36.985!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-23 09:36:36.985!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-23 09:36:36.985!utc | INFO | SnowflakeCortexService initialized
+2025-05-23 09:36:36.986!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-23 09:36:37.043!utc | INFO | Starting Lease Administration Agent API
+2025-05-23 09:36:37.044!utc | INFO | Using LLM provider: azure
+2025-05-23 09:36:37.044!utc | INFO | Initializing Redis client
+2025-05-23 09:36:37.044!utc | INFO | Selected Database Backend: redis
+2025-05-23 09:36:37.044!utc | INFO | Attempting Redis connection (Attempt 1):
+2025-05-23 09:36:37.044!utc | INFO |   Host: localhost
+2025-05-23 09:36:37.045!utc | INFO |   Port: 6379
+2025-05-23 09:36:37.045!utc | INFO |   DB: 0
+2025-05-23 09:36:37.045!utc | INFO |   Password: Provided
+2025-05-23 09:36:37.076!utc | INFO | ✅ Redis connection successful
+2025-05-23 09:36:37.076!utc | INFO | Redis Server Version: 8.0.0
+2025-05-23 09:36:37.077!utc | INFO | Connected to Database: 0
+2025-05-23 09:36:37.077!utc | INFO | Redis client initialized successfully
+2025-05-23 09:36:37.077!utc | INFO | Redis client initialized successfully
+2025-05-23 09:36:37.077!utc | INFO | Initializing Redis models
+2025-05-23 09:36:37.077!utc | INFO | Using provided Redis client for models
+2025-05-23 09:36:37.078!utc | INFO | Redis models initialized successfully
+2025-05-25 12:24:25.613!utc | INFO | Using uvloop for enhanced async performance
+2025-05-25 12:24:25.637!utc | INFO | LLMService → provider=azure
+2025-05-25 12:24:25.637!utc | INFO | LLMSQLGenerator initialized
+2025-05-25 12:24:25.763!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-25 12:24:25.764!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-25 12:24:25.764!utc | INFO | Private key passphrase provided: True
+2025-05-25 12:24:25.764!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-25 12:24:25.764!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-25 12:24:25.764!utc | INFO | LLMService → provider=azure
+2025-05-25 12:24:25.765!utc | INFO | LLMSQLGenerator initialized
+2025-05-25 12:24:25.765!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-25 12:24:25.765!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-25 12:24:25.765!utc | INFO | Private key passphrase provided: True
+2025-05-25 12:24:25.765!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-25 12:24:25.765!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-25 12:24:25.766!utc | INFO | SnowflakeCortexService initialized
+2025-05-25 12:24:25.766!utc | INFO | LLMService → provider=azure
+2025-05-25 12:24:25.766!utc | INFO | LLMService → provider=azure
+2025-05-25 12:24:25.766!utc | INFO | LLMSQLGenerator initialized
+2025-05-25 12:24:25.766!utc | INFO | Snowflake credentials status - Account: True, User: True, Password: False, Private key: True
+2025-05-25 12:24:25.766!utc | INFO | Attempting to load private key from /Users/hghebrechristos/Keys/snowflake.p8
+2025-05-25 12:24:25.766!utc | INFO | Private key passphrase provided: True
+2025-05-25 12:24:25.767!utc | ERROR | Error loading Snowflake private key file: [Errno 2] No such file or directory: '/Users/hghebrechristos/Keys/snowflake.p8'
+2025-05-25 12:24:25.767!utc | INFO | Snowflake client initialized with account: tractorsupply.east-us-2.privatelink
+2025-05-25 12:24:25.767!utc | INFO | SnowflakeCortexService initialized
+2025-05-25 12:24:25.767!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-25 12:24:25.820!utc | INFO | Starting Lease Administration Agent API
+2025-05-25 12:24:25.820!utc | INFO | Using LLM provider: azure
+2025-05-25 12:24:25.820!utc | INFO | Initializing Redis client
+2025-05-25 12:24:25.821!utc | INFO | Selected Database Backend: redis
+2025-05-25 12:24:25.821!utc | INFO | Attempting Redis connection (Attempt 1):
+2025-05-25 12:24:25.821!utc | INFO |   Host: localhost
+2025-05-25 12:24:25.821!utc | INFO |   Port: 6379
+2025-05-25 12:24:25.821!utc | INFO |   DB: 0
+2025-05-25 12:24:25.821!utc | INFO |   Password: Provided
+2025-05-25 12:24:25.825!utc | INFO | ✅ Redis connection successful
+2025-05-25 12:24:25.826!utc | INFO | Redis Server Version: 8.0.0
+2025-05-25 12:24:25.826!utc | INFO | Connected to Database: 0
+2025-05-25 12:24:25.826!utc | INFO | Redis client initialized successfully
+2025-05-25 12:24:25.826!utc | INFO | Redis client initialized successfully
+2025-05-25 12:24:25.826!utc | INFO | Initializing Redis models
+2025-05-25 12:24:25.826!utc | INFO | Using provided Redis client for models
+2025-05-25 12:24:25.827!utc | INFO | Redis models initialized successfully
+2025-05-26 11:32:46.807!utc | INFO | Using uvloop for enhanced async performance
+2025-05-26 11:32:46.867!utc | INFO | LLMService → provider=ollama
+2025-05-26 11:32:46.867!utc | INFO | LLMSQLGenerator initialized
+2025-05-26 11:32:47.084!utc | INFO | Snowflake credentials status - Account: False, User: False, Password: False, Private key: False
+2025-05-26 11:32:47.084!utc | INFO | Snowflake client initialized with account: 
+2025-05-26 11:32:47.085!utc | INFO | LLMService → provider=ollama
+2025-05-26 11:32:47.085!utc | INFO | LLMSQLGenerator initialized
+2025-05-26 11:32:47.085!utc | INFO | Snowflake credentials status - Account: False, User: False, Password: False, Private key: False
+2025-05-26 11:32:47.086!utc | INFO | Snowflake client initialized with account: 
+2025-05-26 11:32:47.086!utc | INFO | SnowflakeCortexService initialized
+2025-05-26 11:32:47.086!utc | INFO | LLMService → provider=ollama
+2025-05-26 11:32:47.086!utc | INFO | LLMService → provider=ollama
+2025-05-26 11:32:47.086!utc | INFO | LLMSQLGenerator initialized
+2025-05-26 11:32:47.086!utc | INFO | Snowflake credentials status - Account: False, User: False, Password: False, Private key: False
+2025-05-26 11:32:47.086!utc | INFO | Snowflake client initialized with account: 
+2025-05-26 11:32:47.087!utc | INFO | SnowflakeCortexService initialized
+2025-05-26 11:32:47.087!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-26 11:32:47.104!utc | INFO | Starting Lease Administration Agent API
+2025-05-26 11:32:47.104!utc | INFO | Using LLM provider: ollama
+2025-05-26 11:32:47.104!utc | INFO | Initializing MongoDB models
+2025-05-26 11:32:47.113!utc | INFO | MongoDB models initialized successfully
+2025-05-26 12:40:35.287!utc | INFO | Shutting down Lease Administration Agent API
+2025-05-26 12:40:35.287!utc | INFO | Closed LLM service connections
+2025-05-26 12:40:42.340!utc | INFO | Using uvloop for enhanced async performance
+2025-05-26 12:40:42.421!utc | INFO | LLMService → provider=ollama
+2025-05-26 12:40:42.422!utc | INFO | LLMSQLGenerator initialized
+2025-05-26 12:40:42.559!utc | INFO | Snowflake credentials status - Account: False, User: False, Password: False, Private key: False
+2025-05-26 12:40:42.560!utc | INFO | Snowflake client initialized with account: 
+2025-05-26 12:40:42.560!utc | INFO | LLMService → provider=ollama
+2025-05-26 12:40:42.560!utc | INFO | LLMSQLGenerator initialized
+2025-05-26 12:40:42.561!utc | INFO | Snowflake credentials status - Account: False, User: False, Password: False, Private key: False
+2025-05-26 12:40:42.561!utc | INFO | Snowflake client initialized with account: 
+2025-05-26 12:40:42.561!utc | INFO | SnowflakeCortexService initialized
+2025-05-26 12:40:42.561!utc | INFO | LLMService → provider=ollama
+2025-05-26 12:40:42.561!utc | INFO | LLMService → provider=ollama
+2025-05-26 12:40:42.561!utc | INFO | LLMSQLGenerator initialized
+2025-05-26 12:40:42.562!utc | INFO | Snowflake credentials status - Account: False, User: False, Password: False, Private key: False
+2025-05-26 12:40:42.562!utc | INFO | Snowflake client initialized with account: 
+2025-05-26 12:40:42.562!utc | INFO | SnowflakeCortexService initialized
+2025-05-26 12:40:42.562!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-26 12:40:42.574!utc | INFO | Starting Lease Administration Agent API
+2025-05-26 12:40:42.574!utc | INFO | Using LLM provider: ollama
+2025-05-26 12:40:42.575!utc | INFO | Initializing MongoDB models
+2025-05-26 12:40:42.588!utc | INFO | MongoDB models initialized successfully
+2025-05-26 14:32:16.099!utc | INFO | Shutting down Lease Administration Agent API
+2025-05-26 14:32:16.099!utc | INFO | Closed LLM service connections
+2025-05-26 14:32:25.678!utc | INFO | Using uvloop for enhanced async performance
+2025-05-26 14:32:25.757!utc | INFO | LLMService → provider=ollama
+2025-05-26 14:32:25.757!utc | INFO | LLMSQLGenerator initialized
+2025-05-26 14:32:25.894!utc | INFO | Snowflake credentials status - Account: False, User: False, Password: False, Private key: False
+2025-05-26 14:32:25.894!utc | INFO | Snowflake client initialized with account: 
+2025-05-26 14:32:25.894!utc | INFO | LLMService → provider=ollama
+2025-05-26 14:32:25.894!utc | INFO | LLMSQLGenerator initialized
+2025-05-26 14:32:25.895!utc | INFO | Snowflake credentials status - Account: False, User: False, Password: False, Private key: False
+2025-05-26 14:32:25.895!utc | INFO | Snowflake client initialized with account: 
+2025-05-26 14:32:25.895!utc | INFO | SnowflakeCortexService initialized
+2025-05-26 14:32:25.895!utc | INFO | LLMService → provider=ollama
+2025-05-26 14:32:25.895!utc | INFO | LLMService → provider=ollama
+2025-05-26 14:32:25.895!utc | INFO | LLMSQLGenerator initialized
+2025-05-26 14:32:25.896!utc | INFO | Snowflake credentials status - Account: False, User: False, Password: False, Private key: False
+2025-05-26 14:32:25.896!utc | INFO | Snowflake client initialized with account: 
+2025-05-26 14:32:25.896!utc | INFO | SnowflakeCortexService initialized
+2025-05-26 14:32:25.896!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-26 14:32:25.908!utc | INFO | Starting Lease Administration Agent API
+2025-05-26 14:32:25.908!utc | INFO | Using LLM provider: ollama
+2025-05-26 14:32:25.908!utc | INFO | Initializing MongoDB models
+2025-05-26 14:32:25.921!utc | INFO | MongoDB models initialized successfully
+2025-05-26 14:54:48.232!utc | INFO | Shutting down Lease Administration Agent API
+2025-05-26 14:54:48.570!utc | INFO | Using uvloop for enhanced async performance
+2025-05-26 14:54:48.659!utc | INFO | LLMService → provider=ollama
+2025-05-26 14:54:48.660!utc | INFO | LLMSQLGenerator initialized
+2025-05-26 14:54:48.816!utc | INFO | Snowflake credentials status - Account: False, User: False, Password: False, Private key: False
+2025-05-26 14:54:48.816!utc | INFO | Snowflake client initialized with account: 
+2025-05-26 14:54:48.817!utc | INFO | LLMService → provider=ollama
+2025-05-26 14:54:48.817!utc | INFO | LLMSQLGenerator initialized
+2025-05-26 14:54:48.817!utc | INFO | Snowflake credentials status - Account: False, User: False, Password: False, Private key: False
+2025-05-26 14:54:48.817!utc | INFO | Snowflake client initialized with account: 
+2025-05-26 14:54:48.817!utc | INFO | SnowflakeCortexService initialized
+2025-05-26 14:54:48.818!utc | INFO | LLMService → provider=ollama
+2025-05-26 14:54:48.818!utc | INFO | LLMService → provider=ollama
+2025-05-26 14:54:48.818!utc | INFO | LLMSQLGenerator initialized
+2025-05-26 14:54:48.818!utc | INFO | Snowflake credentials status - Account: False, User: False, Password: False, Private key: False
+2025-05-26 14:54:48.818!utc | INFO | Snowflake client initialized with account: 
+2025-05-26 14:54:48.818!utc | INFO | SnowflakeCortexService initialized
+2025-05-26 14:54:48.818!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-26 14:54:48.834!utc | INFO | Starting Lease Administration Agent API
+2025-05-26 14:54:48.834!utc | INFO | Using LLM provider: ollama
+2025-05-26 14:54:48.835!utc | INFO | Initializing MongoDB models
+2025-05-26 14:54:48.848!utc | INFO | MongoDB models initialized successfully
+2025-05-26 15:16:33.815!utc | INFO | Shutting down Lease Administration Agent API
+2025-05-26 15:16:33.815!utc | INFO | Closed LLM service connections
+2025-05-26 15:16:34.146!utc | INFO | Using uvloop for enhanced async performance
+2025-05-26 15:16:34.231!utc | INFO | LLMService → provider=ollama
+2025-05-26 15:16:34.231!utc | INFO | LLMSQLGenerator initialized
+2025-05-26 15:16:34.372!utc | INFO | Snowflake credentials status - Account: False, User: False, Password: False, Private key: False
+2025-05-26 15:16:34.372!utc | INFO | Snowflake client initialized with account: 
+2025-05-26 15:16:34.373!utc | INFO | LLMService → provider=ollama
+2025-05-26 15:16:34.373!utc | INFO | LLMSQLGenerator initialized
+2025-05-26 15:16:34.373!utc | INFO | Snowflake credentials status - Account: False, User: False, Password: False, Private key: False
+2025-05-26 15:16:34.373!utc | INFO | Snowflake client initialized with account: 
+2025-05-26 15:16:34.373!utc | INFO | SnowflakeCortexService initialized
+2025-05-26 15:16:34.374!utc | INFO | LLMService → provider=ollama
+2025-05-26 15:16:34.374!utc | INFO | LLMService → provider=ollama
+2025-05-26 15:16:34.374!utc | INFO | LLMSQLGenerator initialized
+2025-05-26 15:16:34.374!utc | INFO | Snowflake credentials status - Account: False, User: False, Password: False, Private key: False
+2025-05-26 15:16:34.374!utc | INFO | Snowflake client initialized with account: 
+2025-05-26 15:16:34.374!utc | INFO | SnowflakeCortexService initialized
+2025-05-26 15:16:34.374!utc | INFO | LeaseAgentService initialized with prompt-template approach
+2025-05-26 15:16:34.388!utc | INFO | Starting Lease Administration Agent API
+2025-05-26 15:16:34.388!utc | INFO | Using LLM provider: ollama
+2025-05-26 15:16:34.388!utc | INFO | Initializing MongoDB models
+2025-05-26 15:16:34.400!utc | INFO | MongoDB models initialized successfully

@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "name": "Alice Smith",
+    "email": "alice@tsc.com",
+    "roles": ["Admin"],
+    "status": "Active",
+    "createdAt": "2024-05-01T10:00:00Z"
+  },
+  {
+    "id": 2,
+    "name": "Bob Johnson",
+    "email": "bob@tsc.com",
+    "roles": ["User"],
+    "status": "Disabled",
+    "createdAt": "2024-05-10T14:30:00Z"
+  }
+] 
