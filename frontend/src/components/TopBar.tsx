@@ -30,25 +30,25 @@ interface TopBarProps {
 // Agent configurations matching the input component
 const agentConfig = {
   lease: {
-    name: "TSC Lease Document Agent",
+    name: "Enterprise Document Agent",
     icon: <InsertDriveFileOutlinedIcon />,
     color: "#C60C30", // barnRed
     emoji: "🚜"
   },
   general: {
-    name: "TSC General Assistant", 
+    name: "Enterprise General Assistant", 
     icon: <SmartToyIcon />,
     color: "#1976d2",
     emoji: "🤖"
   },
   support: {
-    name: "TSC Customer Support",
+    name: "Enterprise Customer Support",
     icon: <PsychologyIcon />,
     color: "#2e7d32",
     emoji: "🛠️"
   },
   sales: {
-    name: "TSC Sales Expert",
+    name: "Enterprise Sales Expert",
     icon: <BarChartIcon />,
     color: "#ed6c02",
     emoji: "💼"

@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { store } from './store'; // Adjust path if necessary
 import App from './App';
-// Import Roboto Slab font for TSC theme
+// Import Roboto Slab font for Enterprise theme
 import '@fontsource/roboto-slab/300.css';
 import '@fontsource/roboto-slab/400.css';
 import '@fontsource/roboto-slab/500.css';

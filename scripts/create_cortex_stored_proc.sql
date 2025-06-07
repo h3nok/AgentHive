@@ -44,7 +44,7 @@ BEGIN
         -- Determine statuses
         LET statuses_array := ARRAY_CONSTRUCT();
         IF (CONTAINS(query_lower, 'tsc')) THEN
-            statuses_array := ARRAY_APPEND(statuses_array, 'TSC');
+            statuses_array := ARRAY_APPEND(statuses_array, 'Enterprise');
         END IF;
         IF (CONTAINS(query_lower, 'pts')) THEN
             statuses_array := ARRAY_APPEND(statuses_array, 'PTS');
@@ -111,6 +111,6 @@ $$;
 
 -- Example usage:
 -- CALL CORTEX_NLQ_TO_SQL('Who is the current property owner associated with AKA identifier ABC123?');
--- CALL CORTEX_NLQ_TO_SQL('List all covenants with status TSC or PTS for store number 456.');
+-- CALL CORTEX_NLQ_TO_SQL('List all covenants with status Enterprise or PTS for store number 456.');
 -- CALL CORTEX_NLQ_TO_SQL('Show all disaster recovery contacts along with their names and roles.');
 -- CALL CORTEX_NLQ_TO_SQL('Which leases are expiring within the next 12 months?'); 

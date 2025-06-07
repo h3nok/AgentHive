@@ -1,6 +1,6 @@
-# TSC ChatTSC API Testing Scripts
+# Enterprise API Testing Scripts
 
-This directory contains scripts for testing the TSC ChatTSC API.
+This directory contains scripts for testing the Enterprise API.
 
 ## test.sh
 
@@ -26,7 +26,7 @@ chmod +x scripts/test.sh
 
 ## test_lease_agent_api.py
 
-This script tests the TSC ChatTSC API endpoints by:
+This script tests the Enterprise API endpoints by:
 1. Creating a new session
 2. Submitting a prompt
 3. Checking session status
@@ -35,7 +35,7 @@ This script tests the TSC ChatTSC API endpoints by:
 
 ### Prerequisites
 
-- The TSC ChatTSC API server must be running on http://localhost:8000
+- The Enterprise API server must be running on http://localhost:8000
 - Python 3.6 or higher
 - The `requests` library is required
 
@@ -78,6 +78,6 @@ If all tests pass successfully, you'll see a final summary with the session ID t
 
 If the script fails, it will provide an error message indicating which step failed and why. Common issues:
 
-1. **Server not running**: Ensure the TSC ChatTSC API server is running on http://localhost:8000
+1. **Server not running**: Ensure the Enterprise API server is running on http://localhost:8000
 2. **Connection errors**: Check network connectivity
 3. **API changes**: If the API endpoints or data formats have changed, the script may need to be updated 

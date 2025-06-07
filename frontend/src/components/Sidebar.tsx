@@ -56,7 +56,6 @@ import { useCreateSessionMutation, useUpdateSessionMutation, useDeleteSessionMut
 import Skeleton from '@mui/material/Skeleton';
 import { alpha } from '@mui/material/styles';
 import { Resizable } from 're-resizable';
-import { useHotkeys } from 'react-hotkeys-hook';
 import { motion, AnimatePresence } from 'framer-motion';
 import SidebarCollapseArrow from './SidebarCollapseArrow';
 
@@ -108,9 +107,9 @@ const ThemedDialog = styled(Dialog)(({ theme }) => ({
       : 'rgba(200, 16, 46, 0.1)'}`
   },
   '& .MuiButton-containedPrimary': {
-    backgroundColor: '#c8102e', // TSC red color
+    backgroundColor: '#2979FF', // Enterprise blue color
     '&:hover': {
-      backgroundColor: '#a50d24', // Darker TSC red for hover
+      backgroundColor: '#2962FF', // Darker Enterprise blue for hover
     }
   }
 }));
@@ -157,18 +156,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
   useEffect(() => {
     localStorage.setItem('drawerCollapsed', isCollapsed.toString());
   }, [isCollapsed]);
-  
-  // Add keyboard shortcut for toggling sidebar
-  useHotkeys('cmd+b, ctrl+b', () => {
-    toggleSidebar();
-  }, { preventDefault: true });
-  
-  // Add keyboard shortcut for new chat
-  useHotkeys('n', () => {
-    if (!document.activeElement || document.activeElement.tagName !== 'INPUT') {
-      handleNewChat();
-    }
-  }, { enableOnFormTags: false });
   
   // For handling folder dropdowns
   const [expandedFolders, setExpandedFolders] = useState<Record<string, boolean>>(
@@ -588,7 +575,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
             <IconButton
               className="session-menu-button"
               size="small"
-              onClick={(e) => {
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 e.preventDefault();
                 e.stopPropagation();
                 console.log('Session menu clicked for:', session.id); // Debug log
@@ -702,10 +689,10 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
             <Tooltip title="New chat in this session" PopperProps={{ sx: { zIndex: 1400 } }}>
               <IconButton
                 size="small"
-                onClick={(e) => handleNewChatInFolder(folder.id, e)}
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleNewChatInFolder(folder.id, e)}
                 sx={{
                   opacity: 0.8,
-                  color: '#c8102e', // Change to red TSC color
+                  color: '#2979FF', // Enterprise blue color
                   '&:hover': { opacity: 1 },
                   mr: 0.5,
                   p: 0.5,
@@ -724,7 +711,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
             />
             <IconButton
               size="small"
-              onClick={(e) => handleFolderMenuOpen(e, folder.id)}
+              onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleFolderMenuOpen(e, folder.id)}
               sx={{
                 opacity: 0.6,
                 '&:hover': { opacity: 1 },
@@ -1603,7 +1590,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                   fullWidth
                   variant="outlined"
                   value={newSessionTitle}
-                  onChange={(e) => setNewSessionTitle(e.target.value)}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewSessionTitle(e.target.value)}
                 />
               </DialogContent>
               <DialogActions sx={{ px: 3, pb: 2 }}>

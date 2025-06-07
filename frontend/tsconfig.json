@@ -13,6 +13,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
+      "ubiqora-ai-widget": ["../packages/tsc-ai-widget/src"],
       "tsc-ai-widget": ["../packages/tsc-ai-widget/src"]
     }
   }

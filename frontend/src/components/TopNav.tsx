@@ -409,7 +409,7 @@ const TopNav: React.FC<Omit<TopNavProps,'onSidebarToggle'>> = ({
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 'auto' }}>
               {/* Observability Button */}
               {!isMobile && (
-                <Tooltip title="AutoTractor Hub (⌘O)">
+                <Tooltip title="Autoprise Hub (⌘O)">
                   <Button
                     startIcon={<ObservabilityIcon />}
                     onClick={handleObservabilityClick}

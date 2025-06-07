@@ -75,10 +75,10 @@ interface AgentDrivenChatInputProps {
 const agents: Agent[] = [
   {
     id: "lease",
-    name: "TSC Lease Document Agent",
-    description: "Specialized in TSC lease analysis and document management",
+    name: "Enterprise Document Agent",
+    description: "Specialized in Enterprise lease analysis and document management",
     icon: <InsertDriveFileOutlinedIcon />,
-    color: "#c8102e", // TSC Red
+    color: "#2979FF", // Enterprise Blue
     avatarBg: "white",
     emoji: "🚜",
     capabilities: [
@@ -91,7 +91,7 @@ const agents: Agent[] = [
   },
   {
     id: "marketing",
-    name: "TSC Marketing Expert",
+    name: "Enterprise Marketing Expert",
     description: "Expert in marketing strategies, campaigns, and brand management",
     icon: <BarChartIcon />,
     color: "#9c27b0", // Purple
@@ -107,7 +107,7 @@ const agents: Agent[] = [
   },
   {
     id: "general",
-    name: "TSC General Assistant",
+    name: "Enterprise General Assistant",
     description: "Can answer questions on a wide range of Tractor Supply topics",
     icon: <SmartToyIcon />,
     color: "#1976d2", // MUI blue
@@ -123,7 +123,7 @@ const agents: Agent[] = [
   },
   {
     id: "support",
-    name: "TSC Customer Support",
+    name: "Enterprise Customer Support",
     description: "Expert in customer service, product support, and issue resolution",
     icon: <PsychologyIcon />,
     color: "#2e7d32", // Green
@@ -139,7 +139,7 @@ const agents: Agent[] = [
   },
   {
     id: "sales",
-    name: "TSC Sales Expert",
+    name: "Enterprise Sales Expert",
     description: "Knowledgeable about products, pricing, and sales strategies",
     icon: <BarChartIcon />,
     color: "#ed6c02", // Orange
@@ -155,7 +155,7 @@ const agents: Agent[] = [
   },
   {
     id: "technical",
-    name: "TSC Technical Expert",
+    name: "Enterprise Technical Expert",
     description: "Specialized in technical products, equipment, and systems",
     icon: <DescriptionIcon />,
     color: "#6a1b9a", // Purple
@@ -171,7 +171,7 @@ const agents: Agent[] = [
   },
   {
     id: "analytics",
-    name: "TSC Data Analyst",
+    name: "Enterprise Data Analyst",
     description: "Expert in data analysis, reporting, and business intelligence",
     icon: <BarChartIcon />,
     color: "#0277bd", // Deep blue
@@ -205,7 +205,7 @@ const agents: Agent[] = [
 
 // Predefined prompts
 const predefinedPrompts: Prompt[] = [
-  // TSC Lease Document Agent prompts
+  // Enterprise Document Agent prompts
   {
     text: "What is the lease expiration date for each property?",
     icon: <DescriptionIcon fontSize="small" />,
@@ -267,7 +267,7 @@ const predefinedPrompts: Prompt[] = [
     agent: "lease"
   },
   
-  // TSC Marketing Expert prompts
+  // Enterprise Marketing Expert prompts
   {
     text: "What are our current marketing campaign performance metrics?",
     icon: <BarChartIcon fontSize="small" />,
@@ -305,7 +305,7 @@ const predefinedPrompts: Prompt[] = [
     agent: "marketing"
   },
   
-  // TSC General Assistant prompts
+  // Enterprise General Assistant prompts
   {
     text: "Tell me about Tractor Supply Company's product offerings",
     icon: <SmartToyIcon fontSize="small" />,
@@ -313,25 +313,25 @@ const predefinedPrompts: Prompt[] = [
     agent: "general"
   },
   {
-    text: "What are TSC's key business locations and distribution centers?",
+    text: "What are Enterprise's key business locations and distribution centers?",
     icon: <SmartToyIcon fontSize="small" />,
     category: "general",
     agent: "general"
   },
   {
-    text: "Explain TSC's approach to customer service and support",
+    text: "Explain Enterprise's approach to customer service and support",
     icon: <SmartToyIcon fontSize="small" />,
     category: "general",
     agent: "general"
   },
   {
-    text: "How does TSC manage its supply chain operations?",
+    text: "How does Enterprise manage its supply chain operations?",
     icon: <SmartToyIcon fontSize="small" />,
     category: "general",
     agent: "general"
   },
   
-  // TSC Customer Support prompts
+  // Enterprise Customer Support prompts
   {
     text: "I need help tracking my recent order",
     icon: <PsychologyIcon fontSize="small" />,
@@ -351,7 +351,7 @@ const predefinedPrompts: Prompt[] = [
     agent: "support"
   },
   {
-    text: "I can't log into my TSC account - can you help?",
+    text: "I can't log into my Enterprise account - can you help?",
     icon: <PsychologyIcon fontSize="small" />,
     category: "support",
     agent: "support"
@@ -369,7 +369,7 @@ const predefinedPrompts: Prompt[] = [
     agent: "support"
   },
   
-  // TSC Sales Expert prompts
+  // Enterprise Sales Expert prompts
   {
     text: "What are the best-selling products in the farm equipment category?",
     icon: <BarChartIcon fontSize="small" />,
@@ -407,7 +407,7 @@ const predefinedPrompts: Prompt[] = [
     agent: "sales"
   },
   
-  // TSC Technical Expert prompts
+  // Enterprise Technical Expert prompts
   {
     text: "What are the technical specifications for the latest zero-turn mowers?",
     icon: <DescriptionIcon fontSize="small" />,
@@ -445,7 +445,7 @@ const predefinedPrompts: Prompt[] = [
     agent: "technical"
   },
   
-  // TSC Data Analyst prompts
+  // Enterprise Data Analyst prompts
   {
     text: "Generate a sales performance report for the last quarter",
     icon: <BarChartIcon fontSize="small" />,
@@ -483,7 +483,7 @@ const predefinedPrompts: Prompt[] = [
     agent: "analytics"
   },
   
-  // TSC HR Agent prompts
+  // Enterprise HR Agent prompts
   {
     text: "How many vacation days do I have remaining this year?",
     icon: <PsychologyIcon fontSize="small" />,

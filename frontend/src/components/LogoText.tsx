@@ -94,7 +94,7 @@ const LogoImage: React.FC<{
       >
         <img
           src={logoSrc}
-          alt="AutoTractor Logo"
+          alt="Autoprise Logo"
           style={{ 
             height: logoSize, 
             width: logoSize, 
@@ -265,7 +265,7 @@ const LogoTextContent: React.FC<LogoTextProps> = ({
         onKeyDown={handleKeyDown}
         tabIndex={interactive ? 0 : -1}
         role={interactive ? 'button' : undefined}
-        aria-label={ariaLabel || (interactive ? 'AutoTractor Logo - Click to interact' : 'AutoTractor Logo')}
+        aria-label={ariaLabel || (interactive ? 'Autoprise Logo - Click to interact' : 'Autoprise Logo')}
         component={motion.div}
         whileHover={interactive ? { scale: 1.02 } : undefined}
         whileTap={interactive ? { scale: 0.98 } : undefined}
@@ -281,7 +281,7 @@ const LogoTextContent: React.FC<LogoTextProps> = ({
               sx={textStyles}
               aria-hidden="true"
             >
-              AutoTractor
+              Autoprise
             </Typography>
           </motion.div>
         )}
@@ -304,7 +304,7 @@ const LogoTextContent: React.FC<LogoTextProps> = ({
   if (interactive) {
     return (
       <Tooltip 
-        title="Tractor Supply AutoTractor AI Assistant"
+        title="Tractor Supply Autoprise AI Assistant"
         placement="bottom"
         arrow
       >

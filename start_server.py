@@ -49,7 +49,7 @@ def start_server(host="0.0.0.0", port=8000, reload=True):
         "python", "-m", "uvicorn", "app.main:app",
         "--host", host,
         "--port", str(port),
-        "--root-path", "/tsc-chattsc-api"  # Updated to reflect TSC ChatTSC branding
+        "--root-path", "/enterprise-api"  # Updated to reflect Enterprise branding
     ]
     if reload:
         cmd.append("--reload")

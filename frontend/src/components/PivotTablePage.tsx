@@ -147,7 +147,7 @@ const PivotTablePage: React.FC = () => {
   return (
     <Box sx={{ p: { xs: 1, sm: 4 }, maxWidth: 1200, mx: 'auto', bgcolor: isDark ? 'rgba(255,255,255,0.04)' : '#fcfcfc', minHeight: '100vh' }}>
       <Typography variant="h4" sx={{ mb: 1, fontWeight: 700, color: theme.palette.primary.main, letterSpacing: 1 }}>
-        ChatTSC - Pivot Table
+        Enterprise AI - Pivot Table
       </Typography>
       <Typography variant="body2" sx={{ mb: 2, color: 'text.secondary' }}>
         Select columns to group by (pivot). Click on group headers to expand/collapse. Sort by clicking column headers. Export your view as CSV.

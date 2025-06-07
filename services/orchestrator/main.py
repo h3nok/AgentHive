@@ -31,7 +31,7 @@ class ChatOutput(BaseModel):
 # FastAPI app
 # ---------------------------------------------------------------------------
 
-app = FastAPI(title="TSC Orchestrator", version="0.1.0")
+app = FastAPI(title="Enterprise Orchestrator", version="0.1.0")
 
 MODEL_DEFAULT = os.getenv("MODEL_DEFAULT", "gpt-4o")
 

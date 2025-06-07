@@ -14,6 +14,8 @@ export default defineConfig({
         "react-syntax-highlighter/dist/esm/index.js",
       "react-syntax-highlighter/dist/index":
         "react-syntax-highlighter/dist/esm/index.js",
+      "ubiqora-ai-widget": path.resolve(__dirname, "../packages/tsc-ai-widget/src"),
+      // Keep backward compatibility during transition
       "tsc-ai-widget": path.resolve(__dirname, "../packages/tsc-ai-widget/src"),
     },
   },

@@ -8,6 +8,6 @@
     <polygon points="42,78 30,100 54,78" fill="#f44336" />
   </g>
   
-  <!-- AutoTractor Text -->
+  <!-- Autoprise Text -->
   <text x="64" y="58" font-family="monospace" font-size="30" font-weight="900" text-anchor="middle" fill="#ffffff">AT</text>
 </svg> 

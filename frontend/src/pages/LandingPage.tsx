@@ -13,7 +13,8 @@ import {
   useMediaQuery,
   IconButton,
   Tooltip,
-  alpha
+  alpha,
+  Theme
 } from '@mui/material';
 import { motion, useScroll, useTransform, useInView, MotionValue } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
@@ -31,7 +32,8 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StarIcon from '@mui/icons-material/Star';
 import CodeIcon from '@mui/icons-material/Code';
-import { EmbeddedWidget } from 'tsc-ai-widget';
+// Import directly from the correct physical path
+import { EmbeddedWidget } from '../../../packages/ubiqora-ai-widget/tsc-ai-widget/src';
 import { ComponentErrorBoundary } from '../components/ErrorBoundary';
 import { useAppSelector, useAppDispatch, selectTheme, setTheme } from '../store';
 import IntakeDialog from '../components/IntakeDialog';
@@ -143,7 +145,7 @@ const FEATURES: Feature[] = [
     id: 'intelligent-assistant',
     icon: <SecurityIcon />, 
     title: 'Intelligent Assistant', 
-    description: 'More than a chatbot or custom GPT, AutoTractor is a unified platform that brings together natural language, automation, and access to all your enterprise tools with enterprise-grade security.',
+    description: 'More than a chatbot or custom GPT, Autoprise is a unified platform that brings together natural language, automation, and access to all your enterprise tools with enterprise-grade security.',
     priority: 'high',
     agentId: 'engineering'
   },
@@ -151,7 +153,7 @@ const FEATURES: Feature[] = [
     id: 'continuous-evolution',
     icon: <TrendingUpIcon />, 
     title: 'Continuous Evolution', 
-    description: 'As AI evolves, AutoTractor continually adapts and expands its capabilities, making work faster, simpler, and smarter for every employee while maintaining compliance.',
+    description: 'As AI evolves, Autoprise continually adapts and expands its capabilities, making work faster, simpler, and smarter for every employee while maintaining compliance.',
     priority: 'high',
     agentId: 'finance'
   },
@@ -492,7 +494,7 @@ const HeroSection = memo(() => {
               position: 'relative',
             }}
           >
-            Propelling TSC to
+            Propelling Enterprise to
             <Box component="br" />
             Autonomous Retail Leadership
           </Typography>
@@ -521,7 +523,7 @@ const HeroSection = memo(() => {
               position: 'relative',
             }}
           >
-            Beyond basic AI chat, AutoTractor unifies your enterprise AI—answering questions, automating workflows, and maintaining security, all in natural language.
+            Beyond basic AI chat, Autoprise unifies your enterprise AI—answering questions, automating workflows, and maintaining security, all in natural language.
           </Typography>
 
           {/* Enhanced CTA Buttons */}
@@ -694,7 +696,7 @@ const FeaturesSection = memo(() => {
                 : '0 2px 10px rgba(0,0,0,0.1)',
             }}
           >
-            Built for TSC Operations
+            Built for Enterprise Operations
           </Typography>
         </motion.div>
         
@@ -884,7 +886,7 @@ const UseCasesSection = memo(() => {
               lineHeight: { xs: 1.5, md: 1.6 },
             }}
           >
-            See how AutoTractor transforms daily workflows across every TSC department and location.
+            See how Autoprise transforms daily workflows across every Enterprise department and location.
           </Typography>
         </motion.div>
 
@@ -1004,7 +1006,7 @@ const PoweredBySection = memo(() => {
             component="img" 
             src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Microsoft_Azure.svg" 
             alt="Microsoft Azure" 
-            sx={(theme) => ({
+            sx={(theme: Theme) => ({
               height: { xs: 24, md: 32 }, 
               width: 'auto', 
               objectFit: 'contain', 
@@ -1020,7 +1022,7 @@ const PoweredBySection = memo(() => {
             component="img" 
             src="https://upload.wikimedia.org/wikipedia/commons/0/04/ChatGPT_logo.svg" 
             alt="OpenAI Enterprise" 
-            sx={(theme) => ({
+            sx={(theme: Theme) => ({
               height: { xs: 24, md: 32 }, 
               width: 'auto', 
               objectFit: 'contain',
@@ -1053,7 +1055,7 @@ const LandingPage: React.FC = () => {
       bgcolor: 'background.default',
       overflow: 'hidden',
     }}>
-      {/* TSC Logo in top left corner */}
+      {/* Enterprise Logo in top left corner */}
       <Box sx={{
         position: 'fixed',
         top: 24,
@@ -1089,14 +1091,14 @@ const LandingPage: React.FC = () => {
             fontSize: '0.6rem',
             letterSpacing: '0.5px',
           }}>
-            TSC
+            Enterprise
           </Box>
           <Typography variant="body2" sx={{ 
             fontWeight: 600, 
             color: 'text.primary',
             fontSize: '0.8rem',
           }}>
-            Tractor Supply Co.
+            Ubiqora - the autonomous future
           </Typography>
         </Box>
       </Box>
@@ -1110,7 +1112,7 @@ const LandingPage: React.FC = () => {
         <UseCasesSection />
         <PoweredBySection />
         
-        {/* Inspyr Solutions Footer Credit */}
+        {/* Ubiqora Footer Credit */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -1131,7 +1133,7 @@ const LandingPage: React.FC = () => {
                 fontSize: { xs: '0.8rem', md: '0.9rem' },
               }}
             >
-              Proudly built by
+              Powered by
             </Typography>
             <Box sx={{
               display: 'flex',
@@ -1140,12 +1142,12 @@ const LandingPage: React.FC = () => {
               gap: 2,
               mb: 2,
             }}>
-              {/* Inspyr Solutions Logo */}
+              {/* Ubiqora Logo */}
               <Box
                 component="img"
                 src="/inspyr_logo.png"
-                alt="Inspyr Solutions Logo"
-                sx={(theme) => ({
+                alt="Ubiqora Logo"
+                sx={(theme: Theme) => ({
                   height: 40,
                   width: 'auto',
                   /* Tint the logo blue in dark mode */
@@ -1164,7 +1166,7 @@ const LandingPage: React.FC = () => {
                 fontStyle: 'italic',
               }}
             >
-              Advanced AI Solutions & Enterprise Technology Consulting
+              the autonomous future
           </Typography>
         </Box>
         </motion.div>

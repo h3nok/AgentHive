@@ -17,7 +17,7 @@ const Header: React.FC<HeaderProps> = ({ className = "" }) => {
         display: 'flex',
         alignItems: 'center',
         gap: 1,
-        color: '#c8102e', // TSC Red
+        color: '#2979FF', // Enterprise Blue
       }}
     >
       {/* Logo with TractorIcon */}
@@ -50,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({ className = "" }) => {
             letterSpacing: '-0.02em',
           }}
         >
-          AutoTractor
+          Autoprise
         </Typography>
       </Box>
 

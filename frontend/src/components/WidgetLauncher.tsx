@@ -9,13 +9,14 @@ interface WidgetLauncherProps {
 
 const WidgetLauncher: React.FC<WidgetLauncherProps> = ({ onClick }) => {
   return (
-    <Tooltip title="Chat with AutoTractor" placement="left" arrow>
+    <Tooltip title="Ask Autoprise - Your Ubiqora AI Assistant | the autonomous future" placement="left" arrow>
       <IconButton
         component={motion.button}
         whileTap={{ scale: 0.9, rotate: 90 }}
         onClick={onClick}
         aria-label="Open chat"
         sx={{
+          background: `linear-gradient(135deg, #00E5FF 0%, #2979FF 50%, #651FFF 100%)`,
           position: 'fixed',
           bottom: { xs: 24, sm: 32 },
           right: { xs: 24, sm: 32 },
@@ -23,7 +24,7 @@ const WidgetLauncher: React.FC<WidgetLauncherProps> = ({ onClick }) => {
           width: 56,
           height: 56,
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, #c21f1a 0%, #a50d24 100%)',
+          // Modern gradient already defined above
           color: 'white',
           boxShadow: '0 4px 12px rgba(0,0,0,0.25)',
           display: 'flex',
@@ -31,7 +32,7 @@ const WidgetLauncher: React.FC<WidgetLauncherProps> = ({ onClick }) => {
           justifyContent: 'center',
           p: 0,
           '&:hover': {
-            background: 'linear-gradient(135deg, #b81717 0%, #921119 100%)',
+            background: 'linear-gradient(135deg, #00C2E0 0%, #2962FF 50%, #5E35B1 100%)',
           },
         }}
       >

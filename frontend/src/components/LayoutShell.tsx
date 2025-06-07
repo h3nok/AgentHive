@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Box, CssBaseline, useTheme, Container, useMediaQuery } from '@mui/material';
 import TopNav from './TopNav';
-import Sidebar from '@components/Sidebar';
+import Sidebar from '@components/SidebarTemp'; // Using temporary sidebar until dependencies are fixed
 import ChatInterface from './ChatInterface';
 import CanvasPanel from './CanvasPanel';
 import ChatErrorBoundary from './ChatErrorBoundary';
@@ -267,7 +267,6 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
                   isLoading={isLoading} 
                   onStopRequest={handleStopRequest}
                   initialAgent={resolvedAgentId}
-                  drawerPadding={drawerWidth}
                 />
               </ChatErrorBoundary>
             </Box>

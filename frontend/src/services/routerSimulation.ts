@@ -37,6 +37,9 @@ class RouterSimulationService {
     [AgentType.SUPPORT]: { requests: 0, avgConfidence: 0, avgLatency: 0 },
     [AgentType.GENERAL]: { requests: 0, avgConfidence: 0, avgLatency: 0 },
     [AgentType.CUSTOM]: { requests: 0, avgConfidence: 0, avgLatency: 0 },
+    [AgentType.HR]: { requests: 0, avgConfidence: 0, avgLatency: 0 },
+    [AgentType.MARKETING]: { requests: 0, avgConfidence: 0, avgLatency: 0 },
+    [AgentType.ANALYTICS]: { requests: 0, avgConfidence: 0, avgLatency: 0 },
   };
 
   private config: SimulationConfig = {
@@ -136,6 +139,9 @@ class RouterSimulationService {
       [AgentType.SUPPORT]: 0,
       [AgentType.GENERAL]: 0,
       [AgentType.CUSTOM]: 0,
+      [AgentType.HR]: 0,
+      [AgentType.MARKETING]: 0,
+      [AgentType.ANALYTICS]: 0,
     };
 
     // Score based on pattern matches
@@ -307,7 +313,7 @@ class RouterSimulationService {
   // Helper methods for intent analysis
   private analyzeLeaseIntent(query: string): number {
     const leaseKeywords = ['lease', 'rent', 'property', 'store', 'location', 'retail', 'space', 'tractor supply'];
-    return this.calculateKeywordScore(query, leaseKeywords) * 1.2; // Boost for TSC context
+    return this.calculateKeywordScore(query, leaseKeywords) * 1.2; // Boost for Enterprise context
   }
 
   private analyzeSalesIntent(query: string): number {

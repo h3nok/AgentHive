@@ -55,7 +55,7 @@ const ProductionTestPage: React.FC = () => {
   const [agentTests, setAgentTests] = useState<AgentTest[]>([
     {
       id: 'lease',
-      name: 'TSC Lease Document Agent',
+      name: 'Ubiqora Lease Document Agent',
       icon: <AgentIcon />,
       color: '#c8102e',
       testPrompt: 'What is the lease expiration date for each property?',
@@ -63,7 +63,7 @@ const ProductionTestPage: React.FC = () => {
     },
     {
       id: 'support',
-      name: 'TSC Customer Support',
+      name: 'Ubiqora Customer Support',
       icon: <CustomerSupportIcon />,
       color: '#2e7d32',
       testPrompt: 'I need help tracking my recent order',
@@ -71,7 +71,7 @@ const ProductionTestPage: React.FC = () => {
     },
     {
       id: 'sales',
-      name: 'TSC Sales Expert',
+      name: 'Ubiqora Sales Expert',
       icon: <SalesIcon />,
       color: '#ed6c02',
       testPrompt: 'What are the best-selling products in the farm equipment category?',
@@ -79,7 +79,7 @@ const ProductionTestPage: React.FC = () => {
     },
     {
       id: 'technical',
-      name: 'TSC Technical Expert',
+      name: 'Ubiqora Technical Expert',
       icon: <TechnicalIcon />,
       color: '#6a1b9a',
       testPrompt: 'What are the technical specifications for the latest zero-turn mowers?',
@@ -87,7 +87,7 @@ const ProductionTestPage: React.FC = () => {
     },
     {
       id: 'analytics',
-      name: 'TSC Data Analyst',
+      name: 'Ubiqora Data Analyst',
       icon: <AnalyticsIcon />,
       color: '#0277bd',
       testPrompt: 'Generate a sales performance report for the last quarter',
@@ -499,7 +499,7 @@ const ProductionTestPage: React.FC = () => {
         >
           <Typography variant="h6">🎉 Production Ready!</Typography>
           <Typography>
-            All systems operational. AutoTractor is ready for enterprise deployment with:
+            All systems operational. Autoprise is ready for enterprise deployment with:
           </Typography>
           <ul>
             <li>6 Professional AI Agents</li>

@@ -85,7 +85,7 @@ export const agents = [
     name: 'Lease Agent',
     description: 'Specialized in lease analysis and property management',
     icon: <InsertDriveFileOutlinedIcon />,
-    color: '#c8102e', // TSC red color
+    color: '#2979FF', // Enterprise blue color
     avatarBg: 'white',
     tractor: '🚜' // Tractor emoji for lease agent
   }

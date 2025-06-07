@@ -44,7 +44,7 @@ const DebugPage: React.FC = () => {
   const [chatTest, setChatTest] = useState<HealthStatus>({ status: 'loading' });
 
   // API testing
-  const [testMessage, setTestMessage] = useState('Hello AutoTractor, can you help me with store operations?');
+  const [testMessage, setTestMessage] = useState('Hello Autoprise, can you help me with autonomous operations?');
   const [mockSessions, setMockSessions] = useState<any[]>([]);
 
   // RTK Query hooks for real API testing
@@ -201,7 +201,7 @@ const DebugPage: React.FC = () => {
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography variant="h3" gutterBottom>
-        AutoTractor Debug Dashboard
+        Autoprise Debug Dashboard
       </Typography>
       <Typography variant="subtitle1" color="text.secondary" gutterBottom>
         Testing frontend, backend, and API connectivity

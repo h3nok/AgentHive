@@ -89,11 +89,11 @@ export const mockApi = {
     let response = "I understand your question. Let me help you with that...";
     
     if (message.toLowerCase().includes("inventory")) {
-      response = "For inventory-related questions, I can help you with stock levels, reordering processes, and inventory management best practices. TSC uses an integrated inventory system across all stores.";
+      response = "For inventory-related questions, I can help you with stock levels, reordering processes, and inventory management best practices. Enterprise uses an integrated inventory system across all locations.";
     } else if (message.toLowerCase().includes("hr") || message.toLowerCase().includes("employee")) {
-      response = "For HR-related inquiries, I can assist with employee benefits, policies, scheduling, and payroll questions. All HR information is kept confidential and follows TSC guidelines.";
+      response = "For HR-related inquiries, I can assist with employee benefits, policies, scheduling, and payroll questions. All HR information is kept confidential and follows Enterprise guidelines.";
     } else if (message.toLowerCase().includes("store") || message.toLowerCase().includes("operation")) {
-      response = "I can help with store operations including daily procedures, compliance checks, customer service guidelines, and operational best practices across TSC's 2000+ locations.";
+      response = "I can help with store operations including daily procedures, compliance checks, customer service guidelines, and operational best practices across Enterprise's global locations.";
     }
     
     return response;

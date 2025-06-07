@@ -50,7 +50,7 @@ class CompletionResponse(BaseModel):
 # FastAPI app
 # ---------------------------------------------------------------------------
 
-app = FastAPI(title="TSC Gateway", version="0.1.0")
+app = FastAPI(title="Enterprise Gateway", version="0.1.0")
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 MODEL_DEFAULT = os.getenv("MODEL_DEFAULT", "gpt-4o")

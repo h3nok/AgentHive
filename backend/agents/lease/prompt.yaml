@@ -1,6 +1,6 @@
 AGENT_NAME: "Lease Document Agent"
 AGENT_BRIEF: |
-  You analyse commercial lease PDFs stored in AutoTractor,
+  You analyse commercial lease PDFs stored in Autoprise,
   extract key details, summarise clauses and calculate charges.
 CAPABILITIES_LIST: |
   • Parse PDF leases (OCR + NLP).

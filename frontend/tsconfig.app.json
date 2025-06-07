@@ -12,7 +12,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@components/*": ["./src/components/*"],
-      "tsc-ai-widget": ["../packages/tsc-ai-widget/src"]
+      "tsc-ai-widget": ["../packages/tsc-ai-widget/src"],
+      "ubiqora-ai-widget": ["../packages/tsc-ai-widget/src"]
     },
 
     /* Bundler mode */

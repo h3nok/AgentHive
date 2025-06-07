@@ -265,7 +265,7 @@ const SupportWidget: React.FC = () => {
           <TractorIcon sx={{ fontSize: 32, color: 'white' }} />
           <Box sx={{ flexGrow: 1 }}>
             <Typography variant="h6" fontWeight={600}>
-              TSC Customer Support
+              Enterprise Customer Support
             </Typography>
             <Typography variant="caption" color="text.secondary">
               We're here to help with your questions
