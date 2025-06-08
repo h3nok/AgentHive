@@ -4,8 +4,7 @@
 // -----------------------------------------------------------------------------
 import React from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { materialDark, oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { useTheme } from '@mui/material';
+import { prism } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 interface CodeHighlighterProps {
   language: string;
@@ -13,11 +12,11 @@ interface CodeHighlighterProps {
   dark: boolean;
 }
 
-const CodeHighlighter: React.FC<CodeHighlighterProps> = ({ language, literal, dark }) => {
+const CodeHighlighter: React.FC<CodeHighlighterProps> = ({ language, literal }) => {
   return (
     <SyntaxHighlighter
       language={language}
-      style={dark ? materialDark : oneLight}
+      style={prism}
       PreTag="div"
       showLineNumbers
       wrapLines

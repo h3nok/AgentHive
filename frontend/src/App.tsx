@@ -21,6 +21,9 @@ const AdminPage = React.lazy(() => import('./admin/AdminApp'));
 const DebugPage = React.lazy(() => import('./pages/DebugPage'));
 const TableRenderingTest = React.lazy(() => import('./components/TableRenderingTest'));
 
+// Floating bee widget
+const AgentHiveFloatingWidget = React.lazy(() => import('./components/AgentHiveFloatingWidget'));
+
 // Global styles for consistent UI
 const globalStyles = (
   <GlobalStyles
@@ -110,9 +113,7 @@ const useAppTheme = () => {
   const theme = useMemo(() => {
     const mode = themeMode === 'auto' 
       ? (prefersDarkMode ? 'dark' : 'light')
-      : themeMode;
-
-    return createTheme({
+      : themeMode;    return createTheme({
       palette: {
         mode,
         primary: {
@@ -122,13 +123,13 @@ const useAppTheme = () => {
           contrastText: '#ffffff',
         },
         secondary: {
-          main: '#5f5f5f',
-          light: '#8e8e8e',
-          dark: '#424242',
+          main: '#C49F55', // goldAmber
+          light: '#CE9A6A', // mochaSand
+          dark: '#22160F', // darkRoast
           contrastText: '#ffffff',
         },
         background: {
-          default: mode === 'dark' ? '#0a0a0a' : '#ffffff',
+          default: mode === 'dark' ? '#0a0a0a' : '#F6EFDB', // cream for light mode
           paper: mode === 'dark' ? '#1a1a1a' : '#ffffff',
         },
         text: {
@@ -136,6 +137,11 @@ const useAppTheme = () => {
           secondary: mode === 'dark' ? '#b3b3b3' : '#666666',
         },
         divider: mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)',
+        // Add custom colors
+        darkRoast: '#22160F',
+        goldAmber: '#C49F55',
+        mochaSand: '#CE9A6A',
+        cream: '#F6EFDB',
         error: {
           main: '#d32f2f',
           light: '#ef5350',
@@ -297,6 +303,10 @@ const AppContent: React.FC = () => {
   const error = useAppSelector(selectError);
   const currentTheme = useAppSelector(selectTheme);
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    // State for chat navigation (for floating bee widget)
+  const navigate = useCallback(() => {
+    window.location.href = '/chat';
+  }, []);
 
   // Resolve auto theme to actual mode
   const resolvedMode = currentTheme === 'auto' 
@@ -309,6 +319,10 @@ const AppContent: React.FC = () => {
     dispatch(setTheme(newTheme));
     localStorage.setItem('theme', newTheme);
   }, [resolvedMode, dispatch]);
+    // Chat navigation for floating bee widget
+  const handleOpenChat = useCallback(() => {
+    navigate();
+  }, [navigate]);
 
   // Performance monitoring
   useEffect(() => {
@@ -397,9 +411,27 @@ const AppContent: React.FC = () => {
                   element={<TableRenderingTest />} 
                 />
                 <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>
-            </Suspense>
+              </Routes>            </Suspense>
           </RouteErrorBoundary>
+
+          {/* Floating Bee Widget */}
+          <Suspense fallback={null}>
+            <AgentHiveFloatingWidget
+              onOpenChat={handleOpenChat}
+              messages={[
+                "💡 Try asking me about your team's schedule!",
+                "🚀 I can help automate your workflows",
+                "📊 Need help with reports? Just ask!",
+                "⚡ Speed up approvals with AI assistance",
+                "🔍 Search across all your enterprise tools",
+                "🤖 Your AI swarm is ready to help!",
+              ]}
+              size={40}
+              speed={1}
+              messageInterval={25000}
+              pauseDuration={4000}
+            />
+          </Suspense>
 
           {/* Global error snackbar */}
           <Snackbar
