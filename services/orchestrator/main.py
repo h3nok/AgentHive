@@ -8,7 +8,7 @@ from typing import Any, Dict, Optional
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel, Field
 
-from agent_registry import get as get_agent
+from orchestrator.agent_registry import get as get_agent
 
 logger = logging.getLogger(__name__)
 

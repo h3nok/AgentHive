@@ -8,7 +8,7 @@ from pathlib import Path
 from types import ModuleType
 from typing import Dict, Type
 
-from pydantic_ai import PydanticAIBaseAgent
+from orchestrator.pydantic_ai import PydanticAIBaseAgent
 
 _REGISTRY: Dict[str, Type[PydanticAIBaseAgent]] = {}
 

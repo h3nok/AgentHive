@@ -59,6 +59,7 @@ interface Feature {
   description: string;
   priority: 'high' | 'medium' | 'low';
   agentId: string;
+  color: string;
 }
 
 interface AnimationVariant {
@@ -120,50 +121,56 @@ const FEATURES: Feature[] = [
   { 
     id: 'unified-platform',
     icon: <CloudIcon />, 
-    title: 'Enterprise-wide AI Platform', 
-    description: 'Consolidates isolated AI investments into one unified platform, maximizing ROI and creating a cohesive employee experience—all while maintaining enterprise security.',
+    title: 'Hive Intelligence Platform', 
+    description: 'Consolidates isolated AI agents into one unified hive, maximizing collective intelligence and creating a cohesive experience—with enterprise-grade security.',
     priority: 'high',
-    agentId: 'general'
+    agentId: 'general',
+    color: '#FFB300'
   },
   { 
     id: 'expanding-capabilities',
     icon: <AutoFixHighIcon />, 
-    title: 'Expanding Capabilities', 
-    description: 'Designed for continuous expansion, quickly supporting new use cases at both enterprise and individual role levels, with built-in analytics to track impact.',
+    title: 'Swarm Intelligence', 
+    description: 'Multiple specialized agents work in concert, collaborating through the hive to solve complex problems that single AI systems cannot.',
     priority: 'high',
-    agentId: 'hr'
+    agentId: 'hr',
+    color: '#FFA000'
   },
   { 
-    id: 'actionable-conversational',
+    id: 'natural-language',
     icon: <SpeedIcon />, 
-    title: 'Actionable & Conversational', 
-    description: 'Moves beyond simple Q&A like ChatGPT, enabling users to initiate tasks, automate workflows, and execute complex operations through natural language.',
+    title: 'Natural Language Interface', 
+    description: 'Communicate with your AI agents through intuitive conversations. AgentHive orchestrates complex workflows and executes tasks through simple natural language.',
     priority: 'high',
-    agentId: 'operations'
+    agentId: 'operations',
+    color: '#FF8F00'
   },
   { 
     id: 'intelligent-assistant',
     icon: <SecurityIcon />, 
-    title: 'Intelligent Assistant', 
-    description: 'More than a chatbot or custom GPT, Autoprise is a unified platform that brings together natural language, automation, and access to all your enterprise tools with enterprise-grade security.',
+    title: 'Autonomous Agents', 
+    description: 'More than chatbots or custom GPTs, AgentHive deploys autonomous agents that proactively solve problems and collaborate with each other to maximize productivity.',
     priority: 'high',
-    agentId: 'engineering'
+    agentId: 'engineering',
+    color: '#FF6F00'
   },
   { 
     id: 'continuous-evolution',
     icon: <TrendingUpIcon />, 
-    title: 'Continuous Evolution', 
-    description: 'As AI evolves, Autoprise continually adapts and expands its capabilities, making work faster, simpler, and smarter for every employee while maintaining compliance.',
+    title: 'Hive Learning', 
+    description: 'The collective intelligence of the hive continuously learns and evolves, with each agent becoming more effective through shared knowledge and collaborative problem-solving.',
     priority: 'high',
-    agentId: 'finance'
+    agentId: 'finance',
+    color: '#F57C00'
   },
   { 
     id: 'enterprise-integration',
     icon: <SchemaIcon />, 
-    title: 'Enterprise Integration', 
-    description: 'Seamlessly connects with existing enterprise tools and systems, providing a unified interface for all operations with full security and compliance controls.',
+    title: 'Cross-System Pollination', 
+    description: 'Seamlessly connects with existing enterprise tools and systems, allowing agents to collaborate across platforms while maintaining security and compliance controls.',
     priority: 'high',
-    agentId: 'supply-chain'
+    agentId: 'supply-chain',
+    color: '#E65100'
   }
 ] as const;
 
@@ -386,6 +393,13 @@ const HeroSection = memo(() => {
           alignItems: 'center',
           justifyContent: 'center',
           overflow: 'hidden',
+          '&:before': {
+            content: '""',
+            position: 'absolute',
+            inset: 0,
+            backdropFilter: 'blur(100px)',
+            zIndex: -1,
+          }
         }}
       >
         {/* Animated Background Shapes */}
@@ -523,7 +537,7 @@ const HeroSection = memo(() => {
               position: 'relative',
             }}
           >
-            Beyond basic AI chat, Autoprise unifies your enterprise AI—answering questions, automating workflows, and maintaining security, all in natural language.
+            Beyond basic AI chat, AgentHive orchestrates your collective AI agents—solving complex problems, automating workflows, and learning collaboratively while maintaining enterprise-grade security.
           </Typography>
 
           {/* Enhanced CTA Buttons */}
@@ -542,13 +556,35 @@ const HeroSection = memo(() => {
               sx={{
                 px: { xs: 3, md: 4 },
                 py: { xs: 1.5, md: 2 },
-                fontSize: { xs: '1rem', md: '1.1rem' },
                 fontWeight: 600,
-                borderRadius: 2,
-                boxShadow: `0 4px 14px ${alpha(theme.palette.primary.main, 0.4)}`,
+                borderRadius: 3,
+                textTransform: 'none',
+                letterSpacing: 0.5,
+                background: 'linear-gradient(90deg, #FFC107 0%, #FF8F00 100%)',
+                backdropFilter: 'blur(10px)',
+                boxShadow: `0 8px 20px ${alpha('#FF8F00', 0.3)}`,
+    border: '1px solid rgba(255, 243, 224, 0.2)',
+                position: 'relative',
+                overflow: 'hidden',
+                '&:before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  background: 'linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0))',
+                  transform: 'translateX(-100%)',
+                  transition: 'transform 0.6s ease',
+                },
                 '&:hover': {
-                  transform: 'translateY(-2px)',
-                  boxShadow: `0 6px 20px ${alpha(theme.palette.primary.main, 0.6)}`,
+                  background: 'linear-gradient(90deg, #FFB300 0%, #FF6F00 100%)',
+                  transform: 'translateY(-3px)',
+                  boxShadow: `0 12px 28px ${alpha('#FF8F00', 0.4)}`,
+        borderColor: 'rgba(255, 243, 224, 0.3)',
+                  '&:before': {
+                    transform: 'translateX(100%)',
+                  }
                 },
                 transition: 'all 0.3s ease',
                 minWidth: { xs: '200px', sm: '220px' },
@@ -566,12 +602,30 @@ const HeroSection = memo(() => {
                 py: { xs: 1.5, md: 2 },
                 fontSize: { xs: '1rem', md: '1.1rem' },
                 fontWeight: 600,
-                borderRadius: 2,
-                borderWidth: 2,
+                borderRadius: 3,
+                borderColor: alpha(theme.palette.primary.main, 0.5),
+                color: theme.palette.primary.main,
+                background: alpha(theme.palette.background.paper, 0.3),
+                backdropFilter: 'blur(8px)',
+                position: 'relative',
+                overflow: 'hidden',
+                '&:before': {
+                  content: '""',
+                  position: 'absolute',
+                  inset: 0,
+                  borderRadius: 3,
+                  padding: '1px',
+                  background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.5)}, transparent)`,
+                  WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  WebkitMaskComposite: 'xor',
+                  maskComposite: 'exclude',
+                  pointerEvents: 'none',
+                },
                 '&:hover': {
-                  borderWidth: 2,
-                  transform: 'translateY(-2px)',
-                  boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.2)}`,
+                  transform: 'translateY(-3px)',
+                  borderColor: theme.palette.primary.main,
+                  background: alpha(theme.palette.background.paper, 0.5),
+                  boxShadow: `0 8px 20px ${alpha(theme.palette.primary.main, 0.2)}`,
                 },
                 transition: 'all 0.3s ease',
                 minWidth: { xs: '200px', sm: '220px' },
@@ -600,17 +654,29 @@ const HeroSection = memo(() => {
             onClick={() => scrollToSection('features')}
           >
             <Typography 
+              variant="h1"
+              sx={{
+                fontWeight: 800,
+                background: 'linear-gradient(90deg, #FFB300, #FF6F00)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                textShadow: '0 2px 10px rgba(255,193,7,0.3)',
+                letterSpacing: '-0.02em',
+                lineHeight: 1.2,
+                fontSize: { xs: '2.5rem', sm: '3rem', md: '3.5rem', lg: '4rem' },
+                mb: 2
+              }} >
+              Discover AgentHive
+            </Typography>
+            <Typography 
               variant="caption" 
               sx={{ 
                 opacity: 0.7,
                 fontSize: '0.9rem',
                 fontWeight: 500,
                 letterSpacing: '0.05em',
-                textTransform: 'uppercase',
               }}
-            >
-              Learn more
-            </Typography>
+            />
             <motion.div
               animate={{ y: [0, 6, 0] }}
               transition={{ repeat: Infinity, duration: 2 }}
@@ -622,7 +688,35 @@ const HeroSection = memo(() => {
       </Box>
       
       {/* Intake Dialog */}
-      <IntakeDialog open={intakeDialogOpen} onClose={() => setIntakeDialogOpen(false)} />
+      <Box sx={{ 
+        '& .MuiDialog-paper': {
+          backdropFilter: 'blur(16px)',
+          background: theme.palette.mode === 'dark'
+            ? alpha(theme.palette.background.paper, 0.85)
+            : alpha(theme.palette.background.paper, 0.9),
+          borderRadius: 3,
+          boxShadow: `0 10px 40px ${alpha(theme.palette.common.black, 0.3)}`,
+          border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+          position: 'relative',
+          '&:before': {
+            content: '""',
+            position: 'absolute',
+            inset: 0,
+            borderRadius: 3,
+            padding: '1px',
+            background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.4)}, transparent)`,
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+            maskComposite: 'exclude',
+            pointerEvents: 'none'
+          }
+        }
+      }}>
+        <IntakeDialog 
+          open={intakeDialogOpen} 
+          onClose={() => setIntakeDialogOpen(false)}
+        />
+      </Box>
     </motion.div>
   );
 });
@@ -648,12 +742,46 @@ const FeaturesSection = memo(() => {
         id="features" 
         sx={{ 
           py: { xs: 8, md: 12 },
+          '@keyframes float': {
+            '0%': { transform: 'translateY(0px) rotate(15deg)' },
+            '50%': { transform: 'translateY(-15px) rotate(10deg)' },
+            '100%': { transform: 'translateY(0px) rotate(15deg)' },
+          },
           px: { xs: 2, sm: 3 },
           background: theme.palette.mode === 'dark'
-            ? 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(200,16,46,0.05) 100%)'
-            : 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(200,16,46,0.02) 100%)',
+            ? 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,193,7,0.12) 100%)'
+            : 'linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,193,7,0.08) 100%)',
           position: 'relative',
           overflow: 'hidden',
+          '&::after': {
+            content: '""',
+            position: 'absolute',
+            top: '10%',
+            right: '5%',
+            width: '600px',
+            height: '600px',
+            backgroundImage: 'url("/honeycomb-pattern.png")',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            opacity: 0.04,
+            zIndex: -1,
+            pointerEvents: 'none',
+          },
+          backdropFilter: 'blur(60px)',
+          '&:before': {
+            content: '""',
+            position: 'absolute',
+            inset: 0,
+            background: theme.palette.mode === 'dark'
+              ? 'radial-gradient(circle at 20% 70%, rgba(255,193,7,0.15), transparent 70%), url("/honeycomb-pattern.png")'
+              : 'radial-gradient(circle at 20% 70%, rgba(255,193,7,0.1), transparent 70%), url("/honeycomb-pattern.png")',
+            backgroundBlendMode: 'overlay',
+            backgroundSize: 'cover, 600px',
+            backgroundPosition: 'center, right top',
+            backgroundRepeat: 'no-repeat',
+            opacity: 0.8,
+            zIndex: -1,
+          }
         }}
       >
         {/* Add subtle animated background pattern */}
@@ -723,7 +851,7 @@ const FeaturesSection = memo(() => {
                 : '0 1px 5px rgba(0,0,0,0.05)',
             }}
           >
-            Consolidate all AI into one unified platform—instantly answer questions, automate approvals, and launch workflows in natural language.
+            Harness the collective intelligence of your AI swarm—AgentHive orchestrates specialized AI agents that work together to solve complex problems through natural language.
           </Typography>
         </motion.div>
 
@@ -751,55 +879,104 @@ const FeaturesSection = memo(() => {
                 <Card 
                   onClick={() => handleCardClick(feature.agentId)}
                   sx={{
-                  height: '100%',
-                  background: theme.palette.mode === 'dark' 
-                    ? 'rgba(255, 255, 255, 0.02)'
-                    : 'rgba(255, 255, 255, 0.8)',
-                  backdropFilter: 'blur(20px)',
-                  border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.05)'}`,
-                  borderRadius: 4,
-                  boxShadow: 'none',
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer',
-                  '&:hover': {
-                    transform: 'translateY(-8px)',
-                    boxShadow: theme.palette.mode === 'dark'
-                      ? '0 20px 40px rgba(200, 16, 46, 0.1)'
-                      : '0 20px 40px rgba(0, 0, 0, 0.1)',
-                    border: `1px solid ${theme.palette.primary.main}40`,
-                  },
-                  '&:focus-visible': {
-                    outline: `2px solid ${theme.palette.primary.main}`,
-                    outlineOffset: 2,
-                  },
+                    height: '100%',
+                    background: theme.palette.mode === 'dark' 
+                      ? `linear-gradient(to bottom right, ${alpha('#FFC107', 0.2)}, ${alpha(feature.color, 0.05)})`
+                      : `linear-gradient(to bottom right, ${alpha('#FFC107', 0.1)}, ${alpha(feature.color, 0.03)})`,
+                    borderRadius: 4,
+                    backdropFilter: 'blur(12px)',
+                    border: `1px solid ${alpha(feature.color, 0.2)}`,
+                    boxShadow: theme.palette.mode === 'dark' 
+                      ? `0 8px 32px ${alpha(theme.palette.common.black, 0.25)}`
+                      : `0 8px 32px ${alpha(feature.color, 0.15)}`,
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer',
+                    position: 'relative',
+                    '&:before': {
+                      content: '""',
+                      position: 'absolute',
+                      inset: 0,
+                      borderRadius: 4,
+                      padding: '1px',
+                      background: `linear-gradient(135deg, ${alpha(feature.color, 0.5)}, transparent)`,
+                      WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                      WebkitMaskComposite: 'xor',
+                      maskComposite: 'exclude',
+                      pointerEvents: 'none',
+                    },
+                    '&:hover': {
+                      transform: 'translateY(-8px)',
+                      boxShadow: `0 16px 40px ${alpha(feature.color, 0.25)}`,
+                    },
+                    overflow: 'hidden',
+                    '&:after': {
+                      content: '""',
+                      position: 'absolute',
+                      top: -80,
+                      right: -80,
+                      width: 180,
+                      height: 180,
+                      borderRadius: '50%',
+                      background: `radial-gradient(circle, ${alpha(feature.color, 0.4)} 0%, transparent 70%)`,
+                    },
+                    '&:focus-visible': {
+                      outline: `2px solid ${feature.color}`,
+                      outlineOffset: 2,
+                    },
                   }}
                 >
                   <CardContent sx={{ p: 4, textAlign: 'center' }}>
                     <Box sx={{ 
-                      display: 'inline-flex',
-                      p: 2,
+                      p: 2.5,
                       borderRadius: '50%',
-                      bgcolor: `${theme.palette.primary.main}15`,
-                      color: theme.palette.primary.main,
+                      background: `linear-gradient(135deg, ${alpha(feature.color || '#FFB300', 0.15)}, ${alpha(feature.color || '#FFB300', 0.05)})`,
+                      color: feature.color,
                       mb: 3,
+                      position: 'relative',
+                      backdropFilter: 'blur(5px)',
+                      border: `1px solid ${alpha(feature.color || '#FFB300', 0.2)}`,
+                      boxShadow: `0 5px 15px ${alpha(feature.color || '#FFB300', 0.15)}`,
                       transition: 'all 0.3s ease',
+                      '&:before': {
+                        content: '""',
+                        position: 'absolute',
+                        inset: 0,
+                        borderRadius: '50%',
+                        padding: '1px',
+                        background: `linear-gradient(135deg, ${alpha(feature.color || '#FFB300', 0.5)}, transparent)`,
+                        WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                        WebkitMaskComposite: 'xor',
+                        maskComposite: 'exclude',
+                      },
                       '&:hover': {
                         transform: 'scale(1.1) rotate(5deg)',
-                        bgcolor: `${theme.palette.primary.main}25`,
+                        boxShadow: `0 8px 25px ${alpha(feature.color || '#FFB300', 0.25)}`,
                       },
                     }}>
                       {feature.icon}
                     </Box>
                     <Typography 
-                      variant="h6" 
+                      variant="h6"
                       sx={{ 
+                        position: 'relative',
                         fontWeight: 700, 
-                        mb: 2,
+                        mb: 3,
                         fontSize: { xs: '1.1rem', md: '1.2rem' },
-                        background: `linear-gradient(135deg, ${theme.palette.text.primary} 0%, ${theme.palette.text.secondary} 100%)`,
+                        background: 'linear-gradient(135deg, #FFB300 0%, #FF8F00 100%)',
                         WebkitBackgroundClip: 'text',
                         WebkitTextFillColor: 'transparent',
                         backgroundClip: 'text',
+                        '&:after': {
+                          content: '""',
+                          position: 'absolute',
+                          bottom: '-10px',
+                          left: '50%',
+                          transform: 'translateX(-50%)',
+                          width: '60px',
+                          height: '2px',
+                          background: 'linear-gradient(90deg, #FFD700, #FFA500)',
+                          borderRadius: '2px',
+                        }
                       }}
                     >
                       {feature.title}
@@ -886,7 +1063,7 @@ const UseCasesSection = memo(() => {
               lineHeight: { xs: 1.5, md: 1.6 },
             }}
           >
-            See how Autoprise transforms daily workflows across every Enterprise department and location.
+            See how AgentHive empowers your collective intelligence across every department with specialized autonomous agents.
           </Typography>
         </motion.div>
 
@@ -909,33 +1086,64 @@ const UseCasesSection = memo(() => {
                 <Card 
                   onClick={() => handleCardClick(useCase.agentId)}
                   sx={{
-                  height: '100%',
-                  background: useCase.bgGradient,
-                  border: `1px solid ${useCase.color}40`,
-                  borderRadius: 4,
-                  boxShadow: 'none',
-                  transition: 'all 0.3s ease',
-                  position: 'relative',
-                  overflow: 'hidden',
-                  cursor: 'pointer',
-                  '&:hover': {
-                    transform: 'translateY(-8px)',
-                    boxShadow: `0 20px 40px ${useCase.color}20`,
-                    border: `1px solid ${theme.palette.primary.main}40`,
-                  },
-                  '&:before': {
-                    content: '""',
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    height: '4px',
-                    background: `linear-gradient(90deg, ${useCase.color}, transparent)`,
-                  },
-                  '&:focus-visible': {
-                    outline: `2px solid ${useCase.color}`,
-                    outlineOffset: 2,
-                  },
+                    height: '100%',
+                    background: theme.palette.mode === 'dark' 
+                      ? `linear-gradient(to bottom right, ${alpha('#FFC107', 0.2)}, ${alpha(useCase.color, 0.05)})`
+                      : `linear-gradient(to bottom right, ${alpha('#FFC107', 0.1)}, ${alpha(useCase.color, 0.03)})`,
+                    borderRadius: 4,
+                    backdropFilter: 'blur(12px)',
+                    border: `1px solid ${alpha(useCase.color, 0.2)}`,
+                    boxShadow: theme.palette.mode === 'dark' 
+                      ? `0 8px 32px ${alpha(theme.palette.common.black, 0.25)}`
+                      : `0 8px 32px ${alpha(useCase.color, 0.15)}`,
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer',
+                    position: 'relative',
+                    '&::after': {
+                      content: '""',
+                      position: 'absolute',
+                      top: '-10px',
+                      right: '-10px',
+                      width: '80px',
+                      height: '80px',
+                      backgroundImage: 'url("/honeycomb-pattern.png")',
+                      backgroundSize: 'contain',
+                      backgroundRepeat: 'no-repeat',
+                      opacity: 0.07,
+                      transform: 'rotate(15deg)',
+                      pointerEvents: 'none',
+                    },
+                    '&:before': {
+                      content: '""',
+                      position: 'absolute',
+                      inset: 0,
+                      borderRadius: 4,
+                      padding: '1px',
+                      background: `linear-gradient(135deg, ${alpha(useCase.color, 0.5)}, transparent)`,
+                      WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                      WebkitMaskComposite: 'xor',
+                      maskComposite: 'exclude',
+                      pointerEvents: 'none',
+                    },
+                    '&:hover': {
+                      transform: 'translateY(-8px)',
+                      boxShadow: `0 16px 40px ${alpha(useCase.color, 0.25)}`,
+                    },
+                    overflow: 'hidden',
+                    '&:after': {
+                      content: '""',
+                      position: 'absolute',
+                      top: -80,
+                      right: -80,
+                      width: 180,
+                      height: 180,
+                      borderRadius: '50%',
+                      background: `radial-gradient(circle, ${alpha(useCase.color, 0.4)} 0%, transparent 70%)`,
+                    },
+                    '&:focus-visible': {
+                      outline: `2px solid ${useCase.color}`,
+                      outlineOffset: 2,
+                    },
                   }}
                 >
                   <CardContent sx={{ p: 4, textAlign: 'center' }}>
@@ -1097,8 +1305,35 @@ const LandingPage: React.FC = () => {
             fontWeight: 600, 
             color: 'text.primary',
             fontSize: '0.8rem',
+            display: 'inline-flex',
+            alignItems: 'center'
           }}>
-            Ubiqora - the autonomous future
+            <span style={{ position: 'relative' }}>Agent</span>
+            &nbsp;
+            <span style={{ position: 'relative' }}>
+              Hive
+              <Box
+                component="span"
+                sx={{
+                  position: 'absolute',
+                  top: -20,
+                  right: -25,
+                  fontSize: '1.5rem',
+                  animation: 'buzz 6s infinite ease-in-out',
+                  filter: 'drop-shadow(0 2px 5px rgba(255,193,7,0.5))',
+                  '@keyframes buzz': {
+                    '0%': { transform: 'translate(0, 0) rotate(0deg)' },
+                    '10%': { transform: 'translate(-2px, -2px) rotate(-5deg)' },
+                    '20%': { transform: 'translate(2px, 2px) rotate(5deg)' },
+                    '30%': { transform: 'translate(0, 0) rotate(0deg)' },
+                    '100%': { transform: 'translate(0, 0) rotate(0deg)' },
+                  }
+                }}
+              >
+                🐝
+              </Box>
+            </span>
+            Hive - Ignite Your AI Collective
           </Typography>
         </Box>
       </Box>
@@ -1145,8 +1380,8 @@ const LandingPage: React.FC = () => {
               {/* Ubiqora Logo */}
               <Box
                 component="img"
-                src="/inspyr_logo.png"
-                alt="Ubiqora Logo"
+                src="/AgentHiveLogo.png"
+                alt="AgentHive Logo"
                 sx={(theme: Theme) => ({
                   height: 40,
                   width: 'auto',
@@ -1218,7 +1453,16 @@ const LandingPage: React.FC = () => {
           }}>
             <EmbeddedWidget 
               customLauncher={
-                <Box className="widget-launcher">
+                <Box className="widget-launcher" sx={{
+                  backdropFilter: 'blur(15px) !important',
+                  background: `${alpha(theme.palette.background.paper, 0.6)} !important`,
+                  boxShadow: `0 8px 32px ${alpha(theme.palette.primary.main, 0.2)} !important`,
+                  border: `1px solid ${alpha(theme.palette.primary.main, 0.15)} !important`,
+                  '&:hover': {
+                    background: `${alpha(theme.palette.background.paper, 0.7)} !important`,
+                    boxShadow: `0 12px 40px ${alpha(theme.palette.primary.main, 0.3)} !important`
+                  }
+                }}>
                   <LazyLogoText 
                     size="small" 
                     showOnlyBubble={true} 

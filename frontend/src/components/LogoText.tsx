@@ -57,7 +57,7 @@ const LogoImage: React.FC<{
   const theme = useTheme();
 
   // Determine which image to use
-  const logoSrc = useGif ? '/AutoPilotLogo.gif' : '/AutoPilotLogo.png';
+  const logoSrc = useGif ? '/AgentHiveLogo.gif' : '/AgentHiveLogo.png';
 
   return (
     <motion.div
@@ -83,26 +83,33 @@ const LogoImage: React.FC<{
           transition: 'all 0.3s ease',
           pl: 1,  // added left padding to avoid clipping
           '&:hover': interactive ? {
-            background: `linear-gradient(135deg, ${theme.palette.primary.main}10, transparent)`,
+            background: `linear-gradient(135deg, rgba(255, 204, 0, 0.15), transparent)`,
+            boxShadow: '0 0 15px rgba(255, 204, 0, 0.2)',
           } : undefined,
           '@keyframes pulse': {
             '0%': { transform: 'scale(1)' },
             '50%': { transform: 'scale(1.05)' },
             '100%': { transform: 'scale(1)' },
           },
+          '@keyframes hover': {
+            '0%': { transform: 'translateY(0px)' },
+            '50%': { transform: 'translateY(-5px)' },
+            '100%': { transform: 'translateY(0px)' },
+          },
         }}
       >
         <img
           src={logoSrc}
-          alt="Autoprise Logo"
+          alt="AgentHive Logo"
           style={{ 
             height: logoSize, 
             width: logoSize, 
             objectFit: 'contain', 
             display: 'block',
             filter: useGif 
-              ? `drop-shadow(0 4px 16px ${theme.palette.primary.main}30) brightness(1.2) contrast(1.2) saturate(1.1)`
-              : `drop-shadow(0 4px 16px ${theme.palette.primary.main}30)`,
+              ? `drop-shadow(0 4px 16px rgba(255, 204, 0, 0.5)) brightness(1.2) contrast(1.2) saturate(1.1)`
+              : `drop-shadow(0 4px 16px rgba(255, 204, 0, 0.5))`,
+            animation: interactive ? 'hover 6s infinite ease-in-out' : 'none',
             transition: 'filter 0.3s ease',
             backgroundColor: 'transparent',
             borderRadius: useGif ? '50%' : '0',
@@ -192,7 +199,7 @@ const LogoTextContent: React.FC<LogoTextProps> = ({
     transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
     '&:hover': interactive ? {
       transform: 'translateY(-2px) scale(1.02)',
-      filter: 'drop-shadow(0 8px 24px rgba(200, 16, 46, 0.3))',
+      filter: 'drop-shadow(0 8px 24px rgba(255, 204, 0, 0.5))',
     } : undefined,
     '&:focus-visible': {
       outline: `2px solid ${theme.palette.primary.main}`,
@@ -211,7 +218,8 @@ const LogoTextContent: React.FC<LogoTextProps> = ({
     fontWeight: 600,
     letterSpacing: '-0.5px',
     fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-    background: textGradient,
+    background: 'linear-gradient(135deg, #FFD700, #FFA500)',
+    textShadow: '0 2px 4px rgba(0,0,0,0.1)',
     WebkitBackgroundClip: 'text',
     WebkitTextFillColor: 'transparent',
     backgroundClip: 'text',
@@ -222,7 +230,7 @@ const LogoTextContent: React.FC<LogoTextProps> = ({
     position: 'relative',
     ...(interactive && {
       '&:hover': {
-        filter: 'drop-shadow(0 0 8px rgba(200, 16, 46, 0.4))',
+        filter: 'drop-shadow(0 0 8px rgba(255, 204, 0, 0.7))',
         transform: 'translateX(2px)',
       }
     }),
@@ -265,7 +273,7 @@ const LogoTextContent: React.FC<LogoTextProps> = ({
         onKeyDown={handleKeyDown}
         tabIndex={interactive ? 0 : -1}
         role={interactive ? 'button' : undefined}
-        aria-label={ariaLabel || (interactive ? 'Autoprise Logo - Click to interact' : 'Autoprise Logo')}
+        aria-label={ariaLabel || (interactive ? 'AgentHive Logo - Click to interact' : 'AgentHive Logo')}
         component={motion.div}
         whileHover={interactive ? { scale: 1.02 } : undefined}
         whileTap={interactive ? { scale: 0.98 } : undefined}
@@ -281,7 +289,7 @@ const LogoTextContent: React.FC<LogoTextProps> = ({
               sx={textStyles}
               aria-hidden="true"
             >
-              Autoprise
+              AgentHive
             </Typography>
           </motion.div>
         )}
@@ -304,7 +312,7 @@ const LogoTextContent: React.FC<LogoTextProps> = ({
   if (interactive) {
     return (
       <Tooltip 
-        title="Tractor Supply Autoprise AI Assistant"
+        title="AgentHive AI Assistant"
         placement="bottom"
         arrow
       >
