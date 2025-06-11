@@ -1,0 +1,48 @@
+FROM node:18-alpine as builder
+
+WORKDIR /app
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies without frozen lockfile to allow updates
+RUN pnpm install
+
+# Final stage
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Copy package files and installed dependencies from builder
+COPY --from=builder /app/package.json /app/pnpm-lock.yaml ./
+COPY --from=builder /app/node_modules ./node_modules
+
+# Copy all configuration files
+COPY tsconfig.json ./
+COPY tsconfig.app.json ./
+COPY tsconfig.node.json ./
+COPY vite.config.ts ./
+COPY postcss.config.js ./
+COPY tailwind.config.js ./
+COPY components.json ./
+COPY index.html ./
+
+# Copy source files
+COPY src ./src
+COPY public ./public
+
+# Expose the development server port
+EXPOSE 5173
+
+# Add healthcheck
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+    CMD wget --no-verbose --tries=1 --spider http://localhost:5173/ || exit 1
+
+# Start the development server with host flag to allow external access
+CMD ["pnpm", "run", "dev", "--host"] 

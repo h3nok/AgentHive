@@ -33,7 +33,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StarIcon from '@mui/icons-material/Star';
 import CodeIcon from '@mui/icons-material/Code';
 // Import directly from the correct physical path
-import { EmbeddedWidget } from '../../../packages/ubiqora-ai-widget/tsc-ai-widget/src';
+import { EmbeddedWidget } from '../../../packages/ubiqora-ai-widget/ubiqora-ai-widget/src';
 import { ComponentErrorBoundary } from '../components/ErrorBoundary';
 import { useAppSelector, useAppDispatch, selectTheme, setTheme } from '../store';
 import IntakeDialog from '../components/IntakeDialog';

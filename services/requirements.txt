@@ -1,0 +1,16 @@
+fastapi>=0.104.0
+uvicorn>=0.24.0
+pydantic>=2.4.2
+python-dotenv>=1.0.0
+motor>=3.3.1  # MongoDB async driver
+redis>=5.0.1
+httpx>=0.25.0
+python-jose[cryptography]>=3.3.0  # For JWT
+passlib[bcrypt]>=1.7.4  # For password hashing
+python-multipart>=0.0.6  # For form data
+aiohttp>=3.9.0
+tenacity>=8.2.3  # For retries
+structlog>=23.2.0  # For structured logging
+opentelemetry-api>=1.21.0  # For tracing
+opentelemetry-sdk>=1.21.0
+opentelemetry-instrumentation-fastapi>=0.42b0 
