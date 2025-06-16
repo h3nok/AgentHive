@@ -101,7 +101,7 @@ async def router_trace_websocket(
     - Server sends: router trace events as JSON
     - Events include: router steps, complete traces, performance metrics
     """
-    if settings.environment not in ["development", "test"]:
+    if settings.ENVIRONMENT not in ["development", "test"]:
         await websocket.close(code=1000, reason="Debug endpoint not available in production")
         return
     
@@ -184,6 +184,6 @@ async def debug_websocket_health():
     """Debug WebSocket health check."""
     return {
         "status": "websocket_debug_ok",
-        "environment": settings.environment,
+        "environment": settings.ENVIRONMENT,
         "active_connections": sum(len(conns) for conns in router_trace_connections.values())
     }

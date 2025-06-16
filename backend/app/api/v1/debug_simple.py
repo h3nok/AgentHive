@@ -19,7 +19,7 @@ async def simple_debug_chat(prompt_in: PromptIn):
     Simple debug chat endpoint for testing.
     Returns a mock response to test the frontend integration.
     """
-    if settings.environment not in ["development", "test"]:
+    if settings.ENVIRONMENT not in ["development", "test"]:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Debug endpoint not available in production"
@@ -45,4 +45,4 @@ async def simple_debug_chat(prompt_in: PromptIn):
 @debug_simple_router.get("/health")
 async def debug_health():
     """Simple debug health check."""
-    return {"status": "debug_ok", "environment": settings.environment}
+    return {"status": "debug_ok", "environment": settings.ENVIRONMENT}

@@ -17,7 +17,6 @@ class RouteRequest(BaseModel):
 
 AGENT_KEYWORDS = {
     "chart": ["/chart", "graph", "chart"],
-    "lease": ["lease", "rent", "property"],
 }
 
 

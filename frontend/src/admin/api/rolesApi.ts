@@ -6,14 +6,14 @@ export async function fetchRoles() {
   return rolesMock;
 }
 
-export async function createRole(payload) {
+export async function createRole(payload: any) {
   return { ...payload, id: Date.now(), createdAt: new Date().toISOString() };
 }
 
-export async function updateRole(id, payload) {
+export async function updateRole(id: string | number, payload: any) {
   return { ...payload, id };
 }
 
-export async function deleteRole(id) {
+export async function deleteRole(id: string | number) {
   return { success: true };
 } 

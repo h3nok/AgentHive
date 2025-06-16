@@ -108,7 +108,7 @@ const agents: Agent[] = [
   {
     id: "general",
     name: "Enterprise General Assistant",
-    description: "Can answer questions on a wide range of Tractor Supply topics",
+    description: "Can answer questions on a wide range of enterprise topics",
     icon: <SmartToyIcon />,
     color: "#1976d2", // MUI blue
     avatarBg: "white",
@@ -176,7 +176,7 @@ const agents: Agent[] = [
     icon: <BarChartIcon />,
     color: "#0277bd", // Deep blue
     avatarBg: "white",
-    emoji: "📊",
+    emoji: "🍯",
     capabilities: [
       "Data visualization",
       "Performance metrics",
@@ -261,7 +261,7 @@ const predefinedPrompts: Prompt[] = [
     agent: "lease"
   },
   {
-    text: "Show transactions awaiting approval with a status of either 'Review' or 'Hold' specific to the TSC department.",
+    text: "Show transactions awaiting approval with a status of either 'Review' or 'Hold' in the finance department.",
     icon: <DescriptionIcon fontSize="small" />,
     category: "lease",
     agent: "lease"
@@ -307,7 +307,7 @@ const predefinedPrompts: Prompt[] = [
   
   // Enterprise General Assistant prompts
   {
-    text: "Tell me about Tractor Supply Company's product offerings",
+    text: "Tell me about our company's product offerings",
     icon: <SmartToyIcon fontSize="small" />,
     category: "general",
     agent: "general"

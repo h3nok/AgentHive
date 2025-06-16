@@ -14,10 +14,10 @@ console.log("API endpoint being used:", AGENT_QUERY_ENDPOINT);
 
 // Define the expected request body
 interface AgentQueryRequest {
-  session_id: string; // Active chat session id
-  query: string;      // User query text (changed from prompt to match /agent/query API)
-  agent?: string;     // The agent to use (lease, coder, analyst, etc.) - optional for intelligent routing
-  intelligent_routing?: boolean; // Enable automatic agent selection based on query content
+  session_id: string;
+  query: string;
+  explicit_agent?: string;
+  stream?: boolean;
 }
 
 // Define the expected response body (adjust based on actual API)
@@ -202,10 +202,12 @@ export const chatApi = createApi({
           // Always hit the generic agent/query endpoint; the agent type is passed in the body
           const url = `${API_BASE_URL}/v1/agent/query`;
           
-          // Prepare request body with intelligent routing support
+          // Prepare request body with explicit agent if specified
           const requestBody: AgentQueryRequest = {
-            ...arg,
-            intelligent_routing: !arg.agent // Enable intelligent routing when no specific agent is selected
+            session_id: arg.session_id,
+            query: arg.query,
+            explicit_agent: (arg as any).agent, // Temporary type assertion to fix build
+            stream: true
           };
           
           const authToken = localStorage.getItem('access_token');

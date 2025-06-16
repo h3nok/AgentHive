@@ -30,18 +30,19 @@ const EnhancedAgentInput: React.FC<EnhancedAgentInputProps> = ({
   const textFieldRef = useRef<HTMLInputElement>(null);
 
   const { 
-    predictedIntent, 
-    suggestedActions, 
-    contextualEnhancements,
-    updateContext,
-    confidence 
-  } = usePredictiveUI(features.predictiveUI);
+    suggestedActions,
+    preloadedComponents,
+    intentScore,
+    nextLikelyInteraction,
+    analyzeUserIntent,
+    recordInteraction
+  } = usePredictiveUI();
 
   // Update AI context as user types
   useEffect(() => {
     if (features.predictiveUI && message) {
       const timeoutId = setTimeout(() => {
-        updateContext({
+        analyzeUserIntent(message, {
           currentInput: message,
           inputLength: message.length,
           typingPattern: Date.now(),
@@ -50,7 +51,7 @@ const EnhancedAgentInput: React.FC<EnhancedAgentInputProps> = ({
 
       return () => clearTimeout(timeoutId);
     }
-  }, [message, features.predictiveUI, updateContext]);
+  }, [message, features.predictiveUI, analyzeUserIntent]);
 
   const handleSubmit = useCallback((e: React.FormEvent) => {
     e.preventDefault();
@@ -104,7 +105,7 @@ const EnhancedAgentInput: React.FC<EnhancedAgentInputProps> = ({
             }}>
               <AIIcon sx={{ fontSize: 16 }} />
               <Box sx={{ fontSize: '0.75rem', fontWeight: 600 }}>
-                AI Suggestions (Confidence: {Math.round(confidence * 100)}%)
+                AI Suggestions (Confidence: {Math.round(intentScore * 100)}%)
               </Box>
             </Box>
             <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap' }}>
@@ -130,7 +131,7 @@ const EnhancedAgentInput: React.FC<EnhancedAgentInputProps> = ({
             </Box>
             
             {/* Intent Prediction */}
-            {predictedIntent && (
+            {nextLikelyInteraction && (
               <Box sx={{ 
                 mt: 1, 
                 pt: 1, 
@@ -138,7 +139,7 @@ const EnhancedAgentInput: React.FC<EnhancedAgentInputProps> = ({
                 fontSize: '0.7rem',
                 color: 'text.secondary'
               }}>
-                💡 Predicted intent: {predictedIntent}
+                💡 Predicted intent: {nextLikelyInteraction}
               </Box>
             )}
           </Box>
@@ -179,8 +180,8 @@ const EnhancedAgentInput: React.FC<EnhancedAgentInputProps> = ({
           onFocus={() => features.predictiveUI && setShowPredictions(true)}
           onBlur={() => setTimeout(() => setShowPredictions(false), 200)}
           placeholder={
-            features.predictiveUI && predictedIntent 
-              ? `AI suggests: ${predictedIntent}...`
+            features.predictiveUI && nextLikelyInteraction 
+              ? `AI suggests: ${nextLikelyInteraction}...`
               : `Message ${activeAgent} agent...`
           }
           disabled={isLoading}
@@ -189,7 +190,7 @@ const EnhancedAgentInput: React.FC<EnhancedAgentInputProps> = ({
               <InputAdornment position="end">
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   {/* Predictive UI Indicator */}
-                  {features.predictiveUI && confidence > 0.7 && (
+                  {features.predictiveUI && intentScore > 0.7 && (
                     <Box sx={{
                       width: 8,
                       height: 8,
@@ -272,33 +273,7 @@ const EnhancedAgentInput: React.FC<EnhancedAgentInputProps> = ({
         />
       </Box>
 
-      {/* Context Enhancement Indicators */}
-      {features.predictiveUI && contextualEnhancements.length > 0 && (
-        <Box sx={{ 
-          mt: 1, 
-          display: 'flex', 
-          gap: 1, 
-          flexWrap: 'wrap',
-          justifyContent: 'center'
-        }}>
-          {contextualEnhancements.slice(0, 2).map((enhancement, index) => (
-            <Box
-              key={index}
-              sx={{
-                px: 1.5,
-                py: 0.5,
-                borderRadius: 1,
-                bgcolor: alpha('#f39c12', 0.1),
-                color: '#f39c12',
-                fontSize: '0.7rem',
-                border: '1px solid rgba(243, 156, 18, 0.2)',
-              }}
-            >
-              ✨ {enhancement}
-            </Box>
-          ))}
-        </Box>
-      )}
+      {/* Context Enhancement Indicators - Coming Soon */}
     </Box>
   );
 };

@@ -295,7 +295,7 @@ async def debug_chat_endpoint(
     
     WARNING: This endpoint should only be available in development environments.
     """
-    if settings.environment not in ["development", "test"]:
+    if settings.ENVIRONMENT not in ["development", "test"]:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Debug endpoint not available in production"

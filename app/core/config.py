@@ -17,7 +17,7 @@ DEBUG_MODE = os.environ.get("LEASE_AGENT_DEBUG", "").lower() in ("true", "1", "y
 
 class Settings(BaseModel):
     # Application Settings
-    APP_NAME: str = "TSC-ChatTSC"
+    APP_NAME: str = "AgentHive"
     DEBUG: bool = DEBUG_MODE
     SECRET_KEY: str = os.getenv("SECRET_KEY", "your-secret-key-here")
     LOG_LEVEL: str = "DEBUG" if DEBUG_MODE else "INFO"

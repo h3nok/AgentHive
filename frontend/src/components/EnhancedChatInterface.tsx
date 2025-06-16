@@ -310,7 +310,7 @@ export const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
             color: 'var(--quantum-primary)',
           }}
         >
-          🧠 AI Prediction: {nextLikelyInteraction} ({(intentScore * 100).toFixed(0)}% confidence)
+          🐝 AI Prediction: {nextLikelyInteraction} ({(intentScore * 100).toFixed(0)}% confidence)
         </Box>
       )}
 

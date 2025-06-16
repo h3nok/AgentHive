@@ -31,7 +31,7 @@ export const QuantumMessageContainer: React.FC<QuantumMessageProps> = ({
   // Quantum field effect based on message properties
   const fieldIntensity = useTransform(
     [mouseX, mouseY],
-    ([x, y]) => Math.sqrt(x * x + y * y) * importance
+    (latest: number[]) => Math.sqrt((latest[0] || 0) * (latest[0] || 0) + (latest[1] || 0) * (latest[1] || 0)) * importance
   );
 
   // Dynamic color transformation based on sentiment and complexity
@@ -123,7 +123,6 @@ export const QuantumMessageContainer: React.FC<QuantumMessageProps> = ({
       ref={containerRef}
       style={{
         position: 'relative',
-        background: backgroundColor,
         backdropFilter: `blur(${complexity * 10}px)`,
         border: `1px solid hsla(${sentiment > 0 ? 120 : 0}, ${Math.abs(sentiment) * 50}%, 50%, ${0.3 + importance * 0.4})`,
         borderRadius: `${8 + complexity * 12}px`,

@@ -4,7 +4,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile.simple
     ports:
       - "5173:5173"
     volumes:
@@ -12,6 +12,9 @@ services:
       - /app/node_modules
     environment:
       - VITE_API_URL=http://localhost:8000
+      - NODE_OPTIONS=--max-old-space-size=4096
+      - ESBUILD_BINARY_PATH=/usr/local/bin/esbuild
+    restart: unless-stopped
     depends_on:
       - backend
 

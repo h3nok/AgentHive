@@ -25,22 +25,22 @@ interface SizeConfig {
 // Size configurations with proper scaling
 const SIZE_CONFIGS: Record<NonNullable<LogoTextProps['size']>, SizeConfig> = {
   small: {
-    height: 48,
-    fontSize: '1.2rem',
+    height: 36,
+    fontSize: '1rem',
     spacing: 2,
-    logoSize: '85%',
+    logoSize: '2rem',
   },
   medium: {
-    height: 80,
-    fontSize: '1.8rem',
+    height: 48,
+    fontSize: '1.5rem',
     spacing: 3,
-    logoSize: '85%',
+    logoSize: '2.5rem',
   },
   large: {
-    height: 120,
-    fontSize: '2.5rem',
+    height: 60,
+    fontSize: '2rem',
     spacing: 4,
-    logoSize: '85%',
+    logoSize: '3rem',
   },
 } as const;
 
@@ -55,9 +55,6 @@ const LogoImage: React.FC<{
   showOnlyBubble?: boolean;  // added optional prop
 }> = memo(({ height, logoSize, interactive, animated, hasNewMessage, connectionStatus, useGif = false, showOnlyBubble = false }) => {
   const theme = useTheme();
-
-  // Determine which image to use
-  const logoSrc = useGif ? '/AgentHiveLogo.gif' : '/AgentHiveLogo.png';
 
   return (
     <motion.div
@@ -98,37 +95,94 @@ const LogoImage: React.FC<{
           },
         }}
       >
-        <img
-          src={logoSrc}
-          alt="AgentHive Logo"
-          style={{ 
-            height: logoSize, 
-            width: logoSize, 
-            objectFit: 'contain', 
-            display: 'block',
-            filter: useGif 
-              ? `drop-shadow(0 4px 16px rgba(255, 204, 0, 0.5)) brightness(1.2) contrast(1.2) saturate(1.1)`
-              : `drop-shadow(0 4px 16px rgba(255, 204, 0, 0.5))`,
-            animation: interactive ? 'hover 6s infinite ease-in-out' : 'none',
-            transition: 'filter 0.3s ease',
-            backgroundColor: 'transparent',
-            borderRadius: useGif ? '50%' : '0',
-            padding: useGif ? '12px' : '0',
-            transform: useGif ? 'scale(1.5)' : 'scale(1)',
-            mixBlendMode: useGif && theme.palette.mode === 'dark' ? 'screen' : 'normal',
-            // For GIFs with black backgrounds, use a combination of filters to make it transparent-looking
-            ...(useGif && {
-              WebkitMaskImage: 'radial-gradient(circle, black 60%, transparent 100%)',
-              maskImage: 'radial-gradient(circle, black 60%, transparent 100%)',
-              backdropFilter: 'blur(1px)',
-            })
+        <Typography
+          component="span"
+          sx={{
+            fontSize: logoSize,
+            lineHeight: 1,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            filter: `drop-shadow(0 4px 16px rgba(255, 204, 0, 0.5)) drop-shadow(0 2px 8px rgba(255, 165, 0, 0.3))`,
+            animation: interactive 
+              ? 'hover 6s infinite ease-in-out, enhancedBeeWingFlap 2.5s infinite ease-in-out, beeGlow 4s infinite ease-in-out' 
+              : 'enhancedBeeWingFlap 2.5s infinite ease-in-out, beeGlow 4s infinite ease-in-out',
+            transition: 'filter 0.3s ease, transform 0.3s ease',
+            transform: 'scale(1.2)',
+            position: 'relative',
+            '&:hover': interactive ? {
+              transform: 'scale(1.35) translateY(-2px)',
+              filter: `drop-shadow(0 8px 24px rgba(255, 204, 0, 0.8)) drop-shadow(0 4px 12px rgba(255, 165, 0, 0.6)) drop-shadow(0 2px 6px rgba(255, 140, 0, 0.4))`,
+              animation: 'enhancedBeeWingFlap 1.5s infinite ease-in-out, intenseBeeGlow 2s infinite ease-in-out',
+            } : undefined,
+            '&:before': {
+              content: '""',
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '120%',
+              height: '120%',
+              borderRadius: '50%',
+              background: 'radial-gradient(circle, rgba(255, 204, 0, 0.1) 0%, rgba(255, 165, 0, 0.05) 50%, transparent 70%)',
+              animation: 'beeAura 3s infinite ease-in-out',
+              zIndex: -1,
+              pointerEvents: 'none',
+            },
+            '@keyframes enhancedBeeWingFlap': {
+              '0%, 100%': { 
+                transform: 'scale(1.2) rotateZ(0deg) translateY(0px)',
+              },
+              '15%': { 
+                transform: 'scale(1.22) rotateZ(-1.5deg) translateY(-1px)',
+              },
+              '30%': { 
+                transform: 'scale(1.18) rotateZ(0.5deg) translateY(-2px)',
+              },
+              '45%': { 
+                transform: 'scale(1.25) rotateZ(1.5deg) translateY(-1px)',
+              },
+              '60%': { 
+                transform: 'scale(1.16) rotateZ(-0.5deg) translateY(-2px)',
+              },
+              '75%': { 
+                transform: 'scale(1.24) rotateZ(1deg) translateY(-1px)',
+              },
+              '90%': { 
+                transform: 'scale(1.19) rotateZ(-0.8deg) translateY(-1px)',
+              },
+            },
+            '@keyframes beeGlow': {
+              '0%, 100%': { 
+                filter: `drop-shadow(0 4px 16px rgba(255, 204, 0, 0.5)) drop-shadow(0 2px 8px rgba(255, 165, 0, 0.3))`,
+              },
+              '50%': { 
+                filter: `drop-shadow(0 6px 20px rgba(255, 204, 0, 0.7)) drop-shadow(0 3px 12px rgba(255, 165, 0, 0.5)) drop-shadow(0 1px 4px rgba(255, 140, 0, 0.3))`,
+              },
+            },
+            '@keyframes intenseBeeGlow': {
+              '0%, 100%': { 
+                filter: `drop-shadow(0 8px 24px rgba(255, 204, 0, 0.8)) drop-shadow(0 4px 12px rgba(255, 165, 0, 0.6)) drop-shadow(0 2px 6px rgba(255, 140, 0, 0.4))`,
+              },
+              '50%': { 
+                filter: `drop-shadow(0 12px 32px rgba(255, 204, 0, 0.9)) drop-shadow(0 6px 16px rgba(255, 165, 0, 0.7)) drop-shadow(0 3px 8px rgba(255, 140, 0, 0.5))`,
+              },
+            },
+            '@keyframes beeAura': {
+              '0%, 100%': { 
+                transform: 'translate(-50%, -50%) scale(0.8)',
+                opacity: 0.3,
+              },
+              '50%': { 
+                transform: 'translate(-50%, -50%) scale(1.2)',
+                opacity: 0.1,
+              },
+            },
           }}
-          loading="lazy"
-          onError={(e) => {
-            console.warn('Logo image failed to load');
-            e.currentTarget.style.display = 'none';
-          }}
-        />
+          aria-label="AgentHive Bee Logo"
+        >
+          🐝
+        </Typography>
         
         {/* Single adaptive connection/new-message indicator */}
         <AnimatePresence>
@@ -304,6 +358,7 @@ const LogoTextContent: React.FC<LogoTextProps> = ({
           useGif={useGif}
           showOnlyBubble={showOnlyBubble}
         />
+        
       </Box>
     </motion.div>
   );

@@ -84,3 +84,25 @@ storybook-static
 *.bundle.css
 *.chunk.js
 
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+*.cover
+.coverage
+coverage.xml
+*.egg-info/
+dist/
+build/
+
+# Virtual Environment and Environment Artifacts
+venv/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+

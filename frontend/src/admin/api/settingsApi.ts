@@ -6,6 +6,6 @@ export async function fetchSettings() {
   return settingsMock;
 }
 
-export async function updateSettings(payload) {
+export async function updateSettings(payload: any) {
   return { ...settingsMock, ...payload };
 } 

@@ -1,21 +1,21 @@
-/* 🚀 NEXT-GENERATION ENTERPRISE CHAT INTERFACE STYLES
-   Revolutionary CSS features never seen before in chat applications */
+/* � NEXT-GENERATION AGENTHIVE INTERFACE STYLES
+   Revolutionary honey-themed CSS features for bee-inspired chat applications */
 
-/* ===== QUANTUM FIELD VARIABLES ===== */
+/* ===== HIVE FIELD VARIABLES ===== */
 :root {
-  /* Quantum color palette */
-  --quantum-primary: hsl(220, 100%, 60%);
-  --quantum-secondary: hsl(180, 80%, 50%);
-  --quantum-accent: hsl(300, 90%, 70%);
+  /* Honey color palette */
+  --hive-primary: hsl(45, 95%, 50%);
+  --hive-secondary: hsl(35, 80%, 55%);
+  --hive-accent: hsl(40, 90%, 65%);
   
-  /* Neural network colors */
-  --neural-synapse: rgba(0, 255, 255, 0.6);
-  --neural-connection: rgba(255, 0, 255, 0.4);
+  /* Bee network colors */
+  --bee-synapse: rgba(245, 158, 11, 0.6);
+  --bee-connection: rgba(217, 119, 6, 0.4);
   
-  /* Holographic effects */
-  --holo-shift-1: hsl(240, 100%, 70%);
-  --holo-shift-2: hsl(300, 100%, 70%);
-  --holo-shift-3: hsl(180, 100%, 70%);
+  /* Honey flow effects */
+  --honey-flow-1: hsl(45, 100%, 70%);
+  --honey-flow-2: hsl(35, 100%, 70%);
+  --honey-flow-3: hsl(50, 100%, 75%);
   
   /* Dynamic spacing based on golden ratio */
   --phi: 1.618033988749;
@@ -24,22 +24,22 @@
   --space-macro: calc(var(--space-quantum) * var(--phi));
 }
 
-/* ===== QUANTUM MESSAGE CONTAINERS ===== */
+/* ===== HIVE MESSAGE CONTAINERS ===== */
 .quantum-message-container {
   position: relative;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.05) 0%,
-    rgba(255, 255, 255, 0.02) 50%,
-    rgba(0, 0, 0, 0.05) 100%
+    rgba(254, 252, 243, 0.05) 0%,
+    rgba(254, 243, 199, 0.02) 50%,
+    rgba(146, 64, 14, 0.05) 100%
   );
   backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.1);
   border-radius: calc(var(--space-quantum) * 0.8);
   padding: var(--space-quantum);
   margin: var(--space-micro) 0;
   
-  /* Quantum field interaction */
+  /* Hive field interaction */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   transform-style: preserve-3d;
   perspective: 1000px;
@@ -54,16 +54,16 @@
   bottom: -2px;
   background: linear-gradient(
     45deg,
-    var(--holo-shift-1),
-    var(--holo-shift-2),
-    var(--holo-shift-3),
-    var(--holo-shift-1)
+    var(--honey-flow-1),
+    var(--honey-flow-2),
+    var(--honey-flow-3),
+    var(--honey-flow-1)
   );
   background-size: 400% 400%;
   border-radius: inherit;
   z-index: -1;
   opacity: 0;
-  animation: quantum-field-pulse 4s ease-in-out infinite;
+  animation: honey-field-pulse 4s ease-in-out infinite;
   filter: blur(8px);
 }
 
@@ -72,7 +72,7 @@
   animation-duration: 2s;
 }
 
-/* ===== NEURAL NETWORK BACKGROUND ===== */
+/* ===== BEE NETWORK BACKGROUND ===== */
 .neural-network-bg {
   position: fixed;
   top: 0;
@@ -88,9 +88,9 @@
   position: absolute;
   width: 4px;
   height: 4px;
-  background: var(--neural-synapse);
+  background: var(--bee-synapse);
   border-radius: 50%;
-  animation: neural-pulse 3s ease-in-out infinite;
+  animation: bee-pulse 3s ease-in-out infinite;
 }
 
 .neural-connection {
@@ -289,8 +289,8 @@
   pointer-events: none;
 }
 
-/* ===== QUANTUM ANIMATIONS ===== */
-@keyframes quantum-field-pulse {
+/* ===== HONEY ANIMATIONS ===== */
+@keyframes honey-field-pulse {
   0%, 100% {
     transform: rotate(0deg) scale(1);
     opacity: 0;
@@ -307,7 +307,7 @@
   }
 }
 
-@keyframes neural-pulse {
+@keyframes bee-pulse {
   0%, 100% {
     transform: scale(0.8);
     opacity: 0.4;

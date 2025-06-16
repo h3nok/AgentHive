@@ -7,10 +7,18 @@ import {
   restartMpcServer
 } from '../api/mpcServersApi';
 
+interface MpcServer {
+  id: string | number;
+  name: string;
+  host: string;
+  status: string;
+  lastSeen: string;
+}
+
 export function useMpcServers() {
-  const [servers, setServers] = useState([]);
+  const [servers, setServers] = useState<MpcServer[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<any>(null);
 
   const loadServers = useCallback(async () => {
     setLoading(true);
@@ -29,19 +37,19 @@ export function useMpcServers() {
     loadServers();
   }, [loadServers]);
 
-  const create = async (payload) => {
+  const create = async (payload: any) => {
     const newServer = await createMpcServer(payload);
     setServers((prev) => [...prev, newServer]);
   };
-  const update = async (id, payload) => {
+  const update = async (id: string | number, payload: any) => {
     const updated = await updateMpcServer(id, payload);
     setServers((prev) => prev.map(s => s.id === id ? updated : s));
   };
-  const remove = async (id) => {
+  const remove = async (id: string | number) => {
     await deleteMpcServer(id);
     setServers((prev) => prev.filter(s => s.id !== id));
   };
-  const restart = async (id) => {
+  const restart = async (id: string | number) => {
     const restarted = await restartMpcServer(id);
     setServers((prev) => prev.map(s => s.id === id ? { ...s, ...restarted } : s));
   };

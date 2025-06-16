@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Box, LinearProgress, Typography } from '@mui/material';
 
 const statusSteps = [
-  '🔍 Executing query...',
-  '🧠 Running analysis...',
+  '🏭 Executing query...',
+  '🐝 Running analysis...',
   '📦 Formatting response...'
 ];
 

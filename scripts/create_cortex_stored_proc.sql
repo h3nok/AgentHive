@@ -71,26 +71,6 @@ BEGIN
         tables_array := ARRAY_CONSTRUCT('disaster_recovery_contacts');
         metadata_obj := OBJECT_CONSTRUCT('matched_pattern', 'disaster_contacts');
     
-    -- Lease Expiration query
-    ELSIF (CONTAINS(query_lower, 'leases') AND CONTAINS(query_lower, 'expiring')) THEN
-        -- Try to extract number of months
-        LET months := 12; -- Default
-        LET month_pattern := '(\\d+)\\s+months';
-        LET month_matches := REGEXP_SUBSTR(query_lower, month_pattern, 1, 1, 'e');
-        
-        IF (month_matches IS NOT NULL) THEN
-            months := TRY_TO_NUMBER(month_matches);
-        END IF;
-        
-        generated_sql := 'SELECT store_number, property_type, base_monthly_rent, expiration_date, leased_area_sqft 
-                          FROM leases 
-                          WHERE expiration_date IS NOT NULL 
-                          AND expiration_date <= DATEADD(month, ' || months || ', CURRENT_DATE()) 
-                          ORDER BY expiration_date';
-        confidence_score := 0.88;
-        tables_array := ARRAY_CONSTRUCT('leases');
-        metadata_obj := OBJECT_CONSTRUCT('matched_pattern', 'lease_expiration');
-    
     -- Default/unknown query
     ELSE
         generated_sql := '';
@@ -112,5 +92,4 @@ $$;
 -- Example usage:
 -- CALL CORTEX_NLQ_TO_SQL('Who is the current property owner associated with AKA identifier ABC123?');
 -- CALL CORTEX_NLQ_TO_SQL('List all covenants with status Enterprise or PTS for store number 456.');
--- CALL CORTEX_NLQ_TO_SQL('Show all disaster recovery contacts along with their names and roles.');
--- CALL CORTEX_NLQ_TO_SQL('Which leases are expiring within the next 12 months?'); 
+-- CALL CORTEX_NLQ_TO_SQL('Show all disaster recovery contacts along with their names and roles.'); 

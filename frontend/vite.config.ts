@@ -19,7 +19,34 @@ export default defineConfig({
       "tsc-ai-widget": path.resolve(__dirname, "../packages/tsc-ai-widget/src"),
     },
   },
+  // Optimize dependencies to handle ESBuild service stopping
+  optimizeDeps: {
+    // Force include commonly problematic dependencies
+    include: ['react', 'react-dom', '@radix-ui/react-slot']
+  },
+  // Build configuration
+  build: {
+    // Increase build timeout and handle warnings
+    rollupOptions: {
+      onwarn(warning, warn) {
+        // Suppress esbuild service stopped warnings
+        if (warning.code === 'ESBUILD_SERVICE_STOPPED') return
+        warn(warning)
+      }
+    },
+    // Increase chunk size limit for better performance
+    chunkSizeWarningLimit: 1000
+  },
   server: {
+    // Docker-specific server configuration
+    host: '0.0.0.0',
+    port: 5173,
+    strictPort: true,
+    // Add watch options for Docker environments
+    watch: {
+      usePolling: true,
+      interval: 1000,
+    },
     proxy: {
       // Forward API calls to the local FastAPI backend
       '/lease-abstraction-poc-api': {

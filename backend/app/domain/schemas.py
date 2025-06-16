@@ -14,7 +14,6 @@ from uuid import UUID, uuid4
 
 class AgentType(str, Enum):
     """Available agent types."""
-    LEASE = "lease"
     GENERAL = "general"
     SALES = "sales"
     SUPPORT = "support"

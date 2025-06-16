@@ -3,6 +3,14 @@ import { Mic, MicOff, VolumeUp, Psychology, AutoAwesome } from '@mui/icons-mater
 import { Fab, Box, Typography, Chip, Backdrop, Paper } from '@mui/material';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// Add type declarations for speech recognition
+declare global {
+  interface Window {
+    webkitSpeechRecognition: any;
+    SpeechRecognition: any;
+  }
+}
+
 interface VoiceCommandResult {
   transcript: string;
   confidence: number;
@@ -29,7 +37,7 @@ export const AdvancedVoiceInterface: React.FC = () => {
   const [voicePattern, setVoicePattern] = useState<number[]>([]);
   const [showVisualization, setShowVisualization] = useState(false);
 
-  const recognitionRef = useRef<SpeechRecognition | null>(null);
+  const recognitionRef = useRef<any>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const animationFrameRef = useRef<number>();
@@ -37,7 +45,7 @@ export const AdvancedVoiceInterface: React.FC = () => {
   // Initialize speech recognition with advanced features
   useEffect(() => {
     if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
-      const SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
+      const SpeechRecognition = (window as any).webkitSpeechRecognition || (window as any).SpeechRecognition;
       recognitionRef.current = new SpeechRecognition();
       
       const recognition = recognitionRef.current;
@@ -46,7 +54,7 @@ export const AdvancedVoiceInterface: React.FC = () => {
       recognition.lang = 'en-US';
       recognition.maxAlternatives = 3;
 
-      recognition.onresult = (event) => {
+      recognition.onresult = (event: any) => {
         let finalTranscript = '';
         let interimTranscript = '';
         let totalConfidence = 0;
@@ -72,7 +80,7 @@ export const AdvancedVoiceInterface: React.FC = () => {
         }
       };
 
-      recognition.onerror = (event) => {
+      recognition.onerror = (event: any) => {
         console.error('Speech recognition error:', event.error);
         setIsListening(false);
         setShowVisualization(false);

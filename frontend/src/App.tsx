@@ -20,14 +20,22 @@ const ChatPage = React.lazy(() => import('./components/LayoutShell'));
 const AdminPage = React.lazy(() => import('./admin/AdminApp'));
 const DebugPage = React.lazy(() => import('./pages/DebugPage'));
 const TableRenderingTest = React.lazy(() => import('./components/TableRenderingTest'));
-
-// Floating bee widget
-const AgentHiveFloatingWidget = React.lazy(() => import('./components/AgentHiveFloatingWidget'));
+const AgenticChatInterface = React.lazy(() => import('./components/AgenticChatInterface'));
+const ChatTestPage = React.lazy(() => import('./pages/ChatTestPage'));
+const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
+const TaskDetailsPage = React.lazy(() => import('./pages/TaskDetailsPage'));
 
 // Global styles for consistent UI
 const globalStyles = (
   <GlobalStyles
     styles={(theme) => ({
+        ':root': {
+          '--red': theme.palette.primary.main,
+          '--honey-amber': theme.palette.primary.main,
+          '--background-default': theme.palette.background.default,
+          '--text-primary': theme.palette.text.primary,
+          '--honey-amber-rgb': '245, 158, 11',
+        },
       '*': {
         boxSizing: 'border-box',
       },
@@ -87,21 +95,31 @@ const globalStyles = (
 // Loading component
 const LoadingFallback: React.FC = () => (
   <Box sx={{ 
-    position: 'fixed', 
-    top: 0, 
-    left: 0, 
-    right: 0, 
-    zIndex: 9999,
-    height: '4px',
+    display: 'flex', 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    height: '100vh',
+    width: '100vw',
+    bgcolor: 'background.default'
   }}>
-    <LinearProgress 
-      sx={{ 
-        height: '100%',
-        '& .MuiLinearProgress-bar': {
-          background: 'linear-gradient(90deg, #c8102e 0%, #a50d24 100%)',
-        }
-      }} 
-    />
+    <Box sx={{ textAlign: 'center' }}>
+      <Box 
+        component="img"
+        src="/AgentHiveLogo.png"
+        alt="AgentHive Logo"
+        sx={{ 
+          width: 120,
+          height: 'auto',
+          mb: 2,
+          animation: 'pulse 2s infinite',
+          '@keyframes pulse': {
+            '0%': { opacity: 0.6 },
+            '50%': { opacity: 1 },
+            '100%': { opacity: 0.6 },
+          },
+        }}
+      />
+    </Box>
   </Box>
 );
 
@@ -113,13 +131,14 @@ const useAppTheme = () => {
   const theme = useMemo(() => {
     const mode = themeMode === 'auto' 
       ? (prefersDarkMode ? 'dark' : 'light')
-      : themeMode;    return createTheme({
+      : themeMode;
+    return createTheme({
       palette: {
         mode,
         primary: {
-          main: '#c8102e',
-          light: '#e53e56',
-          dark: '#a50d24',
+          main: '#f59e0b', // honey amber
+          light: '#fbbf24', // light amber
+          dark: '#d97706', // dark amber
           contrastText: '#ffffff',
         },
         secondary: {
@@ -137,11 +156,7 @@ const useAppTheme = () => {
           secondary: mode === 'dark' ? '#b3b3b3' : '#666666',
         },
         divider: mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)',
-        // Add custom colors
-        darkRoast: '#22160F',
-        goldAmber: '#C49F55',
-        mochaSand: '#CE9A6A',
-        cream: '#F6EFDB',
+        // Add custom colors as augmentations (will be handled by theme augmentation)
         error: {
           main: '#d32f2f',
           light: '#ef5350',
@@ -248,12 +263,12 @@ const useAppTheme = () => {
             },
             contained: {
               boxShadow: mode === 'dark' 
-                ? '0 4px 12px rgba(200, 16, 46, 0.3)' 
-                : '0 4px 12px rgba(200, 16, 46, 0.2)',
+                ? '0 4px 12px rgba(245, 158, 11, 0.3)' 
+                : '0 4px 12px rgba(245, 158, 11, 0.2)',
               '&:hover': {
                 boxShadow: mode === 'dark' 
-                  ? '0 6px 16px rgba(200, 16, 46, 0.4)' 
-                  : '0 6px 16px rgba(200, 16, 46, 0.3)',
+                  ? '0 6px 16px rgba(245, 158, 11, 0.4)' 
+                  : '0 6px 16px rgba(245, 158, 11, 0.3)',
               },
             },
           },
@@ -303,10 +318,6 @@ const AppContent: React.FC = () => {
   const error = useAppSelector(selectError);
   const currentTheme = useAppSelector(selectTheme);
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-    // State for chat navigation (for floating bee widget)
-  const navigate = useCallback(() => {
-    window.location.href = '/chat';
-  }, []);
 
   // Resolve auto theme to actual mode
   const resolvedMode = currentTheme === 'auto' 
@@ -319,10 +330,6 @@ const AppContent: React.FC = () => {
     dispatch(setTheme(newTheme));
     localStorage.setItem('theme', newTheme);
   }, [resolvedMode, dispatch]);
-    // Chat navigation for floating bee widget
-  const handleOpenChat = useCallback(() => {
-    navigate();
-  }, [navigate]);
 
   // Performance monitoring
   useEffect(() => {
@@ -370,82 +377,74 @@ const AppContent: React.FC = () => {
             minHeight: '100vh',
             width: '100%',
           }}>
-          <RouteErrorBoundary>
-            <Suspense fallback={<LoadingFallback />}>
-              <Routes>
-                <Route path="/" element={<LandingPage />} />
-                {/* Chat without session id (fallback) */}
-                <Route
-                  path="/chat"
-                  element={
-                    <ChatPage
-                      toggleTheme={toggleTheme}
-                      isNewSession={false}
-                    />
-                  }
-                />
-                {/* Chat with session id – primary route */}
-                <Route
-                  path="/chat/:sessionId"
-                  element={
-                    <ChatPage
-                      toggleTheme={toggleTheme}
-                    />
-                  }
-                />
-                <Route 
-                  path="/admin/*" 
-                  element={
-                    <AdminPage 
-                      toggleTheme={toggleTheme} 
-                      mode={resolvedMode} 
-                    />
-                  } 
-                />
-                <Route 
-                  path="/debug" 
-                  element={<DebugPage />} 
-                />
-                <Route 
-                  path="/test-table" 
-                  element={<TableRenderingTest />} 
-                />
-                <Route path="*" element={<Navigate to="/" replace />} />
-              </Routes>            </Suspense>
-          </RouteErrorBoundary>
+            <RouteErrorBoundary>
+              <Suspense fallback={<LoadingFallback />}>
+                <Routes>
+                  <Route path="/" element={<LandingPage />} />
+                  {/* Chat without session id (fallback) */}
+                  <Route
+                    path="/chat"
+                    element={
+                      <ChatPage
+                        toggleTheme={toggleTheme}
+                        isNewSession={false}
+                      />
+                    }
+                  />
+                  {/* Chat with session id – primary route */}
+                  <Route
+                    path="/chat/:sessionId"
+                    element={
+                      <ChatPage
+                        toggleTheme={toggleTheme}
+                      />
+                    }
+                  />
+                  <Route 
+                    path="/admin/*" 
+                    element={
+                      <AdminPage 
+                        toggleTheme={toggleTheme} 
+                        mode={resolvedMode} 
+                      />
+                    } 
+                  />
+                  <Route 
+                    path="/debug" 
+                    element={<DebugPage />} 
+                  />
+                  <Route 
+                    path="/test-table" 
+                    element={<TableRenderingTest />} 
+                  />
+                  <Route 
+                    path="/agentic-chat" 
+                    element={<AgenticChatInterface />} 
+                  />
+                  <Route 
+                    path="/chat-test" 
+                    element={<ChatTestPage />} 
+                  />
+                  <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/tasks/:taskId" element={<TaskDetailsPage />} />
+                  <Route path="*" element={<Navigate to="/" replace />} />
+                </Routes>
+              </Suspense>
+            </RouteErrorBoundary>
 
-          {/* Floating Bee Widget */}
-          <Suspense fallback={null}>
-            <AgentHiveFloatingWidget
-              onOpenChat={handleOpenChat}
-              messages={[
-                "💡 Try asking me about your team's schedule!",
-                "🚀 I can help automate your workflows",
-                "📊 Need help with reports? Just ask!",
-                "⚡ Speed up approvals with AI assistance",
-                "🔍 Search across all your enterprise tools",
-                "🤖 Your AI swarm is ready to help!",
-              ]}
-              size={40}
-              speed={1}
-              messageInterval={25000}
-              pauseDuration={4000}
-            />
-          </Suspense>
-
-          {/* Global error snackbar */}
-          <Snackbar
-            open={!!error}
-            autoHideDuration={6000}
-            onClose={handleCloseError}
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-          >
-            <Alert onClose={handleCloseError} severity="error" sx={{ width: '100%' }}>
-              {error}
-            </Alert>
-          </Snackbar>
-        </Box>
-      </CanvasProvider>
+            {/* Global error snackbar */}
+            <Snackbar
+              open={!!error}
+              autoHideDuration={6000}
+              onClose={handleCloseError}
+              anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            >
+              <Alert onClose={handleCloseError} severity="error" sx={{ width: '100%' }}>
+                {error}
+              </Alert>
+            </Snackbar>
+          </Box>
+        </CanvasProvider>
       </EnterpriseFeatureProvider>
     </ThemeProvider>
   );

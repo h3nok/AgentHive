@@ -1,4 +1,4 @@
-import React, { Suspense, useMemo, useCallback, memo, useState } from 'react';
+import React, { Suspense, useMemo, useCallback, memo, useState, useEffect } from 'react';
 import { 
   Box, 
   Button, 
@@ -13,6 +13,10 @@ import {
   useMediaQuery,
   IconButton,
   Tooltip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
   alpha,
   Theme
 } from '@mui/material';
@@ -32,6 +36,9 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import StarIcon from '@mui/icons-material/Star';
 import CodeIcon from '@mui/icons-material/Code';
+import ChatIcon from '@mui/icons-material/Chat';
+import GitHubIcon from '@mui/icons-material/GitHub';
+
 // Import directly from the correct physical path
 import { EmbeddedWidget } from '../../../packages/ubiqora-ai-widget/ubiqora-ai-widget/src';
 import { ComponentErrorBoundary } from '../components/ErrorBoundary';
@@ -75,8 +82,8 @@ const USE_CASES: UseCase[] = [
     title: 'Store Operations',
     description: 'Automate inventory checks, staff scheduling, and compliance reporting across 2,000+ stores.',
     icon: <SchemaIcon fontSize="large" />,
-    color: '#c8102e',
-    bgGradient: 'linear-gradient(135deg, rgba(200, 16, 46, 0.1) 0%, rgba(200, 16, 46, 0.05) 100%)',
+    color: '#FF8F00',
+    bgGradient: 'linear-gradient(135deg, rgba(255, 143, 0, 0.1) 0%, rgba(255, 143, 0, 0.05) 100%)',
     agentId: 'operations'
   },
   {
@@ -84,8 +91,8 @@ const USE_CASES: UseCase[] = [
     title: 'HR & Payroll',
     description: 'Streamline team member requests, benefits enrollment, and performance reviews automatically.',
     icon: <AccessTimeIcon fontSize="large" />,
-    color: '#2E7D32',
-    bgGradient: 'linear-gradient(135deg, rgba(46, 125, 50, 0.1) 0%, rgba(46, 125, 50, 0.05) 100%)',
+    color: '#FFA000',
+    bgGradient: 'linear-gradient(135deg, rgba(255, 160, 0, 0.1) 0%, rgba(255, 160, 0, 0.05) 100%)',
     agentId: 'hr'
   },
   {
@@ -93,8 +100,8 @@ const USE_CASES: UseCase[] = [
     title: 'Supply Chain',
     description: 'Optimize vendor communications, purchase orders, and logistics coordination in real-time.',
     icon: <ReceiptIcon fontSize="large" />,
-    color: '#1976D2',
-    bgGradient: 'linear-gradient(135deg, rgba(25, 118, 210, 0.1) 0%, rgba(25, 118, 210, 0.05) 100%)',
+    color: '#FFB300',
+    bgGradient: 'linear-gradient(135deg, rgba(255, 179, 0, 0.1) 0%, rgba(255, 179, 0, 0.05) 100%)',
     agentId: 'supply-chain'
   },
   {
@@ -102,8 +109,8 @@ const USE_CASES: UseCase[] = [
     title: 'Engineering',
     description: 'Accelerate feature delivery with AI agents that triage bugs, draft pull requests, and auto-update documentation.',
     icon: <CodeIcon fontSize="large" />,
-    color: '#7B1FA2',
-    bgGradient: 'linear-gradient(135deg, rgba(123, 31, 162, 0.1) 0%, rgba(123, 31, 162, 0.05) 100%)',
+    color: '#FFC107',
+    bgGradient: 'linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%)',
     agentId: 'engineering'
   },
   {
@@ -254,28 +261,28 @@ const AnimatedBackground = memo(({ y1, y2 }: { y1: MotionValue<number>; y2: Moti
         zIndex: 0,
         background: theme.palette.mode === 'dark' 
           ? `
-            radial-gradient(circle at 20% 80%, rgba(200, 16, 46, 0.15) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(46, 125, 50, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(25, 118, 210, 0.1) 0%, transparent 50%),
-            linear-gradient(135deg, rgba(200, 16, 46, 0.05) 0%, transparent 50%)
+            radial-gradient(circle at 20% 80%, rgba(255, 193, 7, 0.06) 0%, transparent 60%),
+            radial-gradient(circle at 80% 20%, rgba(255, 160, 0, 0.04) 0%, transparent 60%),
+            radial-gradient(circle at 40% 40%, rgba(255, 143, 0, 0.04) 0%, transparent 60%),
+            linear-gradient(135deg, rgba(255, 111, 0, 0.02) 0%, transparent 60%)
           `
           : `
-            radial-gradient(circle at 20% 80%, rgba(200, 16, 46, 0.08) 0%, transparent 50%),
-            radial-gradient(circle at 80% 20%, rgba(46, 125, 50, 0.06) 0%, transparent 50%),
-            radial-gradient(circle at 40% 40%, rgba(25, 118, 210, 0.06) 0%, transparent 50%),
-            linear-gradient(135deg, rgba(200, 16, 46, 0.03) 0%, transparent 50%)
+            radial-gradient(circle at 20% 80%, rgba(255, 193, 7, 0.03) 0%, transparent 60%),
+            radial-gradient(circle at 80% 20%, rgba(255, 160, 0, 0.02) 0%, transparent 60%),
+            radial-gradient(circle at 40% 40%, rgba(255, 143, 0, 0.02) 0%, transparent 60%),
+            linear-gradient(135deg, rgba(255, 111, 0, 0.015) 0%, transparent 60%)
           `
       }} />
 
-      {/* Animated geometric shapes with enhanced effects */}
+      {/* Animated geometric shapes - subtle */}
       <motion.div 
         style={{ position: 'absolute', top: '10%', left: '10%', y: y1 }}
         animate={{ 
-          scale: [1, 1.1, 1],
-          rotate: [0, 5, 0],
+          scale: [1, 1.05, 1],
+          rotate: [0, 2, 0],
         }}
         transition={{ 
-          duration: 8,
+          duration: 12,
           repeat: Infinity,
           ease: "easeInOut"
         }}
@@ -283,20 +290,23 @@ const AnimatedBackground = memo(({ y1, y2 }: { y1: MotionValue<number>; y2: Moti
         <Box sx={{
           width: { xs: 60, md: 100 },
           height: { xs: 60, md: 100 },
-          borderRadius: '50%',
-          background: `linear-gradient(45deg, ${theme.palette.primary.main}20, transparent)`,
-          filter: 'blur(40px)',
-          boxShadow: `0 0 60px ${theme.palette.primary.main}20`,
+          borderRadius: '50% 50% 45% 55%',
+          background: `linear-gradient(45deg, rgba(255, 193, 7, 0.04), rgba(255, 143, 0, 0.06), transparent)`,
+          filter: 'blur(50px)',
+          boxShadow: `0 0 40px rgba(255, 160, 0, 0.08)`,
+          transform: 'skewY(2deg)',
+          opacity: 0.5,
         }} />
       </motion.div>
+      
       <motion.div 
         style={{ position: 'absolute', top: '60%', right: '15%', y: y2 }}
         animate={{ 
-          scale: [1, 1.2, 1],
-          rotate: [0, -5, 0],
+          scale: [1, 1.08, 1],
+          rotate: [0, -2, 0],
         }}
         transition={{ 
-          duration: 10,
+          duration: 15,
           repeat: Infinity,
           ease: "easeInOut"
         }}
@@ -304,44 +314,14 @@ const AnimatedBackground = memo(({ y1, y2 }: { y1: MotionValue<number>; y2: Moti
         <Box sx={{
           width: { xs: 80, md: 150 },
           height: { xs: 80, md: 150 },
-          borderRadius: '30%',
-          background: `linear-gradient(135deg, rgba(46, 125, 50, 0.2), transparent)`,
-          filter: 'blur(60px)',
-          boxShadow: `0 0 80px rgba(46, 125, 50, 0.2)`,
+          borderRadius: '60% 40% 55% 45%',
+          background: `linear-gradient(135deg, rgba(255, 193, 7, 0.06), rgba(255, 160, 0, 0.04), transparent)`,
+          filter: 'blur(70px)',
+          boxShadow: `0 0 50px rgba(255, 143, 0, 0.06)`,
+          transform: 'skewY(-3deg)',
+          opacity: 0.4,
         }} />
       </motion.div>
-
-      {/* Add floating particles */}
-      <Box sx={{
-        position: 'absolute',
-        inset: 0,
-        overflow: 'hidden',
-        opacity: 0.6,
-      }}>
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            style={{
-              position: 'absolute',
-              width: 4,
-              height: 4,
-              borderRadius: '50%',
-              background: theme.palette.primary.main,
-              opacity: 0.3,
-            }}
-            animate={{
-              x: [0, Math.random() * 100 - 50],
-              y: [0, Math.random() * 100 - 50],
-              scale: [1, 1.5, 1],
-            }}
-            transition={{
-              duration: 5 + Math.random() * 5,
-              repeat: Infinity,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
-      </Box>
     </>
   );
 });
@@ -349,14 +329,14 @@ const AnimatedBackground = memo(({ y1, y2 }: { y1: MotionValue<number>; y2: Moti
 const HeroSection = memo(() => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const heroRef = React.useRef(null);
-  const isHeroInView = useInView(heroRef, { once: true, amount: 0.3 });
   const [intakeDialogOpen, setIntakeDialogOpen] = useState(false);
-
+  
   const handleNavigateToChat = useCallback(() => {
     navigate('/chat');
   }, [navigate]);
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const heroRef = React.useRef(null);
+  const isHeroInView = useInView(heroRef, { once: true, amount: 0.3 });
 
   const handleNavigateToAdmin = useCallback(() => {
     navigate('/admin');
@@ -415,7 +395,7 @@ const HeroSection = memo(() => {
             width: 320,
             height: 320,
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #c8102e 0%, #a50d24 100%)',
+            background: 'linear-gradient(135deg, #FFC107 0%, #FF8F00 100%)',
             zIndex: 0,
             filter: 'blur(80px)',
           }}
@@ -432,7 +412,7 @@ const HeroSection = memo(() => {
             width: 220,
             height: 220,
             borderRadius: '30%',
-            background: 'linear-gradient(120deg, #1976D2 0%, #2E7D32 100%)',
+            background: 'linear-gradient(120deg, #FFA000 0%, #FF6F00 100%)',
             zIndex: 0,
             filter: 'blur(60px)',
           }}
@@ -449,7 +429,7 @@ const HeroSection = memo(() => {
             width: 180,
             height: 180,
             borderRadius: '50%',
-            background: 'linear-gradient(135deg, #F57C00 0%, #c8102e 100%)',
+            background: 'linear-gradient(135deg, #FFB300 0%, #FF8F00 100%)',
             zIndex: 0,
             filter: 'blur(50px)',
           }}
@@ -497,13 +477,13 @@ const HeroSection = memo(() => {
               lineHeight: 1.2,
               letterSpacing: '-0.02em',
               textTransform: 'none',
-              background: `linear-gradient(135deg, ${theme.palette.text.primary} 0%, ${theme.palette.text.secondary} 100%)`,
+              background: `linear-gradient(135deg, #FF6F00 0%, #FFC107 100%)`,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               textShadow: theme.palette.mode === 'dark' 
-                ? '0 2px 10px rgba(0,0,0,0.3)' 
-                : '0 2px 10px rgba(0,0,0,0.1)',
+                ? '0 2px 10px rgba(255, 160, 0, 0.3)' 
+                : '0 2px 10px rgba(255, 160, 0, 0.2)',
               zIndex: 1,
               position: 'relative',
             }}
@@ -514,31 +494,35 @@ const HeroSection = memo(() => {
           </Typography>
 
           {/* Animated Subheading */}
-          <Typography 
-            component={motion.h2}
-            initial={{ opacity: 0, y: 40 }}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            variant="h5" 
-            sx={{ 
-              maxWidth: '700px',
-              mx: 'auto',
-              fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
-              color: theme.palette.text.secondary,
-              mb: 5,
-              lineHeight: 1.6,
-              fontWeight: 400,
-              letterSpacing: '0.01em',
-              opacity: 0.9,
-              textShadow: theme.palette.mode === 'dark' 
-                ? '0 1px 5px rgba(0,0,0,0.2)' 
-                : '0 1px 5px rgba(0,0,0,0.05)',
-              zIndex: 1,
-              position: 'relative',
-            }}
+            transition={{ delay: 0.5, duration: 0.5 }}
           >
-            Beyond basic AI chat, AgentHive orchestrates your collective AI agents—solving complex problems, automating workflows, and learning collaboratively while maintaining enterprise-grade security.
-          </Typography>
+            <Box sx={{ display: 'flex', gap: 2, mt: 4, justifyContent: 'center' }}>
+              <Typography 
+                variant="h5" 
+                sx={{ 
+                  maxWidth: '700px',
+                  mx: 'auto',
+                  fontSize: { xs: '1rem', sm: '1.1rem', md: '1.2rem' },
+                  color: theme.palette.text.secondary,
+                  mb: 5,
+                  lineHeight: 1.6,
+                  fontWeight: 400,
+                  letterSpacing: '0.01em',
+                  opacity: 0.9,
+                  textShadow: theme.palette.mode === 'dark' 
+                    ? '0 1px 5px rgba(0,0,0,0.2)' 
+                    : '0 1px 5px rgba(0,0,0,0.05)',
+                  zIndex: 1,
+                  position: 'relative',
+                }}
+              >
+                Beyond basic AI chat, AgentHive orchestrates your collective AI agents—solving complex problems, automating workflows, and learning collaboratively while maintaining enterprise-grade security.
+              </Typography>
+            </Box>
+          </motion.div>
 
           {/* Enhanced CTA Buttons */}
           <Box sx={{ 
@@ -554,18 +538,32 @@ const HeroSection = memo(() => {
               onClick={handleNavigateToChat}
               startIcon={<StarIcon />}
               sx={{
-                px: { xs: 3, md: 4 },
-                py: { xs: 1.5, md: 2 },
                 fontWeight: 600,
                 borderRadius: 3,
                 textTransform: 'none',
                 letterSpacing: 0.5,
+                px: { xs: 3, md: 4 },
+                py: { xs: 1.5, md: 2 },
                 background: 'linear-gradient(90deg, #FFC107 0%, #FF8F00 100%)',
                 backdropFilter: 'blur(10px)',
                 boxShadow: `0 8px 20px ${alpha('#FF8F00', 0.3)}`,
-    border: '1px solid rgba(255, 243, 224, 0.2)',
+                border: '1px solid rgba(255, 243, 224, 0.2)',
                 position: 'relative',
                 overflow: 'hidden',
+                minWidth: { xs: '200px', sm: '220px' },
+                transition: 'all 0.3s ease',
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  width: '100%',
+                  height: '25%',
+                  bottom: '-10px',
+                  left: 0,
+                  background: 'linear-gradient(90deg, rgba(255, 193, 7, 0.6) 0%, rgba(255, 143, 0, 0.4) 100%)',
+                  filter: 'blur(4px)',
+                  borderRadius: '50%',
+                  zIndex: -1,
+                },
                 '&:before': {
                   content: '""',
                   position: 'absolute',
@@ -581,13 +579,11 @@ const HeroSection = memo(() => {
                   background: 'linear-gradient(90deg, #FFB300 0%, #FF6F00 100%)',
                   transform: 'translateY(-3px)',
                   boxShadow: `0 12px 28px ${alpha('#FF8F00', 0.4)}`,
-        borderColor: 'rgba(255, 243, 224, 0.3)',
+                  borderColor: 'rgba(255, 243, 224, 0.3)',
                   '&:before': {
                     transform: 'translateX(100%)',
                   }
-                },
-                transition: 'all 0.3s ease',
-                minWidth: { xs: '200px', sm: '220px' },
+                }
               }}
             >
               Start
@@ -597,6 +593,7 @@ const HeroSection = memo(() => {
               variant="outlined"
               size="large"
               onClick={() => setIntakeDialogOpen(true)}
+              startIcon={<ChatIcon />}
               sx={{
                 px: { xs: 3, md: 4 },
                 py: { xs: 1.5, md: 2 },
@@ -615,11 +612,11 @@ const HeroSection = memo(() => {
                   inset: 0,
                   borderRadius: 3,
                   padding: '1px',
-                  background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.5)}, transparent)`,
+                  background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.4)}, transparent)`,
                   WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
                   WebkitMaskComposite: 'xor',
                   maskComposite: 'exclude',
-                  pointerEvents: 'none',
+                  pointerEvents: 'none'
                 },
                 '&:hover': {
                   transform: 'translateY(-3px)',
@@ -687,7 +684,29 @@ const HeroSection = memo(() => {
         </Container>
       </Box>
       
-      {/* Intake Dialog */}
+      {intakeDialogOpen && (
+        <Dialog 
+          open={intakeDialogOpen} 
+          onClose={() => setIntakeDialogOpen(false)}
+          PaperProps={{
+            sx: {
+              borderRadius: 2,
+              bgcolor: 'background.paper',
+              boxShadow: 24,
+            }
+          }}
+        >
+          <DialogTitle>Request Custom Agent</DialogTitle>
+          <DialogContent>
+            <Typography variant="body1" gutterBottom>Fill out this form to request a custom agent</Typography>
+            {/* Form content would go here */}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setIntakeDialogOpen(false)}>Cancel</Button>
+            <Button variant="contained" onClick={() => setIntakeDialogOpen(false)}>Submit</Button>
+          </DialogActions>
+        </Dialog>
+      )}
       <Box sx={{ 
         '& .MuiDialog-paper': {
           backdropFilter: 'blur(16px)',
@@ -749,8 +768,8 @@ const FeaturesSection = memo(() => {
           },
           px: { xs: 2, sm: 3 },
           background: theme.palette.mode === 'dark'
-            ? 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,193,7,0.12) 100%)'
-            : 'linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,193,7,0.08) 100%)',
+            ? 'linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(255,193,7,0.04) 100%)'
+            : 'linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,193,7,0.02) 100%)',
           position: 'relative',
           overflow: 'hidden',
           '&::after': {
@@ -773,8 +792,8 @@ const FeaturesSection = memo(() => {
             position: 'absolute',
             inset: 0,
             background: theme.palette.mode === 'dark'
-              ? 'radial-gradient(circle at 20% 70%, rgba(255,193,7,0.15), transparent 70%), url("/honeycomb-pattern.png")'
-              : 'radial-gradient(circle at 20% 70%, rgba(255,193,7,0.1), transparent 70%), url("/honeycomb-pattern.png")',
+              ? 'radial-gradient(circle at 20% 70%, rgba(255,193,7,0.06), transparent 70%), url("/honeycomb-pattern.png")'
+              : 'radial-gradient(circle at 20% 70%, rgba(255,193,7,0.03), transparent 70%), url("/honeycomb-pattern.png")',
             backgroundBlendMode: 'overlay',
             backgroundSize: 'cover, 600px',
             backgroundPosition: 'center, right top',
@@ -814,7 +833,7 @@ const FeaturesSection = memo(() => {
                 lg: '2.25rem',
                 xl: '2.5rem'
               },
-              background: `linear-gradient(135deg, ${theme.palette.text.primary} 0%, ${theme.palette.text.secondary} 100%)`,
+              background: `linear-gradient(135deg, #FF6F00 0%, #FFC107 100%)`,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -1032,11 +1051,14 @@ const UseCasesSection = memo(() => {
                 lg: '2.25rem',
                 xl: '2.5rem'
               },
-              background: `linear-gradient(135deg, ${theme.palette.text.primary} 0%, ${theme.palette.text.secondary} 100%)`,
+              background: `linear-gradient(135deg, #FF6F00 0%, #FFC107 100%)`,
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
               lineHeight: { xs: 1.3, md: 1.2 },
+              textShadow: theme.palette.mode === 'dark' 
+                ? '0 2px 10px rgba(255, 160, 0, 0.3)' 
+                : '0 2px 10px rgba(255, 160, 0, 0.1)',
             }}
           >
             Operational Impact Areas
@@ -1247,6 +1269,15 @@ const PoweredBySection = memo(() => {
   );
 });
 
+// Community links
+const COMMUNITY_LINKS = [
+  { icon: '💬', text: 'Discord Community', href: '#' },
+  { icon: '📚', text: 'Documentation', href: '#' },
+  { icon: '🐛', text: 'Report Issues', href: '#' },
+  { icon: '💡', text: 'Feature Requests', href: '#' },
+  { icon: '🎯', text: 'Roadmap', href: '#' }
+];
+
 // Main component with error boundary and performance optimizations
 const LandingPage: React.FC = () => {
   const { scrollYProgress } = useScroll();
@@ -1254,6 +1285,19 @@ const LandingPage: React.FC = () => {
   
   const y1 = useTransform(scrollYProgress, [0, 1], [0, -50]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, -100]);
+
+  // Header background opacity on scroll
+  const [headerOpacity, setHeaderOpacity] = useState(0.9);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const opacity = Math.min(scrolled / 100, 0.95);
+      setHeaderOpacity(opacity);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <Box sx={{
@@ -1263,81 +1307,6 @@ const LandingPage: React.FC = () => {
       bgcolor: 'background.default',
       overflow: 'hidden',
     }}>
-      {/* Enterprise Logo in top left corner */}
-      <Box sx={{
-        position: 'fixed',
-        top: 24,
-        left: 24,
-        zIndex: 1000,
-        display: 'flex',
-        alignItems: 'center',
-        gap: 2,
-      }}>
-        <Box sx={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1,
-          px: 2,
-          py: 1,
-          borderRadius: 2,
-          backgroundColor: alpha(theme.palette.background.paper, 0.9),
-          backdropFilter: 'blur(20px)',
-          boxShadow: theme.shadows[4],
-          border: `1px solid ${theme.palette.divider}`,
-          height: '40px',
-        }}>
-          <Box sx={{
-            width: 24,
-            height: 24,
-            backgroundColor: '#c8102e',
-            borderRadius: 1,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontWeight: 'bold',
-            fontSize: '0.6rem',
-            letterSpacing: '0.5px',
-          }}>
-            Enterprise
-          </Box>
-          <Typography variant="body2" sx={{ 
-            fontWeight: 600, 
-            color: 'text.primary',
-            fontSize: '0.8rem',
-            display: 'inline-flex',
-            alignItems: 'center'
-          }}>
-            <span style={{ position: 'relative' }}>Agent</span>
-            &nbsp;
-            <span style={{ position: 'relative' }}>
-              Hive
-              <Box
-                component="span"
-                sx={{
-                  position: 'absolute',
-                  top: -20,
-                  right: -25,
-                  fontSize: '1.5rem',
-                  animation: 'buzz 6s infinite ease-in-out',
-                  filter: 'drop-shadow(0 2px 5px rgba(255,193,7,0.5))',
-                  '@keyframes buzz': {
-                    '0%': { transform: 'translate(0, 0) rotate(0deg)' },
-                    '10%': { transform: 'translate(-2px, -2px) rotate(-5deg)' },
-                    '20%': { transform: 'translate(2px, 2px) rotate(5deg)' },
-                    '30%': { transform: 'translate(0, 0) rotate(0deg)' },
-                    '100%': { transform: 'translate(0, 0) rotate(0deg)' },
-                  }
-                }}
-              >
-                🐝
-              </Box>
-            </span>
-            Hive - Ignite Your AI Collective
-          </Typography>
-        </Box>
-      </Box>
-
       <ThemeToggle />
       <AnimatedBackground y1={y1} y2={y2} />
 
@@ -1346,65 +1315,6 @@ const LandingPage: React.FC = () => {
         <FeaturesSection />
         <UseCasesSection />
         <PoweredBySection />
-        
-        {/* Ubiqora Footer Credit */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <Box sx={{ 
-            py: { xs: 4, md: 6 }, 
-            textAlign: 'center',
-            borderTop: `1px solid ${theme.palette.divider}`,
-            mt: 4,
-          }}>
-            <Typography 
-              variant="body2" 
-              sx={{ 
-                color: 'text.secondary', 
-                mb: 2,
-                fontSize: { xs: '0.8rem', md: '0.9rem' },
-              }}
-            >
-              Powered by
-            </Typography>
-            <Box sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 2,
-              mb: 2,
-            }}>
-              {/* Ubiqora Logo */}
-              <Box
-                component="img"
-                src="/AgentHiveLogo.png"
-                alt="AgentHive Logo"
-                sx={(theme: Theme) => ({
-                  height: 40,
-                  width: 'auto',
-                  /* Tint the logo blue in dark mode */
-                  filter: theme.palette.mode === 'dark'
-                    ? 'brightness(0) saturate(100%) invert(25%) sepia(92%) saturate(2635%) hue-rotate(191deg) brightness(92%) contrast(101%)'
-                    : 'none',
-                  transition: 'filter 0.3s ease',
-                })}
-              />
-            </Box>
-            <Typography 
-              variant="caption" 
-              sx={{ 
-                color: 'text.secondary',
-                fontSize: { xs: '0.7rem', md: '0.8rem' },
-                fontStyle: 'italic',
-              }}
-            >
-              the autonomous future
-          </Typography>
-        </Box>
-        </motion.div>
       </Container>
 
       <Suspense fallback={null}>
@@ -1475,6 +1385,73 @@ const LandingPage: React.FC = () => {
           </Box>
         </ComponentErrorBoundary>
       </Suspense>
+
+      {/* Community Section */}
+      <Box
+        component="section"
+        id="community"
+        sx={{
+          py: { xs: 6, md: 10 },
+          textAlign: 'center',
+        }}
+      >
+        <Container maxWidth="lg">
+          <Typography
+            variant="h2"
+            sx={{
+              fontSize: { xs: '2rem', md: '2.5rem' },
+              mb: 2,
+              color: 'primary.main',
+            }}
+          >
+            Join the Hive
+          </Typography>
+
+          <Typography
+            variant="body1"
+            sx={{
+              fontSize: { xs: '1rem', md: '1.2rem' },
+              color: 'text.secondary',
+              mb: 6,
+              maxWidth: 600,
+              mx: 'auto',
+            }}
+          >
+            Connect with developers, share ideas, and contribute to the future of open source AI orchestration.
+          </Typography>
+
+          <Stack
+            direction={{ xs: 'column', sm: 'row' }}
+            spacing={2}
+            sx={{
+              justifyContent: 'center',
+              flexWrap: 'wrap',
+              gap: 2,
+            }}
+          >
+            {COMMUNITY_LINKS.map((link, index) => (
+              <Button
+                key={index}
+                href={link.href}
+                variant="outlined"
+                sx={{
+                  bgcolor: alpha(theme.palette.background.paper, 0.1),
+                  borderRadius: 2,
+                  px: 3,
+                  py: 1.5,
+                  '&:hover': {
+                    bgcolor: alpha(theme.palette.primary.main, 0.2),
+                    transform: 'translateY(-5px)',
+                  },
+                  transition: 'all 0.3s',
+                }}
+              >
+                {link.icon} {link.text}
+              </Button>
+            ))}
+          </Stack>
+        </Container>
+      </Box>
     </Box>
   );
 };

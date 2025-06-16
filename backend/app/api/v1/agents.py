@@ -395,7 +395,7 @@ async def optimized_event_stream(
         # Emit completion
         yield f"data: {json.dumps({'type': 'done'})}\n\n"
         
-    except (asyncio.TimeoutError, ValueError, RuntimeError) as e:
+    except (HTTPException, asyncio.TimeoutError, ValueError, RuntimeError) as e:
         logger.exception(f"Error in optimized_event_stream: {e}")
         yield f"data: {json.dumps({'type': 'error', 'delta': f'Error: {str(e)}'})}\n\n"
 

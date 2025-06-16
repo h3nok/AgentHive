@@ -103,36 +103,54 @@ AVAILABLE_MODELS = [
 def get_model_availability() -> Dict[str, bool]:
     """Check which models are actually available based on configuration"""
     availability = {}
+    provider = settings.LLM_PROVIDER.lower()
     
-    # Check Azure OpenAI availability - using new settings structure
-    azure_available = bool(
-        hasattr(settings, 'azure_openai_endpoint') and settings.azure_openai_endpoint and
-        hasattr(settings, 'azure_openai_api_key') and settings.azure_openai_api_key
-    )
+    # Check provider-specific availability
+    if provider in ['openai', 'azure']:
+        azure_available = bool(
+            hasattr(settings, 'AZURE_OPENAI_ENDPOINT') and settings.AZURE_OPENAI_ENDPOINT and
+            hasattr(settings, 'AZURE_OPENAI_API_KEY') and settings.AZURE_OPENAI_API_KEY
+        )
+        # For direct OpenAI, also check for the API key
+        openai_available = bool(
+            provider == 'openai' and 
+            hasattr(settings, 'OPENAI_API_KEY') and 
+            settings.OPENAI_API_KEY
+        )
+        azure_available = azure_available or openai_available
     
-    # Check Ollama availability
-    ollama_available = bool(
-        hasattr(settings, 'ollama_base_url') and settings.ollama_base_url
-    )
+    # Check Ollama availability if it's the selected provider
+    ollama_available = False
+    if provider == 'ollama':
+        ollama_available = bool(
+            hasattr(settings, 'OLLAMA_BASE_URL') and settings.OLLAMA_BASE_URL
+        )
     
-    # Check Coretex availability
-    coretex_available = bool(
-        hasattr(settings, 'coretex_api_url') and settings.coretex_api_url and
-        hasattr(settings, 'coretex_api_key') and settings.coretex_api_key
-    )
+    # Check Anthropic availability if it's the selected provider
+    anthropic_available = False
+    if provider == 'anthropic':
+        anthropic_available = bool(
+            hasattr(settings, 'ANTHROPIC_API_KEY') and settings.ANTHROPIC_API_KEY
+        )
+    
+    # Map provider names to their availability
+    provider_availability = {
+        'azure': azure_available,
+        'openai': azure_available,  # Same as azure for this check
+        'ollama': ollama_available,
+        'anthropic': anthropic_available
+    }
+    
+    # Only check models for the current provider
+    target_provider = 'azure' if provider == 'openai' else provider
     
     for model in AVAILABLE_MODELS:
         model_id = model["id"]
-        provider = model["provider"]
+        model_provider = model["provider"]
         
-        if provider == "azure":
-            availability[model_id] = azure_available
-        elif provider == "ollama":
-            availability[model_id] = ollama_available
-        elif provider == "coretex":
-            availability[model_id] = coretex_available
-        else:
-            availability[model_id] = False
+        # Only include models from the current provider
+        if model_provider == target_provider:
+            availability[model_id] = provider_availability.get(model_provider, False)
     
     return availability
 
@@ -248,16 +266,16 @@ async def models_health_check():
             "available_models": available_count,
             "providers": {
                 "azure": bool(
-                    hasattr(settings, 'azure_openai_endpoint') and settings.azure_openai_endpoint and
-                    hasattr(settings, 'azure_openai_api_key') and settings.azure_openai_api_key
+                    hasattr(settings, 'AZURE_OPENAI_ENDPOINT') and settings.AZURE_OPENAI_ENDPOINT and
+                    hasattr(settings, 'AZURE_OPENAI_API_KEY') and settings.AZURE_OPENAI_API_KEY
                 ),
-                "ollama": bool(hasattr(settings, 'ollama_base_url') and settings.ollama_base_url),
+                "ollama": bool(hasattr(settings, 'OLLAMA_BASE_URL') and settings.OLLAMA_BASE_URL),
                 "coretex": bool(
                     hasattr(settings, 'coretex_api_url') and settings.coretex_api_url and
                     hasattr(settings, 'coretex_api_key') and settings.coretex_api_key
                 )
             },
-            "current_provider": getattr(settings, 'llm_provider', 'azure'),
+            "current_provider": getattr(settings, 'LLM_PROVIDER', 'azure'),
             "timestamp": datetime.utcnow().isoformat()
         }
         

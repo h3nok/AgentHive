@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { Box, CssBaseline, useTheme, Container, useMediaQuery } from '@mui/material';
 import TopNav from './TopNav';
-import Sidebar from '@components/SidebarTemp'; // Using temporary sidebar until dependencies are fixed
+import Sidebar from './Sidebar'; // Updated to use the correct Sidebar component
 import ChatInterface from './ChatInterface';
 import CanvasPanel from './CanvasPanel';
 import ChatErrorBoundary from './ChatErrorBoundary';
@@ -13,6 +13,7 @@ import { useCreateSessionMutation } from '../features/chat/sessionsApi';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCanvas } from '../context/CanvasContext';
 import RouterDebugDrawer from './RouterDebugDrawer';
+import ChatDebugOverlay from './ChatDebugOverlay';
 
 
 interface LayoutShellProps {
@@ -275,7 +276,8 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
         </Box>
       </Box>
 
-
+      {/* Global Chat Debug overlay */}
+      <ChatDebugOverlay />
 
       {/* Router Debug Drawer */}
       <RouterDebugDrawer

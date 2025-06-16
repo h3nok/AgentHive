@@ -9,22 +9,25 @@ interface Message {
   type?: 'text' | 'quick-reply';
 }
 
-const BOT_GREETING = "👋 Hi there! I'm your Ubiqora Autoprise Assistant - the autonomous future. I can help you with operations, HR requests, inventory management, and much more. What can I assist you with today?";
+const BOT_GREETING = "🍯 Welcome to AgentHive! I'm your Agentic AI Coordinator 🐝 - part of an intelligent swarm that learns, adapts, and collaborates autonomously. Unlike traditional AI assistants, I work with specialized agent teams to solve complex enterprise challenges. Let me show you how agentic AI transforms business operations!";
 
 const QUICK_REPLIES = [
-  "Check store inventory",
-  "Submit time-off request", 
-  "Weekly sales report",
-  "Update vendor info"
+  "What is agentic AI?",
+  "Show me agent collaboration", 
+  "Autonomous workflow example",
+  "Multi-agent problem solving"
 ];
 
 const DEMO_RESPONSES: Record<string, string> = {
-  'inventory': "📦 I can help you check inventory levels across all stores. For example, Store #1247 currently has 85% stock levels with low inventory alerts for lawn mowers and fertilizer. Would you like me to generate a detailed inventory report?",
-  'time off': "🏖️ I can process your time-off request instantly. Based on your current PTO balance of 16 days and store staffing levels, I can approve up to 5 consecutive days. When would you like to take time off?",
-  'sales': "📊 Your weekly sales report shows a 12% increase compared to last week. Top performing categories: Garden Center (+18%), Tool Rental (+15%), and Feed & Seed (+9%). Would you like me to generate a detailed breakdown?",
-  'vendor': "🤝 I can help update vendor information in our system. Which vendor would you like to update? I can modify contact details, pricing agreements, or delivery schedules instantly.",
-  'schedule': "📅 I can help with staff scheduling. Current week shows full coverage with 2 open shifts on weekend. Would you like me to find available team members or post to the internal job board?",
-  'help': "I'm here to assist with daily Ubiqora operations! I can help with:\n\n• 📦 Inventory management\n• 👥 HR & scheduling\n• 📊 Reports & analytics\n• 🤝 Vendor coordination\n• 💰 Financial tracking\n• 🛠️ Maintenance requests\n\nJust ask me anything!"
+  'agentic': "🍯 **Agentic AI** means autonomous agents that can:\n\n🧠 **Think independently** - Make decisions without constant human oversight\n🤝 **Collaborate with other agents** - Share knowledge and coordinate tasks\n🎯 **Take proactive action** - Identify and solve problems before they escalate\n📈 **Learn and adapt** - Improve performance through experience\n\nUnlike chatbots that just respond, agentic AI agents actively work toward business goals!",
+  
+  'collaboration': "🐝 **Agent Collaboration Example:**\n\n*Scenario: Customer complaint about delayed shipment*\n\n1. 🎧 **Customer Service Agent** - Receives complaint, analyzes sentiment\n2. 📦 **Logistics Agent** - Checks shipment status, identifies bottleneck\n3. 💬 **Communication Agent** - Crafts personalized response with solutions\n4. 📊 **Analytics Agent** - Updates metrics, prevents future issues\n\nAll agents work together in seconds, not hours!",
+  
+  'workflow': "⚡ **Autonomous Workflow in Action:**\n\n🍯 **Smart Inventory Management:**\n• AI monitors stock levels across 500+ stores\n• Predicts demand using weather, holidays, trends\n• Automatically generates purchase orders\n• Negotiates with vendor APIs for best prices\n• Schedules optimal delivery times\n• Alerts staff only when human intervention needed\n\n*Result: 40% reduction in stockouts, 25% cost savings*",
+  
+  'problem solving': "🧩 **Multi-Agent Problem Solving:**\n\n*Challenge: Store experiencing unusual sales drop*\n\n🔍 **Investigation Team:**\n• � **Market Agent** - Analyzes competitor pricing\n• 🌤️ **Weather Agent** - Checks local conditions\n• 👥 **Customer Agent** - Reviews feedback patterns\n• 🛒 **Sales Agent** - Examines purchase behaviors\n\n🎯 **Solution Discovery:**\nAgents identify: Construction blocking parking → Coordinate with city planning → Implement temporary solutions → Sales recover within 3 days",
+  
+  'help': "🍯 **AgentHive: Enterprise Agentic AI Platform**\n\n**What I can teach you about:**\n\n🧠 **Agentic AI Fundamentals** - How autonomous agents think and act\n🤝 **Swarm Intelligence** - How agents collaborate and share knowledge\n⚡ **Real-time Automation** - Workflows that run without human intervention\n� **Predictive Operations** - AI that anticipates and prevents problems\n� **Continuous Learning** - How the hive gets smarter over time\n\n*Ask me anything about transforming your business with agentic AI!*"
 };
 
 const newId = () => Math.random().toString(36).slice(2) + Date.now().toString(36);
@@ -38,7 +41,7 @@ const getResponse = (input: string): string => {
     }
   }
   
-  return "I understand you're asking about operations. While I'm in demo mode, I can show you how I'd help with inventory management, HR requests, sales reporting, and vendor coordination. Try asking about 'inventory', 'time off', 'sales report', or 'vendor updates'!";
+  return "🍯 Great question! I'm here to educate you about **Agentic AI** - the future of enterprise automation. Try asking me:\n\n• 'What is agentic AI?' - Learn the fundamentals\n• 'Show me agent collaboration' - See swarm intelligence in action\n• 'Autonomous workflow example' - Discover self-running processes\n• 'Multi-agent problem solving' - Watch AI teams solve complex challenges\n\nAgentic AI isn't just about chat - it's about autonomous agents that think, collaborate, and act to transform your business! 🐝";
 };
 
 export const SupportWidget: React.FC = () => {
@@ -111,8 +114,16 @@ export const SupportWidget: React.FC = () => {
       display: 'flex', 
       flexDirection: 'column',
       background: theme.palette.mode === 'dark'
-        ? 'linear-gradient(180deg, #1a1a1a 0%, #141414 100%)'
-        : 'linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%)',
+        ? `
+          linear-gradient(180deg, rgba(26, 26, 26, 0.95) 0%, rgba(20, 20, 20, 0.98) 100%),
+          radial-gradient(circle at 30% 70%, rgba(255, 204, 0, 0.03) 0%, transparent 50%),
+          radial-gradient(circle at 70% 30%, rgba(255, 193, 7, 0.02) 0%, transparent 50%)
+        `
+        : `
+          linear-gradient(180deg, #fffef9 0%, #fefdf6 50%, #fdfcf3 100%),
+          radial-gradient(circle at 30% 70%, rgba(255, 204, 0, 0.08) 0%, transparent 50%),
+          radial-gradient(circle at 70% 30%, rgba(255, 193, 7, 0.06) 0%, transparent 50%)
+        `,
     }}>
       {/* Messages */}
       <Box sx={{ 
@@ -149,10 +160,10 @@ export const SupportWidget: React.FC = () => {
                     maxWidth: '85%',
                     position: 'relative',
                     background: m.from === 'user' 
-                      ? 'linear-gradient(135deg, #c8102e 0%, #a50d24 100%)'
+                      ? 'linear-gradient(135deg, #FF8C00 0%, #FF6B00 100%)'
                       : theme.palette.mode === 'dark'
-                        ? 'linear-gradient(135deg, #2d2d2d 0%, #3a3a3a 100%)'
-                        : 'linear-gradient(135deg, #f1f3f4 0%, #e8eaed 100%)',
+                        ? 'linear-gradient(135deg, rgba(255, 204, 0, 0.15) 0%, rgba(255, 165, 0, 0.1) 50%, rgba(45, 45, 45, 0.9) 100%)'
+                        : 'linear-gradient(135deg, rgba(255, 248, 220, 0.8) 0%, rgba(255, 245, 157, 0.6) 50%, #fffef7 100%)',
                     color: m.from === 'user' 
                       ? '#fff' 
                       : theme.palette.text.primary,
@@ -160,11 +171,13 @@ export const SupportWidget: React.FC = () => {
                     lineHeight: 1.4,
                     wordBreak: 'break-word',
                     boxShadow: m.from === 'user'
-                      ? '0 2px 12px rgba(200, 16, 46, 0.3)'
+                      ? '0 3px 15px rgba(255, 140, 0, 0.4), 0 1px 5px rgba(255, 165, 0, 0.2)'
                       : theme.palette.mode === 'dark'
-                        ? '0 2px 8px rgba(0, 0, 0, 0.3)'
-                        : '0 2px 8px rgba(0, 0, 0, 0.1)',
-                    border: m.from === 'bot' ? `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}` : 'none',
+                        ? '0 3px 12px rgba(255, 204, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.3)'
+                        : '0 3px 12px rgba(255, 204, 0, 0.15), 0 1px 4px rgba(255, 193, 7, 0.1)',
+                    border: m.from === 'bot' 
+                      ? `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 204, 0, 0.2)' : 'rgba(255, 193, 7, 0.3)'}` 
+                      : 'none',
                     '&::before': m.from === 'user' ? {
                       content: '""',
                       position: 'absolute',
@@ -172,7 +185,7 @@ export const SupportWidget: React.FC = () => {
                       bottom: -1,
                       width: 0,
                       height: 0,
-                      borderLeft: '8px solid #c8102e',
+                      borderLeft: '8px solid #FF8C00',
                       borderTop: '8px solid transparent',
                     } : {},
                   }}
@@ -216,13 +229,13 @@ export const SupportWidget: React.FC = () => {
                 py: 1.5,
                 borderRadius: '18px 18px 18px 4px',
                 background: theme.palette.mode === 'dark'
-                  ? 'linear-gradient(135deg, #2d2d2d 0%, #3a3a3a 100%)'
-                  : 'linear-gradient(135deg, #f1f3f4 0%, #e8eaed 100%)',
-                border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'}`,
+                  ? 'linear-gradient(135deg, rgba(255, 204, 0, 0.12) 0%, rgba(255, 165, 0, 0.08) 50%, rgba(45, 45, 45, 0.9) 100%)'
+                  : 'linear-gradient(135deg, rgba(255, 248, 220, 0.8) 0%, rgba(255, 245, 157, 0.6) 50%, #fffef7 100%)',
+                border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 204, 0, 0.2)' : 'rgba(255, 193, 7, 0.3)'}`,
               }}>
-                <CircularProgress size={16} sx={{ color: theme.palette.primary.main }} />
+                <CircularProgress size={16} sx={{ color: '#FFB300' }} />
                 <Typography variant="body2" sx={{ color: theme.palette.text.secondary, fontStyle: 'italic' }}>
-                  Autoprise is thinking...
+                  AgentHive is thinking...
                 </Typography>
               </Box>
             </Box>
@@ -239,7 +252,7 @@ export const SupportWidget: React.FC = () => {
                 display: 'block',
                 fontWeight: 500,
               }}>
-                Try these common requests:
+                Try these agentic AI topics:
               </Typography>
               <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
                 {QUICK_REPLIES.map((reply) => (
@@ -250,14 +263,22 @@ export const SupportWidget: React.FC = () => {
                     size="small"
                     variant="outlined"
                     sx={{
-                      borderColor: theme.palette.primary.main,
-                      color: theme.palette.primary.main,
+                      borderColor: '#FFB300',
+                      color: '#FF8C00',
                       fontSize: '0.75rem',
-                      height: 28,
+                      height: 30,
+                      background: theme.palette.mode === 'dark'
+                        ? 'linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 165, 0, 0.05) 100%)'
+                        : 'linear-gradient(135deg, rgba(255, 248, 220, 0.6) 0%, rgba(255, 245, 157, 0.4) 100%)',
                       '&:hover': {
-                        backgroundColor: `${theme.palette.primary.main}10`,
-                        borderColor: theme.palette.primary.main,
+                        backgroundColor: theme.palette.mode === 'dark'
+                          ? 'rgba(255, 193, 7, 0.15)'
+                          : 'rgba(255, 193, 7, 0.1)',
+                        borderColor: '#FF8C00',
+                        transform: 'translateY(-1px)',
+                        boxShadow: '0 2px 8px rgba(255, 193, 7, 0.3)',
                       },
+                      transition: 'all 0.2s ease',
                     }}
                   />
                 ))}
@@ -274,10 +295,16 @@ export const SupportWidget: React.FC = () => {
         display: 'flex', 
         p: 2, 
         pt: 1,
-        borderTop: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.08)'}`,
+        borderTop: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 204, 0, 0.15)' : 'rgba(255, 193, 7, 0.2)'}`,
         background: theme.palette.mode === 'dark'
-          ? 'rgba(26, 26, 26, 0.8)'
-          : 'rgba(248, 249, 250, 0.8)',
+          ? `
+            linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(20, 20, 20, 0.98) 100%),
+            radial-gradient(circle at 50% 0%, rgba(255, 204, 0, 0.05) 0%, transparent 50%)
+          `
+          : `
+            linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(254, 253, 246, 0.98) 100%),
+            radial-gradient(circle at 50% 0%, rgba(255, 204, 0, 0.08) 0%, transparent 50%)
+          `,
         backdropFilter: 'blur(10px)',
       }}>
         <TextField
@@ -287,21 +314,24 @@ export const SupportWidget: React.FC = () => {
           value={text}
           onChange={(e) => setText(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), send())}
-          placeholder="Ask about inventory, scheduling, reports..."
+          placeholder="Ask me about agentic AI, swarm intelligence, or autonomous workflows..."
           disabled={loading}
           multiline
           maxRows={3}
           sx={{
             '& .MuiOutlinedInput-root': {
               borderRadius: 3,
-              backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : '#ffffff',
-              border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'}`,
+              backgroundColor: theme.palette.mode === 'dark' 
+                ? 'rgba(255, 204, 0, 0.05)' 
+                : 'rgba(255, 255, 255, 0.9)',
+              border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 204, 0, 0.2)' : 'rgba(255, 193, 7, 0.3)'}`,
               '&:hover fieldset': {
-                borderColor: theme.palette.primary.main,
+                borderColor: '#FFB300',
               },
               '&.Mui-focused fieldset': {
-                borderColor: theme.palette.primary.main,
+                borderColor: '#FF8C00',
                 borderWidth: 2,
+                boxShadow: '0 0 8px rgba(255, 193, 7, 0.3)',
               },
             },
             '& .MuiOutlinedInput-input': {
@@ -315,17 +345,24 @@ export const SupportWidget: React.FC = () => {
           disabled={!text.trim() || loading}
           sx={{ 
             ml: 1,
-            backgroundColor: theme.palette.primary.main,
+            background: 'linear-gradient(135deg, #FFB300 0%, #FF8C00 100%)',
             color: 'white',
-            width: 40,
-            height: 40,
+            width: 42,
+            height: 42,
+            border: `2px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 204, 0, 0.3)' : 'rgba(255, 193, 7, 0.4)'}`,
             '&:hover': {
-              backgroundColor: theme.palette.primary.dark,
+              background: 'linear-gradient(135deg, #FF8C00 0%, #FF6B00 100%)',
+              transform: 'scale(1.05)',
+              boxShadow: '0 4px 12px rgba(255, 193, 7, 0.4)',
             },
             '&.Mui-disabled': {
-              backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
-              color: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.3)' : 'rgba(0,0,0,0.3)',
+              background: theme.palette.mode === 'dark' 
+                ? 'linear-gradient(135deg, rgba(255, 204, 0, 0.1) 0%, rgba(255, 165, 0, 0.05) 100%)' 
+                : 'linear-gradient(135deg, rgba(255, 204, 0, 0.2) 0%, rgba(255, 193, 7, 0.1) 100%)',
+              color: theme.palette.mode === 'dark' ? 'rgba(255, 204, 0, 0.3)' : 'rgba(255, 193, 7, 0.5)',
+              border: `1px solid ${theme.palette.mode === 'dark' ? 'rgba(255, 204, 0, 0.1)' : 'rgba(255, 193, 7, 0.2)'}`,
             },
+            transition: 'all 0.2s ease',
           }}
         >
           {loading ? (

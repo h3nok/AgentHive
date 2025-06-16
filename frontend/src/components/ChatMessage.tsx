@@ -21,7 +21,6 @@ import { agentStyles } from '../constants/agentStyles';
 import MarkdownRenderer from './markdown/MarkdownRenderer';
 import LogoText from './LogoText';
 import QuantumEnhancedMessage from './QuantumEnhancedMessage';
-import { UKGChatMessage } from './UKGDemo';
 import type { ChatMessage as ChatMessageType } from '../features/chat/chatSlice';
 import FancyTypingDots from './FancyTypingDots';
 
@@ -106,11 +105,6 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming = false,
   // Debug: log markdown for assistant messages
   if (!isUser && message.text.trim().length > 0) {
     console.log('Markdown to render:', message.text);
-  }
-
-  // If this is a system message or HR agent message, use the UKG demo component
-  if (isSystem || isHRAgent) {
-    return <UKGChatMessage message={message} isStreaming={isStreaming} />;
   }
 
   return (

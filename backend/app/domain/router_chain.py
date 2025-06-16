@@ -924,13 +924,6 @@ SIMPLIFIED_ROUTING_RULES = [
         intent="hr_inquiry",
         priority=15
     ),
-    # Basic lease patterns  
-    RoutingRule(
-        pattern=r"\b(rent|lease|apartment|tenant|landlord|deposit)\b",
-        agent_type=AgentType.LEASE,
-        intent="lease_inquiry",
-        priority=10
-    ),
     # Basic sales patterns
     RoutingRule(
         pattern=r"\b(buy|sell|purchase|property|house|sale)\b",
@@ -950,41 +943,28 @@ SIMPLIFIED_ROUTING_RULES = [
 
 # Default routing rules (keeping the original complex ones for reference)
 DEFAULT_ROUTING_RULES = [
-    # Highest priority: Technical issues with lease/rental systems
+    # Highest priority: Technical issues with rental systems
     RoutingRule(
-        pattern=r"(rental.*application.*system|application.*system|system.*(?:bug|broken|issue)).*(?:lease|rent)|(?:lease|rent).*(?:system.*(?:bug|broken|issue)|application.*system)",
+        pattern=r"(rental.*application.*system|application.*system|system.*(?:bug|broken|issue))",
         agent_type=AgentType.SUPPORT,
         intent="support_request",
         priority=20
     ),
-    # High-priority lease-specific terms (security deposit, landlord, etc.)
-    RoutingRule(
-        pattern=r"(landlord|security deposit|deposit.*return|sublease)",
-        agent_type=AgentType.LEASE,
-        intent="lease_inquiry",
-        priority=15
-    ),
     # Mixed intent with primary purchase focus
     RoutingRule(
-        pattern=r"\b(buy|purchase).*property.*(?:to\s+)?(?:lease|rent)",
+        pattern=r"\b(buy|purchase).*property",
         agent_type=AgentType.SALES,
         intent="sales_inquiry",
         priority=12
     ),
     # Multiple keywords - prioritize sales when "buy" and "house" are present
     RoutingRule(
-        pattern=r"\b(buy|purchase).*house.*(?:lease|apartment|support|help)",
+        pattern=r"\b(buy|purchase).*house.*(?:apartment|support|help)",
         agent_type=AgentType.SALES,
         intent="sales_inquiry",
         priority=12
     ),
     # Standard patterns with adjusted priorities
-    RoutingRule(
-        pattern=r"(lease|rent|apartment|housing|tenant)",
-        agent_type=AgentType.LEASE,
-        intent="lease_inquiry",
-        priority=10
-    ),
     RoutingRule(
         pattern=r"(buy|purchase|sell|property|real estate)",
         agent_type=AgentType.SALES,
@@ -1008,7 +988,6 @@ DEFAULT_ROUTING_RULES = [
 
 # Agent descriptions for LLM routing
 DEFAULT_AGENT_DESCRIPTIONS = {
-    AgentType.LEASE: "Handles all questions about leasing apartments, rental applications, lease terms, tenant inquiries, property management, and lease document analysis",
     AgentType.SALES: "Manages property sales, purchases, real estate transactions, market analysis, investment opportunities, and property valuations",
     AgentType.SUPPORT: "Provides technical support, troubleshooting assistance, system issues, account management, platform guidance, and error resolution",
     AgentType.HR: "Handles employee-related inquiries including vacation time, PTO requests, benefits, payroll, UKG system support, performance reviews, employee policies, and workplace support",

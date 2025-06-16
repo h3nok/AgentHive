@@ -125,11 +125,10 @@ export const EnterpriseFeatureProvider: React.FC<{ children: React.ReactNode }> 
             ? 'linear-gradient(135deg, #c8102e 0%, #a50d24 100%)'
             : 'linear-gradient(135deg, #c8102e 0%, #a50d24 100%)',
           color: 'white',
-          mb: 2
+          mb: 2,
+          fontWeight: 600
         }}>
-          <Typography variant="h6" sx={{ fontWeight: 600 }}>
-            Settings
-          </Typography>
+          Settings
           <IconButton 
             onClick={() => setSettingsOpen(false)} 
             sx={{ color: 'white' }}

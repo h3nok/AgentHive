@@ -6,18 +6,18 @@ export async function fetchMpcServers() {
   return mpcServersMock;
 }
 
-export async function createMpcServer(payload) {
+export async function createMpcServer(payload: any) {
   return { ...payload, id: Date.now(), status: 'Online', lastSeen: new Date().toISOString() };
 }
 
-export async function updateMpcServer(id, payload) {
+export async function updateMpcServer(id: string | number, payload: any) {
   return { ...payload, id };
 }
 
-export async function deleteMpcServer(id) {
+export async function deleteMpcServer(id: string | number) {
   return { success: true };
 }
 
-export async function restartMpcServer(id) {
+export async function restartMpcServer(id: string | number) {
   return { id, status: 'Restarting', lastSeen: new Date().toISOString() };
 } 

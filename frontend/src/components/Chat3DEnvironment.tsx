@@ -37,7 +37,7 @@ const Message3D: React.FC<Message3DProps> = ({
   timestamp, 
   importance 
 }) => {
-  const meshRef = useRef<THREE.Mesh>(null);
+  const meshRef = useRef<THREE.Group>(null);
   const [hovered, setHovered] = useState(false);
   const { camera } = useThree();
 
@@ -52,7 +52,7 @@ const Message3D: React.FC<Message3DProps> = ({
   });
 
   const messageColor = useMemo(() => {
-    const hue = isUser ? 240 : 120; // Blue for user, green for AI
+    const hue = isUser ? 45 : 120; // Amber for user, green for AI
     const saturation = 50 + importance * 50;
     const lightness = 50 + (hovered ? 20 : 0);
     return `hsl(${hue}, ${saturation}%, ${lightness}%)`;

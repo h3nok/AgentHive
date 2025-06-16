@@ -49,7 +49,7 @@ const WorkflowRenderer: React.FC<WorkflowRendererProps> = ({ steps, summary, wor
     if (summary && summary.form_required && summary.form) {
       setShowForm(true);
       setFormSchema(summary.form);
-      setFormStepId(summary.step_id);
+      setFormStepId(summary.step_id || null);
     } else {
       setShowForm(false);
       setFormSchema(null);

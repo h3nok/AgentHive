@@ -29,7 +29,7 @@ async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security)
 ) -> Dict[str, Any]:
     """Get current user from JWT token."""
-    if settings.environment == "development" and not settings.api_key:
+    if settings.ENVIRONMENT == "development" and not settings.api_key:
         # Allow unauthenticated access in development
         return {"user_id": "dev_user", "role": "admin"}
     
@@ -90,7 +90,7 @@ async def get_user_dev_friendly(
     authorization: Optional[str] = Header(None)
 ) -> Dict[str, Any]:
     """Get user with development-friendly fallback."""
-    if settings.environment == "development":
+    if settings.ENVIRONMENT == "development":
         # In development, allow unauthenticated access
         if not authorization:
             return {"user_id": "dev_user", "role": "admin"}
@@ -101,7 +101,7 @@ async def get_user_dev_friendly(
         return user
     
     # If no user found and not in development, require auth
-    if settings.environment != "development":
+    if settings.ENVIRONMENT != "development":
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Authentication required"

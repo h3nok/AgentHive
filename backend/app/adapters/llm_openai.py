@@ -52,16 +52,16 @@ class OpenAIAdapter:
     ):
         """Initialize OpenAI adapter."""
         # Check if using Azure OpenAI
-        if (hasattr(settings, 'llm_provider') and settings.llm_provider == 'azure' and
-            hasattr(settings, 'azure_openai_api_key') and settings.azure_openai_api_key):
+        if (hasattr(settings, 'LLM_PROVIDER') and settings.LLM_PROVIDER == 'azure' and
+            hasattr(settings, 'AZURE_OPENAI_API_KEY') and settings.AZURE_OPENAI_API_KEY):
             
             # Use Azure OpenAI configuration
-            self.api_key = api_key or settings.azure_openai_api_key
-            self.model = model or getattr(settings, 'azure_openai_model', 'gpt-4')
+            self.api_key = api_key or settings.AZURE_OPENAI_API_KEY
+            self.model = model or getattr(settings, 'AZURE_OPENAI_MODEL', 'gpt-4')
             self.is_azure = True
-            self.azure_endpoint = getattr(settings, 'azure_openai_endpoint', '')
-            self.azure_deployment = getattr(settings, 'azure_openai_deployment', self.model)
-            self.azure_api_version = getattr(settings, 'azure_openai_api_version', '2023-12-01-preview')
+            self.azure_endpoint = getattr(settings, 'AZURE_OPENAI_ENDPOINT', '')
+            self.azure_deployment = getattr(settings, 'AZURE_OPENAI_DEPLOYMENT', self.model)
+            self.azure_api_version = getattr(settings, 'AZURE_OPENAI_API_VERSION', '2023-12-01-preview')
             
             if not self.azure_endpoint:
                 raise ValueError("Azure OpenAI endpoint not provided. Set AZURE_OPENAI_ENDPOINT environment variable.")
@@ -83,9 +83,9 @@ class OpenAIAdapter:
             
         else:
             # Use regular OpenAI configuration
-            self.api_key = api_key or settings.openai_api_key
-            self.model = model or settings.openai_model
-            self.organization = organization or settings.openai_organization
+            self.api_key = api_key or settings.OPENAI_API_KEY
+            self.model = model or settings.OPENAI_MODEL
+            self.organization = organization or settings.OPENAI_ORGANIZATION
             self.is_azure = False
             
             if not self.api_key:

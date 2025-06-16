@@ -23,12 +23,12 @@ class RedisAdapter:
         """Initialize Redis adapter."""
         if redis_url:
             self.redis_url = redis_url
-        elif settings.redis_url:
-            self.redis_url = str(settings.redis_url)
+        elif settings.REDIS_URL:
+            self.redis_url = str(settings.REDIS_URL)
         else:
             # Construct Redis URL from individual settings
-            password_part = f":{settings.redis_password}@" if settings.redis_password else ""
-            self.redis_url = f"redis://{password_part}{settings.redis_host}:{settings.redis_port}/{settings.redis_db}"
+            password_part = f":{settings.REDIS_PASSWORD}@" if settings.REDIS_PASSWORD else ""
+            self.redis_url = f"redis://{password_part}{settings.REDIS_HOST}:{settings.REDIS_PORT}/{settings.REDIS_DB}"
         
         self.redis: Optional[aioredis.Redis] = None
         self.pubsub: Optional[aioredis.client.PubSub] = None

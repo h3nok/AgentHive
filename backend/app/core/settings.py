@@ -9,6 +9,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from pydantic import Field, PostgresDsn, RedisDsn, field_validator
 import os
 from pathlib import Path
+import secrets
 
 
 class Settings(BaseSettings):
@@ -17,15 +18,18 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_file=Path(__file__).parent.parent.parent / ".env",
         env_file_encoding="utf-8",
-        case_sensitive=False,
+        case_sensitive=True,
         extra="allow"
     )
     
     # Application
-    app_name: str = "Intelligent Router API"
-    app_version: str = "0.1.0"
-    debug: bool = Field(default=False, description="Debug mode")
-    environment: str = Field(default="development", description="Environment (development, staging, production)")
+    APP_NAME: str = "AgentHive"
+    APP_VERSION: str = "1.0.0"
+    ENVIRONMENT: str = "development"
+    DEBUG: bool = True
+    SECRET_KEY: str = Field(default_factory=lambda: secrets.token_urlsafe(32))
+    LOG_LEVEL: str = "INFO"
+    ENVIRONMENT: str = "development"
     
     # API Configuration
     api_v1_prefix: str = "/v1"
@@ -38,6 +42,10 @@ class Settings(BaseSettings):
     workers: int = Field(default=4, description="Number of worker processes")
     
     # Database
+    DATABASE_BACKEND: str = "mongodb"
+    MONGODB_URI: str = "mongodb://localhost:27017"
+    MONGODB_DB_NAME: str = "agent_hive"
+    MONGODB_SESSION_TTL_HOURS: int = 24
     postgres_user: str = Field(default="postgres", description="PostgreSQL user")
     postgres_password: str = Field(default="postgres", description="PostgreSQL password")
     postgres_db: str = Field(default="intelligent_router", description="PostgreSQL database name")
@@ -64,64 +72,42 @@ class Settings(BaseSettings):
         )
     
     # Redis
-    redis_host: str = Field(default="localhost", description="Redis host")
-    redis_port: int = Field(default=6379, description="Redis port")
-    redis_password: Optional[str] = Field(default=None, description="Redis password")
-    redis_db: int = Field(default=0, description="Redis database number")
-    redis_url: Optional[RedisDsn] = None
-    
-    @field_validator("redis_url", mode="before")
-    @classmethod
-    def assemble_redis_connection(cls, v: Optional[str], info) -> Any:
-        if isinstance(v, str) and v:  # Only process non-empty strings
-            return v
-        if isinstance(v, str) and not v:  # Return None for empty strings
-            return None
-        values = info.data if hasattr(info, 'data') else {}
-        password = values.get("redis_password")
-        host = values.get("redis_host", "localhost")
-        port = values.get("redis_port", 6379)
-        db = values.get("redis_db", 0)
-        return RedisDsn.build(
-            scheme="redis",
-            username="" if not password else None,
-            password=password,
-            host=host,
-            port=port,
-            path=f"/{db}",
-        )
+    REDIS_HOST: str = "localhost"
+    REDIS_PORT: int = 6379
+    REDIS_DB: int = 0
+    REDIS_PASSWORD: Optional[str] = None
+    REDIS_URL: Optional[str] = None
     
     # LLM Configuration
-    openai_api_key: str = Field(default="", description="OpenAI API key")
-    openai_organization: Optional[str] = Field(default=None, description="OpenAI organization ID")
-    openai_model: str = Field(default="gpt-4-turbo-preview", description="Default OpenAI model")
-    openai_temperature: float = Field(default=0.7, description="Default temperature for OpenAI models")
-    openai_max_tokens: int = Field(default=2000, description="Default max tokens for OpenAI models")
+    LLM_PROVIDER: str = "openai"
+    OLLAMA_BASE_URL: str = "http://localhost:11434"
+    OLLAMA_MODEL: str = "llama3"
     
     # Azure OpenAI Configuration
-    azure_openai_endpoint: str = Field(default="", description="Azure OpenAI endpoint")
-    azure_openai_api_key: str = Field(default="", description="Azure OpenAI API key")
-    azure_openai_deployment: str = Field(default="", description="Azure OpenAI deployment name")
-    azure_openai_api_version: str = Field(default="2023-05-15", description="Azure OpenAI API version")
-    azure_openai_model: str = Field(default="gpt-4", description="Azure OpenAI model name")
+    AZURE_OPENAI_ENDPOINT: Optional[str] = None
+    AZURE_OPENAI_API_KEY: Optional[str] = None
+    AZURE_OPENAI_API_VERSION: str = "2023-05-15"
+    AZURE_OPENAI_DEPLOYMENT: Optional[str] = None
+    AZURE_OPENAI_MODEL: str = "gpt-4"
     
-    # Ollama Configuration
-    ollama_base_url: str = Field(default="http://localhost:11434", description="Ollama base URL")
-    ollama_model: str = Field(default="llama3", description="Ollama model name")
+    # Regular OpenAI Configuration
+    OPENAI_API_KEY: Optional[str] = None
+    OPENAI_MODEL: str = "gpt-4"
+    OPENAI_ORGANIZATION: Optional[str] = None
     
-    # Coretex Configuration
-    coretex_api_url: str = Field(default="", description="Coretex API URL")
-    coretex_api_key: str = Field(default="", description="Coretex API key")
-    coretex_model: str = Field(default="gpt-4", description="Coretex model name")
-    
-    # LLM Provider Selection
-    llm_provider: str = Field(default="azure", description="LLM provider (azure, ollama, coretex)")
+    # Snowflake Settings
+    SNOWFLAKE_USER: Optional[str] = None
+    SNOWFLAKE_PASSWORD: Optional[str] = None
+    SNOWFLAKE_ACCOUNT: Optional[str] = None
+    SNOWFLAKE_WAREHOUSE: Optional[str] = None
+    SNOWFLAKE_DATABASE: Optional[str] = None
+    SNOWFLAKE_SCHEMA: Optional[str] = None
     
     # Observability
     otel_exporter_endpoint: str = Field(default="http://localhost:4318", description="OpenTelemetry exporter endpoint")
-    otel_service_name: str = Field(default="intelligent-router", description="Service name for tracing")
-    otel_enabled: bool = Field(default=True, description="Enable OpenTelemetry")
-    metrics_enabled: bool = Field(default=True, description="Enable Prometheus metrics")
+    otel_service_name: str = Field(default="agent-hive", description="Service name for tracing")
+    otel_enabled: bool = Field(default=False, description="Enable OpenTelemetry")
+    metrics_enabled: bool = Field(default=False, description="Enable Prometheus metrics")
     
     # Celery
     celery_broker_url: Optional[str] = None
@@ -144,7 +130,6 @@ class Settings(BaseSettings):
         return str(values.get("redis_url", "redis://localhost:6379/0"))
     
     # Security
-    secret_key: str = Field(default="", description="Secret key for JWT encoding")
     access_token_expire_minutes: int = Field(default=30, description="Access token expiration time")
     algorithm: str = Field(default="HS256", description="JWT algorithm")
     
@@ -162,21 +147,13 @@ class Settings(BaseSettings):
     circuit_breaker_recovery_timeout: int = Field(default=60, description="Recovery timeout in seconds")
     circuit_breaker_expected_exception: type = Field(default=Exception, description="Expected exception type")
     
-    @field_validator("secret_key", mode="before")
-    @classmethod
-    def get_secret_key(cls, v: str) -> str:
-        if not v:
-            # Generate a random secret key if not provided
-            import secrets
-            return secrets.token_urlsafe(32)
-        return v
-    
-    @field_validator("openai_api_key")
+    @field_validator("OPENAI_API_KEY")
     @classmethod
     def validate_openai_key(cls, v: str) -> str:
         if not v and os.getenv("OPENAI_API_KEY"):
             return os.getenv("OPENAI_API_KEY", "")
         return v
-    
+
+
 # Global settings instance
 settings = Settings()

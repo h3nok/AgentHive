@@ -135,7 +135,7 @@ const IntakeDialog: React.FC<IntakeDialogProps> = ({ open, onClose }) => {
         aria-describedby="intake-dialog-description"
       >
         <DialogTitle id="intake-dialog-title">
-          <Typography variant="h5" fontWeight={600}>
+          <Typography variant="subtitle1" fontWeight={600}>
             Request an Agent
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>

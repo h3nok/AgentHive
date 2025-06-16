@@ -70,7 +70,7 @@ const agents = [
     icon: <AnalyticsIcon />,
     color: "#2E7D32", // Green
     avatarBg: "white",
-    emoji: "📊",
+    emoji: "🍯",
     capabilities: [
       "Data transformation",
       "Statistical analysis",
@@ -83,7 +83,7 @@ const agents = [
     name: "Database Expert",
     description: "Specialized in database operations and queries",
     icon: <StorageIcon />,
-    color: "#0288D1", // Blue
+    color: "#f59e0b", // Amber
     avatarBg: "white",
     emoji: "💾",
     capabilities: [
@@ -98,7 +98,7 @@ const agents = [
     name: "General Assistant",
     description: "Can answer questions on a wide range of topics",
     icon: <SmartToyIcon />,
-    color: "#1976d2", // MUI blue
+    color: "#d97706", // MUI amber
     avatarBg: "white",
     emoji: "🤖",
     capabilities: [

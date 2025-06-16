@@ -56,7 +56,7 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.error(f"Failed to connect to Redis: {str(e)}")
         # Continue without Redis in development
-        if settings.environment != "development":
+        if settings.ENVIRONMENT != "development":
             raise
     
     # Start event bus
@@ -124,12 +124,12 @@ def create_app() -> FastAPI:
     """
     # Create app with lifespan
     app = FastAPI(
-        title=settings.app_name,
-        version=settings.app_version,
+        title=settings.APP_NAME,
+        version=settings.APP_VERSION,
         lifespan=lifespan,
-        docs_url="/docs" if settings.debug else None,
-        redoc_url="/redoc" if settings.debug else None,
-        openapi_url="/openapi.json" if settings.debug else None,
+        docs_url="/docs" if settings.DEBUG else None,
+        redoc_url="/redoc" if settings.DEBUG else None,
+        openapi_url="/openapi.json" if settings.DEBUG else None,
     )
     
     # Add middleware
@@ -147,7 +147,7 @@ def create_app() -> FastAPI:
     app.add_middleware(GZipMiddleware, minimum_size=1000)
     
     # Trusted host
-    if settings.environment == "production":
+    if settings.ENVIRONMENT == "production":
         app.add_middleware(
             TrustedHostMiddleware,
             allowed_hosts=["*.yourdomain.com", "yourdomain.com"]
@@ -179,7 +179,7 @@ def create_app() -> FastAPI:
     app.include_router(v1_router)
     
     # Include debug routers for development/testing
-    if settings.environment in ["development", "test"]:
+    if settings.ENVIRONMENT in ["development", "test"]:
         try:
             # Include the simple debug router for basic chat testing
             from app.api.v1.debug_simple import debug_simple_router
@@ -208,8 +208,8 @@ def create_app() -> FastAPI:
     @app.get("/")
     async def root():
         return {
-            "name": settings.app_name,
-            "version": settings.app_version,
+            "name": settings.APP_NAME,
+            "version": settings.APP_VERSION,
             "status": "ready" if hasattr(app.state, "ready") and app.state.ready else "starting"
         }
     
@@ -221,7 +221,7 @@ def create_app() -> FastAPI:
     # Simple debug health endpoint for testing
     @app.get("/debug/health")
     async def debug_health():
-        return {"status": "debug_ok", "environment": settings.environment}
+        return {"status": "debug_ok", "environment": settings.ENVIRONMENT}
     
     # Simple debug chat endpoint for testing  
     @app.post("/debug/chat")
@@ -246,7 +246,7 @@ if __name__ == "__main__":
         "app.main:app",
         host=settings.host,
         port=settings.port,
-        reload=settings.debug,
-        log_level="debug" if settings.debug else "info",
-        access_log=settings.debug,
+        reload=settings.DEBUG,
+        log_level="debug" if settings.DEBUG else "info",
+        access_log=settings.DEBUG,
     ) 

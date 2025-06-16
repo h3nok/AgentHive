@@ -32,11 +32,11 @@ import structlog
 from opentelemetry import trace, metrics, baggage
 from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 from opentelemetry.exporter.otlp.proto.grpc.metric_exporter import OTLPMetricExporter
-from opentelemetry.exporter.jaeger.thrift import JaegerExporter
+# from opentelemetry.exporter.jaeger.thrift import JaegerExporter  # Deprecated - using OTLP instead
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from opentelemetry.instrumentation.redis import RedisInstrumentor
 from opentelemetry.instrumentation.asyncpg import AsyncPGInstrumentor
-from opentelemetry.instrumentation.requests import RequestsInstrumentor
+# Removed requests instrumentation as it's not essential
 from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
@@ -209,7 +209,7 @@ def setup_structured_logging() -> None:
         
         # Add service metadata
         event_dict["service"] = settings.otel_service_name
-        event_dict["environment"] = settings.environment
+        event_dict["environment"] = settings.ENVIRONMENT
         
         return event_dict
     
@@ -236,7 +236,7 @@ def setup_structured_logging() -> None:
     logging.basicConfig(
         format="%(message)s",
         stream=sys.stdout,
-        level=logging.DEBUG if settings.debug else logging.INFO,
+        level=logging.DEBUG if settings.DEBUG else logging.INFO,
     )
 
 
@@ -248,8 +248,8 @@ def setup_tracing() -> Optional[TracerProvider]:
     # Create resource
     resource = Resource.create({
         "service.name": settings.otel_service_name,
-        "service.version": settings.app_version,
-        "deployment.environment": settings.environment,
+        "service.version": settings.APP_VERSION,
+        "deployment.environment": settings.ENVIRONMENT,
     })
     
     # Create tracer provider
@@ -285,7 +285,7 @@ def setup_metrics() -> Optional[MeterProvider]:
     # Create resource
     resource = Resource.create({
         "service.name": settings.otel_service_name,
-        "service.version": settings.app_version,
+        "service.version": settings.APP_VERSION,
     })
     
     # Configure metric reader
@@ -308,12 +308,12 @@ def setup_metrics() -> Optional[MeterProvider]:
 
 def get_tracer(name: str) -> trace.Tracer:
     """Get a tracer instance."""
-    return trace.get_tracer(name, settings.app_version)
+    return trace.get_tracer(name, settings.APP_VERSION)
 
 
 def get_meter(name: str) -> metrics.Meter:
     """Get a meter instance."""
-    return metrics.get_meter(name, settings.app_version)
+    return metrics.get_meter(name, settings.APP_VERSION)
 
 
 def get_logger(name: str) -> structlog.stdlib.BoundLogger:

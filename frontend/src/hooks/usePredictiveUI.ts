@@ -1,5 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { debounce } from 'lodash';
+// Local lightweight debounce implementation to avoid external lodash dependency
+function debounce<T extends (...args: any[]) => void>(fn: T, delay = 150) {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  return (...args: Parameters<T>) => {
+    if (timer) clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), delay);
+  };
+}
 
 interface PredictiveUIState {
   suggestedActions: string[];

@@ -50,7 +50,7 @@ import {
 } from '../features/chat/chatSlice';
 import { RootState } from '../store';
 import { keyframes } from '@emotion/react';
-import useMenuAnchor from '@/hooks/useMenuAnchor';
+import useMenuAnchor from '../hooks/useMenuAnchor';
 import { useListSessionsQuery as useListSessionsQueryApi } from '../features/chat/sessionsApi';
 import { useCreateSessionMutation, useUpdateSessionMutation, useDeleteSessionMutation } from '../features/chat/sessionsApi';
 import Skeleton from '@mui/material/Skeleton';
@@ -107,9 +107,9 @@ const ThemedDialog = styled(Dialog)(({ theme }) => ({
       : 'rgba(200, 16, 46, 0.1)'}`
   },
   '& .MuiButton-containedPrimary': {
-    backgroundColor: '#2979FF', // Enterprise blue color
+    backgroundColor: '#f59e0b', // Enterprise amber color
     '&:hover': {
-      backgroundColor: '#2962FF', // Darker Enterprise blue for hover
+      backgroundColor: '#d97706', // Darker Enterprise amber for hover
     }
   }
 }));
@@ -123,9 +123,31 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const sessions = useSelector((state: RootState) => state.chat.sessions);
+  
+  // Fetch sessions from API
+  const { data: sessionsData, isLoading: isLoadingSessions } = useListSessionsQueryApi();
+  
+  // Transform API data to match expected format
+  const transformedSessions = sessionsData?.map(session => ({
+    id: session.session_id,
+    title: session.title || `Chat ${new Date().toLocaleDateString()}`,
+    messages: [], // Will be populated when session is selected
+    createdAt: session.updated_at,
+    updatedAt: session.updated_at,
+    folderId: 'default', // Default folder for now
+    pinned: session.pinned || false,
+  })) || [];
+  
+  const sessions = transformedSessions;
   const folders = useSelector((state: RootState) => state.chat.folders);
   const activeSessionId = useSelector((state: RootState) => state.chat.activeSessionId);
+  
+  // Ensure default folder exists
+  React.useEffect(() => {
+    if (folders.length === 0) {
+      dispatch(createFolder("Default"));
+    }
+  }, [folders.length, dispatch]);
   
   // Hover state for expand on hover
   const [isHovered, setIsHovered] = useState(false);
@@ -692,7 +714,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                 onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleNewChatInFolder(folder.id, e)}
                 sx={{
                   opacity: 0.8,
-                  color: '#2979FF', // Enterprise blue color
+                  color: '#f59e0b', // Enterprise amber color
                   '&:hover': { opacity: 1 },
                   mr: 0.5,
                   p: 0.5,
@@ -1151,46 +1173,46 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
               
               {sessions.length > 0 && (
                 <Box sx={{ mt: isCollapsed && !isHovered ? 2 : 0, px: isCollapsed && !isHovered ? 0 : 2 }}>
-                  {folders.length > 0 ? (
-                    folders.map(folder => renderFolderSection(folder))
-                  ) : (
-                    (isExpanded || (isCollapsed && isHovered)) && (
-                      <Box 
-                        sx={{ 
-                          py: 2, 
-                          px: 2,
-                          textAlign: 'center',
-                          color: theme.palette.text.secondary,
-                          borderRadius: 1,
-                          border: '1px dashed',
-                          borderColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
-                          backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
-                          margin: 1,
-                          opacity: isCollapsed && !isHovered ? 0 : 1,
-                          transition: 'opacity 0.3s ease'
+                {folders.length > 0 ? (
+                  folders.map(folder => renderFolderSection(folder))
+                ) : (
+                  (isExpanded || (isCollapsed && isHovered)) && (
+                    <Box 
+                      sx={{ 
+                        py: 2, 
+                        px: 2,
+                        textAlign: 'center',
+                        color: theme.palette.text.secondary,
+                        borderRadius: 1,
+                        border: '1px dashed',
+                        borderColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
+                        backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
+                        margin: 1,
+                        opacity: isCollapsed && !isHovered ? 0 : 1,
+                        transition: 'opacity 0.3s ease'
+                      }}
+                    >
+                      <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
+                        No sessions available
+                      </Typography>
+                      <Button
+                        variant="text"
+                        color="error"
+                        size="small"
+                        startIcon={<CreateNewFolderOutlinedIcon fontSize="small" />}
+                        onClick={() => setFolderDialogOpen(true)}
+                        sx={{
+                          mt: 1,
+                          textTransform: 'none',
+                          fontSize: '0.75rem',
                         }}
                       >
-                        <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
-                          No sessions available
-                        </Typography>
-                        <Button
-                          variant="text"
-                          color="error"
-                          size="small"
-                          startIcon={<CreateNewFolderOutlinedIcon fontSize="small" />}
-                          onClick={() => setFolderDialogOpen(true)}
-                          sx={{
-                            mt: 1,
-                            textTransform: 'none',
-                            fontSize: '0.75rem',
-                          }}
-                        >
-                          Create Session
-                        </Button>
-                      </Box>
-                    )
-                  )}
-                </Box>
+                        Create Session
+                      </Button>
+                    </Box>
+                  )
+                )}
+              </Box>
               )}
             </Box>
 

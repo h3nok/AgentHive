@@ -3,23 +3,23 @@
    Combined modern and classic styles for proper layout and markdown rendering
    -------------------------------------------------------------------------- */
 
-/* CSS custom properties - Enhanced with Quantum Variables */
+/* CSS custom properties - Enhanced with Hive Variables */
 :root {
   --rail      : 800px;        /* slightly wider than 720px input */
   --side-pad  : 24px;         /* gutter */
   --input-h   : 72px;         /* matches chat input height */
-  --red       : #C60C30;      /* barn red */
-  --shadow-user: 0 2px 6px rgba(198, 12, 48, 0.18);
+  --honey-amber: #f59e0b;     /* honey amber */
+  --shadow-user: 0 2px 6px rgba(245, 158, 11, 0.18);
   
-  /* 🚀 QUANTUM ENHANCEMENT VARIABLES */
-  --quantum-primary: hsl(220, 100%, 60%);
-  --quantum-secondary: hsl(180, 80%, 50%);
-  --quantum-accent: hsl(300, 90%, 70%);
-  --neural-synapse: rgba(0, 255, 255, 0.6);
-  --neural-connection: rgba(255, 0, 255, 0.4);
-  --holo-shift-1: hsl(240, 100%, 70%);
-  --holo-shift-2: hsl(300, 100%, 70%);
-  --holo-shift-3: hsl(180, 100%, 70%);
+  /* � HIVE ENHANCEMENT VARIABLES */
+  --hive-primary: hsl(45, 95%, 50%);
+  --hive-secondary: hsl(35, 80%, 55%);
+  --hive-accent: hsl(40, 90%, 65%);
+  --bee-synapse: rgba(245, 158, 11, 0.6);
+  --bee-connection: rgba(217, 119, 6, 0.4);
+  --honey-flow-1: hsl(45, 100%, 70%);
+  --honey-flow-2: hsl(35, 100%, 70%);
+  --honey-flow-3: hsl(50, 100%, 75%);
   --phi: 1.618033988749;
   --space-quantum: calc(1rem * var(--phi));
   --space-micro: calc(var(--space-quantum) / var(--phi) / var(--phi));
@@ -157,7 +157,7 @@
 
 /* -- USER bubble ------------------------------------------------------------ */
 .bubble.user{ 
-  background:var(--red); 
+  background:var(--honey-amber); 
   color:#fff; 
   border-radius:12px 12px 4px 12px; 
   max-width:60%; 
@@ -171,14 +171,14 @@
   position:absolute; 
   bottom:8px; 
   right:-6px; 
-  border-left:6px solid var(--red); 
+  border-left:6px solid var(--honey-amber); 
   border-top:6px solid transparent;
   width: 0;
   height: 0;
   border: 6px solid transparent;
-  border-left-color: var(--red);
+  border-left-color: var(--honey-amber);
   border-bottom: none;
-  border-top-color: var(--red);
+  border-top-color: var(--honey-amber);
 }
 
 .bubble.user.dark {

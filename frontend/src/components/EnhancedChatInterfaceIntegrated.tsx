@@ -40,7 +40,7 @@ import {
   RecordVoiceOver as VoiceIcon,
 } from '@mui/icons-material';
 
-interface EnhancedChatInterfaceProps {
+export interface EnhancedChatInterfaceProps {
   onSendMessage: (text: string, agent: string) => void;
   isLoading: boolean;
   onStopRequest?: () => void;
@@ -86,11 +86,13 @@ const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
   
   // Revolutionary AI-powered predictive UI
   const { 
-    predictedIntent, 
-    suggestedActions, 
-    contextualEnhancements,
-    updateContext 
-  } = usePredictiveUI(features.predictiveUI);
+    suggestedActions,
+    preloadedComponents,
+    intentScore,
+    nextLikelyInteraction,
+    analyzeUserIntent,
+    recordInteraction
+  } = usePredictiveUI();
   
   // Trigger message fetch for active session
   useGetSessionQuery(activeSessionId!, { skip: !activeSessionId, refetchOnMountOrArgChange: true });
@@ -115,7 +117,7 @@ const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
     
     // Update AI context for predictive features
     if (features.predictiveUI) {
-      updateContext({
+      analyzeUserIntent(text, {
         lastMessage: text,
         selectedAgent: agent,
         timestamp: Date.now(),
@@ -124,7 +126,7 @@ const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
     }
     
     onSendMessage(text, agent);
-  }, [onSendMessage, features.predictiveUI, updateContext]);
+  }, [onSendMessage, features.predictiveUI, analyzeUserIntent]);
   
   // Handle agent selection with AI enhancement
   const handleAgentSelect = useCallback((agentId: string) => {
@@ -134,12 +136,12 @@ const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
     
     // Update predictive context
     if (features.predictiveUI) {
-      updateContext({
+      analyzeUserIntent('', {
         selectedAgent: agentId,
         agentSwitchTime: Date.now(),
       });
     }
-  }, [features.predictiveUI, updateContext]);
+  }, [features.predictiveUI, analyzeUserIntent]);
   
   // Handle stop request with enterprise monitoring
   const handleStopRequest = useCallback(() => {
@@ -214,7 +216,7 @@ const EnhancedChatInterface: React.FC<EnhancedChatInterfaceProps> = ({
         <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', justifyContent: 'center' }}>
           {features.predictiveUI && (
             <Box sx={{ px: 2, py: 1, borderRadius: 2, bgcolor: 'rgba(243, 156, 18, 0.1)', color: '#f39c12' }}>
-              🧠 Predictive UI Active
+              🐝 Predictive UI Active
             </Box>
           )}
           {features.voiceInterface && (

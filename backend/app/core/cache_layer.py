@@ -168,7 +168,7 @@ class RedisCache:
     """L2 Redis cache for shared access."""
     
     def __init__(self, redis_url: str = None):
-        self.redis_url = redis_url or settings.redis_url
+        self.redis_url = redis_url or settings.REDIS_URL
         self.redis_client: Optional[redis.Redis] = None
         self.stats = CacheStats()
         self._connection_lock = asyncio.Lock()
@@ -461,6 +461,6 @@ def cached(
 cache_manager = MultiLayerCache(
     memory_max_size=getattr(settings, 'cache_memory_max_size', 1000),
     memory_max_mb=getattr(settings, 'cache_memory_max_mb', 100),
-    redis_url=getattr(settings, 'redis_url', None),
+    redis_url=getattr(settings, 'REDIS_URL', None),
     default_ttl=getattr(settings, 'cache_default_ttl', 3600)
 )

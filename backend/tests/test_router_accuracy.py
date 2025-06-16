@@ -106,19 +106,12 @@ class RouterAccuracyTestHarness:
             
             # Handle specific edge cases based on our test cases
             
-            # Landlord/security deposit issues should route to lease
-            if any(term in prompt_lower for term in ['landlord', 'security deposit', 'deposit']):
-                agent_type = "lease"
-                intent = "lease_inquiry" 
-                confidence = 0.95
-                reasoning = "Landlord and deposit issues are lease-related matters"
-            
-            # Mixed intent: "buy property to lease" should prioritize sales (primary action)
-            elif "buy" in prompt_lower and "property" in prompt_lower and ("lease" in prompt_lower or "rent" in prompt_lower):
+            # Mixed intent: "buy property to rent" should prioritize sales (primary action)
+            if "buy" in prompt_lower and "property" in prompt_lower and ("rent" in prompt_lower):
                 agent_type = "sales"
                 intent = "sales_inquiry"
                 confidence = 0.90
-                reasoning = "Primary action is buying/purchasing property, lease is secondary"
+                reasoning = "Primary action is buying/purchasing property, rent is secondary"
             
             # Technical issues with rental systems should route to support
             elif ("rental" in prompt_lower or "application" in prompt_lower) and any(tech in prompt_lower for tech in ["system", "bug", "broken", "technical"]):
@@ -142,19 +135,14 @@ class RouterAccuracyTestHarness:
                 reasoning = "Unrecognized content handled as general inquiry"
             
             # Multiple keywords - choose primary intent
-            elif ("buy" in prompt_lower or "house" in prompt_lower) and any(word in prompt_lower for word in ['lease', 'apartment', 'support', 'help']):
+            elif ("buy" in prompt_lower or "house" in prompt_lower) and any(word in prompt_lower for word in ['apartment', 'support', 'help']):
                 agent_type = "sales"
                 intent = "sales_inquiry"
                 confidence = 0.87
                 reasoning = "Multiple keywords present, sales appears to be primary intent"
             
             # Standard routing logic
-            elif any(word in prompt_lower for word in ['lease', 'rent', 'apartment', 'housing', 'tenant']):
-                agent_type = "lease"
-                intent = "lease_inquiry"
-                confidence = 0.92
-                reasoning = "Query contains lease-related keywords"
-            elif any(word in prompt_lower for word in ['buy', 'purchase', 'sell', 'property', 'real estate']):
+            if any(word in prompt_lower for word in ['buy', 'purchase', 'sell', 'property', 'real estate']):
                 agent_type = "sales"
                 intent = "sales_inquiry"
                 confidence = 0.90
@@ -189,43 +177,6 @@ class RouterAccuracyTestHarness:
     def get_comprehensive_test_cases(self) -> List[TestCase]:
         """Generate comprehensive test cases covering all agent types and scenarios."""
         return [
-            # LEASE Agent Test Cases
-            TestCase(
-                query="I need help with my apartment lease agreement",
-                expected_agent=AgentType.LEASE,
-                expected_routing_method=RoutingMethod.LLM_ROUTER,
-                description="Basic lease inquiry",
-                category="lease"
-            ),
-            TestCase(
-                query="What are the rent increase policies for tenants?",
-                expected_agent=AgentType.LEASE,
-                expected_routing_method=RoutingMethod.LLM_ROUTER,
-                description="Rent policy question",
-                category="lease"
-            ),
-            TestCase(
-                query="Housing application requirements",
-                expected_agent=AgentType.LEASE,
-                expected_routing_method=RoutingMethod.LLM_ROUTER,
-                description="Housing application",
-                category="lease"
-            ),
-            TestCase(
-                query="My landlord won't return my security deposit",
-                expected_agent=AgentType.LEASE,
-                expected_routing_method=RoutingMethod.LLM_ROUTER,
-                description="Tenant rights issue",
-                category="lease"
-            ),
-            TestCase(
-                query="Can I sublease my apartment to someone else?",
-                expected_agent=AgentType.LEASE,
-                expected_routing_method=RoutingMethod.LLM_ROUTER,
-                description="Sublease question",
-                category="lease"
-            ),
-            
             # SALES Agent Test Cases
             TestCase(
                 query="I want to buy a house in downtown area",
@@ -383,14 +334,14 @@ class RouterAccuracyTestHarness:
             
             # Stress Test Cases
             TestCase(
-                query="lease" * 100,
-                expected_agent=AgentType.LEASE,
+                query="general" * 100,
+                expected_agent=AgentType.GENERAL,
                 expected_routing_method=RoutingMethod.LLM_ROUTER,
                 description="Repeated keyword",
                 category="stress"
             ),
             TestCase(
-                query="I need to buy a house and lease apartment with support for issues and general help",
+                query="I need to buy a house and apartment with support for issues and general help",
                 expected_agent=AgentType.SALES,  # "buy" appears first
                 expected_routing_method=RoutingMethod.LLM_ROUTER,
                 description="Multiple keywords",
@@ -695,16 +646,16 @@ class TestRouterAccuracy:
         return harness
     
     @pytest.mark.asyncio
-    async def test_lease_agent_accuracy(self, test_harness):
-        """Test LEASE agent routing accuracy."""
-        lease_cases = [tc for tc in test_harness.get_comprehensive_test_cases() 
-                      if tc.expected_agent == AgentType.LEASE]
+    async def test_sales_agent_accuracy(self, test_harness):
+        """Test SALES agent routing accuracy."""
+        sales_cases = [tc for tc in test_harness.get_comprehensive_test_cases() 
+                      if tc.expected_agent == AgentType.SALES]
         
-        metrics = await test_harness.run_accuracy_test_suite(lease_cases)
+        metrics = await test_harness.run_accuracy_test_suite(sales_cases)
         
-        # Assert high accuracy for lease queries
-        assert metrics.accuracy_percentage >= 90, f"LEASE agent accuracy too low: {metrics.accuracy_percentage}%"
-        assert metrics.average_confidence >= 0.8, f"LEASE agent confidence too low: {metrics.average_confidence}"
+        # Assert high accuracy for sales queries
+        assert metrics.accuracy_percentage >= 90, f"SALES agent accuracy too low: {metrics.accuracy_percentage}%"
+        assert metrics.average_confidence >= 0.8, f"SALES agent confidence too low: {metrics.average_confidence}"
     
     @pytest.mark.asyncio
     async def test_sales_agent_accuracy(self, test_harness):

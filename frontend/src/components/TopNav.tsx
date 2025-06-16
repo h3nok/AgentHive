@@ -155,9 +155,9 @@ const DeploymentSelector: React.FC<{
               backgroundColor: theme.palette.mode === 'dark'
                 ? alpha('#fff', 0.05)
                 : alpha('#000', 0.05),
-              borderColor: alpha('#c8102e', 0.3),
+              borderColor: alpha(theme.palette.primary.main, 0.3),
               transform: 'translateY(-1px)',
-              boxShadow: `0 2px 8px ${alpha('#c8102e', 0.1)}`,
+              boxShadow: `0 2px 8px ${alpha(theme.palette.primary.main, 0.1)}`,
             },
             '&:focus-visible': {
               outline: `2px solid ${theme.palette.primary.main}`,
@@ -218,12 +218,12 @@ const DeploymentSelector: React.FC<{
                 sx={{ 
                   minHeight: 64,
                   '&:hover': {
-                    backgroundColor: alpha('#c8102e', 0.05),
+                    backgroundColor: alpha(theme.palette.primary.main, 0.05),
                   },
                   '&.Mui-selected': {
-                    backgroundColor: alpha('#c8102e', 0.08),
+                    backgroundColor: alpha(theme.palette.primary.main, 0.08),
                     '&:hover': {
-                      backgroundColor: alpha('#c8102e', 0.12),
+                      backgroundColor: alpha(theme.palette.primary.main, 0.12),
                     },
                   },
                 }}
@@ -417,7 +417,7 @@ const TopNav: React.FC<Omit<TopNavProps,'onSidebarToggle'>> = ({
                     variant="text"
                     sx={{
                       color: theme.palette.text.primary,
-                      '&:hover': { backgroundColor: alpha('#c8102e', 0.08), color: '#c8102e' },
+                      '&:hover': { backgroundColor: alpha(theme.palette.primary.main, 0.08), color: theme.palette.primary.main },
                       transition: 'all 0.2s ease',
                       fontWeight: 600,
                     }}
@@ -455,7 +455,7 @@ const TopNav: React.FC<Omit<TopNavProps,'onSidebarToggle'>> = ({
                 )}
                 <Tooltip title="Account">
                   <IconButton onClick={handleUserMenuOpen} size="small" sx={{ '&:hover': { backgroundColor: alpha(theme.palette.primary.main, 0.1) } }}>
-                    {user ? <Avatar sx={{ width: 32, height: 32, bgcolor: '#c8102e', fontSize: '0.875rem' }}>{user.name?.charAt(0).toUpperCase() || 'U'}</Avatar> : <AccountIcon />}
+                    {user ? <Avatar sx={{ width: 32, height: 32, bgcolor: theme.palette.primary.main, fontSize: '0.875rem' }}>{user.name?.charAt(0).toUpperCase() || 'U'}</Avatar> : <AccountIcon />}
                   </IconButton>
                 </Tooltip>
               </Box>

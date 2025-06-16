@@ -18,7 +18,7 @@ from app.adapters.llm_openai import OpenAIAdapter, CompletionResponse
 def request_context():
     """Create a test request context."""
     prompt_in = PromptIn(
-        prompt="I need help with my lease agreement",
+        prompt="I need help with buying a house",
         session_id="test-session"
     )
     return RequestContext(

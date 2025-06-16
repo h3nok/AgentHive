@@ -11,7 +11,7 @@ from sqlalchemy.orm import sessionmaker
 
 from app.domain.agent_factory import BaseAgent
 from app.domain.schemas import RequestContext, AgentResponse, AgentType, AgentManifest
-from app.adapters.llm_openai import OpenAIAdapter
+from app.domain.llm_factory import create_llm_adapter
 from app.core.observability import get_logger, measure_tokens
 from app.services.lease_service import LeaseService
 from app.db.lease_models import Property, Tenant, Landlord, Lease, LeaseAnalytics
@@ -25,7 +25,7 @@ class Agent(BaseAgent):
     
     def __init__(self, agent_id: str, manifest: AgentManifest):
         super().__init__(agent_id, manifest)
-        self.llm_adapter = None
+        self.llm_adapter = create_llm_adapter()
         self.system_prompt = manifest.config.get(
             "system_prompt",
             "You are a lease specialist AI assistant with access to real-time lease data from the TSC portfolio."
@@ -51,7 +51,6 @@ class Agent(BaseAgent):
     
     async def _initialize(self) -> None:
         """Initialize the lease agent."""
-        self.llm_adapter = OpenAIAdapter()
         logger.info(f"Lease agent initialized: {self.agent_id}")
     
     def _get_lease_data_from_db(self) -> Dict[str, Any]:

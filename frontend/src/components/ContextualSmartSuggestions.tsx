@@ -134,7 +134,7 @@ export const ContextualSmartSuggestions: React.FC<ContextualSuggestionsProps> = 
     }, {} as Record<number, number>);
     
     const peakHour = Object.entries(hourFreq)
-      .sort(([,a], [,b]) => b - a)[0];
+      .sort(([,a], [,b]) => (b as number) - (a as number))[0];
     
     return { peakHour: parseInt(peakHour?.[0] || '9') };
   };

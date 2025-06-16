@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Save the original directory
+ORIGINAL_DIR=$(pwd)
+
 # Color codes for prettier output
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
@@ -185,7 +188,7 @@ if [ ! -f .env ]; then
     # Create basic .env file
     cat > .env << EOF
 # Application Settings
-APP_NAME=TSC-ChatTSC
+APP_NAME=AgentHive
 DEBUG=True
 SECRET_KEY=your-secret-key-here
 LOG_LEVEL=INFO
@@ -282,7 +285,6 @@ source venv/bin/activate
 
 # Install dependencies
 echo -e "${BLUE}Installing Python dependencies...${NC}"
-source venv/bin/activate
 
 # Check if uv is installed
 if command -v uv &> /dev/null; then
@@ -304,8 +306,9 @@ if [ "$1" == "mock-data" ]; then
     echo -e "${BLUE}Setting up mock data in Snowflake...${NC}"
     python scripts/setup_mock_data.py
 elif [ "$1" == "docker" ]; then
-    # Run with Docker Compose
-    echo -e "${BLUE}Starting services with Docker Compose...${NC}"
+    # Run backend services with Docker Compose (frontend runs separately)
+    echo -e "${BLUE}Starting backend services with Docker Compose...${NC}"
+    echo -e "${YELLOW}Note: Frontend runs separately. Use './run-frontend.sh' to start the frontend.${NC}"
     docker-compose up
 elif [ "$1" == "debug" ]; then
     # Run debug integration tests
@@ -409,20 +412,28 @@ else
     fi
     
     # Change to backend directory
-    echo -e "${BLUE}Changing to backend directory...${NC}"
+    # Load environment variables from root .env so they persist after changing directories
+if [ -f "$ORIGINAL_DIR/.env" ]; then
+    echo -e "${BLUE}Loading environment variables from $ORIGINAL_DIR/.env ...${NC}"
+    set -a
+    # shellcheck disable=SC1090
+    source "$ORIGINAL_DIR/.env"
+    set +a
+fi
+
+echo -e "${BLUE}Changing to backend directory...${NC}"
     cd backend
     
     # Run backend serve from the correct directory
-    echo -e "${GREEN}Starting TSC ChatTSC API server from backend directory...${NC}"
+    echo -e "${GREEN}Starting AgentHive API server from backend directory...${NC}"
     uvicorn app.main:app --reload --host 0.0.0.0 --port 8001
     
     # This line will not be reached while the server is running, but will show if startup fails
     echo -e "${BLUE}API documentation available at:${NC}"
-    echo -e "${GREEN}  - Swagger UI: http://localhost:8001/docs${NC}"
     echo -e "${GREEN}  - ReDoc UI: http://localhost:8001/redoc${NC}"
     echo -e "${GREEN}  - Debug Endpoints: http://localhost:8001/api/debug/health${NC}"
     echo -e "${GREEN}  - WebSocket Debug: ws://localhost:8001/api/debug/router_trace${NC}"
 fi
 
 # Deactivate virtual environment and return to original directory on exit
-trap "deactivate; cd .." EXIT 
+trap "deactivate 2>/dev/null; cd '$ORIGINAL_DIR'" EXIT 
