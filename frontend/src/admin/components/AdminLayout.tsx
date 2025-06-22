@@ -3,6 +3,7 @@ import { Box, useTheme, useMediaQuery } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import SidebarNav from './SidebarNav';
 import TopBar from './TopBar';
+import '../styles/enterprise-admin.css';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -48,7 +49,28 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children, toggleTheme, mode }
           toggleTheme={toggleTheme} 
           isDarkMode={mode === 'dark'} 
         />
-        <Box sx={{ p: { xs: 2, md: 3 }, flexGrow: 1 }}>
+        <Box 
+          sx={{ 
+            p: { xs: 2, md: 3 }, 
+            flexGrow: 1,
+            bgcolor: theme.palette.mode === 'dark' ? 'grey.900' : 'grey.50',
+            minHeight: 'calc(100vh - 120px)', // Account for enhanced TopBar height
+            overflow: 'auto',
+            '&::-webkit-scrollbar': {
+              width: 8,
+            },
+            '&::-webkit-scrollbar-track': {
+              background: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.05)' : 'rgba(0, 0, 0, 0.05)',
+            },
+            '&::-webkit-scrollbar-thumb': {
+              background: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+              borderRadius: 4,
+              '&:hover': {
+                background: theme.palette.mode === 'dark' ? 'rgba(255, 255, 255, 0.15)' : 'rgba(0, 0, 0, 0.15)',
+              }
+            },
+          }}
+        >
           {children}
         </Box>
       </Box>

@@ -20,20 +20,20 @@ const UsageTrendChart: React.FC = () => {
         <AreaChart data={data} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
           <defs>
             <linearGradient id="azureGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#0078D4" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#0078D4" stopOpacity={0} />
+              <stop offset="5%" stopColor={theme.palette.primary.main} stopOpacity={0.8} />
+              <stop offset="95%" stopColor={theme.palette.primary.main} stopOpacity={0} />
             </linearGradient>
             <linearGradient id="chatGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#10A37F" stopOpacity={0.8} />
-              <stop offset="95%" stopColor="#10A37F" stopOpacity={0} />
+              <stop offset="5%" stopColor={theme.palette.secondary.main} stopOpacity={0.8} />
+              <stop offset="95%" stopColor={theme.palette.secondary.main} stopOpacity={0} />
             </linearGradient>
           </defs>
           <XAxis dataKey="ts" tickFormatter={tickFormatter} stroke={theme.palette.text.secondary} />
           <YAxis stroke={theme.palette.text.secondary} />
           <Tooltip labelFormatter={(v) => new Date((v as number) * 1000).toLocaleString()} />
           <Legend />
-          <Area type="monotone" dataKey="azure" stroke="#0078D4" fillOpacity={1} fill="url(#azureGradient)" name="Azure Foundry" />
-          <Area type="monotone" dataKey="chatgpt" stroke="#10A37F" fillOpacity={1} fill="url(#chatGradient)" name="ChatGPT" />
+          <Area type="monotone" dataKey="azure" stroke={theme.palette.primary.main} fillOpacity={1} fill="url(#azureGradient)" name="Azure Foundry" />
+          <Area type="monotone" dataKey="chatgpt" stroke={theme.palette.secondary.main} fillOpacity={1} fill="url(#chatGradient)" name="ChatGPT" />
         </AreaChart>
       </ResponsiveContainer>
     </Paper>

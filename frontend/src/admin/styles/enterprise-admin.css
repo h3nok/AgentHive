@@ -1,0 +1,493 @@
+/* Enhanced Admin Interface Styles - Enterprise Ready */
+
+.admin-appbar {
+  position: relative;
+  z-index: 1200;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+/* Removed blue overlay to preserve original beautiful purple gradient */
+
+.admin-content {
+  background: linear-gradient(135deg, 
+    rgba(248, 250, 252, 0.8) 0%, 
+    rgba(241, 245, 249, 0.9) 100%);
+  min-height: 100vh;
+}
+
+.admin-content.dark {
+  background: linear-gradient(135deg, 
+    rgba(15, 23, 42, 0.95) 0%, 
+    rgba(30, 41, 59, 0.98) 100%);
+}
+
+/* Enhanced 3D Glassmorphism Effects for Light Theme */
+.admin-content.light {
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(255, 179, 0, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.05) 0%, transparent 60%),
+    linear-gradient(135deg, 
+      rgba(250, 252, 255, 0.98) 0%, 
+      rgba(248, 250, 252, 0.95) 20%,
+      rgba(241, 245, 249, 0.98) 40%,
+      rgba(226, 232, 240, 0.95) 70%,
+      rgba(203, 213, 225, 0.9) 100%);
+  color: #1e293b;
+  perspective: 1500px;
+  transform-style: preserve-3d;
+}
+
+.admin-content.light .dashboard-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(35px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 24px;
+  box-shadow: 
+    0 16px 50px rgba(0, 0, 0, 0.12), 
+    0 6px 25px rgba(0, 0, 0, 0.08),
+    0 2px 10px rgba(0, 0, 0, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateZ(0) rotateX(0deg);
+  transform-style: preserve-3d;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.admin-content.light .dashboard-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.25) 0%, 
+    transparent 40%, 
+    rgba(255, 179, 0, 0.06) 100%);
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+.admin-content.light .dashboard-card:hover {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(45px) saturate(1.3);
+  box-shadow: 
+    0 35px 80px rgba(0, 0, 0, 0.18), 
+    0 20px 45px rgba(0, 0, 0, 0.12),
+    0 8px 20px rgba(255, 179, 0, 0.15),
+    0 4px 10px rgba(139, 92, 246, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.85),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 179, 0, 0.5);
+  transform: translateY(-15px) translateZ(35px) rotateX(4deg) scale(1.02);
+}
+
+.admin-content.light .dashboard-card:hover::before {
+  opacity: 1;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.35) 0%, 
+    rgba(255, 179, 0, 0.08) 50%, 
+    rgba(139, 92, 246, 0.06) 100%);
+}
+
+/* Enhanced Dashboard Cards */
+.dashboard-card {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 20px;
+  backdrop-filter: blur(25px) saturate(1.1);
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateZ(0);
+  transform-style: preserve-3d;
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.1) 0%, 
+    transparent 50%);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-8px) translateZ(25px) rotateX(3deg) scale(1.02);
+  box-shadow: 
+    0 25px 60px rgba(0, 0, 0, 0.15),
+    0 12px 30px rgba(0, 0, 0, 0.1),
+    0 4px 15px rgba(118, 75, 162, 0.2);
+  border-color: rgba(118, 75, 162, 0.4);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(35px) saturate(1.2);
+}
+
+.dashboard-card:hover::before {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.2) 0%, 
+    rgba(118, 75, 162, 0.05) 100%);
+}
+
+.dashboard-card.featured {
+  background: linear-gradient(135deg, 
+    rgba(102, 126, 234, 0.12) 0%, 
+    rgba(147, 51, 234, 0.12) 100%);
+  border: 1px solid rgba(118, 75, 162, 0.3);
+  box-shadow: 
+    0 12px 40px rgba(118, 75, 162, 0.15),
+    0 4px 20px rgba(118, 75, 162, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Status Indicators */
+.status-indicator {
+  position: relative;
+  overflow: hidden;
+}
+
+.status-indicator::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(255, 255, 255, 0.2) 50%, 
+    transparent 100%);
+  animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Professional Metrics */
+.metric-value {
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+}
+
+.metric-trend.up {
+  color: #10b981;
+}
+
+.metric-trend.down {
+  color: #ef4444;
+}
+
+.metric-trend.stable {
+  color: #6b7280;
+}
+
+/* Enhanced Grid Layout */
+.react-grid-layout {
+  background: transparent;
+}
+
+.react-grid-item {
+  transition: all 0.2s ease;
+  border-radius: 12px;
+}
+
+.react-grid-item:hover {
+  z-index: 100;
+}
+
+.react-grid-item.react-grid-placeholder {
+  background: rgba(102, 126, 234, 0.1) !important;
+  border: 2px dashed rgba(118, 75, 162, 0.3) !important;
+  border-radius: 12px !important;
+  transition: all 0.2s ease !important;
+}
+
+/* Professional Scrollbars */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Dark mode scrollbars */
+.dark .custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Enterprise Loading States */
+.loading-shimmer {
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0.1) 25%, 
+    rgba(255, 255, 255, 0.2) 50%, 
+    rgba(255, 255, 255, 0.1) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Professional Tooltips */
+.MuiTooltip-tooltip {
+  background: rgba(15, 23, 42, 0.95) !important;
+  color: white !important;
+  font-size: 0.75rem !important;
+  font-weight: 500 !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+/* Enhanced Menu Styles */
+.MuiMenu-paper {
+  border-radius: 12px !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  backdrop-filter: blur(20px) !important;
+}
+
+.MuiMenuItem-root {
+  border-radius: 8px !important;
+  margin: 4px 8px !important;
+  transition: all 0.2s ease !important;
+}
+
+.MuiMenuItem-root:hover {
+  background: rgba(102, 126, 234, 0.1) !important;
+  transform: translateX(4px) !important;
+}
+
+/* Professional Breadcrumbs */
+.MuiBreadcrumbs-separator {
+  margin: 0 4px !important;
+}
+
+/* Enhanced Search Input */
+.admin-search-focused {
+  transform: scale(1.02);
+  box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+}
+
+/* Professional Status Badges */
+.status-badge {
+  position: relative;
+  overflow: hidden;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-badge.healthy {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+}
+
+.status-badge.warning {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+}
+
+.status-badge.critical {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+}
+
+/* Enhanced text shadows for light theme */
+.admin-content.light .text-shadow {
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
+}
+
+.admin-content.light .card-shadow {
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.admin-content.light .card-shadow:hover {
+  box-shadow: 
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(102, 126, 234, 0.1);
+}
+
+/* Enhanced Light Theme Text Visibility */
+.admin-content.light .text-outline {
+  -webkit-text-stroke: 0.5px rgba(0, 0, 0, 0.8);
+}
+
+.admin-content.light .breadcrumb-enhanced {
+  background: rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
+  padding: 4px 8px;
+  margin: -4px -8px;
+}
+
+.admin-content.light .topbar-overlay {
+  background: rgba(0, 0, 0, 0.2) !important;
+}
+
+/* High contrast text for light theme */
+.light-theme-text {
+  color: white !important;
+  text-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.8),
+    0 2px 6px rgba(0, 0, 0, 0.4),
+    -1px -1px 0 rgba(0, 0, 0, 0.3),
+    1px -1px 0 rgba(0, 0, 0, 0.3),
+    -1px 1px 0 rgba(0, 0, 0, 0.3),
+    1px 1px 0 rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Professional Animation Variants */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Professional Focus Styles */
+.professional-focus:focus-visible {
+  outline: 2px solid #667eea;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Enterprise Performance Optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Enhanced Filter Component Styles */
+.enhanced-filter-container {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.filter-chip-enhanced {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filter-chip-enhanced::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.filter-chip-enhanced:hover::before {
+  left: 100%;
+}
+
+.filter-chip-count {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+}
+
+/* Pill-shaped enhanced chips */
+.filter-pill {
+  border-radius: 24px !important;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.filter-pill:hover {
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+}
+
+/* Enhanced gradient effects */
+.filter-gradient-primary {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15) 0%, rgba(118, 75, 162, 0.05) 100%);
+}
+
+.filter-gradient-secondary {
+  background: linear-gradient(135deg, rgba(156, 39, 176, 0.15) 0%, rgba(233, 30, 99, 0.05) 100%);
+}
+
+.filter-gradient-success {
+  background: linear-gradient(135deg, rgba(76, 175, 80, 0.15) 0%, rgba(139, 195, 74, 0.05) 100%);
+}
+
+.filter-gradient-info {
+  background: linear-gradient(135deg, rgba(33, 150, 243, 0.15) 0%, rgba(3, 169, 244, 0.05) 100%);
+}
+
+.filter-gradient-error {
+  background: linear-gradient(135deg, rgba(244, 67, 54, 0.15) 0%, rgba(255, 87, 34, 0.05) 100%);
+}

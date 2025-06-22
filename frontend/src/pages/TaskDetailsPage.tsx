@@ -1,13 +1,11 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import { CircularProgress, Box } from '@mui/material';
 import ChatMessageList from '@/components/ChatMessageList';
-import ChatInput from '@/components/ChatInput';
-import ChatRoutingIndicator from '@/components/ChatRoutingIndicator';
-import MessageSkeleton from '@/components/MessageSkeleton';
+import ChatInput from '@/components/EnterpriseInputBar';
 import AgentCollaboration from '@/components/AgentCollaboration';
 import ChatErrorBoundary from '@/components/ChatErrorBoundary';
 import StatusBadge from '@/components/StatusBadge';
-import VoiceBtn from '@/components/VoiceBtn';
 import useTaskStream from '@/hooks/useTaskStream';
 
 const TaskDetailsPage: React.FC = () => {
@@ -19,18 +17,23 @@ const TaskDetailsPage: React.FC = () => {
       <div className="flex flex-col h-full">
         <header className="p-2 flex items-center gap-2 border-b">
           <StatusBadge status={status} />
-          <ChatRoutingIndicator taskId={taskId!} />
         </header>
 
         <div className="flex-1 overflow-auto">
-          <ChatMessageList messages={messages} skeleton={<MessageSkeleton />} />
+          <ChatMessageList 
+            messages={messages} 
+            skeleton={
+              <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
+                <CircularProgress size={24} />
+              </Box>
+            } 
+          />
         </div>
 
-        <AgentCollaboration taskId={taskId!} />
+        <AgentCollaboration />
 
         <div className="p-2 border-t flex items-center gap-2">
-          <ChatInput onSubmit={send} disabled={status !== 'running'} />
-          <VoiceBtn onVoiceSubmit={send} />
+          <ChatInput onSendMessage={send} isLoading={status === 'running'} />
         </div>
       </div>
     </ChatErrorBoundary>

@@ -20,11 +20,11 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Fab,
+  CircularProgress,
+  Skeleton,
   Badge,
-  CircularProgress
+  alpha
 } from '@mui/material';
-import ChatIcon from '@mui/icons-material/Chat';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -35,10 +35,25 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import PushPinOutlinedIcon from '@mui/icons-material/PushPinOutlined';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChatIcon from '@mui/icons-material/Chat';
+
 import { styled } from '@mui/material/styles';
-import LogoText from './LogoText';
+import { keyframes } from '@emotion/react';
+import { Resizable } from 're-resizable';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate, Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+
+// Internal components and hooks
+import LogoText from './LogoText';
+import EnterpriseFloatingActionButton from './EnterpriseFloatingActionButton';
+import useMenuAnchor from '../hooks/useMenuAnchor';
+
+// Store and API
+import { RootState } from '../store';
+import type { Message } from '../store';
 import { 
   setActiveSession, 
   moveSessionToFolder,
@@ -48,16 +63,16 @@ import {
   updateSessionTitle,
   clearSessionMessages
 } from '../features/chat/chatSlice';
-import { RootState } from '../store';
-import { keyframes } from '@emotion/react';
-import useMenuAnchor from '../hooks/useMenuAnchor';
-import { useListSessionsQuery as useListSessionsQueryApi } from '../features/chat/sessionsApi';
-import { useCreateSessionMutation, useUpdateSessionMutation, useDeleteSessionMutation } from '../features/chat/sessionsApi';
-import Skeleton from '@mui/material/Skeleton';
-import { alpha } from '@mui/material/styles';
-import { Resizable } from 're-resizable';
-import { motion, AnimatePresence } from 'framer-motion';
-import SidebarCollapseArrow from './SidebarCollapseArrow';
+import { 
+  useListSessionsQuery as useListSessionsQueryApi,
+  useCreateSessionMutation, 
+  useUpdateSessionMutation, 
+  useDeleteSessionMutation 
+} from '../features/chat/sessionsApi';
+
+//==========================================
+// Styled Components
+//==========================================
 
 // Create a styled Drawer component to override theme defaults
 const StyledDrawer = styled(Drawer)(() => ({
@@ -67,6 +82,69 @@ const StyledDrawer = styled(Drawer)(() => ({
     transition: 'width 0.3s ease-in-out',
   }
 }));
+
+// Styled Dialog component that respects the enterprise honey/swarm theme
+const ThemedDialog = styled(Dialog)(({ theme }) => ({
+  '& .MuiDialog-paper': {
+    backgroundColor: theme.palette.mode === 'dark' ? '#1e1e1e' : '#ffffff',
+    boxShadow: theme.palette.mode === 'dark' 
+      ? `0 8px 32px ${alpha(theme.palette.primary.main, 0.15)}`
+      : `0 4px 20px ${alpha(theme.palette.primary.main, 0.1)}`,
+    borderRadius: 16,
+    border: theme.palette.mode === 'dark'
+      ? `1px solid ${alpha(theme.palette.primary.main, 0.2)}`
+      : `1px solid ${alpha(theme.palette.primary.main, 0.15)}`,
+    backdropFilter: 'blur(8px)',
+  },
+  '& .MuiDialogTitle-root': {
+    backgroundColor: theme.palette.mode === 'dark' 
+      ? alpha(theme.palette.primary.main, 0.08)
+      : alpha(theme.palette.primary.main, 0.04),
+    borderBottom: `1px solid ${theme.palette.mode === 'dark' 
+      ? alpha(theme.palette.primary.main, 0.2) 
+      : alpha(theme.palette.primary.main, 0.15)}`,
+    color: theme.palette.primary.main,
+    fontWeight: 600,
+    position: 'relative',
+    '&:after': {
+      content: '""',
+      position: 'absolute',
+      bottom: 0,
+      left: 0,
+      right: 0,
+      height: 2,
+      background: `linear-gradient(90deg, ${theme.palette.primary.main}, ${theme.palette.warning.main})`,
+    }
+  },
+  '& .MuiDialogContent-root': {
+    paddingTop: theme.spacing(3),
+  },
+  '& .MuiButton-containedPrimary': {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    fontWeight: 600,
+    borderRadius: theme.shape.borderRadius,
+    textTransform: 'none',
+    boxShadow: `0 2px 8px ${alpha(theme.palette.primary.main, 0.3)}`,
+    '&:hover': {
+      backgroundColor: theme.palette.primary.dark,
+      boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.4)}`,
+      transform: 'translateY(-1px)',
+    }
+  },
+  '& .MuiButton-outlined': {
+    borderColor: theme.palette.primary.main,
+    color: theme.palette.primary.main,
+    '&:hover': {
+      borderColor: theme.palette.primary.dark,
+      backgroundColor: alpha(theme.palette.primary.main, 0.08),
+    }
+  }
+}));
+
+//==========================================
+// Animations
+//==========================================
 
 // Define a fade-in animation
 const fadeIn = keyframes`
@@ -88,44 +166,44 @@ const activeGlow = keyframes`
   100% { box-shadow: 0 0 0 rgba(244, 67, 54, 0); }
 `;
 
-// Styled Dialog component that respects the current theme
-const ThemedDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialog-paper': {
-    backgroundColor: theme.palette.mode === 'dark' ? '#1e1e1e' : '#ffffff', // TSC theme colors
-    boxShadow: 'none', // Remove box shadow
-    borderRadius: theme.shape.borderRadius,
-    border: theme.palette.mode === 'dark'
-      ? '1px solid rgba(200, 16, 46, 0.2)'
-      : '1px solid rgba(200, 16, 46, 0.1)',
-  },
-  '& .MuiDialogTitle-root': {
-    backgroundColor: theme.palette.mode === 'dark' 
-      ? 'rgba(200, 16, 46, 0.1)' // Dark red tint for dark mode
-      : 'rgba(200, 16, 46, 0.05)', // Light red tint for light mode
-    borderBottom: `1px solid ${theme.palette.mode === 'dark' 
-      ? 'rgba(200, 16, 46, 0.2)' 
-      : 'rgba(200, 16, 46, 0.1)'}`
-  },
-  '& .MuiButton-containedPrimary': {
-    backgroundColor: '#f59e0b', // Enterprise amber color
-    '&:hover': {
-      backgroundColor: '#d97706', // Darker Enterprise amber for hover
-    }
-  }
-}));
+//==========================================
+// Types and Interfaces
+//==========================================
 
 interface SidebarProps {
   isCollapsed: boolean;
   toggleSidebar: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
+interface SessionData {
+  id: string;
+  title: string;
+  messages: Message[];
+  createdAt: string;
+  updatedAt: string;
+  folderId: string;
+  pinned: boolean;
+}
+
+interface FolderData {
+  id: string;
+  name: string;
+}
+
+//==========================================
+// Main Component
+//==========================================
+
+const Sidebar: React.FC<SidebarProps> = ({ 
+  isCollapsed, 
+  toggleSidebar
+}) => {
   const theme = useTheme();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   
   // Fetch sessions from API
-  const { data: sessionsData, isLoading: isLoadingSessions } = useListSessionsQueryApi();
+  const { data: sessionsData } = useListSessionsQueryApi();
   
   // Transform API data to match expected format
   const transformedSessions = sessionsData?.map(session => ({
@@ -519,25 +597,25 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
           position: 'relative',
           justifyContent: isCollapsed ? 'center' : 'flex-start',
           backgroundColor: isActive ? 
-            (theme.palette.mode === 'dark' ? alpha('#c8102e', 0.08) : alpha('#c8102e', 0.05)) : 
+            (theme.palette.mode === 'dark' ? alpha(theme.palette.primary.main, 0.08) : alpha(theme.palette.primary.main, 0.05)) : 
             'transparent',
-          borderLeft: isActive ? '3px solid #c8102e' : '3px solid transparent',
+          borderLeft: isActive ? `3px solid ${theme.palette.primary.main}` : '3px solid transparent',
           transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
           '&:hover': {
             backgroundColor: theme.palette.mode === 'dark' 
-              ? alpha('#c8102e', 0.12)
-              : alpha('#c8102e', 0.08),
+              ? alpha(theme.palette.primary.main, 0.12)
+              : alpha(theme.palette.primary.main, 0.08),
             transform: 'translateX(2px)',
-            borderLeftColor: isActive ? '#c8102e' : alpha('#c8102e', 0.3),
+            borderLeftColor: isActive ? theme.palette.primary.main : alpha(theme.palette.primary.main, 0.3),
           },
           '&.Mui-selected': {
             backgroundColor: theme.palette.mode === 'dark' 
-              ? alpha('#c8102e', 0.08)
-              : alpha('#c8102e', 0.05),
+              ? alpha(theme.palette.primary.main, 0.08)
+              : alpha(theme.palette.primary.main, 0.05),
             '&:hover': {
               backgroundColor: theme.palette.mode === 'dark' 
-                ? alpha('#c8102e', 0.12)
-                : alpha('#c8102e', 0.08),
+                ? alpha(theme.palette.primary.main, 0.12)
+                : alpha(theme.palette.primary.main, 0.08),
             }
           },
           // Add hover affordance
@@ -548,7 +626,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
       >
         <ListItemIcon sx={{ 
           minWidth: isCollapsed ? 0 : 30, 
-          color: isActive ? '#c8102e' : theme.palette.text.secondary,
+          color: isActive ? theme.palette.primary.main : theme.palette.text.secondary,
           mr: isCollapsed ? 0 : 1
         }}>
           <Badge
@@ -600,7 +678,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 e.preventDefault();
                 e.stopPropagation();
-                console.log('Session menu clicked for:', session.id); // Debug log
                 handleSessionMenuOpen(e, session.id);
               }}
               sx={{
@@ -714,8 +791,13 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                 onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleNewChatInFolder(folder.id, e)}
                 sx={{
                   opacity: 0.8,
-                  color: '#f59e0b', // Enterprise amber color
-                  '&:hover': { opacity: 1 },
+                  color: theme.palette.primary.main,
+                  '&:hover': { 
+                    opacity: 1,
+                    backgroundColor: theme.palette.mode === 'dark' 
+                      ? 'rgba(255, 179, 0, 0.12)' 
+                      : 'rgba(255, 179, 0, 0.08)',
+                  },
                   mr: 0.5,
                   p: 0.5,
                 }}
@@ -796,7 +878,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                 </Typography>
                 <Button
                   variant="text"
-                  color="error"
+                  color="primary"
                   size="small"
                   startIcon={<AddIcon fontSize="small" />}
                   onClick={() => handleNewChatInFolder(folder.id)}
@@ -805,6 +887,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                     fontSize: '0.75rem',
                     py: 0.5,
                     minWidth: 0,
+                    color: theme.palette.primary.main,
+                    '&:hover': {
+                      backgroundColor: theme.palette.mode === 'dark' 
+                        ? 'rgba(255, 179, 0, 0.12)' 
+                        : 'rgba(255, 179, 0, 0.08)',
+                    }
                   }}
                 >
                   Add chat
@@ -890,7 +978,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
           minWidth={isCollapsed ? 72 : 180}
           maxWidth={isCollapsed ? 72 : 400}
           style={{
-            position: 'relative',
+            position: 'fixed', // Fixed positioning for full height
+            top: 0, // Start from the very top
+            left: 0,
+            height: '100vh',
+            zIndex: 1400, // Ensure it's above AppBar
             transition: 'none',
           }}
         >
@@ -900,152 +992,167 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
             sx={{
               width: currentWidth,
               flexShrink: 0,
+              zIndex: 1400, // Higher than AppBar to ensure it's on top
               '& .MuiDrawer-paper': {
                 width: currentWidth,
                 boxSizing: 'border-box',
                 height: '100vh',
+                top: 0, // Start from the very top
+                position: 'fixed', // Fixed positioning to ensure full height
                 border: 'none',
                 backgroundColor: theme.palette.mode === 'dark' 
                   ? 'rgba(18, 18, 18, 0.95)' 
-                  : 'rgba(255, 255, 255, 0.95)',
-                backdropFilter: 'blur(20px)',
-                boxShadow: isCollapsed && !isHovered
-                  ? 'none' 
-                  : theme.palette.mode === 'dark'
-                    ? `4px 0 24px rgba(0, 0, 0, 0.4), 0 8px 32px rgba(0, 0, 0, 0.3)`
-                    : `4px 0 24px rgba(0, 0, 0, 0.08), 0 8px 32px rgba(0, 0, 0, 0.04)`,
-                borderRight: `1px solid ${alpha(theme.palette.divider, 0.12)}`,
+                  : 'rgba(255, 255, 255, 0.75)',
+                backdropFilter: 'blur(45px) saturate(1.3)',
+                boxShadow: theme.palette.mode === 'dark'
+                  ? `4px 0 24px rgba(0, 0, 0, 0.4), 0 8px 32px rgba(0, 0, 0, 0.3)`
+                  : `
+                      16px 0 60px rgba(0, 0, 0, 0.18), 
+                      8px 0 30px rgba(0, 0, 0, 0.12),
+                      3px 0 12px rgba(0, 0, 0, 0.06),
+                      inset 2px 0 0 rgba(255, 255, 255, 0.6),
+                      inset -2px 0 0 rgba(255, 255, 255, 0.1)
+                    `,
+                borderRight: theme.palette.mode === 'dark' 
+                  ? `1px solid ${alpha(theme.palette.divider, 0.12)}`
+                  : `1px solid rgba(255, 255, 255, 0.35)`,
                 transition: theme.transitions.create(['width', 'box-shadow', 'transform'], {
                   easing: theme.transitions.easing.easeOut,
                   duration: '0.3s',
                 }),
                 overflowX: 'hidden',
-                // Enhanced hover expansion for collapsed state
-                ...(isCollapsed && {
-                  position: 'fixed',
-                  zIndex: 1300,
-                  '&:hover': {
-                    width: 280,
-                    boxShadow: theme.palette.mode === 'dark'
-                      ? `8px 0 32px rgba(0, 0, 0, 0.6), 0 16px 48px rgba(0, 0, 0, 0.4)`
-                      : `8px 0 32px rgba(0, 0, 0, 0.12), 0 16px 48px rgba(0, 0, 0, 0.08)`,
-                    transform: 'translateX(0)',
-                    transition: theme.transitions.create(['width', 'box-shadow', 'transform'], {
-                      easing: theme.transitions.easing.easeOut,
-                      duration: '0.3s',
-                    }),
-                  }
-                }),
-                // Professional bottom shadow enhancement
-                '&::after': {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: 0,
-                  left: 0,
-                  right: 0,
-                  height: '8px',
-                  background: `linear-gradient(to bottom, transparent, ${alpha(theme.palette.common.black, 0.08)})`,
-                  pointerEvents: 'none',
-                },
-                // Additional depth with layered shadows
+                transformStyle: 'preserve-3d',
+                // Enhanced inner glow and depth - always visible
                 '&::before': {
                   content: '""',
                   position: 'absolute',
                   top: 0,
-                  right: -1,
+                  left: 0,
+                  right: 0,
                   bottom: 0,
-                  width: '1px',
-                  background: `linear-gradient(to bottom, 
-                    ${alpha(theme.palette.primary.main, 0.1)}, 
-                    transparent 30%, 
-                    transparent 70%, 
-                    ${alpha(theme.palette.primary.main, 0.1)}
-                  )`,
+                  background: theme.palette.mode === 'dark'
+                    ? 'linear-gradient(90deg, rgba(255, 255, 255, 0.02) 0%, transparent 40%)'
+                    : 'linear-gradient(90deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 179, 0, 0.03) 30%, transparent 60%)',
                   pointerEvents: 'none',
+                  zIndex: 1,
                 },
+                // Enhanced edge highlight - always visible
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  right: 0,
+                  bottom: 0,
+                  width: '3px',
+                  background: theme.palette.mode === 'dark'
+                    ? 'linear-gradient(to bottom, rgba(255, 179, 0, 0.2) 0%, rgba(139, 92, 246, 0.15) 50%, rgba(255, 179, 0, 0.2) 100%)'
+                    : 'linear-gradient(to bottom, rgba(255, 179, 0, 0.5) 0%, rgba(139, 92, 246, 0.4) 50%, rgba(255, 179, 0, 0.5) 100%)',
+                  pointerEvents: 'none',
+                  filter: 'blur(1px)',
+                  zIndex: 2,
+                },
+                // Enhanced hover expansion for collapsed state
+                ...(isCollapsed && {
+                  zIndex: 1400, // Keep same z-index when collapsed
+                  '&:hover': {
+                    width: 280,
+                    boxShadow: theme.palette.mode === 'dark'
+                      ? `8px 0 32px rgba(0, 0, 0, 0.6), 0 16px 48px rgba(0, 0, 0, 0.4)`
+                      : `
+                          20px 0 70px rgba(0, 0, 0, 0.2), 
+                          10px 0 35px rgba(0, 0, 0, 0.15),
+                          inset 2px 0 0 rgba(255, 255, 255, 0.7)
+                        `,
+                    backgroundColor: theme.palette.mode === 'dark'
+                      ? 'rgba(18, 18, 18, 0.98)'
+                      : 'rgba(255, 255, 255, 0.85)',
+                    backdropFilter: 'blur(50px) saturate(1.4)',
+                    transform: 'translateX(0) translateZ(25px)',
+                    transition: theme.transitions.create(['width', 'box-shadow', 'transform', 'background-color'], {
+                      easing: theme.transitions.easing.easeOut,
+                      duration: '0.4s',
+                    }),
+                  }
+                }),
+                // Remove duplicate pseudo-elements - using only the enhanced versions above
               },
             }}
           >
-            {/* Header with animated Logo - show logo icon when collapsed, full logo when expanded */}
-            <Box sx={{ 
-              px: isCollapsed ? 1 : 2, 
-              py: isCollapsed ? 1.5 : 2, 
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              borderBottom: '1px solid',
-              borderColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
-              minHeight: 56, // Consistent height
-              transition: 'all 0.3s ease',
-            }}>
-              {/* Show logo icon when collapsed, full logo when expanded */}
-              <AnimatePresence mode="wait">
-                {isCollapsed ? (
-                  <motion.div
-                    key="collapsed-logo"
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.8 }}
-                    transition={{ duration: 0.2 }}
-                    style={{ width: '100%', display: 'flex', justifyContent: 'center' }}
+            {/* Header with animated Logo - show when sidebar is NOT collapsed OR when collapsed and hovered */}
+            {(!isCollapsed || (isCollapsed && isHovered)) && (
+              <Box sx={{ 
+                px: 2, 
+                pt: 1, 
+                pb: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderBottom: '1px solid',
+                borderColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.12)',
+                minHeight: 48,
+                transition: 'all 0.3s ease',
+              }}>
+                <motion.div
+                  key="expanded-logo"
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <Box 
+                    sx={{ 
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      transition: 'all 0.3s ease',
+                      '&:hover': { 
+                        opacity: 0.8 
+                      }
+                    }}
                   >
-                    <Box 
-                      sx={{ 
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        transition: 'all 0.3s ease',
-                        '&:hover': { 
-                          transform: 'scale(1.05)',
-                          opacity: 0.8 
-                        }
-                      }}
-                    >
-                      <LogoText 
-                        size="small" 
-                        showOnlyBubble={true} 
-                        hasNewMessage={pinnedSessions.length > 0} 
-                        interactive={true}
-                        onClick={handleLogoClick}
-                        aria-label="Return to home page"
-                      />
-                    </Box>
-                  </motion.div>
-                ) : (
-                  <motion.div
-                    key="expanded-logo"
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -20 }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    <Box 
-                      sx={{ 
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        transition: 'all 0.3s ease',
-                        '&:hover': { 
-                          opacity: 0.8 
-                        }
-                      }}
-                    >
-                      <LogoText 
-                        size="small" 
-                        hasNewMessage={pinnedSessions.length > 0} 
-                        interactive={true}
-                        onClick={handleLogoClick}
-                        aria-label="Return to home page"
-                      />
-                    </Box>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </Box>
+                    <LogoText 
+                      size="small" 
+                      hasNewMessage={pinnedSessions.length > 0} 
+                      interactive={false}
+                      animated={false}
+                      onClick={handleLogoClick}
+                      aria-label="Return to home page"
+                    />
+                  </Box>
+                </motion.div>
+              </Box>
+            )}
 
-            {/* Folder management - Enhanced to show on hover when collapsed */}
+            {/* Collapsed state icon at top */}
+            {isCollapsed && !isHovered && (
+              <Box sx={{
+                position: 'absolute',
+                top: 20,
+                left: '50%',
+                transform: 'translateX(-50%)',
+                zIndex: 10,
+              }}>
+                <Tooltip title="AgentHive" placement="right">
+                  <Box
+                    onClick={handleLogoClick}
+                    sx={{
+                      fontSize: '24px',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                      '&:hover': {
+                        transform: 'scale(1.1)',
+                      },
+                    }}
+                  >
+                    🐝
+                  </Box>
+                </Tooltip>
+              </Box>
+            )}
+
+            {/* Folder management - Show when expanded OR when collapsed and hovered */}
             <AnimatePresence>
-              {(isExpanded || (isCollapsed && isHovered)) && (
+              {(!isCollapsed || (isCollapsed && isHovered)) && (
                 <motion.div
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
@@ -1060,7 +1167,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                       justifyContent: 'space-between',
                       alignItems: 'center',
                       borderBottom: '1px solid',
-                      borderColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+                      borderColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.12)',
                     }}
                   >
                     <Typography 
@@ -1069,7 +1176,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                         fontSize: '0.85rem', 
                         fontWeight: 600,
                         color: theme.palette.text.primary,
-                        opacity: isCollapsed && !isHovered ? 0 : 1,
                         transition: 'opacity 0.3s ease'
                       }}
                     >
@@ -1080,9 +1186,33 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                         size="small" 
                         onClick={() => setFolderDialogOpen(true)}
                         sx={{ 
-                          color: '#c8102e',
-                          opacity: isCollapsed && !isHovered ? 0 : 1,
-                          transition: 'opacity 0.3s ease'
+                          color: theme.palette.primary.main,
+                          backgroundColor: alpha(theme.palette.primary.main, 0.08),
+                          border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+                          borderRadius: 2,
+                          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                          position: 'relative',
+                          overflow: 'hidden',
+                          '&:before': {
+                            content: '""',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.1)}, ${alpha(theme.palette.warning.main, 0.1)})`,
+                            opacity: 0,
+                            transition: 'opacity 0.3s ease',
+                          },
+                          '&:hover': {
+                            backgroundColor: alpha(theme.palette.primary.main, 0.15),
+                            borderColor: alpha(theme.palette.primary.main, 0.4),
+                            transform: 'translateY(-1px) scale(1.05)',
+                            boxShadow: `0 4px 12px ${alpha(theme.palette.primary.main, 0.25)}`,
+                            '&:before': {
+                              opacity: 1,
+                            },
+                          }
                         }}
                       >
                         <CreateNewFolderOutlinedIcon fontSize="small" />
@@ -1129,8 +1259,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
               }}
             >
               {pinnedSessions.length > 0 && (
-                <Box sx={{ mt: 2, mb: 3, px: isCollapsed && !isHovered ? 0 : 2 }}>
-                  {(isExpanded || (isCollapsed && isHovered)) && (
+                <Box sx={{ mt: 2, mb: 3, px: isExpanded ? 2 : 0 }}>
+                  {isExpanded && (
                     <Typography 
                       variant="body2" 
                       sx={{ 
@@ -1138,32 +1268,31 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                         fontSize: '0.875rem', 
                         fontWeight: 500, 
                         textTransform: 'none',
-                        opacity: isCollapsed && !isHovered ? 0 : 1,
                         transition: 'opacity 0.3s ease'
                       }}
                     >
                       Pinned Chats
                     </Typography>
                   )}
-                  <List dense sx={{ mt: isCollapsed ? 0 : 0.5, px: isCollapsed && !isHovered ? 0 : undefined, textAlign: isCollapsed && !isHovered ? 'center' : undefined }}>
+                  <List dense sx={{ mt: isCollapsed && !isHovered ? 0 : 0.5, px: isExpanded ? undefined : 0, textAlign: isExpanded ? undefined : 'center' }}>
                     {pinnedSessions.map(session => renderSessionItem(session))}
                   </List>
                 </Box>
               )}
               
               {sessionsLoading && sessions.length === 0 && (
-                <Box sx={{ px: (isCollapsed && !isHovered) ? 1 : 2, pt: 2 }}>
+                <Box sx={{ px: isExpanded ? 2 : 1, pt: 2 }}>
                   {Array.from({ length: 6 }).map((_, idx) => (
                     <Skeleton 
                       key={idx} 
                       variant="rectangular" 
-                      height={isCollapsed && !isHovered ? 24 : 32} 
+                      height={isExpanded ? 32 : 24} 
                       sx={{ 
                         mb: 1, 
                         borderRadius: 1, 
                         bgcolor: theme.palette.mode === 'dark' ? '#2e2e2e' : '#e0e0e0',
-                        mx: isCollapsed && !isHovered ? 'auto' : 0,
-                        width: isCollapsed && !isHovered ? 40 : '100%',
+                        mx: isExpanded ? 0 : 'auto',
+                        width: isExpanded ? '100%' : 40,
                         transition: 'all 0.3s ease'
                       }} 
                     />
@@ -1172,11 +1301,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
               )}
               
               {sessions.length > 0 && (
-                <Box sx={{ mt: isCollapsed && !isHovered ? 2 : 0, px: isCollapsed && !isHovered ? 0 : 2 }}>
+                <Box sx={{ mt: isExpanded ? 0 : 2, px: isExpanded ? 2 : 0 }}>
                 {folders.length > 0 ? (
                   folders.map(folder => renderFolderSection(folder))
                 ) : (
-                  (isExpanded || (isCollapsed && isHovered)) && (
+                  isExpanded && (
                     <Box 
                       sx={{ 
                         py: 2, 
@@ -1188,7 +1317,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                         borderColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)',
                         backgroundColor: theme.palette.mode === 'dark' ? 'rgba(255,255,255,0.03)' : 'rgba(0,0,0,0.02)',
                         margin: 1,
-                        opacity: isCollapsed && !isHovered ? 0 : 1,
                         transition: 'opacity 0.3s ease'
                       }}
                     >
@@ -1196,8 +1324,8 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                         No sessions available
                       </Typography>
                       <Button
-                        variant="text"
-                        color="error"
+                        variant="contained"
+                        color="primary"
                         size="small"
                         startIcon={<CreateNewFolderOutlinedIcon fontSize="small" />}
                         onClick={() => setFolderDialogOpen(true)}
@@ -1205,6 +1333,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                           mt: 1,
                           textTransform: 'none',
                           fontSize: '0.75rem',
+                          background: theme.palette.primary.main,
+                          color: 'white',
+                          '&:hover': {
+                            background: theme.palette.primary.dark,
+                          }
                         }}
                       >
                         Create Session
@@ -1216,7 +1349,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
               )}
             </Box>
 
-            {/* New Chat Button - Fab for collapsed state, button for expanded state */}
+            {/* New Chat Button - Enterprise FAB for collapsed state, button for expanded state */}
             <Box 
               sx={{ 
                 mt: 'auto', 
@@ -1233,47 +1366,56 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
             >
               {isExpanded ? (
                 <Button
-                  variant="text"
-                  color="error"
-                  size="small"
-                  startIcon={<AddIcon fontSize="small" />}
+                  variant="contained"
+                  color="primary"
+                  size="large"
+                  startIcon={<AddIcon />}
                   onClick={handleNewChat}
                   sx={{
                     textTransform: 'none',
-                    fontWeight: 500,
-                    fontSize: '0.85rem',
+                    fontWeight: 600,
+                    fontSize: '0.95rem',
                     justifyContent: 'center',
                     width: '100%',
-                    py: 0.8,
-                    opacity: 0.9,
+                    py: 1.5,
+                    background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
+                    color: theme.palette.primary.contrastText,
+                    borderRadius: 2,
+                    boxShadow: `0 4px 16px ${alpha(theme.palette.primary.main, 0.3)}`,
+                    border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`,
+                    position: 'relative',
+                    overflow: 'hidden',
+                    '&:before': {
+                      content: '""',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      background: `linear-gradient(45deg, transparent 30%, ${alpha('#fff', 0.1)} 50%, transparent 70%)`,
+                      transform: 'translateX(-100%)',
+                      transition: 'transform 0.6s ease',
+                    },
                     '&:hover': {
-                      opacity: 1,
-                      backgroundColor: theme.palette.mode === 'dark'
-                        ? 'rgba(244,67,54,0.15)'
-                        : 'rgba(244,67,54,0.12)',
+                      background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.primary.main} 100%)`,
+                      boxShadow: `0 6px 20px ${alpha(theme.palette.primary.main, 0.4)}`,
+                      transform: 'translateY(-2px)',
+                      '&:before': {
+                        transform: 'translateX(100%)',
+                      },
                     },
                   }}
                 >
                   New Chat
                 </Button>
               ) : (
-                <Tooltip title="New Chat" placement="right" PopperProps={{ sx: { zIndex: 1400 } }}>
-                  <Fab
-                    color="error"
-                    size="small"
-                    onClick={handleNewChat}
-                    sx={{
-                      boxShadow: theme.shadows[3],
-                      transition: 'transform 0.2s ease-in-out',
-                      '&:hover': {
-                        transform: 'scale(1.05)',
-                        boxShadow: theme.shadows[4],
-                      }
-                    }}
-                  >
-                    <AddIcon fontSize="small" />
-                  </Fab>
-                </Tooltip>
+                <EnterpriseFloatingActionButton
+                  icon={<AddIcon />}
+                  tooltip="New Chat"
+                  colorVariant="primary"
+                  onClick={handleNewChat}
+                  size="medium"
+                />
               )}
             </Box>
             
@@ -1329,7 +1471,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
               }}
             >
               <MenuItem onClick={handleTogglePinned}>
-                <ListItemIcon sx={{ color: '#c8102e' }}>
+                <ListItemIcon sx={{ color: theme.palette.primary.main }}>
                   <PushPinOutlinedIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText 
@@ -1338,14 +1480,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
               </MenuItem>
               
               <MenuItem onClick={handleRenameSession}>
-                <ListItemIcon sx={{ color: '#c8102e' }}>
+                <ListItemIcon sx={{ color: theme.palette.primary.main }}>
                   <EditOutlinedIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary="Rename" />
               </MenuItem>
               
               <MenuItem onClick={handleDuplicateSession}>
-                <ListItemIcon sx={{ color: '#c8102e' }}>
+                <ListItemIcon sx={{ color: theme.palette.primary.main }}>
                   <ContentCopyIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary="Duplicate" />
@@ -1358,7 +1500,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
               }} />
               
               <MenuItem onClick={() => { dispatch(clearSessionMessages(selectedSessionId!)); handleSessionMenuClose(); }}>
-                <ListItemIcon sx={{ color: '#c8102e' }}>
+                <ListItemIcon sx={{ color: theme.palette.primary.main }}>
                   <DeleteOutlineIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary="Clear chats" />
@@ -1396,12 +1538,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                       fontSize: '0.85rem',
                       '&:hover': {
                         backgroundColor: theme.palette.mode === 'dark'
-                          ? 'rgba(200, 16, 46, 0.15)'
-                          : 'rgba(200, 16, 46, 0.05)',
+                          ? alpha(theme.palette.primary.main, 0.15)
+                          : alpha(theme.palette.primary.main, 0.05),
                       }
                     }}
                   >
-                    <ListItemIcon sx={{ minWidth: 28, color: '#c8102e' }}>
+                    <ListItemIcon sx={{ minWidth: 28, color: theme.palette.primary.main }}>
                       <FolderIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary={folder.name} />
@@ -1416,20 +1558,20 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
               
               <Divider sx={{ 
                 borderColor: theme.palette.mode === 'dark' 
-                  ? 'rgba(200, 16, 46, 0.2)' 
-                  : 'rgba(200, 16, 46, 0.1)'
+                  ? alpha(theme.palette.primary.main, 0.2)
+                  : alpha(theme.palette.primary.main, 0.1)
               }} />
               
               <MenuItem 
                 onClick={handleDeleteSession} 
                 sx={{ 
-                  color: '#c8102e',
+                  color: theme.palette.error.main,
                   '&:hover': {
-                    backgroundColor: 'rgba(200, 16, 46, 0.1)',
+                    backgroundColor: alpha(theme.palette.error.main, 0.1),
                   }
                 }}
               >
-                <ListItemIcon sx={{ color: '#c8102e' }}>
+                <ListItemIcon sx={{ color: theme.palette.error.main }}>
                   <DeleteOutlineIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary="Delete" />
@@ -1475,12 +1617,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                 sx={{
                   '&:hover': {
                     backgroundColor: theme.palette.mode === 'dark'
-                      ? 'rgba(200, 16, 46, 0.15)'
-                      : 'rgba(200, 16, 46, 0.05)',
+                      ? alpha(theme.palette.primary.main, 0.15)
+                      : alpha(theme.palette.primary.main, 0.05),
                   }
                 }}
               >
-                <ListItemIcon sx={{ color: '#c8102e' }}>
+                <ListItemIcon sx={{ color: theme.palette.primary.main }}>
                   <EditOutlinedIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary="Rename" />
@@ -1492,15 +1634,15 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                 sx={{
                   '&:hover': {
                     backgroundColor: theme.palette.mode === 'dark'
-                      ? 'rgba(200, 16, 46, 0.15)'
-                      : 'rgba(200, 16, 46, 0.05)',
+                      ? alpha(theme.palette.primary.main, 0.15)
+                      : alpha(theme.palette.primary.main, 0.05),
                   },
                   '&.Mui-disabled': {
-                    color: 'rgba(200, 16, 46, 0.4)',
+                    color: alpha(theme.palette.primary.main, 0.4),
                   }
                 }}
               >
-                <ListItemIcon sx={{ color: '#c8102e' }}>
+                <ListItemIcon sx={{ color: theme.palette.primary.main }}>
                   <FolderIcon fontSize="small" />
                 </ListItemIcon>
                 <ListItemText primary="Move all chats to" />
@@ -1509,12 +1651,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
               <MenuItem 
                 onClick={handleOpenDeleteFolder} 
                 sx={{ 
-                  color: '#c8102e',
+                  color: theme.palette.error.main,
                   '&:hover': {
-                    backgroundColor: 'rgba(200, 16, 46, 0.1)',
+                    backgroundColor: alpha(theme.palette.error.main, 0.1),
                   },
                   '&.Mui-disabled': {
-                    color: 'rgba(200, 16, 46, 0.4)',
+                    color: alpha(theme.palette.error.main, 0.4),
                   }
                 }}
                 disabled={folders.length <= 1} // Prevent deleting the last folder
@@ -1524,6 +1666,65 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                 </ListItemIcon>
                 <ListItemText primary="Delete session" />
               </MenuItem>
+            </Menu>
+
+            {/* Move Folder Submenu */}
+            <Menu
+              anchorEl={moveFolderMenuAnchorEl}
+              open={Boolean(moveFolderMenuAnchorEl)}
+              onClose={handleMoveFolderMenuClose}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              sx={{ zIndex: 1500 }}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  backgroundColor: theme.palette.mode === 'dark' ? '#1e1e1e' : '#ffffff',
+                  borderRadius: 1.5,
+                  minWidth: 180,
+                  overflow: 'visible',
+                  mt: 1.5,
+                  border: theme.palette.mode === 'dark'
+                    ? '1px solid rgba(200, 16, 46, 0.2)'
+                    : '1px solid rgba(200, 16, 46, 0.1)',
+                  boxShadow: 'none',
+                  '& .MuiMenuItem-root:hover': {
+                    backgroundColor: theme.palette.mode === 'dark'
+                      ? 'rgba(200, 16, 46, 0.15)'
+                      : 'rgba(200, 16, 46, 0.05)',
+                  }
+                },
+              }}
+            >
+              {folders
+                .filter(folder => folder.id !== selectedFolderId)
+                .map(folder => (
+                  <MenuItem 
+                    key={folder.id} 
+                    onClick={() => handleMoveAllChats(folder.id)}
+                    dense
+                    sx={{
+                      pl: 2,
+                      fontSize: '0.85rem',
+                      '&:hover': {
+                        backgroundColor: theme.palette.mode === 'dark'
+                          ? alpha(theme.palette.primary.main, 0.15)
+                          : alpha(theme.palette.primary.main, 0.05),
+                      }
+                    }}
+                  >
+                    <ListItemIcon sx={{ minWidth: 28, color: theme.palette.primary.main }}>
+                      <FolderIcon fontSize="small" />
+                    </ListItemIcon>
+                    <ListItemText primary={folder.name} />
+                  </MenuItem>
+                ))}
             </Menu>
             
             {/* New Folder Dialog */}
@@ -1630,6 +1831,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
 
             {/* Folder Delete Confirmation Dialog */}
             <ThemedDialog
+
               open={folderDeleteDialogOpen}
               onClose={() => {
                 if (!isDeletingFolder) {
@@ -1760,7 +1962,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                       }
                     }}
                   >
-                    <ListItemIcon sx={{ minWidth: 28, color: '#c8102e' }}>
+                    <ListItemIcon sx={{ minWidth: 28, color: 'primary.main' }}>
                       <FolderIcon fontSize="small" />
                     </ListItemIcon>
                     <ListItemText primary={folder.name} />
@@ -1789,7 +1991,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
               <Box
                 sx={{
                   width: 28,
-                  height: 28,
+                  height:  28,
                   backgroundColor: theme.palette.mode === 'dark' 
                     ? 'rgba(26, 26, 26, 0.95)' 
                     : 'rgba(255, 255, 255, 0.95)',
@@ -1830,9 +2032,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
                 }}
               >
                 <Tooltip title={isCollapsed ? "Open sidebar (⌘B)" : "Close sidebar (⌘B)"} placement="right">
-                  <Box>
-                    <SidebarCollapseArrow isCollapsed={isCollapsed} onClick={toggleSidebar} />
-                  </Box>
+                  <IconButton
+                    onClick={toggleSidebar}
+                    size="small"
+                    sx={{
+                      color: theme.palette.text.secondary,
+                      '&:hover': {
+                        backgroundColor: alpha(theme.palette.action.hover, 0.1),
+                      },
+                    }}
+                  >
+                    {isCollapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                  </IconButton>
                 </Tooltip>
               </Box>
             </motion.div>
@@ -1843,4 +2054,4 @@ const Sidebar: React.FC<SidebarProps> = ({ isCollapsed, toggleSidebar }) => {
   );
 };
 
-export default Sidebar; 
+export default Sidebar;

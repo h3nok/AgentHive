@@ -10,6 +10,7 @@ from .auth import router as auth_router
 from .chat import router as chat_router
 from .agents import router as agents_router
 from .metrics import router as metrics_router
+from .enterprise import router as enterprise_router
 
 
 # Create main router
@@ -19,4 +20,5 @@ api_router = APIRouter()
 api_router.include_router(auth_router, prefix="/auth", tags=["auth"])
 api_router.include_router(chat_router, prefix="/chat", tags=["chat"])
 api_router.include_router(agents_router, prefix="/agents", tags=["agents"])
-api_router.include_router(metrics_router, prefix="/metrics", tags=["metrics"]) 
+api_router.include_router(metrics_router, prefix="/metrics", tags=["metrics"])
+api_router.include_router(enterprise_router, prefix="/enterprise", tags=["enterprise"]) 

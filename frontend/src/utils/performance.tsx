@@ -305,7 +305,7 @@ export class PerformanceMonitor {
       duration: entry.loadEventEnd - entry.startTime,
       metadata: {
         domContentLoaded: entry.domContentLoadedEventEnd - entry.domContentLoadedEventStart,
-        domComplete: entry.domComplete - entry.navigationStart,
+        domComplete: entry.domComplete - entry.startTime,
         loadComplete: entry.loadEventEnd - entry.loadEventStart,
         ttfb: entry.responseStart - entry.requestStart,
       }

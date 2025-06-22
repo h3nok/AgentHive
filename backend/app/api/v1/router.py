@@ -34,6 +34,7 @@ from .dashboard import router as dashboard_router
 from .support import router as support_router
 from .microservices import router as microservices_router
 from .mcp import router as mcp_router
+from .swarm import router as swarm_router
 
 logger = get_logger(__name__)
 # Initialize global load balancer instance
@@ -51,6 +52,7 @@ router.include_router(dashboard_router)
 router.include_router(support_router)
 router.include_router(microservices_router)
 router.include_router(mcp_router)
+router.include_router(swarm_router)
 
 # Include debug router for development/testing
 if settings.ENVIRONMENT in ["development", "test"]:

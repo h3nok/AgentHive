@@ -282,26 +282,27 @@ export const focusUtils = {
     const firstFocusable = focusableElements[0];
     const lastFocusable = focusableElements[focusableElements.length - 1];
 
-    const trapTabKey = (e: KeyboardEvent) => {
-      if (e.key !== 'Tab') return;
+    const trapTabKey = (e: Event) => {
+      const event = e as KeyboardEvent;
+      if (event.key !== 'Tab') return;
 
-      if (e.shiftKey) {
+      if (event.shiftKey) {
         if (document.activeElement === firstFocusable) {
           lastFocusable.focus();
-          e.preventDefault();
+          event.preventDefault();
         }
       } else {
         if (document.activeElement === lastFocusable) {
           firstFocusable.focus();
-          e.preventDefault();
+          event.preventDefault();
         }
       }
     };
 
-    container.addEventListener('keydown', trapTabKey);
+    container.addEventListener('keydown', trapTabKey as EventListener);
     
     return () => {
-      container.removeEventListener('keydown', trapTabKey);
+      container.removeEventListener('keydown', trapTabKey as EventListener);
     };
   },
 

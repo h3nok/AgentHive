@@ -43,7 +43,6 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import { EmbeddedWidget } from '../../../packages/ubiqora-ai-widget/ubiqora-ai-widget/src';
 import { ComponentErrorBoundary } from '../components/ErrorBoundary';
 import { useAppSelector, useAppDispatch, selectTheme, setTheme } from '../store';
-import IntakeDialog from '../components/IntakeDialog';
 
 // Lazy load components for performance
 const LazyLogoText = React.lazy(() => import('../components/LogoText'));
@@ -78,103 +77,103 @@ interface AnimationVariant {
 // Constants with improved organization
 const USE_CASES: UseCase[] = [
   {
-    id: 'store-ops',
-    title: 'Store Operations',
-    description: 'Automate inventory checks, staff scheduling, and compliance reporting across 2,000+ stores.',
+    id: 'research-collaboration',
+    title: 'Research & Development',
+    description: 'Accelerate scientific discovery with AI agents that collaborate on research, analyze data patterns, and generate insights across interdisciplinary projects.',
     icon: <SchemaIcon fontSize="large" />,
     color: '#FF8F00',
     bgGradient: 'linear-gradient(135deg, rgba(255, 143, 0, 0.1) 0%, rgba(255, 143, 0, 0.05) 100%)',
-    agentId: 'operations'
+    agentId: 'research'
   },
   {
-    id: 'hr-payroll',
-    title: 'HR & Payroll',
-    description: 'Streamline team member requests, benefits enrollment, and performance reviews automatically.',
-    icon: <AccessTimeIcon fontSize="large" />,
+    id: 'open-source-development',
+    title: 'Open Source Projects',
+    description: 'Manage community contributions, automate code reviews, and coordinate development efforts across distributed teams and repositories.',
+    icon: <CodeIcon fontSize="large" />,
     color: '#FFA000',
     bgGradient: 'linear-gradient(135deg, rgba(255, 160, 0, 0.1) 0%, rgba(255, 160, 0, 0.05) 100%)',
-    agentId: 'hr'
+    agentId: 'development'
   },
   {
-    id: 'supply-chain',
-    title: 'Supply Chain',
-    description: 'Optimize vendor communications, purchase orders, and logistics coordination in real-time.',
-    icon: <ReceiptIcon fontSize="large" />,
+    id: 'education-platform',
+    title: 'Educational Systems',
+    description: 'Create personalized learning experiences with AI tutors that adapt to individual needs and collaborate to enhance educational outcomes.',
+    icon: <AccessTimeIcon fontSize="large" />,
     color: '#FFB300',
     bgGradient: 'linear-gradient(135deg, rgba(255, 179, 0, 0.1) 0%, rgba(255, 179, 0, 0.05) 100%)',
-    agentId: 'supply-chain'
+    agentId: 'education'
   },
   {
-    id: 'engineering',
-    title: 'Engineering',
-    description: 'Accelerate feature delivery with AI agents that triage bugs, draft pull requests, and auto-update documentation.',
-    icon: <CodeIcon fontSize="large" />,
+    id: 'creative-collaboration',
+    title: 'Creative Industries',
+    description: 'Enable AI agents to collaborate on creative projects, from content generation to design workflows, fostering innovation in arts and media.',
+    icon: <AutoFixHighIcon fontSize="large" />,
     color: '#FFC107',
     bgGradient: 'linear-gradient(135deg, rgba(255, 193, 7, 0.1) 0%, rgba(255, 193, 7, 0.05) 100%)',
-    agentId: 'engineering'
+    agentId: 'creative'
   },
   {
-    id: 'financial-ops',
-    title: 'Financial Operations',
-    description: 'Automate expense reporting, budget tracking, and financial analysis across all departments.',
-    icon: <BarChartIcon fontSize="large" />,
+    id: 'community-management',
+    title: 'Community Operations',
+    description: 'Moderate discussions, facilitate knowledge sharing, and maintain healthy online communities through intelligent agent collaboration.',
+    icon: <ChatIcon fontSize="large" />,
     color: '#F57C00',
     bgGradient: 'linear-gradient(135deg, rgba(245, 124, 0, 0.1) 0%, rgba(245, 124, 0, 0.05) 100%)',
-    agentId: 'finance'
+    agentId: 'community'
   },
 ] as const;
 
 const FEATURES: Feature[] = [
   { 
-    id: 'unified-platform',
-    icon: <CloudIcon />, 
-    title: 'Hive Intelligence Platform', 
-    description: 'Consolidates isolated AI agents into one unified hive, maximizing collective intelligence and creating a cohesive experience—with enterprise-grade security.',
+    id: 'open-source-platform',
+    icon: <GitHubIcon />, 
+    title: 'Open-Source Foundation', 
+    description: 'Built with transparency and collaboration at its core. Fork, contribute, and customize AgentHive to fit your vision of autonomous intelligence.',
     priority: 'high',
     agentId: 'general',
     color: '#FFB300'
   },
   { 
-    id: 'expanding-capabilities',
-    icon: <AutoFixHighIcon />, 
-    title: 'Swarm Intelligence', 
-    description: 'Multiple specialized agents work in concert, collaborating through the hive to solve complex problems that single AI systems cannot.',
+    id: 'extensible-architecture',
+    icon: <CodeIcon />, 
+    title: 'Extensible by Design', 
+    description: 'Modular architecture allows developers to create custom agents, integrate new AI models, and extend capabilities through community-driven plugins.',
     priority: 'high',
     agentId: 'hr',
     color: '#FFA000'
   },
   { 
-    id: 'natural-language',
-    icon: <SpeedIcon />, 
-    title: 'Natural Language Interface', 
-    description: 'Communicate with your AI agents through intuitive conversations. AgentHive orchestrates complex workflows and executes tasks through simple natural language.',
+    id: 'collaborative-hive',
+    icon: <AutoFixHighIcon />, 
+    title: 'Collaborative Swarm Intelligence', 
+    description: 'Multiple specialized agents work together, sharing knowledge and collaborating to solve complex problems that single AI systems cannot tackle alone.',
     priority: 'high',
     agentId: 'operations',
     color: '#FF8F00'
   },
   { 
-    id: 'intelligent-assistant',
-    icon: <SecurityIcon />, 
-    title: 'Autonomous Agents', 
-    description: 'More than chatbots or custom GPTs, AgentHive deploys autonomous agents that proactively solve problems and collaborate with each other to maximize productivity.',
+    id: 'community-driven',
+    icon: <SpeedIcon />, 
+    title: 'Community-Driven Innovation', 
+    description: 'Join a global community of developers building the next generation of multiagent systems. Share agents, collaborate on improvements, and shape the future together.',
     priority: 'high',
     agentId: 'engineering',
     color: '#FF6F00'
   },
   { 
-    id: 'continuous-evolution',
+    id: 'remarkable-capabilities',
     icon: <TrendingUpIcon />, 
-    title: 'Hive Learning', 
-    description: 'The collective intelligence of the hive continuously learns and evolves, with each agent becoming more effective through shared knowledge and collaborative problem-solving.',
+    title: 'Next-Level Agent Capabilities', 
+    description: 'From simple automation to complex reasoning, AgentHive enables remarkable AI behaviors through distributed intelligence and collective problem-solving.',
     priority: 'high',
     agentId: 'finance',
     color: '#F57C00'
   },
   { 
-    id: 'enterprise-integration',
+    id: 'seamless-integration',
     icon: <SchemaIcon />, 
-    title: 'Cross-System Pollination', 
-    description: 'Seamlessly connects with existing enterprise tools and systems, allowing agents to collaborate across platforms while maintaining security and compliance controls.',
+    title: 'Universal Connectivity', 
+    description: 'Connect with any API, database, or service. AgentHive\'s flexible architecture adapts to your existing infrastructure while enabling new possibilities.',
     priority: 'high',
     agentId: 'supply-chain',
     color: '#E65100'
@@ -329,7 +328,6 @@ const AnimatedBackground = memo(({ y1, y2 }: { y1: MotionValue<number>; y2: Moti
 const HeroSection = memo(() => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [intakeDialogOpen, setIntakeDialogOpen] = useState(false);
   
   const handleNavigateToChat = useCallback(() => {
     navigate('/chat');
@@ -339,6 +337,10 @@ const HeroSection = memo(() => {
   const isHeroInView = useInView(heroRef, { once: true, amount: 0.3 });
 
   const handleNavigateToAdmin = useCallback(() => {
+    navigate('/admin');
+  }, [navigate]);
+
+  const handleNavigateToEnterpriseOS = useCallback(() => {
     navigate('/admin');
   }, [navigate]);
 
@@ -445,20 +447,16 @@ const HeroSection = memo(() => {
               zIndex: 1,
             }}
           >
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.2, type: 'spring' }}
-              whileHover={{ scale: 1.08, rotate: 2 }}
-            >
+            <div>
               <LazyLogoText 
                 size="large" 
                 hasNewMessage={false} 
-                interactive={true} 
+                interactive={false}
+                animated={false}
                 onClick={handleNavigateToHome}
                 aria-label="Return to home page"
               />
-            </motion.div>
+            </div>
           </Box>
 
           {/* Animated Hero Text */}
@@ -488,9 +486,9 @@ const HeroSection = memo(() => {
               position: 'relative',
             }}
           >
-            Propelling Enterprise to
+            Propelling Open-Source
             <Box component="br" />
-            Autonomous Retail Leadership
+            Multiagent Innovation
           </Typography>
 
           {/* Animated Subheading */}
@@ -519,7 +517,7 @@ const HeroSection = memo(() => {
                   position: 'relative',
                 }}
               >
-                Beyond basic AI chat, AgentHive orchestrates your collective AI agents—solving complex problems, automating workflows, and learning collaboratively while maintaining enterprise-grade security.
+                Join us in building the future of autonomous intelligence. AgentHive is an open-source multiagent platform where developers, researchers, and innovators collaborate to create extensible, remarkable AI systems that work together as a unified hive.
               </Typography>
             </Box>
           </motion.div>
@@ -586,14 +584,71 @@ const HeroSection = memo(() => {
                 }
               }}
             >
-              Start
+              Try the Hive
+            </Button>
+            
+            <Button
+              variant="contained"
+              size="large"
+              onClick={handleNavigateToEnterpriseOS}
+              startIcon={<AutoFixHighIcon />}
+              sx={{
+                fontWeight: 600,
+                borderRadius: 3,
+                textTransform: 'none',
+                letterSpacing: 0.5,
+                px: { xs: 3, md: 4 },
+                py: { xs: 1.5, md: 2 },
+                background: 'linear-gradient(90deg, #2196F3 0%, #1976D2 100%)',
+                backdropFilter: 'blur(10px)',
+                boxShadow: `0 8px 20px ${alpha('#1976D2', 0.3)}`,
+                border: '1px solid rgba(224, 242, 254, 0.2)',
+                position: 'relative',
+                overflow: 'hidden',
+                minWidth: { xs: '200px', sm: '220px' },
+                transition: 'all 0.3s ease',
+                '&::after': {
+                  content: '""',
+                  position: 'absolute',
+                  width: '100%',
+                  height: '25%',
+                  bottom: '-10px',
+                  left: 0,
+                  background: 'linear-gradient(90deg, rgba(33, 150, 243, 0.6) 0%, rgba(25, 118, 210, 0.4) 100%)',
+                  filter: 'blur(4px)',
+                  borderRadius: '50%',
+                  zIndex: -1,
+                },
+                '&:before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  width: '100%',
+                  height: '100%',
+                  background: 'linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0))',
+                  transform: 'translateX(-100%)',
+                  transition: 'transform 0.6s ease',
+                },
+                '&:hover': {
+                  background: 'linear-gradient(90deg, #1976D2 0%, #0D47A1 100%)',
+                  transform: 'translateY(-3px)',
+                  boxShadow: `0 12px 28px ${alpha('#1976D2', 0.4)}`,
+                  borderColor: 'rgba(224, 242, 254, 0.3)',
+                  '&:before': {
+                    transform: 'translateX(100%)',
+                  }
+                }
+              }}
+            >
+              Admin Dashboard
             </Button>
             
             <Button
               variant="outlined"
               size="large"
-              onClick={() => setIntakeDialogOpen(true)}
-              startIcon={<ChatIcon />}
+              onClick={() => window.open('https://github.com/h3nok/AgentHive', '_blank')}
+              startIcon={<GitHubIcon />}
               sx={{
                 px: { xs: 3, md: 4 },
                 py: { xs: 1.5, md: 2 },
@@ -628,7 +683,7 @@ const HeroSection = memo(() => {
                 minWidth: { xs: '200px', sm: '220px' },
               }}
             >
-              Need a custom agent?
+              Contribute on GitHub
             </Button>
           </Box>
 
@@ -684,29 +739,6 @@ const HeroSection = memo(() => {
         </Container>
       </Box>
       
-      {intakeDialogOpen && (
-        <Dialog 
-          open={intakeDialogOpen} 
-          onClose={() => setIntakeDialogOpen(false)}
-          PaperProps={{
-            sx: {
-              borderRadius: 2,
-              bgcolor: 'background.paper',
-              boxShadow: 24,
-            }
-          }}
-        >
-          <DialogTitle>Request Custom Agent</DialogTitle>
-          <DialogContent>
-            <Typography variant="body1" gutterBottom>Fill out this form to request a custom agent</Typography>
-            {/* Form content would go here */}
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setIntakeDialogOpen(false)}>Cancel</Button>
-            <Button variant="contained" onClick={() => setIntakeDialogOpen(false)}>Submit</Button>
-          </DialogActions>
-        </Dialog>
-      )}
       <Box sx={{ 
         '& .MuiDialog-paper': {
           backdropFilter: 'blur(16px)',
@@ -731,10 +763,6 @@ const HeroSection = memo(() => {
           }
         }
       }}>
-        <IntakeDialog 
-          open={intakeDialogOpen} 
-          onClose={() => setIntakeDialogOpen(false)}
-        />
       </Box>
     </motion.div>
   );
@@ -843,7 +871,7 @@ const FeaturesSection = memo(() => {
                 : '0 2px 10px rgba(0,0,0,0.1)',
             }}
           >
-            Built for Enterprise Operations
+            Open-Source Multiagent Platform
           </Typography>
         </motion.div>
         
@@ -870,7 +898,7 @@ const FeaturesSection = memo(() => {
                 : '0 1px 5px rgba(0,0,0,0.05)',
             }}
           >
-            Harness the collective intelligence of your AI swarm—AgentHive orchestrates specialized AI agents that work together to solve complex problems through natural language.
+            Build the future of multiagent systems together—AgentHive is an open-source platform where developers create extensible, collaborative AI agents that form remarkable intelligent swarms.
           </Typography>
         </motion.div>
 
@@ -1061,7 +1089,7 @@ const UseCasesSection = memo(() => {
                 : '0 2px 10px rgba(255, 160, 0, 0.1)',
             }}
           >
-            Operational Impact Areas
+            Community Use Cases
           </Typography>
         </motion.div>
 
@@ -1085,7 +1113,7 @@ const UseCasesSection = memo(() => {
               lineHeight: { xs: 1.5, md: 1.6 },
             }}
           >
-            See how AgentHive empowers your collective intelligence across every department with specialized autonomous agents.
+            Discover how innovators worldwide are building remarkable multiagent systems with AgentHive's extensible platform across diverse domains and applications.
           </Typography>
         </motion.div>
 
@@ -1271,11 +1299,11 @@ const PoweredBySection = memo(() => {
 
 // Community links
 const COMMUNITY_LINKS = [
-  { icon: '💬', text: 'Discord Community', href: '#' },
-  { icon: '📚', text: 'Documentation', href: '#' },
-  { icon: '🐛', text: 'Report Issues', href: '#' },
-  { icon: '💡', text: 'Feature Requests', href: '#' },
-  { icon: '🎯', text: 'Roadmap', href: '#' }
+  { icon: <GitHubIcon />, text: 'Contribute on GitHub', href: 'https://github.com/h3nok/AgentHive' },
+  { icon: '�', text: 'Join Discord', href: '#' },
+  { icon: '�', text: 'Read the Docs', href: '#' },
+  { icon: '�', text: 'Build Extensions', href: '#' },
+  { icon: '�', text: 'Share Your Agents', href: '#' }
 ];
 
 // Main component with error boundary and performance optimizations
@@ -1376,8 +1404,8 @@ const LandingPage: React.FC = () => {
                   <LazyLogoText 
                     size="small" 
                     showOnlyBubble={true} 
-                    animated={true}
-                    interactive={true}
+                    animated={false}
+                    interactive={false}
                   />
                 </Box>
               }
@@ -1404,7 +1432,7 @@ const LandingPage: React.FC = () => {
               color: 'primary.main',
             }}
           >
-            Join the Hive
+            Build the Future Together
           </Typography>
 
           <Typography
@@ -1417,7 +1445,7 @@ const LandingPage: React.FC = () => {
               mx: 'auto',
             }}
           >
-            Connect with developers, share ideas, and contribute to the future of open source AI orchestration.
+            Join our global community of developers building the next generation of multiagent systems. Contribute code, share agents, collaborate on research, and help shape the future of autonomous intelligence.
           </Typography>
 
           <Stack
@@ -1450,6 +1478,147 @@ const LandingPage: React.FC = () => {
               </Button>
             ))}
           </Stack>
+        </Container>
+      </Box>
+
+      {/* Open Source Principles Section */}
+      <Box
+        component="section"
+        id="principles"
+        sx={{
+          py: { xs: 6, md: 8 },
+          background: theme.palette.mode === 'dark' 
+            ? `linear-gradient(135deg, ${alpha('#FF6F00', 0.03)} 0%, transparent 50%, ${alpha('#FFC107', 0.03)} 100%)`
+            : `linear-gradient(135deg, ${alpha('#FF6F00', 0.02)} 0%, transparent 50%, ${alpha('#FFC107', 0.02)} 100%)`,
+        }}
+      >
+        <Container maxWidth="lg">
+          <motion.div
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={ANIMATION_VARIANTS.staggerChildren}
+          >
+            <motion.div variants={ANIMATION_VARIANTS.fadeInUp}>
+              <Typography 
+                variant="h2" 
+                sx={{ 
+                  textAlign: 'center',
+                  fontWeight: 800, 
+                  mb: 2, 
+                  fontSize: { 
+                    xs: '1.5rem',
+                    sm: '1.75rem',
+                    md: '2rem',
+                    lg: '2.25rem'
+                  },
+                  background: `linear-gradient(135deg, #FF6F00 0%, #FFC107 100%)`,
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                  lineHeight: { xs: 1.3, md: 1.2 },
+                }}
+              >
+                Built on Open Principles
+              </Typography>
+            </motion.div>
+            
+            <motion.div variants={ANIMATION_VARIANTS.fadeInUp}>
+              <Typography 
+                variant="h6" 
+                sx={{
+                  textAlign: 'center',
+                  color: 'text.secondary', 
+                  mb: 6,
+                  fontWeight: 400,
+                  fontSize: { 
+                    xs: '0.9rem',
+                    sm: '0.95rem',
+                    md: '1rem'
+                  },
+                  maxWidth: '700px',
+                  mx: 'auto',
+                  px: { xs: 2, md: 0 },
+                  lineHeight: { xs: 1.5, md: 1.6 },
+                }}
+              >
+                AgentHive is founded on the belief that the future of AI should be open, collaborative, and accessible to everyone.
+              </Typography>
+            </motion.div>
+
+            <Box sx={{ 
+              display: 'grid',
+              gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' },
+              gap: 4,
+              maxWidth: '1000px',
+              mx: 'auto'
+            }}>
+              {[
+                {
+                  icon: <GitHubIcon sx={{ fontSize: 48, color: '#FF8F00' }} />,
+                  title: 'Open Source',
+                  description: 'Transparent development, community-driven improvements, and unlimited extensibility for all.'
+                },
+                {
+                  icon: <AutoFixHighIcon sx={{ fontSize: 48, color: '#FFA000' }} />,
+                  title: 'Extensible',
+                  description: 'Modular architecture designed for customization, integration, and remarkable innovation.'
+                },
+                {
+                  icon: <SpeedIcon sx={{ fontSize: 48, color: '#FFB300' }} />,
+                  title: 'Collaborative',
+                  description: 'Agents that work together, developers that build together, communities that grow together.'
+                }
+              ].map((principle, index) => (
+                <motion.div 
+                  key={index}
+                  variants={ANIMATION_VARIANTS.fadeInUp}
+                >
+                  <Card
+                    sx={{
+                      p: 4,
+                      textAlign: 'center',
+                      height: '100%',
+                      background: theme.palette.mode === 'dark'
+                        ? `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${alpha('#FF8F00', 0.05)} 100%)`
+                        : `linear-gradient(135deg, ${theme.palette.background.paper} 0%, ${alpha('#FF8F00', 0.02)} 100%)`,
+                      border: `1px solid ${alpha('#FF8F00', 0.1)}`,
+                      borderRadius: 3,
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        transform: 'translateY(-8px)',
+                        boxShadow: `0 16px 32px ${alpha('#FF8F00', 0.15)}`,
+                        borderColor: alpha('#FF8F00', 0.2),
+                      }
+                    }}
+                  >
+                    <Box sx={{ mb: 3 }}>
+                      {principle.icon}
+                    </Box>
+                    <Typography 
+                      variant="h5" 
+                      sx={{ 
+                        fontWeight: 700, 
+                        mb: 2,
+                        color: theme.palette.text.primary
+                      }}
+                    >
+                      {principle.title}
+                    </Typography>
+                    <Typography 
+                      variant="body1" 
+                      sx={{ 
+                        color: 'text.secondary',
+                        lineHeight: 1.6
+                      }}
+                    >
+                      {principle.description}
+                    </Typography>
+                  </Card>
+                </motion.div>
+              ))}
+            </Box>
+          </motion.div>
         </Container>
       </Box>
     </Box>

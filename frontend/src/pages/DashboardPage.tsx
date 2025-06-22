@@ -3,8 +3,6 @@ import WorkflowRenderer from '@/components/WorkflowRenderer';
 import ProcessingTimelineView from '@/components/ProcessingTimelineView';
 import ChartFactory from '@/components/ChartFactory';
 import StatusBadge from '@/components/StatusBadge';
-import RouterControls from '@/components/RouterControls';
-import FloatingAgentIcons from '@/components/FloatingAgentIcons';
 import ErrorBoundary from '@/components/ErrorBoundary';
 
 const DashboardPage: React.FC = () => {
@@ -19,11 +17,8 @@ const DashboardPage: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-4">
-          <RouterControls />
-          <StatusBadge status="running" />
+          <StatusBadge status="online" />
         </div>
-
-        <FloatingAgentIcons />
       </div>
     </ErrorBoundary>
   );

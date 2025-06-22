@@ -25,7 +25,7 @@ if (import.meta.env.MODE === 'development') {
 
     // Only log when something meaningful changes to reduce console spam.
     if (activeSessionId !== prevActiveSessionId || msgCount !== prevMsgCount) {
-      // eslint-disable-next-line no-console
+       
       console.log('%c[debugTrace]', 'color: magenta; font-weight: bold', {
         activeSessionId,
         msgCount,

@@ -2,7 +2,7 @@ import React from 'react';
 import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { useCostLatency } from '../hooks/useCostLatency';
 import { Paper, Typography, useTheme } from '@mui/material';
-import { tractorSupplyColors } from '../../styles/theme';
+import { swarmColors } from '../../theme';
 
 const CostTrendChart: React.FC = () => {
   const theme = useTheme();
@@ -19,8 +19,8 @@ const CostTrendChart: React.FC = () => {
         <AreaChart data={data} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
           <defs>
             <linearGradient id="costGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={tractorSupplyColors.green} stopOpacity={0.2} />
-              <stop offset="95%" stopColor={tractorSupplyColors.green} stopOpacity={0} />
+              <stop offset="0%" stopColor={swarmColors.idle} stopOpacity={0.2} />
+              <stop offset="95%" stopColor={swarmColors.idle} stopOpacity={0} />
             </linearGradient>
           </defs>
           <XAxis dataKey="ts" tickFormatter={tickFormatter} stroke={theme.palette.text.secondary} />
@@ -30,7 +30,7 @@ const CostTrendChart: React.FC = () => {
           <Area
             type="monotone"
             dataKey="cost"
-            stroke={tractorSupplyColors.green}
+            stroke={swarmColors.idle}
             fill="url(#costGrad)"
             name="Cost ($)"
           />

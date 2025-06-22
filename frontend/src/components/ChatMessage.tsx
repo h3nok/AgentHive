@@ -9,8 +9,10 @@ import {
   Tooltip, 
   IconButton, 
   Snackbar, 
+  CircularProgress,
   keyframes
 } from '@mui/material';
+import { motion } from 'framer-motion';
 import PersonIcon from '@mui/icons-material/Person';
 import VolumeUpIcon from '@mui/icons-material/VolumeUp';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
@@ -20,9 +22,13 @@ import { useCanvas } from '../context/CanvasContext';
 import { agentStyles } from '../constants/agentStyles';
 import MarkdownRenderer from './markdown/MarkdownRenderer';
 import LogoText from './LogoText';
-import QuantumEnhancedMessage from './QuantumEnhancedMessage';
 import type { ChatMessage as ChatMessageType } from '../features/chat/chatSlice';
-import FancyTypingDots from './FancyTypingDots';
+import {
+  ChartComponent,
+  CodeBlockComponent,
+  DataTableComponent,
+  ActionButtonsComponent
+} from './RichMessageComponents';
 
 // Interface for component props
 interface ChatMessageProps {
@@ -108,12 +114,18 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming = false,
   }
 
   return (
-    <QuantumEnhancedMessage
-      message={message}
-      isStreaming={isStreaming}
-      sentiment={message.text.includes('error') || message.text.includes('failed') ? 'negative' : 
-                 message.text.includes('success') || message.text.includes('completed') ? 'positive' : 'neutral'}
-      importance={message.text.length > 500 ? 'high' : message.text.length > 200 ? 'medium' : 'low'}
+    <Box
+      component={motion.div}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.3 }}
+      sx={{
+        display: 'flex',
+        width: '100%',
+        mb: 2,
+        px: { xs: 1, sm: 2 },
+        position: 'relative',
+      }}
     >
       <Box
         sx={{
@@ -240,11 +252,104 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming = false,
           }}>
             {message.text.trim().length === 0 && isStreaming ? (
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 40 }}>
-                <FancyTypingDots />
+                <CircularProgress size={20} />
               </Box>
             ) : (
               <>
-                <MarkdownRenderer markdown={message.text} />
+                {/* Rich content detection and rendering */}
+                {(message.text.includes('```chart') || message.text.includes('```graph')) && (() => {
+                  // Parse chart data from markdown
+                  try {
+                    const chartMatch = message.text.match(/```(?:chart|graph)\s*([\s\S]*?)```/);
+                    if (chartMatch) {
+                      const chartData = JSON.parse(chartMatch[1]);
+                      return (
+                        <ChartComponent
+                          type={chartData.type || 'bar'}
+                          data={chartData.data || []}
+                          title={chartData.title}
+                          description={chartData.description}
+                        />
+                      );
+                    }
+                  } catch (error) {
+                    console.error('Error parsing chart data:', error);
+                  }
+                  return null;
+                })()}
+                
+                {(message.text.includes('```json') || message.text.includes('```sql') || message.text.includes('```python') || message.text.includes('```javascript')) && (() => {
+                  // Parse code blocks
+                  const codeMatch = message.text.match(/```(\w+)\s*([\s\S]*?)```/);
+                  if (codeMatch) {
+                    const [, language, code] = codeMatch;
+                    return (
+                      <CodeBlockComponent
+                        code={code.trim()}
+                        language={language}
+                        title={`${language.toUpperCase()} Code`}
+                        executable={language === 'python' || language === 'javascript'}
+                        onExecute={(code) => console.log('Executing code:', code)}
+                      />
+                    );
+                  }
+                  return null;
+                })()}
+                
+                {(message.text.includes('|') && message.text.split('\n').some(line => line.includes('|'))) && (() => {
+                  // Parse table data from markdown
+                  try {
+                    const lines = message.text.split('\n').filter(line => line.includes('|'));
+                    if (lines.length >= 2) {
+                      const headers = lines[0].split('|').map(h => h.trim()).filter(h => h);
+                      const rows = lines.slice(2).map(line => {
+                        const cells = line.split('|').map(c => c.trim()).filter(c => c);
+                        const row: any = {};
+                        headers.forEach((header, index) => {
+                          row[header] = cells[index] || '';
+                        });
+                        return row;
+                      });
+                      
+                      if (rows.length > 0) {
+                        return (
+                          <DataTableComponent
+                            data={rows}
+                            title="Data Table"
+                            columns={headers.map(h => ({ key: h, label: h, type: 'string' as const }))}
+                          />
+                        );
+                      }
+                    }
+                  } catch (error) {
+                    console.error('Error parsing table data:', error);
+                  }
+                  return null;
+                })()}
+                
+                {/* Default markdown rendering for non-rich content */}
+                {!(message.text.includes('```chart') || message.text.includes('```graph') || 
+                   message.text.includes('```json') || message.text.includes('```sql') || 
+                   message.text.includes('```python') || message.text.includes('```javascript') ||
+                   (message.text.includes('|') && message.text.split('\n').some(line => line.includes('|')))) && (
+                  <MarkdownRenderer markdown={message.text} />
+                )}
+                
+                {/* Action buttons for interactive messages */}
+                {(message.text.includes('action:') || message.text.includes('button:') || message.text.includes('workflow:')) && (
+                  <Box sx={{ mt: 2 }}>
+                    <ActionButtonsComponent 
+                      actions={[
+                        { id: 'execute', label: 'Execute', type: 'primary' as const, onClick: () => console.log('Execute action') },
+                        { id: 'save', label: 'Save', type: 'secondary' as const, onClick: () => console.log('Save action') },
+                        { id: 'share', label: 'Share', type: 'success' as const, onClick: () => console.log('Share action') }
+                      ]}
+                      title="Available Actions"
+                    />
+                  </Box>
+                )}
+                
+                {/* Legacy chart support */}
                 {message.chart && (
                   <Box sx={{ mt: 2 }}>
                     {message.chart}
@@ -310,7 +415,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming = false,
         anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
       />
     </Box>
-    </QuantumEnhancedMessage>
+    </Box>
   );
 };
 

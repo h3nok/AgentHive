@@ -1,20 +1,12 @@
 import React from 'react';
 import { SvgIcon, SvgIconProps } from '@mui/material';
 
-/**
- * Simple bee SVG icon that follows MUI color/currentColor.
- */
-const BeeIcon: React.FC<SvgIconProps> = (props) => (
-  <SvgIcon viewBox="0 0 24 24" {...props}>
-    {/* Body */}
-    <path d="M12 2a5 5 0 0 0-5 5v1h10V7a5 5 0 0 0-5-5z" />
-    {/* Stripes */}
-    <path d="M7 8h10v2H7zM7 12h10v2H7z" fillOpacity={0.6} />
-    {/* Wings */}
-    <path d="M5 7c-1.5 0-3 1.5-3 3s1.5 3 3 3 3-1.5 3-3-1.5-3-3-3zm14 0c-1.5 0-3 1.5-3 3s1.5 3 3 3 3-1.5 3-3-1.5-3-3-3z" fillOpacity={0.3} />
-    {/* Stinger */}
-    <path d="M12 16l-1 4 1 .5 1-.5-1-4z" />
-  </SvgIcon>
-);
+const BeeIcon: React.FC<SvgIconProps> = (props) => {
+  return (
+    <SvgIcon {...props} viewBox="0 0 24 24">
+      <path d="M12 2C10.9 2 10 2.9 10 4s.9 2 2 2 2-.9 2-2-.9-2-2-2zm8 7h-2.5c-.4 0-.8.2-1 .5L15 12l1.5 2.5c.2.3.6.5 1 .5H20c1.1 0 2-.9 2-2s-.9-2-2-2zM4 9h2.5c.4 0 .8.2 1 .5L9 12 7.5 14.5c-.2.3-.6.5-1 .5H4c-1.1 0-2-.9-2-2s.9-2 2-2zm8 1c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+    </SvgIcon>
+  );
+};
 
 export default BeeIcon;

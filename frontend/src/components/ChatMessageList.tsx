@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import VirtualizedMessageList from './VirtualizedMessageList';
+import { Box, Typography } from '@mui/material';
 import type { ChatMessage as ChatMessageType } from '../features/chat/chatSlice';
 
 interface ChatMessageListProps {
@@ -18,11 +18,18 @@ const ChatMessageList: React.FC<ChatMessageListProps> = ({ activeAgent, messages
   };
 
   return (
-    <VirtualizedMessageList
-      activeAgent={activeAgent}
-      messages={externalMessages}
-      onLoadMore={handleLoadMore}
-    />
+    <Box sx={{ height: '100%', overflow: 'auto', p: 1 }}>
+      {externalMessages?.map((message, index) => (
+        <Box key={index} sx={{ mb: 1, p: 1, bgcolor: 'background.paper', borderRadius: 1 }}>
+          <Typography variant="body2" color="textSecondary">
+            {message.sender || 'User'}
+          </Typography>
+          <Typography variant="body1">
+            {message.text || 'No content'}
+          </Typography>
+        </Box>
+      ))}
+    </Box>
   );
 };
 

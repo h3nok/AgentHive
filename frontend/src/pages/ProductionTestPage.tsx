@@ -305,7 +305,7 @@ const ProductionTestPage: React.FC = () => {
     <Container maxWidth="lg" sx={{ py: 4 }}>
       {/* Header */}
       <Box sx={{ mb: 4, textAlign: 'center' }}>
-        <LogoText size="large" useGif={true} interactive={false} />
+        <LogoText size="large" useGif={true} interactive={false} animated={false} />
         <Typography variant="h4" gutterBottom sx={{ mt: 2 }}>
           Production Test Suite
         </Typography>

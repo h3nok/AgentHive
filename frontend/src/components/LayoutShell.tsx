@@ -7,13 +7,11 @@ import CanvasPanel from './CanvasPanel';
 import ChatErrorBoundary from './ChatErrorBoundary';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from '../store';
-import { addMessage, clearChat, setActiveSession, assistantResponseFinished, setError, createFolder, updateSessionTitle, setCurrentModel } from '../features/chat/chatSlice';
+import { addMessage, clearChat, setActiveSession, assistantResponseFinished, setError, createFolder, updateSessionTitle, startWorkflow, ChatMessage } from '../features/chat/chatSlice';
 import { useAgentQueryMutation } from '../features/chat/chatApi';
 import { useCreateSessionMutation } from '../features/chat/sessionsApi';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useCanvas } from '../context/CanvasContext';
-import RouterDebugDrawer from './RouterDebugDrawer';
-import ChatDebugOverlay from './ChatDebugOverlay';
 
 
 interface LayoutShellProps {
@@ -27,7 +25,6 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const isLoading = useSelector((state: RootState) => state.chat.isLoading);
-  const currentModel = useSelector((state: RootState) => state.chat.currentModel);
   const routingMetadata = useSelector((state: RootState) => state.chat.routingMetadata);
   const [triggerAgentQuery] = useAgentQueryMutation();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -37,6 +34,15 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
   const sessions = useSelector((state: RootState) => state.chat.sessions);
   const folders = useSelector((state: RootState) => state.chat.folders);
   const activeSessionId = useSelector((state: RootState) => state.chat.activeSessionId);
+  
+  // Agent status for TopNav
+  const [selectedAgent, setSelectedAgent] = useState(initialAgent || 'general');
+  const agentStatuses = useMemo(() => [
+    { id: 'general', name: 'General Assistant', status: 'ready' as const, confidence: 95 },
+    { id: 'technical', name: 'Technical Expert', status: 'ready' as const, confidence: 88 },
+    { id: 'business', name: 'Business Analyst', status: 'ready' as const, confidence: 92 },
+    { id: 'support', name: 'Support Agent', status: 'ready' as const, confidence: 85 },
+  ], []);
   
   // Reference to track if we should stop the response
   const shouldStopRef = useRef<boolean>(false);
@@ -79,11 +85,6 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
     setIsSidebarCollapsed(prev => !prev);
   }, []);
   
-  // Handle model selection
-  const handleModelChange = useCallback((modelId: string) => {
-    dispatch(setCurrentModel(modelId));
-  }, [dispatch]);
-
   const [createSession] = useCreateSessionMutation();
   const navigate = useNavigate();
 
@@ -96,7 +97,7 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
     return false; // no folder needed to be created
   }, [dispatch, folders]);
 
-  const handleSendMessage = useCallback(async (text: string, agent: string = 'lease') => {
+  const handleSendMessage = useCallback(async (text: string, agent: string = selectedAgent) => {
     // Reset the stop flag
     shouldStopRef.current = false;
     
@@ -142,9 +143,50 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
     triggerAgentQuery({ 
       session_id: currentSessionId, 
       query: text, 
-      agent
+      explicit_agent: agent
     });
-  }, [dispatch, triggerAgentQuery, activeSessionId, createSession, navigate, ensureDefaultFolder]);
+  }, [dispatch, triggerAgentQuery, activeSessionId, createSession, navigate, ensureDefaultFolder, selectedAgent]);
+
+  const handleWorkflowTrigger = useCallback(async (workflowId: string, params?: any) => {
+    console.log('🔥 LayoutShell: Workflow triggered:', workflowId, params);
+    
+    // Map quick action IDs to agent sequences
+    const workflowAgentMap: Record<string, string[]> = {
+      'time-off-request': ['HR Agent', 'Calendar Agent', 'Policy Agent'],
+      'expense-report': ['Finance Agent', 'OCR Agent', 'Compliance Agent'],
+      'meeting-schedule': ['Calendar Agent', 'Communication Agent'],
+      'onboard-employee': ['HR Agent', 'IT Agent', 'Security Agent', 'Training Agent'],
+      'contract-review': ['Legal Agent', 'Risk Agent', 'Document Agent'],
+      'performance-analysis': ['Analytics Agent', 'Data Agent'],
+      'workflow-status': ['Workflow Orchestrator', 'Status Monitor'],
+      'emergency-escalation': ['Security Agent', 'Notification Agent', 'Leadership Agent']
+    };
+    
+    const agentIds = workflowAgentMap[workflowId] || ['General Agent'];
+    
+    // Start the workflow in the chat state
+    dispatch(startWorkflow({ 
+      workflowId, 
+      name: workflowId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
+      agentIds 
+    }));
+    
+    // Send the workflow trigger message if we have a prompt
+    if (params?.prompt) {
+      // Add a system message to show the workflow is starting
+      const systemMessage: ChatMessage = {
+        id: `system-${Date.now()}`,
+        text: `🔄 **Workflow Started:** ${workflowId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}\n\n**Agents Involved:** ${agentIds.join(', ')}\n\n**Status:** Initializing...`,
+        sender: 'system',
+        timestamp: new Date().toISOString(),
+        temp: false
+      };
+      dispatch(addMessage(systemMessage));
+      
+      // Send the actual message to trigger the workflow
+      await handleSendMessage(params.prompt, 'workflow-orchestrator');
+    }
+  }, [dispatch, handleSendMessage]);
   
   // Handler for the stop button
   const handleStopRequest = useCallback(() => {
@@ -160,18 +202,7 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
 
   const resolvedAgentId = initialAgent ?? paramAgentId;
 
-  // Convert currentModel from null to undefined for prop compatibility
-  const selectedModelForTopNav = currentModel ?? undefined;
 
-  const [debugOpen, setDebugOpen] = useState(false);
-  const toggleDebugDrawer = useCallback(() => setDebugOpen(prev => !prev), []);
-
-  // Auto-open debug drawer when routing metadata updates (intelligent routing event)
-  useEffect(() => {
-    if (routingMetadata && routingMetadata.routing_enabled) {
-      setDebugOpen(true);
-    }
-  }, [routingMetadata]);
 
   return (
     <Box sx={{ 
@@ -196,12 +227,13 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
       }}>
         <TopNav 
           toggleTheme={toggleTheme}
-          onModelChange={handleModelChange}
-          selectedModel={selectedModelForTopNav}
-          showModelSelector={true}
           showNotifications={true}
           showSearch={false}
           sidebarCollapsed={isSidebarCollapsed}
+          onSidebarToggle={setIsSidebarCollapsed}
+          selectedAgent={selectedAgent}
+          onAgentChange={setSelectedAgent}
+          agentStatuses={agentStatuses}
         />
       </Box>
       
@@ -266,8 +298,7 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
                 <ChatInterface 
                   onSendMessage={handleSendMessage} 
                   isLoading={isLoading} 
-                  onStopRequest={handleStopRequest}
-                  initialAgent={resolvedAgentId}
+                  onWorkflowTrigger={handleWorkflowTrigger}
                 />
               </ChatErrorBoundary>
             </Box>
@@ -276,15 +307,7 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
         </Box>
       </Box>
 
-      {/* Global Chat Debug overlay */}
-      <ChatDebugOverlay />
 
-      {/* Router Debug Drawer */}
-      <RouterDebugDrawer
-        sessionId={activeSessionId || undefined}
-        open={debugOpen}
-        onClose={toggleDebugDrawer}
-      />
     </Box>
   );
 };

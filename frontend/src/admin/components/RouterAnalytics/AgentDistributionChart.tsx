@@ -128,7 +128,7 @@ const AgentDistributionChart: React.FC<AgentDistributionChartProps> = ({ data })
                 labelLine={false}
                 label={renderCustomizedLabel}
                 outerRadius={80}
-                fill="#8884d8"
+                fill={theme.palette.primary.main}
                 dataKey="value"
               >
                 {pieData.map((entry, index) => (
@@ -151,7 +151,7 @@ const AgentDistributionChart: React.FC<AgentDistributionChartProps> = ({ data })
                 verticalAlign="bottom" 
                 height={36}
                 formatter={(value: string, entry: { color?: string }) => (
-                  <span style={{ color: entry.color || '#000', fontSize: '12px' }}>
+                  <span style={{ color: entry.color || theme.palette.text.primary, fontSize: '12px' }}>
                     {value}
                   </span>
                 )}

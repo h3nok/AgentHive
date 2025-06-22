@@ -1,10 +1,10 @@
 import React from 'react';
-import EnhancedChatInterfaceIntegrated from '../components/EnhancedChatInterfaceIntegrated';
+import FuturisticChatInterface from '../components/FuturisticChatInterface';
 
 const ChatWorkspace: React.FC = () => {
   // For now we just render chat interface; session routing can be added later
   return (
-    <EnhancedChatInterfaceIntegrated
+    <FuturisticChatInterface
       onSendMessage={() => {}}
       isLoading={false}
     />

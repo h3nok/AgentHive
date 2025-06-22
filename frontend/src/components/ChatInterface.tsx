@@ -1,2 +1,2 @@
-export { default as default } from './EnhancedChatInterfaceIntegrated';
-export type { EnhancedChatInterfaceProps as ChatInterfaceProps } from './EnhancedChatInterfaceIntegrated';
+export { default as default } from './FuturisticChatInterface';
+export type { FuturisticChatInterfaceProps as ChatInterfaceProps } from './FuturisticChatInterface';

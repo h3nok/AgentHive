@@ -2,7 +2,7 @@ import React from 'react';
 import { Line, Area, AreaChart, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { useRequestErrorTrends } from '../../hooks/useRequestErrorTrends';
 import { Paper, Typography, useTheme } from '@mui/material';
-import { tractorSupplyColors } from '../../../styles/theme';
+import { swarmColors } from '../../../theme';
 
 const RequestErrorTrendChart: React.FC = () => {
   const theme = useTheme();
@@ -19,15 +19,15 @@ const RequestErrorTrendChart: React.FC = () => {
         <AreaChart data={data} margin={{ top: 10, right: 0, left: -20, bottom: 0 }}>
           <defs>
             <linearGradient id="reqGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor={tractorSupplyColors.red} stopOpacity={0.1} />
-              <stop offset="95%" stopColor={tractorSupplyColors.red} stopOpacity={0} />
+              <stop offset="0%" stopColor={theme.palette.error.main} stopOpacity={0.1} />
+              <stop offset="95%" stopColor={theme.palette.error.main} stopOpacity={0} />
             </linearGradient>
           </defs>
           <XAxis dataKey="ts" tickFormatter={tickFormatter} stroke={theme.palette.text.secondary} />
           <YAxis stroke={theme.palette.text.secondary} />
           <Tooltip labelFormatter={(v) => new Date((v as number) * 1000).toLocaleString()} />
           <Legend />
-          <Area type="monotone" dataKey="requests" stroke={tractorSupplyColors.red} fill="url(#reqGrad)" name="Requests" />
+          <Area type="monotone" dataKey="requests" stroke={theme.palette.error.main} fill="url(#reqGrad)" name="Requests" />
           <Line type="monotone" dataKey="errors" stroke={theme.palette.warning.main} name="Errors" strokeWidth={2} dot={false} />
         </AreaChart>
       </ResponsiveContainer>

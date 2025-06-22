@@ -10,7 +10,17 @@ import {
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ErrorIcon from '@mui/icons-material/Error';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HRAgentForm } from './UKGDemo/HRAgentForm';
+// import { HRAgentForm } from './UKGDemo/HRAgentForm'; // TODO: Add HRAgentForm component
+
+// Temporary placeholder component
+const HRAgentForm = ({ formFields, onSubmit, isSubmitting }: any) => (
+  <Paper sx={{ p: 2, mb: 2 }}>
+    <Typography variant="h6" gutterBottom>Form Placeholder</Typography>
+    <Typography variant="body2" color="text.secondary">
+      HR Agent Form will be implemented here
+    </Typography>
+  </Paper>
+);
 import { workflowService } from '../services/workflowService';
 
 interface WorkflowStep {

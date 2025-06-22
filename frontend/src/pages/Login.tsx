@@ -7,9 +7,6 @@ import CircularProgress from '@mui/material/CircularProgress'
 import '../components/Authwrapper/Authwrapper.css'
 import LogoText from '../components/LogoText'
 import Button from '@mui/material/Button'
-import { keyframes } from '@mui/system'
-import { motion } from 'framer-motion'
-import FloatingAgentIcons from '../components/FloatingAgentIcons'
 import { CardHeader } from '@mui/material'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
@@ -75,19 +72,8 @@ const Login: React.FC = () => {
     )
   }
 
-  const bgAnim = keyframes`
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  `;
-
-  const dotsAnim = keyframes`
-    0% { background-position: 0 0; }
-    100% { background-position: -200px 200px; }
-  `;
-
   return (
-    <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: 'easeOut' }}>
+    <div>
       <Box sx={{
         position: 'relative',
         overflow: 'hidden',
@@ -110,7 +96,6 @@ const Login: React.FC = () => {
           inset: 0,
           background: 'linear-gradient(135deg,#b71c1c 0%,#e53935 25%,#ff6f3c 50%,#e53935 75%,#b71c1c 100%)',
           backgroundSize: '400% 400%',
-          animation: `${bgAnim} 20s ease infinite`,
           filter: 'blur(120px)',
           opacity: 0.25,
           zIndex: -3,
@@ -121,7 +106,6 @@ const Login: React.FC = () => {
           inset: 0,
           backgroundImage: `radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px)`,
           backgroundSize: '20px 20px',
-          animation: `${dotsAnim} 60s linear infinite`,
           zIndex: -2,
           mixBlendMode: 'overlay'
         }
@@ -138,7 +122,6 @@ const Login: React.FC = () => {
             </Tooltip>
           </TooltipProvider>
         </CardHeader>
-        <FloatingAgentIcons />
         <Paper
           elevation={0}
           sx={{
@@ -154,21 +137,12 @@ const Login: React.FC = () => {
             boxShadow: theme => theme.palette.mode === 'dark' ? '0 8px 32px rgba(0,0,0,0.4)' : '0 8px 32px rgba(0,0,0,0.08)'
           }}
         >
-          {/** Floating animation */}
-          {(() => {
-            const float = keyframes`
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-12px); }
-            100% { transform: translateY(0px); }
-          `;
-            return (
-              <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3, flexDirection: 'column', alignItems: 'center' }}>
-                <Box sx={{ animation: `${float} 4s ease-in-out infinite` }}>
-                  <LogoText size="large" showOnlyBubble={false} />
-                </Box>
-              </Box>
-            );
-          })()}
+          {/* Logo */}
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3, flexDirection: 'column', alignItems: 'center' }}>
+            <Box>
+              <LogoText size="large" showOnlyBubble={false} animated={false} interactive={false} />
+            </Box>
+          </Box>
           <Typography
             variant="subtitle2"
             mb={4}
@@ -182,7 +156,7 @@ const Login: React.FC = () => {
           >
             Tractor's multi-agent platform – delivering cutting-edge enterprise intelligence
           </Typography>
-          <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.98 }}>
+          <div>
             <Button
               fullWidth
               size="large"
@@ -203,10 +177,10 @@ const Login: React.FC = () => {
             >
               Sign In
             </Button>
-          </motion.div>
+          </div>
         </Paper>
       </Box>
-    </motion.div>
+    </div>
   )
 }
 

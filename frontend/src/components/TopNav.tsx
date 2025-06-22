@@ -29,66 +29,57 @@ import {
   Help as HelpIcon,
   Notifications as NotificationsIcon,
   MoreVert as MoreIcon,
-  SmartToy as AIIcon,
   Visibility as ObservabilityIcon,
   Dashboard as DashboardIcon,
   ExpandMore as ExpandMoreIcon,
+  Build as CommandCenterIcon,
+  // Agent icons
+  SmartToy,
+  Code,
+  Business,
+  Support
 } from '@mui/icons-material';
 import StatusBadge from './StatusBadge';
+import CommandCenter from './CommandCenter';
 import { useAppSelector, selectTheme, selectUser, selectConnectionStatus } from '../store';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useEnterpriseFeatures } from '../hooks/useEnterpriseFeatures';
 
 interface TopNavProps {
   toggleTheme?: () => void;
-  onModelChange?: (modelId: string) => void;
-  selectedModel?: string;
-  showModelSelector?: boolean;
   showNotifications?: boolean;
   showSearch?: boolean;
   sidebarCollapsed?: boolean;
+  onSidebarToggle?: (collapsed: boolean) => void;
+  // NEW: Agent selection props
+  selectedAgent?: string;
+  onAgentChange?: (agentId: string) => void;
+  agentStatuses?: Array<{
+    id: string;
+    name: string;
+    status: 'ready' | 'thinking' | 'processing' | 'offline';
+    confidence: number;
+  }>;
 }
 
-// Mock deployment data - replace with actual API call
-const mockDeployments = [
-  {
-    id: "gpt-4-deployment",
-    name: "GPT-4",
-    deployment: "Inspyro-GPT4",
-    status: "healthy",
-    region: "East US",
-    version: "1106-Preview"
-  },
-  {
-    id: "gpt-35-deployment", 
-    name: "GPT-3.5 Turbo",
-    deployment: "Inspyro3-mini",
-    status: "healthy",
-    region: "East US",
-    version: "0125"
-  },
-  {
-    id: "gpt-4-turbo-deployment",
-    name: "GPT-4 Turbo",
-    deployment: "Inspyro-GPT4-Turbo",
-    status: "degraded",
-    region: "West US",
-    version: "1106-Preview"
-  }
-];
-
-// Enhanced Model/Deployment Selector Component
-const DeploymentSelector: React.FC<{
-  selectedModel?: string;
-  onModelChange?: (modelId: string) => void;
+// Enhanced TopNav AgentSelector Component
+const TopNavAgentSelector: React.FC<{
+  selectedAgent?: string;
+  onAgentChange?: (agentId: string) => void;
+  agentStatuses?: Array<{
+    id: string;
+    name: string;
+    status: 'ready' | 'thinking' | 'processing' | 'offline';
+    confidence: number;
+  }>;
   compact?: boolean;
-}> = ({ selectedModel, onModelChange, compact = false }) => {
+}> = ({ selectedAgent, onAgentChange, agentStatuses = [], compact = false }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const theme = useTheme();
 
-  const currentDeployment = useMemo(() => 
-    mockDeployments.find(dep => dep.id === selectedModel) || mockDeployments[0],
-    [selectedModel]
+  const currentAgent = useMemo(() => 
+    agentStatuses.find(agent => agent.id === selectedAgent) || agentStatuses[0],
+    [agentStatuses, selectedAgent]
   );
 
   const handleClick = useCallback((event: React.MouseEvent<HTMLElement>) => {
@@ -99,37 +90,55 @@ const DeploymentSelector: React.FC<{
     setAnchorEl(null);
   }, []);
 
-  const handleDeploymentSelect = useCallback((deploymentId: string) => {
-    onModelChange?.(deploymentId);
+  const handleAgentSelect = useCallback((agentId: string) => {
+    onAgentChange?.(agentId);
     handleClose();
-  }, [onModelChange, handleClose]);
+  }, [onAgentChange, handleClose]);
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'healthy': return '#4caf50';
-      case 'degraded': return '#ff9800';
-      case 'unhealthy': return '#f44336';
-      default: return '#9e9e9e';
+  const getAgentIcon = (agentId: string) => {
+    switch (agentId) {
+      case 'technical': return Code;
+      case 'business': return Business;
+      case 'support': return Support;
+      default: return SmartToy;
     }
   };
 
-  // Add keyboard shortcut for model selector
-  useHotkeys('cmd+/, ctrl+/', () => {
-    if (!anchorEl) {
-      const button = document.querySelector('[data-model-selector-trigger]') as HTMLElement;
-      button?.click();
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'ready': return '#10b981';
+      case 'thinking': return '#f59e0b';
+      case 'processing': return '#3b82f6';
+      case 'offline': return '#ef4444';
+      default: return '#6b7280';
     }
-  }, { preventDefault: true });
+  };
+
+  if (!currentAgent) return null;
+
+  const IconComponent = getAgentIcon(currentAgent.id);
 
   return (
     <>
-      <Tooltip title="Select AI Model (⌘/)">
+      <Tooltip title="Select Agent">
         <Chip
-          data-model-selector-trigger
-          icon={<AIIcon sx={{ fontSize: '1.1rem !important' }} />}
+          icon={<IconComponent sx={{ fontSize: '1.1rem !important' }} />}
           label={
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.75 }}>
-              <span>{compact ? currentDeployment.name.split(' ')[0] : currentDeployment.deployment}</span>
+              <span>{compact ? currentAgent.name.split(' ')[0] : currentAgent.name}</span>
+              <Badge
+                badgeContent=""
+                sx={{
+                  '& .MuiBadge-badge': {
+                    backgroundColor: getStatusColor(currentAgent.status),
+                    width: 8,
+                    height: 8,
+                    borderRadius: '50%',
+                    minWidth: 8,
+                    border: `1px solid ${theme.palette.background.paper}`,
+                  }
+                }}
+              />
               <ExpandMoreIcon 
                 sx={{ 
                   fontSize: '1rem', 
@@ -159,10 +168,6 @@ const DeploymentSelector: React.FC<{
               transform: 'translateY(-1px)',
               boxShadow: `0 2px 8px ${alpha(theme.palette.primary.main, 0.1)}`,
             },
-            '&:focus-visible': {
-              outline: `2px solid ${theme.palette.primary.main}`,
-              outlineOffset: 2,
-            },
             transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
             cursor: 'pointer',
             fontWeight: 500,
@@ -171,20 +176,14 @@ const DeploymentSelector: React.FC<{
         />
       </Tooltip>
       
-      {/* Portal the menu to body to avoid z-index issues */}
       <Portal>
         <Menu
           anchorEl={anchorEl}
           open={Boolean(anchorEl)}
           onClose={handleClose}
-          TransitionProps={{
-            style: { transformOrigin: 'top center' }
-          }}
           PaperProps={{
-            elevation: 8,
             sx: {
-              minWidth: 320,
-              maxHeight: 400,
+              minWidth: 280,
               mt: 1.5,
               backgroundColor: theme.palette.mode === 'dark'
                 ? alpha('#1a1a1a', 0.95)
@@ -193,88 +192,56 @@ const DeploymentSelector: React.FC<{
               WebkitBackdropFilter: 'blur(20px)',
               border: `1px solid ${alpha(theme.palette.divider, 0.15)}`,
               borderRadius: 2,
-              overflow: 'hidden',
-              '& .MuiMenuItem-root': {
-                borderRadius: 1,
-                mx: 1,
-                my: 0.5,
-                transition: 'all 0.2s ease',
-              },
             },
           }}
         >
           <Box sx={{ px: 2, py: 1.5, borderBottom: `1px solid ${alpha(theme.palette.divider, 0.1)}` }}>
             <Typography variant="subtitle2" color="text.secondary" sx={{ fontWeight: 600 }}>
-              Available Models ({mockDeployments.length})
+              Available Agents ({agentStatuses.length})
             </Typography>
           </Box>
           
-          <Box sx={{ py: 0.5 }}>
-            {mockDeployments.map((deployment) => (
+          {agentStatuses.map((agent) => {
+            const AgentIcon = getAgentIcon(agent.id);
+            return (
               <MenuItem
-                key={deployment.id}
-                onClick={() => handleDeploymentSelect(deployment.id)}
-                selected={deployment.id === currentDeployment.id}
+                key={agent.id}
+                onClick={() => handleAgentSelect(agent.id)}
+                selected={agent.id === currentAgent.id}
                 sx={{ 
-                  minHeight: 64,
+                  minHeight: 48,
                   '&:hover': {
                     backgroundColor: alpha(theme.palette.primary.main, 0.05),
                   },
                   '&.Mui-selected': {
                     backgroundColor: alpha(theme.palette.primary.main, 0.08),
-                    '&:hover': {
-                      backgroundColor: alpha(theme.palette.primary.main, 0.12),
-                    },
                   },
                 }}
               >
                 <ListItemIcon>
                   <Badge
                     badgeContent=""
-                    color={deployment.status === 'healthy' ? 'success' : 
-                           deployment.status === 'degraded' ? 'warning' : 'error'}
-                    variant="dot"
                     sx={{
                       '& .MuiBadge-badge': {
-                        backgroundColor: getStatusColor(deployment.status),
-                        boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
+                        backgroundColor: getStatusColor(agent.status),
+                        width: 8,
+                        height: 8,
+                        borderRadius: '50%',
+                        minWidth: 8,
+                        border: `1px solid ${theme.palette.background.paper}`,
                       }
                     }}
                   >
-                    <AIIcon />
+                    <AgentIcon />
                   </Badge>
                 </ListItemIcon>
                 <ListItemText
-                  primary={
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      <Typography variant="body2" fontWeight={600}>
-                        {deployment.name}
-                      </Typography>
-                      <Chip 
-                        label={deployment.status.toUpperCase()} 
-                        size="small" 
-                        sx={{ 
-                          height: 20, 
-                          fontSize: '0.65rem',
-                          backgroundColor: alpha(getStatusColor(deployment.status), 0.15),
-                          color: getStatusColor(deployment.status),
-                          fontWeight: 700,
-                          border: 'none',
-                        }} 
-                      />
-                    </Box>
-                  }
-                  secondary={
-                    <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
-                      <strong>Deployment:</strong> {deployment.deployment}
-                      <br />
-                      <strong>Region:</strong> {deployment.region} • <strong>Version:</strong> {deployment.version}
-                    </Typography>
-                  }
+                  primary={agent.name}
+                  secondary={`${agent.status} • ${agent.confidence}% confidence`}
                 />
               </MenuItem>
-            ))}
-          </Box>
+            );
+          })}
         </Menu>
       </Portal>
     </>
@@ -282,15 +249,16 @@ const DeploymentSelector: React.FC<{
 };
 
 
-
-// Enhanced TopNav Component
-const TopNav: React.FC<Omit<TopNavProps,'onSidebarToggle'>> = ({
+// Enhanced TopNav Component  
+const TopNav: React.FC<TopNavProps> = ({
   toggleTheme,
-  onModelChange,
-  selectedModel,
-  showModelSelector = true,
   showNotifications = true,
   sidebarCollapsed = false,
+  onSidebarToggle,
+  // Agent selection props
+  selectedAgent,
+  onAgentChange,
+  agentStatuses = [],
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
@@ -301,6 +269,7 @@ const TopNav: React.FC<Omit<TopNavProps,'onSidebarToggle'>> = ({
   
   const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
   const [moreMenuAnchor, setMoreMenuAnchor] = useState<null | HTMLElement>(null);
+  const [commandCenterOpen, setCommandCenterOpen] = useState(false);
 
   /* ------------------------------------------------------------- */
   /* Scroll blur handling – add 'scrolled' class after 16px scroll */
@@ -340,10 +309,30 @@ const TopNav: React.FC<Omit<TopNavProps,'onSidebarToggle'>> = ({
     // Navigate to existing admin dashboard
     window.open('/admin/dashboard', '_blank');
   }, []);
+
+  const handleCommandCenterOpen = useCallback(() => {
+    setCommandCenterOpen(true);
+  }, []);
+
+  const handleCommandCenterClose = useCallback(() => {
+    setCommandCenterOpen(false);
+  }, []);
+
+  const handleWorkflowAction = useCallback((action: string, workflowId?: string) => {
+    console.log('Workflow action:', action, workflowId);
+    // Implement workflow actions here
+  }, []);
+
+
   
   // Add keyboard shortcut for Observability
   useHotkeys('cmd+o, ctrl+o', () => {
     handleObservabilityClick();
+  }, { preventDefault: true });
+
+  // Add keyboard shortcut for Command Center
+  useHotkeys('cmd+k, ctrl+k', () => {
+    handleCommandCenterOpen();
   }, { preventDefault: true });
 
   return (
@@ -364,9 +353,14 @@ const TopNav: React.FC<Omit<TopNavProps,'onSidebarToggle'>> = ({
           '&.scrolled': {
             backdropFilter: 'blur(6px)',
             WebkitBackdropFilter: 'blur(6px)',
-            backgroundColor: theme.palette.mode === 'dark' ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.45)',
+            backgroundColor: theme.palette.mode === 'dark' 
+              ? 'rgba(45, 45, 45, 0.85)' 
+              : 'rgba(255, 255, 255, 0.85)',
             borderBottom: `1px solid ${alpha(theme.palette.divider, 0.08)}`,
+            boxShadow: `0 1px 3px ${alpha(theme.palette.common.black, 0.1)}`,
           },
+          // Add subtle gradient background for agentic theme
+          background: scrolled ? undefined : `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.02)} 0%, ${alpha(theme.palette.secondary.main, 0.02)} 100%)`,
         }}
       >
         <Toolbar sx={{ 
@@ -382,11 +376,12 @@ const TopNav: React.FC<Omit<TopNavProps,'onSidebarToggle'>> = ({
             {/* Logo removed from TopNav; icon remains in sidebar */}
           </Box>
 
-          {/* Model/Deployment Selector */}
-          {showModelSelector && !isMobile && (
-            <DeploymentSelector
-              selectedModel={selectedModel}
-              onModelChange={onModelChange}
+          {/* Agent Selector */}
+          {agentStatuses.length > 0 && !isMobile && (
+            <TopNavAgentSelector
+              selectedAgent={selectedAgent}
+              onAgentChange={onAgentChange}
+              agentStatuses={agentStatuses}
               compact={isMobile}
             />
           )}
@@ -407,9 +402,27 @@ const TopNav: React.FC<Omit<TopNavProps,'onSidebarToggle'>> = ({
 
             {/* Push remaining controls to far right */}
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, ml: 'auto' }}>
+              {/* Command Center Button */}
+              {!isMobile && (
+                <Tooltip title="Command Center (⌘K)">
+                  <Button
+                    startIcon={<CommandCenterIcon />}
+                    onClick={handleCommandCenterOpen}
+                    size="small"
+                    variant="text"
+                    sx={{
+                      color: theme.palette.text.primary,
+                      '&:hover': { backgroundColor: alpha(theme.palette.primary.main, 0.08), color: theme.palette.primary.main },
+                      transition: 'all 0.2s ease',
+                      fontWeight: 600,
+                    }}
+                  >Command</Button>
+                </Tooltip>
+              )}
+              
               {/* Observability Button */}
               {!isMobile && (
-                <Tooltip title="Autoprise Hub (⌘O)">
+                <Tooltip title="Analytics Hub (⌘O)">
                   <Button
                     startIcon={<ObservabilityIcon />}
                     onClick={handleObservabilityClick}
@@ -421,7 +434,7 @@ const TopNav: React.FC<Omit<TopNavProps,'onSidebarToggle'>> = ({
                       transition: 'all 0.2s ease',
                       fontWeight: 600,
                     }}
-                  >Hub</Button>
+                  >Analytics</Button>
                 </Tooltip>
               )}
 
@@ -539,10 +552,10 @@ const TopNav: React.FC<Omit<TopNavProps,'onSidebarToggle'>> = ({
               },
             }}
           >
-            {showModelSelector && (
+            {agentStatuses.length > 0 && (
               <MenuItem onClick={handleMoreMenuClose}>
-                <ListItemIcon><AIIcon fontSize="small" /></ListItemIcon>
-                <ListItemText>Select Model</ListItemText>
+                <ListItemIcon><SmartToy fontSize="small" /></ListItemIcon>
+                <ListItemText>Select Agent</ListItemText>
               </MenuItem>
             )}
             
@@ -557,13 +570,26 @@ const TopNav: React.FC<Omit<TopNavProps,'onSidebarToggle'>> = ({
               </MenuItem>
             )}
 
+            <MenuItem onClick={() => { handleCommandCenterOpen(); handleMoreMenuClose(); }}>
+              <ListItemIcon><CommandCenterIcon fontSize="small" /></ListItemIcon>
+              <ListItemText>Command Center</ListItemText>
+            </MenuItem>
+
             <MenuItem onClick={() => { handleObservabilityClick(); handleMoreMenuClose(); }}>
               <ListItemIcon><DashboardIcon fontSize="small" /></ListItemIcon>
-              <ListItemText>Observability</ListItemText>
+              <ListItemText>Analytics</ListItemText>
             </MenuItem>
           </Menu>
         </Toolbar>
       </AppBar>
+
+      {/* Command Center Dialog */}
+      <CommandCenter
+        open={commandCenterOpen}
+        onClose={handleCommandCenterClose}
+        onWorkflowAction={handleWorkflowAction}
+        onSidebarToggle={onSidebarToggle}
+      />
     </>
   );
 };

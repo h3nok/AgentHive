@@ -60,8 +60,8 @@ const TopBarContainer = styled(Box)(({ theme }) => ({
   top: 0,
   zIndex: 100,
   background: theme.palette.mode === 'dark'
-    ? alpha('#121212', 0.85)
-    : alpha('#fafafa', 0.85),
+    ? 'rgba(45, 45, 45, 0.8)'
+    : 'rgba(255, 255, 255, 0.8)',
   backdropFilter: 'blur(12px)',
   WebkitBackdropFilter: 'blur(12px)',
   borderBottom: `1px solid ${alpha(theme.palette.divider, 0.1)}`,

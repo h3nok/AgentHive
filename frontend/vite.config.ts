@@ -49,6 +49,12 @@ export default defineConfig({
     },
     proxy: {
       // Forward API calls to the local FastAPI backend
+      '/api': {
+        target: 'http://localhost:8001',
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
       '/lease-abstraction-poc-api': {
         target: 'http://localhost:8000',
         changeOrigin: true,

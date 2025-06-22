@@ -3,9 +3,6 @@ import { Box, Typography } from '@mui/material';
 
 const UserManagementPage: React.FC = () => (
   <Box sx={{ p: 4 }}>
-    <Typography variant="h4" gutterBottom>
-      User Management
-    </Typography>
     <Typography variant="body1" color="text.secondary">
       Coming soon
     </Typography>
