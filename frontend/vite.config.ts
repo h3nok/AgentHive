@@ -8,7 +8,15 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "@components": path.resolve(__dirname, "./src/components"),
+      "@core": path.resolve(__dirname, "./src/core"),
+      "@shared": path.resolve(__dirname, "./src/shared"),
+      "@app": path.resolve(__dirname, "./src/app"),
+      "@components": path.resolve(__dirname, "./src/shared/components"),
+      "@ui": path.resolve(__dirname, "./src/shared/components/ui"),
+      "@hooks": path.resolve(__dirname, "./src/shared/hooks"),
+      "@utils": path.resolve(__dirname, "./src/shared/utils"),
+      "@types": path.resolve(__dirname, "./src/shared/types"),
+      "@constants": path.resolve(__dirname, "./src/shared/constants"),
       // Fix missing deep import in react-syntax-highlighter v15.6 – some deps still refer to dist/index.js
       "react-syntax-highlighter/dist/index.js":
         "react-syntax-highlighter/dist/esm/index.js",

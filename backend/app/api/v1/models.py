@@ -79,12 +79,12 @@ AVAILABLE_MODELS = [
         "name": "Llama 3 8B",
         "description": "Open-source model for privacy-focused deployments",
         "provider": "ollama",
-        "capabilities": ["chat", "basic-analysis"],
+        "capabilities": ["chat", "analysis", "code", "reasoning"],
         "context_length": 8192,
-        "is_available": False,  # Depends on Ollama availability
-        "is_default": False,
+        "is_available": True,
+        "is_default": True,
         "pricing_tier": "free",
-        "specialties": ["privacy", "local deployment", "basic chat"]
+        "specialties": ["privacy", "local deployment", "general purpose"]
     },
     {
         "id": "claude-3-sonnet",

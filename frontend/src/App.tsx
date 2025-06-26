@@ -5,24 +5,23 @@ import { ThemeProvider, CssBaseline, GlobalStyles, useMediaQuery } from '@mui/ma
 import { Box, LinearProgress, Alert, Snackbar } from '@mui/material';
 
 // Store and state management
-import { store, useAppSelector, useAppDispatch, selectTheme, selectError, clearError, setTheme } from './store';
-import { lightTheme, darkTheme } from './theme';
+import { store, useAppSelector, useAppDispatch, selectTheme, selectError, clearError, setTheme } from './shared/store';
+import { lightTheme, darkTheme } from './shared/styles/theme';
 
 // Error boundaries
-import ErrorBoundary, { RouteErrorBoundary } from './components/ErrorBoundary';
+import ErrorBoundary, { RouteErrorBoundary } from './shared/components/ErrorBoundary';
 
 // Context providers
-import { CanvasProvider } from './context/CanvasContext';
-import { EnterpriseFeatureProvider } from './components/EnterpriseFeatureToggle';
+import { EnterpriseFeatureProvider } from './shared/components/EnterpriseFeatureToggle';
 
 // Lazy loaded components for code splitting
-const LandingPage = React.lazy(() => import('./pages/LandingPage'));
-const ChatPage = React.lazy(() => import('./components/LayoutShell'));
-const AdminPage = React.lazy(() => import('./admin/AdminApp'));
-const DebugPage = React.lazy(() => import('./pages/DebugPage'));
-const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
-const TaskDetailsPage = React.lazy(() => import('./pages/TaskDetailsPage'));
-const EnterpriseOSDemo = React.lazy(() => import('./pages/EnterpriseOSDemo'));
+const LandingPage = React.lazy(() => import('./app/pages/LandingPage'));
+const ChatPage = React.lazy(() => import('./app/layout/LayoutShell'));
+const AdminPage = React.lazy(() => import('./core/admin/AdminApp'));
+const DebugPage = React.lazy(() => import('./app/pages/DebugPage'));
+const DashboardPage = React.lazy(() => import('./app/pages/DashboardPage'));
+const TaskDetailsPage = React.lazy(() => import('./app/pages/TaskDetailsPage'));
+const EnterpriseOSDemo = React.lazy(() => import('./app/pages/EnterpriseOSDemo'));
 
 // Global styles for consistent UI
 const globalStyles = (
@@ -189,7 +188,6 @@ const AppContent: React.FC = () => {
       <CssBaseline />
       {globalStyles}
       <EnterpriseFeatureProvider>
-        <CanvasProvider>
           <Box sx={{ 
             display: 'flex', 
             flexDirection: 'column', 
@@ -251,7 +249,6 @@ const AppContent: React.FC = () => {
               </Alert>
             </Snackbar>
           </Box>
-        </CanvasProvider>
       </EnterpriseFeatureProvider>
     </ThemeProvider>
   );

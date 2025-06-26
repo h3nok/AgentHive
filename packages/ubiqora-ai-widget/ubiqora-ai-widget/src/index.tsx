@@ -1,13 +1,22 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot, Root } from 'react-dom/client';
 import { EmbeddedWidget } from './TscAiEcomWidget';
 
+// Store root instances for proper unmounting
+const rootInstances = new WeakMap<HTMLElement, Root>();
+
 export function mount(el: HTMLElement, options?: any) {
-  ReactDOM.render(<EmbeddedWidget {...options} />, el);
+  const root = createRoot(el);
+  rootInstances.set(el, root);
+  root.render(<EmbeddedWidget {...options} />);
 }
 
 export function unmount(el: HTMLElement) {
-  ReactDOM.unmountComponentAtNode(el);
+  const root = rootInstances.get(el);
+  if (root) {
+    root.unmount();
+    rootInstances.delete(el);
+  }
 }
 
 export { EmbeddedWidget };

@@ -10,7 +10,7 @@
  * TODO // CLEANUP_DEV – Remove before production GA.
  */
 
-import { store } from './store';
+import { store } from './shared/store';
 
 // Bail out in production – this side-effect file should only be imported in dev.
 if (import.meta.env.MODE === 'development') {

@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  model-service:
+    build:
+      context: ./model-service
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8000"
+    environment:
+      - PROVIDER=ollama
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - DEFAULT_MODEL=llama3
+      - LOG_LEVEL=info
+    depends_on:
+      - ollama
+    restart: unless-stopped
+    networks:
+      - agenthive-network
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+    networks:
+      - agenthive-network
+    # Uncomment and configure if you need to pull specific models on startup
+    # command: >
+    #   sh -c "ollama pull llama3 && ollama serve"
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - agenthive-network
+
+  # Add other services here (api-gateway, agent-service, etc.)
+
+networks:
+  agenthive-network:
+    driver: bridge
+
+volumes:
+  ollama_data:
+  redis_data:

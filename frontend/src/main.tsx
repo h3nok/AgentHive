@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import { store } from './store'; // Adjust path if necessary
+import { store } from './shared/store';
 import App from './App';
 // Import Roboto Slab font for Enterprise theme
 import '@fontsource/roboto-slab/300.css';
@@ -11,11 +11,11 @@ import '@fontsource/roboto-slab/500.css';
 import '@fontsource/roboto-slab/600.css';
 import '@fontsource/roboto-slab/700.css';
 // Add global CSS if needed
-import './styles/global.css';
+import './shared/styles/global.css';
 import { MsalProvider } from '@azure/msal-react';
-import { msalInstance } from './utils/msalInstance';
+import { msalInstance } from './shared/utils/msalInstance';
 import { Toaster } from 'sonner';
-import { initializeBrowserErrorHandling } from './utils/browserErrorHandler';
+import { initializeBrowserErrorHandling } from './shared/utils/browserErrorHandler';
 
 // Initialize browser error handling to filter extension errors
 initializeBrowserErrorHandling();
