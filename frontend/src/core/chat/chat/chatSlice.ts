@@ -75,6 +75,7 @@ interface ChatState {
     routing_method?: string;
     routing_enabled?: boolean;
   } | null; // Intelligent routing information
+  taskCounter: number; // Counter for task numbering
 }
 
 // Create a new session action
@@ -96,6 +97,7 @@ const initialState: ChatState = {
   currentModel: null, // Add to initial state
   processingStatus: null,
   routingMetadata: null, // Initialize routing metadata
+  taskCounter: 0, // Initialize task counter
 };
 
 const chatSlice = createSlice({
@@ -495,6 +497,30 @@ const chatSlice = createSlice({
     clearProcessingStatus: (state) => {
       state.processingStatus = null;
     },
+    // Action to increment the task counter
+    incrementTaskCounter: (state) => {
+      state.taskCounter += 1;
+    },
+    // Action to fix legacy session names (rename "New Chat" -> "Task N")
+    fixLegacySessionNames: (state) => {
+      let currentMaxTaskNumber = state.taskCounter;
+      
+      state.sessions.forEach(session => {
+        // Check if this is a legacy "Chat" or "Session" name that needs updating
+        if (session.title && 
+            (session.title.includes('New Chat') || 
+             session.title.includes('Chat ') ||
+             (session.title.includes('Session ') && !session.title.startsWith('Task ')))) {
+          
+          currentMaxTaskNumber += 1;
+          session.title = `Task ${currentMaxTaskNumber}`;
+          session.updatedAt = new Date().toISOString();
+        }
+      });
+      
+      // Update the task counter to reflect the highest task number used
+      state.taskCounter = currentMaxTaskNumber;
+    },
     // Add other actions as needed (e.g., editMessage, addReaction)
     /**
      * Merge (or insert) a batch of messages fetched from backend into the
@@ -719,7 +745,9 @@ export const {
   setProcessingStatus,
   clearProcessingStatus,
   clearSessionMessages,
-  upsertMessages
+  upsertMessages,
+  incrementTaskCounter,
+  fixLegacySessionNames
 } = chatSlice.actions;
 
 // Export reducer

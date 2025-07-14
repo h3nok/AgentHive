@@ -15,4 +15,3 @@ export * from './usePopperAnchor';
 export * from './usePredictiveUI';
 export * from './useRouterSimulation';
 export * from './useRouterTrace';
-export * from './useTaskStream';

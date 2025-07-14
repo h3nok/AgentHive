@@ -24,7 +24,7 @@ chmod +x scripts/test.sh
 ./scripts/test.sh
 ```
 
-## test_lease_agent_api.py
+## test_enterprise_agent_api.py
 
 This script tests the Enterprise API endpoints by:
 1. Creating a new session
@@ -53,16 +53,16 @@ While it's recommended to use the `test.sh` wrapper, you can also run the Python
 
 ```bash
 # Make sure the script is executable
-chmod +x scripts/test_lease_agent_api.py
+chmod +x scripts/test_enterprise_agent_api.py
 
 # Run the test script
-./scripts/test_lease_agent_api.py
+./scripts/test_enterprise_agent_api.py
 ```
 
 Or directly with Python:
 
 ```bash
-python scripts/test_lease_agent_api.py
+python scripts/test_enterprise_agent_api.py
 ```
 
 ### Output

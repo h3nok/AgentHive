@@ -35,6 +35,7 @@ from .support import router as support_router
 from .microservices import router as microservices_router
 from .mcp import router as mcp_router
 from .swarm import router as swarm_router
+from .orchestrator import router as orchestrator_router
 
 logger = get_logger(__name__)
 # Initialize global load balancer instance
@@ -53,6 +54,7 @@ router.include_router(support_router)
 router.include_router(microservices_router)
 router.include_router(mcp_router)
 router.include_router(swarm_router)
+router.include_router(orchestrator_router)
 
 # Include debug router for development/testing
 if settings.ENVIRONMENT in ["development", "test"]:
@@ -370,7 +372,7 @@ async def create_session(
     redis_client: RedisClient,
     event_bus: EventBus
 ) -> Session:
-    """Create a new chat session."""
+    """Create a new task session."""
     session = Session(
         session_id=f"session_{int(time.time() * 1000)}",
         user_id=user["user_id"]
@@ -584,7 +586,7 @@ async def record_user_satisfaction(
     
     Expected payload:
     {
-        "agent_type": "lease|sales|support|general",
+        "agent_type": "sales|support|hr|marketing|analytics|general",
         "satisfaction_score": 1.0-5.0,
         "session_id": "session_id",
         "comment": "optional_comment"

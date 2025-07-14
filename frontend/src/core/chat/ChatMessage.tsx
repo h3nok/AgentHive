@@ -124,7 +124,7 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming = false,
       sx={{
         display: 'flex',
         width: '100%',
-        mb: 2,
+        mb: 3, // Increased spacing between messages
         px: { xs: 1, sm: 2 },
         position: 'relative',
       }}
@@ -145,8 +145,8 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming = false,
             height: { xs: 0, sm: 36 },
             borderRadius: '50%',
             border: isUser ? 'none' : `2px solid ${agentStyle.color}`,
-            bgcolor: isUser ? 'primary.main' : agentStyle.bgColor,
-            color: isUser ? '#fff' : agentStyle.color,
+            bgcolor: isUser ? '#f59e0b' : agentStyle.bgColor, // Honey color for user avatar
+            color: isUser ? '#ffffff' : agentStyle.color,
             fontSize: 18,
             fontWeight: 700,
             mb: '8px',
@@ -169,8 +169,9 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming = false,
           sx={{
             fontSize: 12,
             fontWeight: 600,
-            color: '#C8102E',
+            color: '#d97706', // Honey/amber color that's warm and professional
             mb: 0.5,
+            ml: { xs: 0, sm: 5 }, // Align with message content when avatar is visible
             textTransform: 'uppercase',
             letterSpacing: 0.4,
           }}
@@ -178,31 +179,23 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming = false,
           {agentStyles[activeAgent as keyof typeof agentStyles]?.name || 'Agent'}
         </Typography>
       )}
-      {/* Message Bubble */}
-      <Paper
-        elevation={0}
-        sx={{
-          position: 'relative',
-          px: 2.5,
-          py: 1.75,
-          borderRadius: 3,
-          bgcolor: isUser
-            ? (mode === 'dark' ? 'primary.dark' : 'primary.main')
-            : 'transparent',
-          color: isUser ? '#fff' : 'text.primary',
-          wordBreak: 'break-word',
-          boxShadow: isUser
-            ? '0 4px 12px rgba(198, 12, 48, 0.15)'
-            : 'none',
-          border: isUser ? 'none' : 'none',
-          ...(isUser ? {} : {
-            pl: 2.5,
-            borderLeft: mode === 'dark' ? '4px solid rgba(255,255,255,0.08)' : '4px solid rgba(0,0,0,0.06)',
-          }),
-        }}
-      >
-        {/* Message Content */}
-        {isUser ? (
+      {/* Message Content - User vs Assistant */}
+      {isUser ? (
+        // User messages keep the bubble style
+        <Paper
+          elevation={0}
+          sx={{
+            position: 'relative',
+            px: 2.5,
+            py: 1.75,
+            borderRadius: 3,
+            bgcolor: '#f59e0b', // Honey/amber color
+            color: '#ffffff', // White text on honey background
+            wordBreak: 'break-word',
+            boxShadow: '0 4px 12px rgba(245, 158, 11, 0.15)', // Honey-colored shadow
+            border: 'none',
+          }}
+        >
           <Typography
             variant="body1"
             component="div"
@@ -216,8 +209,31 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming = false,
           >
             {message.text}
           </Typography>
-        ) : (
-          <Box sx={{
+
+          {/* Actions + Timestamp for user messages */}
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, gap: 1, flexWrap: 'wrap' }}>
+            {onRerun && (
+              <Tooltip title="Rerun this message">
+                <IconButton size="small" onClick={handleRerunMessage} color="inherit">
+                  <ReplayIcon fontSize="inherit" />
+                </IconButton>
+              </Tooltip>
+            )}
+            <Tooltip title="Copy to clipboard">
+              <IconButton size="small" onClick={handleCopyText} color="inherit">
+                <ContentCopyIcon fontSize="inherit" />
+              </IconButton>
+            </Tooltip>
+            <Typography variant="caption" sx={{ ml: 1, color: 'rgba(255,255,255,0.7)', fontSize: 12 }}>
+              {ts}
+            </Typography>
+          </Box>
+        </Paper>
+      ) : (
+        // Assistant messages: completely transparent, no bubble at all
+        <Box
+          sx={{
+            ml: { xs: 0, sm: 5 }, // Align with avatar and agent name
             width: '100%',
             overflow: 'hidden',
             wordBreak: 'break-word',
@@ -251,132 +267,123 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming = false,
               overflow: 'auto',
               maxWidth: '100%',
             },
-          }}>
-            {message.text.trim().length === 0 && isStreaming ? (
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: 40 }}>
-                <CircularProgress size={20} />
-              </Box>
-            ) : (
-              <>
-                {/* Rich content detection and rendering */}
-                {(message.text.includes('```chart') || message.text.includes('```graph')) && (() => {
-                  // Parse chart data from markdown
-                  try {
-                    const chartMatch = message.text.match(/```(?:chart|graph)\s*([\s\S]*?)```/);
-                    if (chartMatch) {
-                      const chartData = JSON.parse(chartMatch[1]);
-                      return (
-                        <ChartComponent
-                          type={chartData.type || 'bar'}
-                          data={chartData.data || []}
-                          title={chartData.title}
-                          description={chartData.description}
-                        />
-                      );
-                    }
-                  } catch (error) {
-                    console.error('Error parsing chart data:', error);
-                  }
-                  return null;
-                })()}
-                
-                {(message.text.includes('```json') || message.text.includes('```sql') || message.text.includes('```python') || message.text.includes('```javascript')) && (() => {
-                  // Parse code blocks
-                  const codeMatch = message.text.match(/```(\w+)\s*([\s\S]*?)```/);
-                  if (codeMatch) {
-                    const [, language, code] = codeMatch;
+          }}
+        >
+          {message.text.trim().length === 0 && isStreaming ? (
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', minHeight: 40 }}>
+              <CircularProgress size={20} />
+            </Box>
+          ) : (
+            <>
+              {/* Rich content detection and rendering */}
+              {(message.text.includes('```chart') || message.text.includes('```graph')) && (() => {
+                // Parse chart data from markdown
+                try {
+                  const chartMatch = message.text.match(/```(?:chart|graph)\s*([\s\S]*?)```/);
+                  if (chartMatch) {
+                    const chartData = JSON.parse(chartMatch[1]);
                     return (
-                      <CodeBlockComponent
-                        code={code.trim()}
-                        language={language}
-                        title={`${language.toUpperCase()} Code`}
-                        executable={language === 'python' || language === 'javascript'}
-                        onExecute={(code) => console.log('Executing code:', code)}
+                      <ChartComponent
+                        type={chartData.type || 'bar'}
+                        data={chartData.data || []}
+                        title={chartData.title}
+                        description={chartData.description}
                       />
                     );
                   }
-                  return null;
-                })()}
-                
-                {(message.text.includes('|') && message.text.split('\n').some(line => line.includes('|'))) && (() => {
-                  // Parse table data from markdown
-                  try {
-                    const lines = message.text.split('\n').filter(line => line.includes('|'));
-                    if (lines.length >= 2) {
-                      const headers = lines[0].split('|').map(h => h.trim()).filter(h => h);
-                      const rows = lines.slice(2).map(line => {
-                        const cells = line.split('|').map(c => c.trim()).filter(c => c);
-                        const row: any = {};
-                        headers.forEach((header, index) => {
-                          row[header] = cells[index] || '';
-                        });
-                        return row;
-                      });
-                      
-                      if (rows.length > 0) {
-                        return (
-                          <DataTableComponent
-                            data={rows}
-                            title="Data Table"
-                            columns={headers.map(h => ({ key: h, label: h, type: 'string' as const }))}
-                          />
-                        );
-                      }
-                    }
-                  } catch (error) {
-                    console.error('Error parsing table data:', error);
-                  }
-                  return null;
-                })()}
-                
-                {/* Default markdown rendering for non-rich content */}
-                {!(message.text.includes('```chart') || message.text.includes('```graph') || 
-                   message.text.includes('```json') || message.text.includes('```sql') || 
-                   message.text.includes('```python') || message.text.includes('```javascript') ||
-                   (message.text.includes('|') && message.text.split('\n').some(line => line.includes('|')))) && (
-                  <MarkdownRenderer markdown={message.text} />
-                )}
-                
-                {/* Action buttons for interactive messages */}
-                {(message.text.includes('action:') || message.text.includes('button:') || message.text.includes('workflow:')) && (
-                  <Box sx={{ mt: 2 }}>
-                    <ActionButtonsComponent 
-                      actions={[
-                        { id: 'execute', label: 'Execute', type: 'primary' as const, onClick: () => console.log('Execute action') },
-                        { id: 'save', label: 'Save', type: 'secondary' as const, onClick: () => console.log('Save action') },
-                        { id: 'share', label: 'Share', type: 'success' as const, onClick: () => console.log('Share action') }
-                      ]}
-                      title="Available Actions"
+                } catch (error) {
+                  console.error('Error parsing chart data:', error);
+                }
+                return null;
+              })()}
+              
+              {(message.text.includes('```json') || message.text.includes('```sql') || message.text.includes('```python') || message.text.includes('```javascript')) && (() => {
+                // Parse code blocks
+                const codeMatch = message.text.match(/```(\w+)\s*([\s\S]*?)```/);
+                if (codeMatch) {
+                  const [, language, code] = codeMatch;
+                  return (
+                    <CodeBlockComponent
+                      code={code.trim()}
+                      language={language}
+                      title={`${language.toUpperCase()} Code`}
+                      executable={language === 'python' || language === 'javascript'}
+                      onExecute={(code) => console.log('Executing code:', code)}
                     />
-                  </Box>
-                )}
-                
-                {/* Legacy chart support */}
-                {message.chart && (
-                  <Box sx={{ mt: 2 }}>
-                    {message.chart}
-                  </Box>
-                )}
-              </>
-            )}
-          </Box>
-        )}
-        {/* Actions + Timestamp */}
-        <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, gap: 1, flexWrap: 'wrap' }}>
-          {/* Actions */}
-          {isUser && onRerun && (
-            <Tooltip title="Rerun this message">
-              <IconButton size="small" onClick={handleRerunMessage} color="inherit">
-                <ReplayIcon fontSize="inherit" />
+                  );
+                }
+                return null;
+              })()}
+              
+              {(message.text.includes('|') && message.text.split('\n').some(line => line.includes('|'))) && (() => {
+                // Parse table data from markdown
+                try {
+                  const lines = message.text.split('\n').filter(line => line.includes('|'));
+                  if (lines.length >= 2) {
+                    const headers = lines[0].split('|').map(h => h.trim()).filter(h => h);
+                    const rows = lines.slice(2).map(line => {
+                      const cells = line.split('|').map(c => c.trim()).filter(c => c);
+                      const row: any = {};
+                      headers.forEach((header, index) => {
+                        row[header] = cells[index] || '';
+                      });
+                      return row;
+                    });
+                    
+                    if (rows.length > 0) {
+                      return (
+                        <DataTableComponent
+                          data={rows}
+                          title="Data Table"
+                          columns={headers.map(h => ({ key: h, label: h, type: 'string' as const }))}
+                        />
+                      );
+                    }
+                  }
+                } catch (error) {
+                  console.error('Error parsing table data:', error);
+                }
+                return null;
+              })()}
+              
+              {/* Default markdown rendering for non-rich content */}
+              {!(message.text.includes('```chart') || message.text.includes('```graph') || 
+                 message.text.includes('```json') || message.text.includes('```sql') || 
+                 message.text.includes('```python') || message.text.includes('```javascript') ||
+                 (message.text.includes('|') && message.text.split('\n').some(line => line.includes('|')))) && (
+                <MarkdownRenderer markdown={message.text} />
+              )}
+              
+              {/* Action buttons for interactive messages */}
+              {(message.text.includes('action:') || message.text.includes('button:') || message.text.includes('workflow:')) && (
+                <Box sx={{ mt: 2 }}>
+                  <ActionButtonsComponent 
+                    actions={[
+                      { id: 'execute', label: 'Execute', type: 'primary' as const, onClick: () => console.log('Execute action') },
+                      { id: 'save', label: 'Save', type: 'secondary' as const, onClick: () => console.log('Save action') },
+                      { id: 'share', label: 'Share', type: 'success' as const, onClick: () => console.log('Share action') }
+                    ]}
+                    title="Available Actions"
+                  />
+                </Box>
+              )}
+              
+              {/* Legacy chart support */}
+              {message.chart && (
+                <Box sx={{ mt: 2 }}>
+                  {message.chart}
+                </Box>
+              )}
+            </>
+          )}
+
+          {/* Actions + Timestamp for assistant messages */}
+          <Box sx={{ display: 'flex', alignItems: 'center', mt: 1, gap: 1, flexWrap: 'wrap' }}>
+            <Tooltip title="Copy to clipboard">
+              <IconButton size="small" onClick={handleCopyText} color="inherit">
+                <ContentCopyIcon fontSize="inherit" />
               </IconButton>
             </Tooltip>
-          )}
-          <Tooltip title="Copy to clipboard">
-            <IconButton size="small" onClick={handleCopyText} color="inherit">
-              <ContentCopyIcon fontSize="inherit" />
-            </IconButton>
-          </Tooltip>
-          {!isUser && (
             <Tooltip title={isSpeaking ? "Stop reading" : "Read aloud"}>
               <IconButton 
                 size="small" 
@@ -386,21 +393,17 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming = false,
                 <VolumeUpIcon fontSize="inherit" />
               </IconButton>
             </Tooltip>
-          )}
-          {!isUser && (
             <Tooltip title="Open canvas">
               <IconButton size="small" onClick={handleEditInCanvas} color="inherit">
                 <ViewSidebarRoundedIcon fontSize="inherit" />
               </IconButton>
             </Tooltip>
-          )}
-
-          {/* Timestamp & Agent */}
-          <Typography variant="caption" sx={{ ml: 1, color: isUser ? 'rgba(255,255,255,0.7)' : 'text.secondary', fontSize: 12 }}>
-            {ts}
-          </Typography>
+            <Typography variant="caption" sx={{ ml: 1, color: 'text.secondary', fontSize: 12 }}>
+              {ts}
+            </Typography>
+          </Box>
         </Box>
-      </Paper>
+      )}
       {/* Snackbars */}
       <Snackbar
         open={snackbarOpen}

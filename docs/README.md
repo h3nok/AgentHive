@@ -1,6 +1,6 @@
-# Lease Administration Agent Documentation
+# Enterprise Automation Agent Documentation
 
-This directory contains comprehensive documentation for the Lease Administration Agent system.
+This directory contains comprehensive documentation for the Enterprise Automation Agent system.
 
 ## Documentation Files
 
@@ -13,7 +13,7 @@ This directory contains comprehensive documentation for the Lease Administration
 
 ## Getting Started
 
-To get started with the Lease Administration Agent, we recommend reading the following documents in order:
+To get started with the Enterprise Automation Agent, we recommend reading the following documents in order:
 
 1. [System Architecture](architecture.md) - Understand the overall system design
 2. [User Guide](user_guide.md) - Learn how to use the system

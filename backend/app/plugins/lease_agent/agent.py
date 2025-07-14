@@ -13,8 +13,8 @@ from app.domain.agent_factory import BaseAgent
 from app.domain.schemas import RequestContext, AgentResponse, AgentType, AgentManifest
 from app.domain.llm_factory import create_llm_adapter
 from app.core.observability import get_logger, measure_tokens
-from app.services.lease_service import LeaseService
-from app.db.lease_models import Property, Tenant, Landlord, Lease, LeaseAnalytics
+# from app.services.lease_service import LeaseService
+# from app.db.lease_models import Property, Tenant, Landlord, Lease, LeaseAnalytics
 from app.core.settings import settings
 
 logger = get_logger(__name__)
@@ -25,7 +25,7 @@ class Agent(BaseAgent):
     
     def __init__(self, agent_id: str, manifest: AgentManifest):
         super().__init__(agent_id, manifest)
-        self.llm_adapter = create_llm_adapter()
+        self.llm_adapter = None
         self.system_prompt = manifest.config.get(
             "system_prompt",
             "You are a lease specialist AI assistant with access to real-time lease data from the TSC portfolio."
@@ -51,7 +51,13 @@ class Agent(BaseAgent):
     
     async def _initialize(self) -> None:
         """Initialize the lease agent."""
-        logger.info(f"Lease agent initialized: {self.agent_id}")
+        try:
+            self.llm_adapter = create_llm_adapter()
+            logger.info(f"Lease agent initialized: {self.agent_id}")
+        except Exception as e:
+            logger.error(f"Failed to initialize Lease agent LLM adapter: {e}")
+            # Lease agent can't function without LLM
+            raise RuntimeError(f"Lease agent initialization failed: No LLM provider available. {e}")
     
     def _get_lease_data_from_db(self) -> Dict[str, Any]:
         """Get current lease data from database."""

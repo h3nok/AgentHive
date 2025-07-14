@@ -1,0 +1,36 @@
+{
+  "id": "it_agent",
+  "name": "IT Support Agent",
+  "version": "1.0.0",
+  "agent_type": "it",
+  "module_path": "agent",
+  "description": "Handles IT support requests, system access, and technical troubleshooting",
+  "capabilities": [
+    "password_reset",
+    "account_provisioning",
+    "software_requests",
+    "hardware_support",
+    "system_access",
+    "incident_management",
+    "knowledge_base_search"
+  ],
+  "required_permissions": [
+    "read:user_accounts",
+    "write:user_accounts",
+    "read:system_status",
+    "create:service_tickets"
+  ],
+  "integration_dependencies": [
+    "active_directory",
+    "jira",
+    "confluence",
+    "monitoring_systems"
+  ],
+  "cost_per_call": 0.02,
+  "config": {
+    "system_prompt": "You are an IT Support specialist AI assistant. You help employees with technical issues, account management, and system access requests. You can reset passwords, provision accounts, help with software requests, and troubleshoot common technical problems. Always follow security protocols and escalate complex issues to human IT staff.",
+    "max_response_tokens": 1000,
+    "temperature": 0.3,
+    "escalation_threshold": 0.7
+  }
+}

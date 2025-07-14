@@ -204,11 +204,12 @@ async def get_router_chain() -> RouterChain:
         DEFAULT_ROUTING_RULES,
         DEFAULT_AGENT_DESCRIPTIONS
     )
+    from app.domain.llm_factory import create_llm_adapter
     
     # Create router chain without trace emitter to avoid circular imports
     # The debug endpoint can set up its own tracing
     chain = RouterChain()
-    llm_adapter = OpenAIAdapter()
+    llm_adapter = create_llm_adapter()
     
     # Use enhanced chain with learning and context awareness
     return chain.build_enhanced_chain(

@@ -6,7 +6,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 // Use environment var when provided, otherwise default to local backend port
-// Align with other API slices (chatApi, modelsApi, etc.) which default to 8000
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
 
 export interface SessionSummary {

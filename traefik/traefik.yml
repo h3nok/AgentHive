@@ -1,0 +1,42 @@
+entryPoints:
+  http:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: https
+          scheme: https
+          permanent: true
+  https:
+    address: ":443"
+
+providers:
+  docker:
+    exposedByDefault: false
+  file:
+    directory: /etc/traefik/config
+    watch: true
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: ${ACME_EMAIL}
+      storage: /etc/traefik/acme/acme.json
+      httpChallenge:
+        entryPoint: http
+      keyType: EC256
+
+log:
+  level: INFO
+
+accessLog: {}
+
+# Enable Prometheus metrics
+metrics:
+  prometheus: {}
+
+# Enable API and dashboard
+api:
+  dashboard: true
+  insecure: false
+  debug: true

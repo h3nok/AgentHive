@@ -89,14 +89,19 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
 
   // Function to ensure default folder exists
   const ensureDefaultFolder = useCallback(() => {
+    // Check if we already have any folders
     if (folders.length === 0) {
-      dispatch(createFolder("Default Session"));
+      dispatch(createFolder("Default"));
       return true; // folder was created
     }
+    
+    // Don't create duplicates if folders already exist
     return false; // no folder needed to be created
   }, [dispatch, folders]);
 
   const handleSendMessage = useCallback(async (text: string, agent: string = selectedAgent) => {
+    console.log('🔄 LayoutShell: handleSendMessage called with:', { text, agent, activeSessionId });
+    
     // Reset the stop flag
     shouldStopRef.current = false;
     
@@ -109,19 +114,23 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
     
     // We need an active session before we can add messages
     let currentSessionId = activeSessionId || '';
+    console.log('📋 Current session ID:', currentSessionId);
+    
     if (!currentSessionId) {
       try {
+        console.log('🆕 Creating new session...');
         const title = text.length <= 30 ? text : text.substring(0,27) + '...';
         const result = await createSession({ title }).unwrap();
         currentSessionId = result.session_id;
 
+        console.log('✅ Session created:', currentSessionId);
         dispatch(setActiveSession(currentSessionId));
         dispatch(updateSessionTitle({ sessionId: currentSessionId, title }));
         navigate(`/chat/${currentSessionId}`);
         // Give backend a brief moment to make the session visible for /agent/query
         await new Promise(r => setTimeout(r, 300));
       } catch (error) {
-        console.error('Failed to create new session:', error);
+        console.error('❌ Failed to create new session:', error);
         dispatch(setError('Failed to create a new session. Please try again.'));
         return;
       }
@@ -134,11 +143,14 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
       sender: 'user' as const,
       timestamp: new Date().toISOString(),
       agent,
-      temp: true,
+      temp: false, // Don't mark as temp to avoid filtering issues
     };
+    
+    console.log('💬 Adding user message:', userMessage);
     dispatch(addMessage(userMessage));
 
     // Trigger the query with session_id
+    console.log('🚀 Triggering agent query...');
     triggerAgentQuery({ 
       session_id: currentSessionId, 
       query: text, 
@@ -267,7 +279,9 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
             overflow: 'hidden',
             height: '100%',
             minHeight: 0,
-            backgroundColor: theme.palette.background.default,
+            backgroundColor: theme.palette.mode === 'dark' 
+              ? 'rgba(18, 18, 18, 0.8)' // Very transparent dark
+              : 'rgba(248, 250, 252, 0.6)', // Very light, transparent background
           }}
         >
           <Container 
@@ -298,6 +312,14 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
                   onSendMessage={handleSendMessage} 
                   isLoading={isLoading} 
                   onWorkflowTrigger={handleWorkflowTrigger}
+                  sessionId={activeSessionId}
+                  enterpriseMode={true}
+                  activeWorkflows={0}
+                  currentAgent={{
+                    id: selectedAgent,
+                    name: selectedAgent.charAt(0).toUpperCase() + selectedAgent.slice(1),
+                    status: 'ready'
+                  }}
                 />
               </ChatErrorBoundary>
             </Box>

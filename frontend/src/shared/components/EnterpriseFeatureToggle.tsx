@@ -226,7 +226,7 @@ export const EnterpriseFeatureProvider: React.FC<{ children: React.ReactNode }> 
                 ⚡ Enhanced Experience Active
               </Typography>
               <Typography variant="caption" sx={{ color: 'text.secondary' }}>
-                Your chat interface now includes revolutionary AI-powered features. 
+                Your task interface now includes revolutionary AI-powered features. 
                 Performance monitoring is active to ensure optimal experience.
               </Typography>
             </Box>

@@ -1,149 +1,190 @@
-# TSC ChatTSC Service Documentation
+# Enterprise Automation Agent Service Documentation
 
 ## Overview
 
-The TSC ChatTSC Service is the core component of the TSC Chat system. It processes user queries, detects their intent, and routes them to the appropriate service for handling. For SQL-related queries, it uses the Snowflake Cortex Service, which in turn may use the SQL Generator service as a fallback.
+The Enterprise Automation Agent Service is the core component of the AgentHive system. It processes user queries, detects their intent, and routes them to the appropriate service for handling. The service specializes in enterprise automation tasks including HR operations, IT support, and general business process automation.
 
 ## Architecture
 
-The TSC ChatTSC Service is designed with a modular architecture:
+The Enterprise Automation Agent Service is designed with a modular architecture:
 
 1. **Query Processing**: The main entry point for processing user queries
-2. **Intent Detection**: Detecting the intent of user queries
-3. **SQL Generation**: Generating SQL queries for database-related intents
-4. **Direct Response**: Generating direct responses for non-SQL intents
+2. **Intent Detection**: Detecting the intent of user queries  
+3. **Agent Routing**: Routing queries to appropriate specialized agents (HR, IT, General)
+4. **Response Generation**: Generating contextual responses based on enterprise data
 5. **Clarification**: Generating clarification questions for ambiguous queries
 
 ## Components
 
-### LeaseAgentService Class
+### EnterpriseAgentService Class
 
-The `LeaseAgentService` class is the main entry point for all agent interactions. It provides methods for:
+The `EnterpriseAgentService` class is the main entry point for all agent interactions. It provides methods for:
 
 - Processing user queries
 - Detecting query intent
-- Handling SQL queries
-- Generating direct responses
+- Routing to specialized agents (HR, IT, General)
+- Generating contextual responses
 - Clarifying ambiguous queries
 
 #### Key Methods
 
 - `process_query(query: str, session_id: Optional[str] = None) -> Dict[str, Any]`: Processes a user query
 - `_detect_intent(query: str) -> Dict[str, Any]`: Detects the intent of a query
-- `_intent_requires_sql(intent: str) -> bool`: Determines if an intent requires SQL
-- `_handle_sql_query(query: str, intent_data: Dict[str, Any]) -> Dict[str, Any]`: Handles SQL queries
-- `_generate_direct_response(query: str, intent_data: Dict[str, Any]) -> Dict[str, Any]`: Generates direct responses
+- `_route_to_agent(query: str, intent_data: Dict[str, Any]) -> Dict[str, Any]`: Routes to appropriate agent
+- `_generate_response(query: str, agent_data: Dict[str, Any]) -> Dict[str, Any]`: Generates responses
 - `_generate_clarification(query: str, intent_data: Dict[str, Any]) -> Dict[str, Any]`: Generates clarification questions
 
-## Integration with SQL Generator and Snowflake Cortex
+## Integration with Specialized Agents
 
-The Lease Agent Service integrates with the SQL Generator and Snowflake Cortex services in the following ways:
+The Enterprise Agent Service integrates with specialized agents in the following ways:
 
-1. **Intent Detection**: The service detects if a query requires SQL generation
-2. **SQL Generation**: If SQL is required, the service uses the Snowflake Cortex Service
-3. **Fallback Mechanism**: The Snowflake Cortex Service may fall back to the SQL Generator
-4. **Response Generation**: The service formats the SQL results into a user-friendly response
+1. **Intent Detection**: The service detects the type of enterprise query (HR, IT, General)
+2. **Agent Routing**: Routes queries to the appropriate specialized agent
+3. **Context Management**: Maintains conversation context across agent interactions
+4. **Response Coordination**: Coordinates responses from multiple agents when needed
 
 ## Query Processing Flow
 
 1. **Query Reception**: The user query is received by the `process_query` method
-2. **Intent Detection**: The service detects the intent of the query
-3. **Intent Classification**: The service determines if the intent requires SQL
-4. **SQL Generation**: If SQL is required, the service uses the Snowflake Cortex Service
-5. **Direct Response**: If SQL is not required, the service generates a direct response
+2. **Intent Detection**: The service detects the intent and domain of the query
+3. **Agent Selection**: The service determines which specialized agent should handle the query
+4. **Context Gathering**: The service gathers relevant enterprise context and data
+5. **Response Generation**: The selected agent processes the query and generates a response
 6. **Clarification**: If the query is ambiguous, the service generates clarification questions
-7. **Response Generation**: The service returns the appropriate response to the user
+7. **Response Delivery**: The service returns the appropriate response to the user
 
 ## Supported Intents
 
-The Lease Agent Service supports the following intents:
+The Enterprise Automation Agent Service supports the following intents:
 
-1. **SQL-Related Intents**:
-   - `property_ownership`: Queries about property ownership
-   - `lease_expiration`: Queries about lease expiration dates
-   - `covenant_status`: Queries about lease covenants
-   - `disaster_recovery`: Queries about disaster recovery contacts
-   - `store_closure`: Queries about store closures
-   - `cti_reimbursement`: Queries about CAM, tax, insurance reimbursement
-   - `landlord_default`: Queries about landlord default
-   - `tenant_default`: Queries about tenant default
-   - `termination_details`: Queries about termination rights
-   - `landlord_contact`: Queries about landlord contacts
-   - `lease_option`: Queries about lease options
-   - `lease_abstract`: Queries about lease abstracts
-   - `recurring_expenses`: Queries about recurring expenses
-   - `financial_offsets`: Queries about financial offsets
+1. **HR-Related Intents**:
+   - `employee_info`: Queries about employee information and records
+   - `time_off`: Queries about vacation, sick leave, and time-off requests
+   - `payroll`: Queries about salary, benefits, and payroll information
+   - `compliance`: Queries about HR policies and compliance requirements
+   - `onboarding`: Queries about new employee onboarding processes
+   - `performance`: Queries about performance reviews and evaluations
+   - `benefits`: Queries about health insurance, retirement plans, and other benefits
+   - `training`: Queries about employee training and development programs
 
-2. **Non-SQL Intents**:
-   - `generic_query`: General queries not requiring SQL
+2. **IT Support Intents**:
+   - `technical_support`: General IT support and troubleshooting
+   - `system_access`: Queries about system access and permissions
+   - `software_requests`: Requests for software installation or updates
+   - `hardware_issues`: Hardware troubleshooting and support
+   - `security`: Security-related queries and incident reporting
+
+3. **General Business Intents**:
+   - `process_automation`: Queries about business process automation
+   - `workflow_management`: Workflow creation and management
+   - `reporting`: Business reporting and analytics requests
+   - `compliance_general`: General compliance and regulatory queries
+   - `project_management`: Project tracking and management queries
+
+4. **System Intents**:
    - `greeting`: Greeting messages
    - `farewell`: Farewell messages
    - `help`: Help requests
-   - `unknown`: Unknown intents
+   - `unknown`: Unknown intents requiring clarification
 
 ## Example Queries
 
-### SQL-Related Query
+### HR-Related Query
 
-**User Query**: "Show me all leases expiring in the next 12 months"
+**User Query**: "Show me all employees with time off requests for next month"
 
 **Intent Detection**:
 ```json
 {
-  "intent": "lease_expiration",
+  "intent": "time_off",
+  "agent_type": "HR",
   "parameters": {
-    "timeframe": "12 months"
+    "timeframe": "next month",
+    "request_type": "all"
   },
   "is_ambiguous": false,
   "confidence": 0.95
 }
 ```
 
-**SQL Generation**:
-```sql
-SELECT 
-    e.STORE_NO,
-    e.ANSWER AS expiration_date
-FROM 
-    STG_EA_DATA.REAL_ESTATE_LEASE_EXTRACTED_ENTITES e
-JOIN 
-    STG_EA_DATA.REAL_ESTATE_LEASE_ENTITY_MASTER m ON e.ENTITY_ID = m.ENTITY_ID
-WHERE 
-    m.NAME = 'Lease Expiration Date'
-    AND TO_DATE(e.ANSWER, 'YYYY-MM-DD') BETWEEN CURRENT_DATE() AND DATEADD(month, 12, CURRENT_DATE())
-ORDER BY 
-    TO_DATE(e.ANSWER, 'YYYY-MM-DD')
-```
+**Agent Processing**:
+The HR agent processes the request by querying the HR management system for time-off requests and employee data.
 
 **Response**:
 ```json
 {
   "status": "success",
-  "message": "Here are the leases expiring in the next 12 months:",
+  "message": "Here are the employees with time off requests for next month:",
   "data": [
     {
-      "store_no": 123,
-      "expiration_date": "2023-12-31"
+      "employee_id": "EMP001",
+      "name": "John Smith",
+      "department": "Engineering",
+      "request_type": "Vacation",
+      "start_date": "2024-02-15",
+      "end_date": "2024-02-22",
+      "status": "Approved"
     },
     {
-      "store_no": 456,
-      "expiration_date": "2024-01-15"
+      "employee_id": "EMP002", 
+      "name": "Jane Doe",
+      "department": "Marketing",
+      "request_type": "Sick Leave",
+      "start_date": "2024-02-10",
+      "end_date": "2024-02-12",
+      "status": "Pending"
     }
   ]
 }
 ```
 
-### Ambiguous Query
+### IT Support Query
 
-**User Query**: "Tell me about the lease"
+**User Query**: "I need access to the new project management system"
 
 **Intent Detection**:
 ```json
 {
-  "intent": "generic_query",
+  "intent": "system_access",
+  "agent_type": "IT",
+  "parameters": {
+    "system": "project management system",
+    "request_type": "access"
+  },
+  "is_ambiguous": false,
+  "confidence": 0.92
+}
+```
+
+**Response**:
+```json
+{
+  "status": "success", 
+  "message": "I've created an access request for the project management system. Here's what happens next:",
+  "data": {
+    "ticket_id": "IT-2024-001",
+    "estimated_time": "2-4 hours",
+    "next_steps": [
+      "Your manager will receive an approval request",
+      "Once approved, IT will provision your account",
+      "You'll receive login credentials via secure email",
+      "Optional training session available next Tuesday"
+    ]
+  }
+}
+```
+
+### Ambiguous Query
+
+**User Query**: "Tell me about the policies"
+
+**Intent Detection**:
+```json
+{
+  "intent": "unknown",
   "parameters": {},
   "is_ambiguous": true,
-  "ambiguity_reason": "The query is too vague and could refer to multiple aspects of the lease",
+  "ambiguity_reason": "The query is too vague and could refer to multiple types of policies",
   "confidence": 0.3
 }
 ```
@@ -152,31 +193,33 @@ ORDER BY
 ```json
 {
   "status": "clarification_needed",
-  "message": "I need more information to help you with your query about the lease.",
-  "clarification_question": "What specific aspect of the lease would you like to know about? For example:\n1. Lease expiration date\n2. Property ownership\n3. Roof responsibility\n4. Financial terms",
+  "message": "I need more information to help you with your query about policies.",
+  "clarification_question": "What specific type of policies would you like to know about? For example:\n1. HR policies (vacation, remote work, etc.)\n2. IT security policies\n3. Compliance policies\n4. General company policies",
   "session_id": "session-123"
 }
 ```
 
 ## Configuration
 
-The Lease Agent Service uses the following configuration settings:
+The Enterprise Automation Agent Service uses the following configuration settings:
 
-- `LLM_API_TYPE`: The LLM provider to use for intent detection and direct responses
+- `LLM_API_TYPE`: The LLM provider to use for intent detection and response generation
 - `LLM_API_BASE`: The API base URL for the LLM provider
 - `LLM_API_KEY`: The API key for the LLM provider
-- `LLM_MODEL`: The model to use for intent detection and direct responses
-- `SNOWFLAKE_CORTEX_ENABLED`: Whether Snowflake Cortex is enabled
-- `SNOWFLAKE_CORTEX_CONFIDENCE_THRESHOLD`: The confidence threshold for using Snowflake Cortex
+- `LLM_MODEL`: The model to use for intent detection and response generation
+- `HR_SYSTEM_ENABLED`: Whether HR system integration is enabled
+- `IT_SYSTEM_ENABLED`: Whether IT system integration is enabled
+- `ENTERPRISE_DB_CONNECTION`: Database connection for enterprise data
 
 ## Error Handling
 
-The Lease Agent Service includes robust error handling:
+The Enterprise Automation Agent Service includes robust error handling:
 
 1. **Intent Detection Errors**: If intent detection fails, the service defaults to a generic query
-2. **SQL Generation Errors**: If SQL generation fails, the service returns an error message
-3. **Direct Response Errors**: If direct response generation fails, the service returns a generic error message
-4. **Clarification Errors**: If clarification generation fails, the service returns a generic clarification request
+2. **Agent Routing Errors**: If agent routing fails, the service falls back to the general agent
+3. **Response Generation Errors**: If response generation fails, the service returns an appropriate error message
+4. **System Integration Errors**: If external system integration fails, the service provides fallback responses
+5. **Clarification Errors**: If clarification generation fails, the service returns a generic clarification request
 
 ## Logging
 
@@ -204,11 +247,12 @@ When using the Lease Agent Service, follow these best practices:
 
 Planned enhancements for the Lease Agent Service include:
 
-1. **Additional Intents**: Support for additional query intents
-2. **Improved Intent Detection**: More accurate intent detection
-3. **Enhanced SQL Generation**: Better SQL generation with more complex queries
-4. **Improved Direct Responses**: More accurate and helpful direct responses
-5. **Enhanced Clarification**: More specific and helpful clarification questions
-6. **Query History**: Tracking query history for better context
+1. **Additional Agent Types**: Support for more specialized enterprise agents (Finance, Legal, Operations)
+2. **Improved Intent Detection**: More accurate intent detection using advanced ML models
+3. **Enhanced Multi-Agent Coordination**: Better coordination between multiple agents for complex queries
+4. **Improved Response Generation**: More contextual and helpful responses based on enterprise knowledge
+5. **Enhanced Workflow Integration**: Integration with popular enterprise workflow systems
+6. **Advanced Analytics**: Query history and usage analytics for better insights
+7. **Proactive Assistance**: Proactive suggestions and recommendations based on user patterns
 7. **User Preferences**: Support for user preferences
 8. **Multi-turn Conversations**: Support for multi-turn conversations 

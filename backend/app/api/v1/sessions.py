@@ -133,7 +133,7 @@ async def create_session(
     user: DevFriendlyUser,
     redis: RedisClient
 ):
-    """Create a new chat session."""
+    """Create a new task session."""
     import uuid
     
     session_id = str(uuid.uuid4())

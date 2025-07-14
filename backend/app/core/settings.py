@@ -79,7 +79,7 @@ class Settings(BaseSettings):
     REDIS_URL: Optional[str] = None
     
     # LLM Configuration
-    LLM_PROVIDER: str = "openai"
+    LLM_PROVIDER: str = "ollama"
     OLLAMA_BASE_URL: str = "http://localhost:11434"
     OLLAMA_MODEL: str = "llama3"
     
@@ -88,11 +88,11 @@ class Settings(BaseSettings):
     AZURE_OPENAI_API_KEY: Optional[str] = None
     AZURE_OPENAI_API_VERSION: str = "2023-05-15"
     AZURE_OPENAI_DEPLOYMENT: Optional[str] = None
-    AZURE_OPENAI_MODEL: str = "gpt-4"
+    AZURE_OPENAI_MODEL: str = "gpt-3.5-turbo"
     
     # Regular OpenAI Configuration
     OPENAI_API_KEY: Optional[str] = None
-    OPENAI_MODEL: str = "gpt-4"
+    OPENAI_MODEL: str = "gpt-3.5-turbo"
     OPENAI_ORGANIZATION: Optional[str] = None
     
     # Snowflake Settings
@@ -140,7 +140,7 @@ class Settings(BaseSettings):
     
     # Plugins
     plugins_dir: Path = Field(default=Path("app/plugins"), description="Plugins directory")
-    plugins_enabled: List[str] = Field(default=["lease_agent", "hr_agent"], description="Enabled plugins")
+    plugins_enabled: List[str] = Field(default=["hr_agent", "it_agent", "finance_agent"], description="Enabled plugins")
     
     # Circuit Breaker
     circuit_breaker_failure_threshold: int = Field(default=5, description="Failure threshold for circuit breaker")
@@ -153,6 +153,22 @@ class Settings(BaseSettings):
         if not v and os.getenv("OPENAI_API_KEY"):
             return os.getenv("OPENAI_API_KEY", "")
         return v
+
+    @property
+    def redis_host(self) -> str:
+        return self.REDIS_HOST
+
+    @property
+    def redis_port(self) -> int:
+        return self.REDIS_PORT
+
+    @property
+    def redis_db(self) -> int:
+        return self.REDIS_DB
+
+    @property
+    def redis_password(self) -> str:
+        return self.REDIS_PASSWORD or ""
 
 
 # Global settings instance

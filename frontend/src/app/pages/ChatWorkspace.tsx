@@ -5,7 +5,8 @@ import { ChatInterface } from '@core/chat';
 import { 
   selectMessagesBySessionId,
   createNewSession,
-  setActiveSession
+  setActiveSession,
+  addMessage
 } from '@core/chat/chat/chatSlice';
 import type { RootState } from '@/shared/store';
 
@@ -14,33 +15,31 @@ const ChatWorkspace: React.FC = () => {
   const sessions = useSelector((state: RootState) => state.chat.sessions);
   const activeSessionId = useSelector((state: RootState) => state.chat.activeSessionId);
   
+  // Ensure a session exists and is active before allowing message send
+  useEffect(() => {
+    if (!activeSessionId || !sessions.find(s => s.id === activeSessionId)) {
+      const newSessionId = `session-${Date.now()}`;
+      dispatch(createNewSession(newSessionId));
+      dispatch(setActiveSession(newSessionId));
+    }
+  }, [activeSessionId, sessions, dispatch]);
+
   // Get messages for the active session
   const messages = useSelector((state: RootState) => 
     activeSessionId ? selectMessagesBySessionId(activeSessionId)(state) : []
   );
 
-  // Create initial session if none exists
-  useEffect(() => {
-    if (!activeSessionId) {
-      if (sessions && sessions.length > 0) {
-        // Set the first session as active if none is active
-        dispatch(setActiveSession(sessions[0].id));
-      } else {
-        // Create a new session if none exists
-        const newSessionId = `session-${Date.now()}`;
-        dispatch(createNewSession(newSessionId));
-        dispatch(setActiveSession(newSessionId));
-      }
-    }
-  }, [activeSessionId, sessions, dispatch]);
-
   const handleSendMessage = async (message: string) => {
-    if (!activeSessionId) return;
-    
+    // Only allow sending if a valid session exists
+    if (!activeSessionId || !sessions.find(s => s.id === activeSessionId)) return;
     try {
-      // TODO: Implement message sending logic
-      console.log('Sending message:', message);
-      // await dispatch(sendMessage({ sessionId: activeSessionId, message }));
+      dispatch(addMessage({
+        id: `user-${Date.now()}`,
+        text: message,
+        sender: 'user',
+        timestamp: new Date().toISOString(),
+        agent: 'general',
+      }));
     } catch (error) {
       console.error('Failed to send message:', error);
     }

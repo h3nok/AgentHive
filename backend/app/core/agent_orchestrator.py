@@ -101,20 +101,22 @@ class Agent:
 
 @dataclass
 class WorkflowStep:
-    """Workflow step definition."""
+    """Workflow step definition (extended for DAG/conditional logic)."""
     step_id: str = field(default_factory=lambda: str(uuid4()))
     name: str = ""
     required_capability: str = ""
     input_mapping: Dict[str, str] = field(default_factory=dict)
     output_mapping: Dict[str, str] = field(default_factory=dict)
-    condition: Optional[str] = None
+    condition: Optional[str] = None  # Python expression or callable as string
     parallel: bool = False
     retry_policy: Dict[str, Any] = field(default_factory=dict)
+    dependencies: List[str] = field(default_factory=list)  # List of step_ids this step depends on
+    agent_selector: Optional[str] = None  # Name of agent selection strategy or callable
 
 
 @dataclass
 class Workflow:
-    """Multi-agent workflow definition."""
+    """Multi-agent workflow definition (extended for DAG/conditional logic)."""
     workflow_id: str = field(default_factory=lambda: str(uuid4()))
     name: str = ""
     description: str = ""
@@ -123,6 +125,10 @@ class Workflow:
     status: TaskStatus = TaskStatus.PENDING
     current_step: int = 0
     execution_log: List[Dict[str, Any]] = field(default_factory=list)
+    # New: quick lookup for steps by id
+    step_lookup: Dict[str, WorkflowStep] = field(default_factory=dict)
+    # New: track completed step ids
+    completed_steps: List[str] = field(default_factory=list)
 
 
 class AgentOrchestrator:
@@ -264,38 +270,49 @@ class AgentOrchestrator:
         workflow: Workflow,
         priority: TaskPriority = TaskPriority.NORMAL
     ) -> str:
-        """Submit a multi-step workflow for execution."""
+        """Submit a multi-step workflow for execution (DAG/conditional support)."""
         self.workflows[workflow.workflow_id] = workflow
-        
-        # Create tasks for each workflow step
-        for step in workflow.steps:
-            if not step.parallel:
-                # Sequential step - will be created when previous completes
-                continue
-            
-            # Parallel step - create task immediately
-            task_id = await self.submit_task(
-                name=f"{workflow.name}:{step.name}",
-                required_capabilities=[step.required_capability],
-                input_data=self._prepare_step_input(workflow, step),
-                priority=priority,
-                context={
-                    'workflow_id': workflow.workflow_id,
-                    'step_id': step.step_id,
-                    'is_workflow_step': True
-                }
-            )
-            
-            workflow.execution_log.append({
-                'step_id': step.step_id,
-                'task_id': task_id,
-                'started_at': time.time(),
-                'status': 'submitted'
-            })
-        
-        logger.info(f"Submitted workflow {workflow.name} ({workflow.workflow_id})")
+        # Build step lookup for fast access
+        workflow.step_lookup = {step.step_id: step for step in workflow.steps}
+        workflow.completed_steps = []
+        # Find all root steps (no dependencies)
+        ready_steps = [step for step in workflow.steps if not step.dependencies]
+        for step in ready_steps:
+            await self._submit_workflow_step(workflow, step, priority)
+        logger.info(f"Submitted workflow {workflow.name} ({workflow.workflow_id}) [DAG mode]")
         return workflow.workflow_id
-    
+
+    async def _submit_workflow_step(self, workflow: Workflow, step: WorkflowStep, priority: TaskPriority):
+        """Submit a single workflow step as a task, with condition and agent selection support."""
+        # Evaluate condition if present (TODO: secure eval or use a callable registry)
+        if step.condition:
+            # Example: condition = 'shared_context["foo"] == "bar"'
+            try:
+                if not eval(step.condition, {}, {"shared_context": workflow.shared_context}):
+                    logger.info(f"Step {step.name} ({step.step_id}) condition not met, skipping.")
+                    return
+            except Exception as e:
+                logger.error(f"Error evaluating condition for step {step.name}: {e}")
+                return
+        # TODO: Use agent_selector if present
+        task_id = await self.submit_task(
+            name=f"{workflow.name}:{step.name}",
+            required_capabilities=[step.required_capability],
+            input_data=self._prepare_step_input(workflow, step),
+            priority=priority,
+            context={
+                'workflow_id': workflow.workflow_id,
+                'step_id': step.step_id,
+                'is_workflow_step': True
+            }
+        )
+        workflow.execution_log.append({
+            'step_id': step.step_id,
+            'task_id': task_id,
+            'started_at': time.time(),
+            'status': 'submitted'
+        })
+
     def _prepare_step_input(self, workflow: Workflow, step: WorkflowStep) -> Dict[str, Any]:
         """Prepare input data for a workflow step."""
         input_data = {}
@@ -502,15 +519,12 @@ class AgentOrchestrator:
         agent.health_score = min(1.0, agent.performance_metrics['success_rate'] * 1.1)
     
     async def _handle_workflow_step_completion(self, task: Task):
-        """Handle completion of a workflow step."""
+        """Handle completion of a workflow step (DAG/conditional support)."""
         workflow_id = task.context['workflow_id']
         step_id = task.context['step_id']
-        
         if workflow_id not in self.workflows:
             return
-        
         workflow = self.workflows[workflow_id]
-        
         # Update execution log
         for log_entry in workflow.execution_log:
             if log_entry['step_id'] == step_id:
@@ -518,34 +532,33 @@ class AgentOrchestrator:
                 log_entry['status'] = 'completed' if task.status == TaskStatus.COMPLETED else 'failed'
                 log_entry['result'] = task.result
                 break
-        
         # Update shared context with step output
         if task.result and task.status == TaskStatus.COMPLETED:
-            step = next((s for s in workflow.steps if s.step_id == step_id), None)
+            step = workflow.step_lookup.get(step_id)
             if step and step.output_mapping:
                 for output_key, context_key in step.output_mapping.items():
                     if output_key in task.result:
                         workflow.shared_context[context_key] = task.result[output_key]
-        
+        # Mark step as completed
+        workflow.completed_steps.append(step_id)
+        # Find next steps whose dependencies are all completed
+        for next_step in workflow.steps:
+            if next_step.step_id in workflow.completed_steps:
+                continue
+            if all(dep in workflow.completed_steps for dep in next_step.dependencies):
+                await self._submit_workflow_step(workflow, next_step, TaskPriority.NORMAL)  # TODO: propagate priority
         # Check if workflow is complete
         await self._check_workflow_completion(workflow)
-    
+
     async def _check_workflow_completion(self, workflow: Workflow):
-        """Check if workflow is complete and trigger next steps."""
-        # Simple sequential workflow logic
-        # (can be enhanced for complex workflow patterns)
-        
-        completed_steps = [
-            log for log in workflow.execution_log 
-            if log.get('status') == 'completed'
-        ]
-        
-        if len(completed_steps) == len(workflow.steps):
+        """Check if workflow is complete (DAG/conditional support)."""
+        # Workflow is complete if all steps are completed or skipped (TODO: handle skipped steps)
+        if len(workflow.completed_steps) == len(workflow.steps):
             workflow.status = TaskStatus.COMPLETED
-            logger.info(f"Workflow {workflow.name} completed")
+            logger.info(f"Workflow {workflow.name} completed [DAG mode]")
         elif any(log.get('status') == 'failed' for log in workflow.execution_log):
             workflow.status = TaskStatus.FAILED
-            logger.error(f"Workflow {workflow.name} failed")
+            logger.error(f"Workflow {workflow.name} failed [DAG mode]")
     
     async def _performance_monitor_loop(self):
         """Monitor agent performance and health."""

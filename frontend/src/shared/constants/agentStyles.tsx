@@ -83,9 +83,9 @@ export const agentStyles = {
   },
   general: {
     icon: <SmartToyIcon fontSize="small" />,
-    color: '#1976d2',
-    bgColor: 'rgba(25, 118, 210, 0.1)',
-    borderColor: '#1976d2',
+    color: '#d97706', // Rich honey/amber color
+    bgColor: 'rgba(217, 119, 6, 0.08)', // Subtle honey background
+    borderColor: '#d97706',
     name: 'General Assistant',
   },
 } as const;

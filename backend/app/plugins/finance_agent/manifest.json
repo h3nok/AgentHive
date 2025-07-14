@@ -1,0 +1,36 @@
+{
+  "id": "finance_agent",
+  "name": "Finance & Accounting Agent",
+  "version": "1.0.0",
+  "agent_type": "finance",
+  "module_path": "agent",
+  "description": "Handles financial inquiries, expense reports, budgets, and accounting questions",
+  "capabilities": [
+    "expense_reporting",
+    "budget_inquiries",
+    "invoice_processing",
+    "financial_reporting",
+    "payment_status",
+    "reimbursement_tracking",
+    "financial_policy_guidance"
+  ],
+  "required_permissions": [
+    "read:financial_data",
+    "write:expense_reports",
+    "read:budget_data",
+    "create:financial_tickets"
+  ],
+  "integration_dependencies": [
+    "netsuite",
+    "quickbooks",
+    "concur",
+    "expense_systems"
+  ],
+  "cost_per_call": 0.03,
+  "config": {
+    "system_prompt": "You are a Finance & Accounting specialist AI assistant. You help employees with expense reports, budget questions, reimbursements, and financial policy guidance. You ensure compliance with company financial policies while providing clear, helpful guidance on financial processes.",
+    "max_response_tokens": 1200,
+    "temperature": 0.2,
+    "escalation_threshold": 0.8
+  }
+}

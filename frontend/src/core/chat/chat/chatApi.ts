@@ -29,10 +29,17 @@ interface AgentQueryResponse {
 
 // Response types from the backend
 interface StreamResponse {
-  type: "status" | "delta" | "error" | "routing";
-  delta: string;
+  type: "status" | "delta" | "error" | "routing" | "routing_metadata" | "done";
+  delta?: string;
   model?: string; // Add model field for SSE
   metadata?: {
+    selected_agent?: string;
+    confidence?: number;
+    intent?: string;
+    routing_method?: string;
+    routing_enabled?: boolean;
+  };
+  data?: {
     selected_agent?: string;
     confidence?: number;
     intent?: string;
@@ -332,21 +339,30 @@ export const chatApi = createApi({
                           break;
                           
                         case 'routing':
+                        case 'routing_metadata':
                           // Handle intelligent routing metadata
-                          if (jsonData.metadata) {
-                            dispatch(setRoutingMetadata(jsonData.metadata));
+                          const metadata = jsonData.metadata || jsonData.data;
+                          if (metadata) {
+                            dispatch(setRoutingMetadata(metadata));
                           }
                           break;
                           
                         case 'delta':
                           // Process token with adaptive batching
                           // (processing status will be cleared by the token batcher once we have meaningful content)
-                          console.log(`🔤 SSE Delta: "${jsonData.delta}"`);
-                          tokenBatcher.add(jsonData.delta);
+                          if (jsonData.delta) {
+                            console.log(`🔤 SSE Delta: "${jsonData.delta}"`);
+                            tokenBatcher.add(jsonData.delta);
+                          }
+                          break;
+                          
+                        case 'done':
+                          // Stream is complete
+                          console.log('✅ SSE: Stream marked as done');
                           break;
                           
                         case 'error':
-                          throw new Error(jsonData.delta);
+                          throw new Error(jsonData.delta || 'Unknown error occurred');
                           
                         default:
                           console.warn("Unknown response type:", jsonData.type);
@@ -405,6 +421,12 @@ export const chatApi = createApi({
             chatError = new ApiConnectionError("Access denied (403). Please check your permissions or contact support.");
           } else if (errorMessage.includes("Public access is disabled")) {
             chatError = new ApiConnectionError("Network error: Unable to connect to the AI service due to VPN restrictions. Please check your VPN settings or contact support.");
+          } else if (errorMessage.includes("No LLM provider available") || 
+                     errorMessage.includes("LLM provider") ||
+                     errorMessage.includes("OpenAI") && errorMessage.includes("unavailable")) {
+            chatError = new MessageNotSentError("The AI service is currently unavailable. Please ensure either OpenAI is configured with a valid API key or Ollama is running locally on port 11434.");
+          } else if (errorMessage.includes("Ollama") && errorMessage.includes("unavailable")) {
+            chatError = new MessageNotSentError("Local AI service (Ollama) is not running. Please start Ollama or configure OpenAI API credentials.");
           } else {
             chatError = new MessageNotSentError(errorMessage);
           }

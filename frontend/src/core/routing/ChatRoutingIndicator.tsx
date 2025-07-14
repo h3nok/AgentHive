@@ -73,7 +73,7 @@ const ChatRoutingIndicator: React.FC<ChatRoutingIndicatorProps> = ({
 
   const getAgentColor = (agent: AgentType): 'primary' | 'secondary' | 'success' | 'warning' | 'info' => {
     switch (agent) {
-      case AgentType.LEASE: return 'primary';
+      case AgentType.HR: return 'primary';
       case AgentType.SALES: return 'success'; 
       case AgentType.SUPPORT: return 'warning';
       case AgentType.GENERAL: return 'info';

@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: dateaeacreu2n.azurecr.io/lease-abstraction-poc-frontend:latest
+        image: dateaeacreu2n.azurecr.io/autoprise-autopilot-frontend:latest
         imagePullPolicy: Always
         resources:
           limits:

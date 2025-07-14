@@ -10,6 +10,7 @@ from typing import Union, AsyncIterator
 from app.domain.agent_factory import BaseAgent
 from app.domain.schemas import RequestContext, AgentResponse, AgentType, AgentManifest
 from app.adapters.llm_openai import OpenAIAdapter
+from app.adapters.llm_ollama import OllamaAdapter
 from app.core.observability import get_logger, measure_tokens
 
 logger = get_logger(__name__)
@@ -20,7 +21,7 @@ class Agent(BaseAgent):
     
     def __init__(self, agent_id: str, manifest: AgentManifest):
         super().__init__(agent_id, manifest)
-        self.llm_adapter: OpenAIAdapter | None = None
+        self.llm_adapter: Union[OpenAIAdapter, OllamaAdapter, None] = None
         self.system_prompt = manifest.config.get(
             "system_prompt",
             "You are an HR specialist AI assistant."
@@ -28,8 +29,14 @@ class Agent(BaseAgent):
         
     async def _initialize(self) -> None:
         """Initialize the HR agent."""
-        self.llm_adapter = OpenAIAdapter()
-        logger.info(f"HR agent initialized: {self.agent_id}")
+        from app.domain.llm_factory import create_llm_adapter
+        try:
+            self.llm_adapter = create_llm_adapter()
+            logger.info(f"HR agent initialized: {self.agent_id}")
+        except Exception as e:
+            logger.error(f"Failed to initialize HR agent LLM adapter: {e}")
+            # HR agent can't function without LLM
+            raise RuntimeError(f"HR agent initialization failed: No LLM provider available. {e}")
         
     async def handle(self, context: RequestContext) -> Union[AgentResponse, AsyncIterator[str]]:
         """Handle HR-related queries."""

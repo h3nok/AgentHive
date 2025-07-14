@@ -112,9 +112,10 @@ class ContextAwareRouter(RouterNode):
         
         # Domain keywords for context detection
         self.domain_keywords = {
-            'lease': ['lease', 'rent', 'apartment', 'tenant', 'landlord', 'deposit', 'rental'],
             'sales': ['buy', 'purchase', 'sell', 'property', 'real estate', 'investment'],
             'support': ['help', 'problem', 'issue', 'error', 'bug', 'technical', 'fix'],
+            'hr': ['hr', 'human resources', 'employee', 'vacation', 'benefits', 'payroll'],
+            'analytics': ['analytics', 'data', 'report', 'metrics', 'dashboard', 'insights'],
             'general': ['hello', 'hi', 'thanks', 'thank you', 'information', 'about']
         }
         

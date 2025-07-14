@@ -28,12 +28,12 @@ class PerformanceTestSuite:
         
         # Test queries for different scenarios
         self.test_queries = [
-            "I need help with my apartment lease",  # Lease agent
-            "I want to buy a house",  # Sales agent
-            "The system is broken and won't login",  # Support agent
+            "I need help with my HR benefits",  # HR agent
+            "I want to request time off",  # HR agent
+            "The system is broken and won't login",  # IT Support agent
             "Hello, how are you?",  # General agent
-            "What's my security deposit status?",  # Lease agent - cached
-            "I'm having trouble logging in",  # Support agent - cached
+            "What's my vacation balance?",  # HR agent - cached
+            "I'm having trouble accessing the network",  # IT Support agent - cached
         ]
         
         # Performance metrics

@@ -31,13 +31,13 @@ test_messages = [
         ]
     },
     {
-        "category": "Lease-related queries",
+        "category": "IT Support queries", 
         "messages": [
-            "I need help with a lease agreement",
-            "What are the lease terms?",
-            "lease modification",
-            "rental agreement",
-            "Can you help me with lease analysis?",
+            "I need help with my computer",
+            "Can't access the system",
+            "Software installation request",
+            "Password reset needed",
+            "VPN connection issues",
         ]
     },
     {

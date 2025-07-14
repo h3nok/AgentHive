@@ -131,7 +131,6 @@ async def process_non_streaming_query(
             # Map string to AgentType enum
             agent_type_map = {
                 'general': AgentType.GENERAL,
-                'lease': AgentType.LEASE,
                 'sales': AgentType.SALES,
                 'support': AgentType.SUPPORT,
                 'hr': AgentType.HR
@@ -305,7 +304,6 @@ async def optimized_event_stream(
             # Map string to AgentType enum
             agent_type_map = {
                 'general': AgentType.GENERAL,
-                'lease': AgentType.LEASE,
                 'sales': AgentType.SALES,
                 'support': AgentType.SUPPORT,
                 'hr': AgentType.HR

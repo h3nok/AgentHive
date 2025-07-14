@@ -5,8 +5,8 @@ import { loginRequest } from '../utils/authConfig'
 import { toast } from 'sonner'
 
 const api = axios.create({
-  // Use provided environment variable or same-origin
-  baseURL: import.meta.env.VITE_API_BASE_URL || '/lease-abstraction-poc-api',
+  // Use provided environment variable or AgentHive backend
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000',
   withCredentials: false,
 })
 

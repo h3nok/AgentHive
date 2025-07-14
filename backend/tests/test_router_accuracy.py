@@ -290,17 +290,17 @@ class RouterAccuracyTestHarness:
             
             # Edge Cases and Complex Queries
             TestCase(
-                query="I want to buy a property to lease it out to tenants",
-                expected_agent=AgentType.SALES,  # Primary intent is buying
+                query="I want to request time off for a training program",
+                expected_agent=AgentType.HR,  # Primary intent is HR-related
                 expected_routing_method=RoutingMethod.LLM_ROUTER,
-                description="Mixed intent - purchase primary",
+                description="Mixed intent - HR primary",
                 category="complex"
             ),
             TestCase(
-                query="My lease expires soon, should I buy instead?",
-                expected_agent=AgentType.SALES,  # "Should I buy" is the primary question
+                query="My computer needs an upgrade for the new software",
+                expected_agent=AgentType.GENERAL,  # IT support would be better but using available agents
                 expected_routing_method=RoutingMethod.LLM_ROUTER,
-                description="Mixed intent - sales primary",
+                description="Mixed intent - IT support",
                 category="complex"
             ),
             TestCase(

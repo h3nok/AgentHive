@@ -13,7 +13,16 @@ import {
   Fab,
   Zoom,
   alpha,
-  useTheme
+  useTheme,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+  MenuItem,
+  CircularProgress,
+  Alert
 } from '@mui/material';
 import {
   SmartToy,
@@ -31,9 +40,11 @@ import {
   ElectricBolt,
   Router,
   DataObject,
-  Analytics
+  Analytics,
+  Add
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
+import { registerAgent, AgentRegistrationRequest } from '../admin/api/orchestratorApi';
 
 interface AgentNode {
   id: string;
@@ -66,6 +77,17 @@ const AgentOrchestrationDashboard: React.FC = () => {
   const [selectedAgent, setSelectedAgent] = useState<string | null>(null);
   const [activeFlows, setActiveFlows] = useState<CollaborationFlow[]>([]);
   const [viewMode, setViewMode] = useState<'network' | 'hierarchy' | 'performance'>('network');
+  const [newAgentOpen, setNewAgentOpen] = useState(false);
+  const [newAgent, setNewAgent] = useState<AgentRegistrationRequest>({
+    agent_id: '',
+    name: '',
+    agent_type: '',
+    capabilities: [],
+    max_concurrent_tasks: 5
+  });
+  const [registering, setRegistering] = useState(false);
+  const [registerError, setRegisterError] = useState<string | null>(null);
+  const [registerSuccess, setRegisterSuccess] = useState<string | null>(null);
 
   const agents: AgentNode[] = [
     {
@@ -233,6 +255,14 @@ const AgentOrchestrationDashboard: React.FC = () => {
                 <Settings />
               </IconButton>
             </Tooltip>
+            <Button 
+              variant="contained" 
+              color="primary" 
+              startIcon={<Add />} 
+              onClick={() => setNewAgentOpen(true)}
+            >
+              New Agent
+            </Button>
           </Stack>
         </Stack>
 
@@ -605,6 +635,92 @@ const AgentOrchestrationDashboard: React.FC = () => {
       >
         <AutoAwesome />
       </Fab>
+
+      {/* New Agent Dialog */}
+      <Dialog open={newAgentOpen} onClose={() => setNewAgentOpen(false)}>
+        <DialogTitle>Register New Agent</DialogTitle>
+        <DialogContent>
+          {registerError && <Alert severity="error">{registerError}</Alert>}
+          {registerSuccess && <Alert severity="success">{registerSuccess}</Alert>}
+          <TextField
+            label="Agent ID"
+            fullWidth
+            margin="normal"
+            value={newAgent.agent_id || ''}
+            onChange={e => setNewAgent({ ...newAgent, agent_id: e.target.value })}
+          />
+          <TextField
+            label="Name"
+            fullWidth
+            margin="normal"
+            value={newAgent.name || ''}
+            onChange={e => setNewAgent({ ...newAgent, name: e.target.value })}
+          />
+          <TextField
+            label="Type"
+            fullWidth
+            margin="normal"
+            select
+            value={newAgent.agent_type || ''}
+            onChange={e => setNewAgent({ ...newAgent, agent_type: e.target.value })}
+          >
+            <MenuItem value="specialist">Specialist</MenuItem>
+            <MenuItem value="coordinator">Coordinator</MenuItem>
+            <MenuItem value="analyzer">Analyzer</MenuItem>
+            <MenuItem value="executor">Executor</MenuItem>
+          </TextField>
+          <TextField
+            label="Max Concurrent Tasks"
+            type="number"
+            fullWidth
+            margin="normal"
+            value={newAgent.max_concurrent_tasks || 5}
+            onChange={e => setNewAgent({ ...newAgent, max_concurrent_tasks: Number(e.target.value) })}
+          />
+          {/* Capabilities input (simple comma-separated for demo) */}
+          <TextField
+            label="Capabilities (comma separated)"
+            fullWidth
+            margin="normal"
+            value={(newAgent.capabilities as any)?.map((c: any) => c.name).join(', ') || ''}
+            onChange={e => setNewAgent({
+              ...newAgent,
+              capabilities: e.target.value.split(',').map((name: string) => ({ name: name.trim(), description: name.trim() }))
+            })}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setNewAgentOpen(false)} disabled={registering}>Cancel</Button>
+          <Button
+            onClick={async () => {
+              setRegistering(true);
+              setRegisterError(null);
+              setRegisterSuccess(null);
+              try {
+                await registerAgent({
+                  agent_id: newAgent.agent_id!,
+                  name: newAgent.name!,
+                  agent_type: newAgent.agent_type!,
+                  capabilities: (newAgent.capabilities as any) || [],
+                  max_concurrent_tasks: newAgent.max_concurrent_tasks || 5
+                });
+                setRegisterSuccess('Agent registered successfully!');
+                setTimeout(() => setNewAgentOpen(false), 1200);
+              } catch (err: any) {
+                setRegisterError(err.message || 'Failed to register agent');
+              } finally {
+                setRegistering(false);
+              }
+            }}
+            variant="contained"
+            color="primary"
+            disabled={registering || !newAgent.agent_id || !newAgent.name || !newAgent.agent_type}
+            startIcon={registering ? <CircularProgress size={18} /> : <Add />}
+          >
+            Register
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

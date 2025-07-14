@@ -61,7 +61,7 @@ export const mockApi = {
     await new Promise(resolve => setTimeout(resolve, 300));
     const newSession: MockSession = {
       session_id: `mock-session-${Date.now()}`,
-      title: title || "New Chat",
+      title: title || "New Task",
       pinned: false,
       updated_at: new Date().toISOString(),
       preview: ""

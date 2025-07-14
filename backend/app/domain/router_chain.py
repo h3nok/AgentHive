@@ -5,7 +5,7 @@ This module implements the routing chain with multiple handlers for different ro
 """
 
 from abc import ABC, abstractmethod
-from typing import Optional, Dict, Any, List, TYPE_CHECKING
+from typing import Optional, Dict, Any, List, TYPE_CHECKING, Union
 import re
 import json
 from dataclasses import dataclass
@@ -18,6 +18,7 @@ from ..core.observability import get_logger, with_tracing, agent_selection_count
 from ..core.router_cache import cache_routing_decision
 from .schemas import RequestContext, IntentResult, RoutingMethod, AgentType
 from ..adapters.llm_openai import OpenAIAdapter
+from ..adapters.llm_ollama import OllamaAdapter
 
 if TYPE_CHECKING:
     from .learning_router import LearningRouterNode
@@ -259,37 +260,47 @@ class LLMIntentClassifierNode(RouterNode):
     
     def _build_classification_prompt(self) -> str:
         """Build the classification prompt with few-shot examples."""
-        return """You are an expert intent classifier for a business platform. Your task is to analyze user queries and classify them into one of the available agent types with high accuracy.
+        return """You are an expert intent classifier for an enterprise employee copilot platform. Your task is to analyze user queries and classify them into one of the available agent types with high accuracy.
 
 ## Agent Types and Responsibilities:
 
-**LEASE**: Rental properties, apartment hunting, lease agreements, tenant rights, landlord issues, security deposits, rent payments, subletting, rental applications, housing assistance, tenant-landlord disputes, rental market inquiries.
+**IT**: IT support including password resets, account provisioning, software installations, hardware issues, system access, technical troubleshooting, computer problems, login issues, application errors, network problems, IT helpdesk requests.
 
-**SALES**: Property buying, selling, real estate transactions, market analysis, property valuation, investment properties, home financing, mortgage assistance, property listings, real estate agent services.
-
-**SUPPORT**: Technical issues, system problems, platform bugs, login issues, account problems, application errors, website functionality, payment processing issues, user interface problems.
+**FINANCE**: Financial inquiries including expense reports, travel expenses, reimbursements, budget tracking, financial approvals, accounting questions, expense management, cost analysis, financial policies, invoice processing.
 
 **HR**: Human resources inquiries including employee benefits, vacation time, PTO requests, payroll questions, UKG system help, performance reviews, employee handbook, policies, time tracking, benefits enrollment, healthcare plans, retirement plans, HR forms, compliance questions.
+
+**SUPPORT**: General technical support, platform issues, system problems, user assistance, customer service, general troubleshooting that doesn't fall under IT-specific categories.
+
+**SALES**: Business development, sales inquiries, client acquisition, sales processes, revenue generation, customer relations, sales strategies, lead generation.
+
+**MARKETING**: Marketing campaigns, brand strategy, promotional activities, customer acquisition analysis, advertising initiatives, marketing analytics, social media management.
+
+**ANALYTICS**: Data analysis, business intelligence, reporting, statistical analysis, performance metrics, data-driven insights, dashboards, KPI tracking.
 
 **GENERAL**: Greetings, general platform information, company information, unrelated topics, nonsensical queries, empty/unclear requests, small talk.
 
 ## Classification Examples:
 
-Query: "I need help with my security deposit return"
-Classification: LEASE
-Reasoning: Security deposit issues are tenant-landlord matters handled by lease specialists
+Query: "I need help resetting my password"
+Classification: IT
+Reasoning: Password reset is a core IT support function
 
-Query: "Looking to buy a house for investment purposes"  
-Classification: SALES
-Reasoning: Property purchase for investment is a sales transaction
+Query: "I need to submit an expense report for my business trip"
+Classification: FINANCE
+Reasoning: Expense reporting is a financial process handled by finance team
 
-Query: "The application keeps crashing when I try to login"
-Classification: SUPPORT  
-Reasoning: Technical issue with application functionality requires support
+Query: "What's my remaining expense budget for this month?"
+Classification: FINANCE
+Reasoning: Budget tracking and expense allocation is a finance function
 
-Query: "Hello, what services do you offer?"
-Classification: GENERAL
-Reasoning: General greeting and information request
+Query: "I need help with my reimbursement request"
+Classification: FINANCE
+Reasoning: Reimbursement processing is handled by finance department
+
+Query: "My computer is running very slowly"
+Classification: IT
+Reasoning: Computer performance issues are IT support requests
 
 Query: "I need to check my PTO balance"
 Classification: HR
@@ -299,24 +310,33 @@ Query: "Can you help me with benefits enrollment?"
 Classification: HR
 Reasoning: Employee benefits enrollment is an HR function
 
-Query: "I want to buy property to lease out to tenants"
-Classification: SALES
-Reasoning: Primary action is property purchase (sales), even though end goal involves leasing
+Query: "The application keeps crashing when I try to use it"
+Classification: SUPPORT
+Reasoning: General application issues requiring technical support
 
-Query: "My landlord won't fix the heating"
-Classification: LEASE  
-Reasoning: Landlord-tenant issue falls under lease management
-
-Query: "abcdefghijklmnop"
+Query: "Hello, how are you today?"
 Classification: GENERAL
-Reasoning: Nonsensical input should be handled by general agent
+Reasoning: General greeting should be handled by general agent
+
+Query: "I want to file my travel expenses from last week"
+Classification: FINANCE
+Reasoning: Travel expense filing is a financial process
+
+Query: "My laptop won't connect to the company network"
+Classification: IT
+Reasoning: Network connectivity issues are IT support matters
+
+Query: "I need help with UKG time-off submission"
+Classification: HR
+Reasoning: Time-off submission through UKG is an HR system function
 
 ## Classification Guidelines:
 
 1. **Primary Action Priority**: For mixed intents, classify based on the primary action the user wants to take
-2. **Keyword Context**: Consider the full context, not just individual keywords  
-3. **Business Focus**: HR queries about benefits, PTO, payroll, UKG system should go to HR
-4. **Real Estate Focus**: Queries must be related to real estate to use LEASE or SALES
+2. **Financial vs HR**: Expense reports, budgets, reimbursements → FINANCE; Employee policies, benefits, PTO → HR
+3. **IT vs Support**: Password resets, system access, hardware/software issues → IT; General platform issues → SUPPORT
+4. **Keyword Context**: Consider the full context, not just individual keywords  
+5. **Enterprise Focus**: Focus on typical enterprise employee needs and workflows
 5. **Technical Issues**: Any system/platform problems go to SUPPORT regardless of other keywords
 6. **Edge Cases**: Unclear, empty, or non-business queries go to GENERAL
 
@@ -669,7 +689,7 @@ class RouterChain:
     def build_default_chain(
         self,
         regex_rules: List[RoutingRule],
-        llm_adapter: OpenAIAdapter,
+        llm_adapter: Union[OpenAIAdapter, OllamaAdapter],
         agent_descriptions: Dict[AgentType, str],
         use_llm_primary: bool = True
     ) -> 'RouterChain':
@@ -703,7 +723,7 @@ class RouterChain:
     def build_enhanced_chain(
         self,
         regex_rules: List[RoutingRule],
-        llm_adapter: OpenAIAdapter,
+        llm_adapter: Union[OpenAIAdapter, OllamaAdapter],
         agent_descriptions: Dict[AgentType, str],
         enable_learning: bool = True,
         enable_context_awareness: bool = True,
@@ -910,30 +930,44 @@ class StrategySelector:
 
 # Simplified routing rules for fallback when LLM classification fails
 SIMPLIFIED_ROUTING_RULES = [
-    # Basic technical support patterns
+    # IT Support patterns - technical issues, passwords, access
     RoutingRule(
-        pattern=r"\b(bug|broken|error|crash|login.*problem|system.*down|can't.*log|won't.*work)\b",
-        agent_type=AgentType.SUPPORT,
-        intent="support_request",
-        priority=15
+        pattern=r"\b(password|reset|locked.*out|can't.*log|login.*problem|access.*issue|software.*install|can't.*access|technical.*problem|IT.*support|help.*desk)\b",
+        agent_type=AgentType.IT,
+        intent="it_support",
+        priority=20
     ),
-    # HR patterns - high priority for specific HR keywords
+    # Finance patterns - expenses, budgets, reimbursements
     RoutingRule(
-        pattern=r"\b(benefits|benefit|PTO|vacation|time\s+off|payroll|UKG|employee\s+handbook|handbook|performance\s+review|HR\s+policy|time\s+tracking|benefits\s+enrollment)\b",
+        pattern=r"\b(expense|receipt|reimbursement|budget|invoice|payment|finance|accounting|cost.*center|travel.*expense|meal.*allowance)\b",
+        agent_type=AgentType.FINANCE,
+        intent="finance_inquiry",
+        priority=18
+    ),
+    # HR patterns - benefits, PTO, payroll
+    RoutingRule(
+        pattern=r"\b(benefits|benefit|PTO|vacation|time\s+off|payroll|UKG|employee\s+handbook|handbook|performance\s+review|HR\s+policy|time\s+tracking|benefits\s+enrollment|onboarding|sick.*leave)\b",
         agent_type=AgentType.HR,
         intent="hr_inquiry",
         priority=15
     ),
-    # Basic sales patterns
+    # Basic technical support patterns (broader)
     RoutingRule(
-        pattern=r"\b(buy|sell|purchase|property|house|sale)\b",
+        pattern=r"\b(bug|broken|error|crash|system.*down|won't.*work|not.*working|technical.*issue)\b",
+        agent_type=AgentType.SUPPORT,
+        intent="support_request",
+        priority=12
+    ),
+    # Sales patterns (for any sales-related business)
+    RoutingRule(
+        pattern=r"\b(buy|sell|purchase|property|house|sale|customer|lead|quote|pricing)\b",
         agent_type=AgentType.SALES,
         intent="sales_inquiry",
         priority=10
     ),
-    # Greetings
+    # Greetings and general conversation
     RoutingRule(
-        pattern=r"\b(hello|hi|hey|good morning|good afternoon)\b",
+        pattern=r"\b(hello|hi|hey|good morning|good afternoon|how.*are.*you|what.*can.*you.*do)\b",
         agent_type=AgentType.GENERAL,
         intent="greeting",
         priority=5
@@ -943,7 +977,61 @@ SIMPLIFIED_ROUTING_RULES = [
 
 # Default routing rules (keeping the original complex ones for reference)
 DEFAULT_ROUTING_RULES = [
-    # Highest priority: Technical issues with rental systems
+    # Highest priority: IT Support specific patterns
+    RoutingRule(
+        pattern=r"(password.*reset|reset.*password|forgot.*password|can't.*log.*in|login.*issue)",
+        agent_type=AgentType.IT,
+        intent="password_reset_request",
+        priority=25
+    ),
+    RoutingRule(
+        pattern=r"(computer.*slow|slow.*computer|performance.*issue|system.*slow)",
+        agent_type=AgentType.IT,
+        intent="performance_issue",
+        priority=25
+    ),
+    RoutingRule(
+        pattern=r"(software.*install|install.*software|access.*request|system.*access)",
+        agent_type=AgentType.IT,
+        intent="software_access_request",
+        priority=25
+    ),
+    
+    # Finance specific patterns
+    RoutingRule(
+        pattern=r"(expense.*report|submit.*expense|business.*trip.*expense|travel.*expense)",
+        agent_type=AgentType.FINANCE,
+        intent="expense_report_request",
+        priority=25
+    ),
+    RoutingRule(
+        pattern=r"(budget.*remaining|expense.*budget|spending.*budget|financial.*status)",
+        agent_type=AgentType.FINANCE,
+        intent="budget_inquiry",
+        priority=25
+    ),
+    RoutingRule(
+        pattern=r"(reimbursement|reimburse|financial.*approval|expense.*approval)",
+        agent_type=AgentType.FINANCE,
+        intent="reimbursement_request",
+        priority=25
+    ),
+    
+    # HR specific patterns
+    RoutingRule(
+        pattern=r"(pto.*request|vacation.*request|time.*off|paid.*time.*off|leave.*request)",
+        agent_type=AgentType.HR,
+        intent="pto_request",
+        priority=25
+    ),
+    RoutingRule(
+        pattern=r"(benefits|payroll|hr.*policy|employee.*policy|performance.*review)",
+        agent_type=AgentType.HR,
+        intent="hr_inquiry",
+        priority=25
+    ),
+    
+    # Technical issues with rental systems
     RoutingRule(
         pattern=r"(rental.*application.*system|application.*system|system.*(?:bug|broken|issue))",
         agent_type=AgentType.SUPPORT,
@@ -990,7 +1078,9 @@ DEFAULT_ROUTING_RULES = [
 DEFAULT_AGENT_DESCRIPTIONS = {
     AgentType.SALES: "Manages property sales, purchases, real estate transactions, market analysis, investment opportunities, and property valuations",
     AgentType.SUPPORT: "Provides technical support, troubleshooting assistance, system issues, account management, platform guidance, and error resolution",
+    AgentType.IT: "Handles IT support requests including password resets, software installations, hardware issues, system access, account provisioning, and technical troubleshooting",
     AgentType.HR: "Handles employee-related inquiries including vacation time, PTO requests, benefits, payroll, UKG system support, performance reviews, employee policies, and workplace support",
+    AgentType.FINANCE: "Manages financial inquiries including expense reports, budget tracking, reimbursements, financial approvals, accounting questions, and expense management",
     AgentType.GENERAL: "Handles general inquiries, greetings, basic information requests, platform orientation, and questions that don't fit other specialized categories",
     AgentType.MARKETING: "Assists with marketing campaigns, brand strategy, promotional activities, customer acquisition analysis, and advertising initiatives",
     AgentType.ANALYTICS: "Provides data analysis, business intelligence, reporting, statistical analysis, performance metrics, and data-driven insights",

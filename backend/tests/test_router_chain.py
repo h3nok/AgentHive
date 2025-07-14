@@ -18,8 +18,11 @@ from app.adapters.llm_openai import OpenAIAdapter, CompletionResponse
 def request_context():
     """Create a test request context."""
     prompt_in = PromptIn(
-        prompt="I need help with my lease agreement",
-        session_id="test-session"
+        prompt="I need help with my HR benefits",
+        session_id="test-session",
+        max_tokens=100,
+        temperature=0.7,
+        stream=False
     )
     return RequestContext(
         prompt=prompt_in,
@@ -40,18 +43,18 @@ class TestRegexNode:
     """Test regex-based routing node."""
     
     @pytest.mark.asyncio
-    async def test_regex_matching_lease(self, request_context):
-        """Test regex matching for lease-related queries."""
+    async def test_regex_matching_hr(self, request_context):
+        """Test regex matching for HR-related queries."""
         node = RegexNode(DEFAULT_ROUTING_RULES)
         
-        # Test lease query
-        request_context.prompt.prompt = "I have a question about my apartment lease"
+        # Test HR query
+        request_context.prompt.prompt = "I have a question about my employee benefits"
         assert await node.can_handle(request_context)
         
         result = await node.handle(request_context)
         assert result is not None
         assert result.routing_method == RoutingMethod.REGEX
-        assert result.metadata["selected_agent"] == AgentType.LEASE.value
+        assert result.metadata["selected_agent"] == AgentType.HR.value
     
     @pytest.mark.asyncio
     async def test_regex_no_match(self, request_context):
@@ -70,25 +73,31 @@ class TestRegexNode:
         # Create rules with different priorities
         rules = [
             RoutingRule(
-                pattern=r"\b(lease)\b",
+                pattern=r"\b(benefits)\b",
                 agent_type=AgentType.GENERAL,
                 intent="general_help",
                 priority=5
             ),
             RoutingRule(
-                pattern=r"\b(lease)\b",
-                agent_type=AgentType.LEASE,
-                intent="lease_help",
+                pattern=r"\b(benefits)\b",
+                agent_type=AgentType.HR,
+                intent="hr_help",
                 priority=10
             )
         ]
         
         node = RegexNode(rules)
-        prompt_in = PromptIn(prompt="I need help with my lease")
+        prompt_in = PromptIn(
+            prompt="I need help with my benefits",
+            session_id="test",
+            max_tokens=100,
+            temperature=0.7,
+            stream=False
+        )
         context = RequestContext(prompt=prompt_in)
         
         result = await node.handle(context)
-        assert result.intent == "lease_help"  # Higher priority rule wins
+        assert result.intent == "hr_help"  # Higher priority rule wins
 
 
 class TestLLMRouterNode:
@@ -99,7 +108,7 @@ class TestLLMRouterNode:
         """Test successful LLM routing."""
         # Mock LLM response
         mock_response = CompletionResponse(
-            content='{"agent_type": "lease", "intent": "lease_inquiry", "confidence": 0.9, "reasoning": "User asking about lease"}',
+            content='{"agent_type": "hr", "intent": "hr_inquiry", "confidence": 0.9, "reasoning": "User asking about HR benefits"}',
             model="gpt-4"
         )
         mock_llm_adapter.complete.return_value = mock_response
@@ -110,10 +119,10 @@ class TestLLMRouterNode:
         result = await node.handle(request_context)
         
         assert result is not None
-        assert result.intent == "lease_inquiry"
+        assert result.intent == "hr_inquiry"
         assert result.confidence == 0.9
         assert result.routing_method == RoutingMethod.LLM_ROUTER
-        assert result.metadata["agent_type"] == "lease"
+        assert result.metadata["agent_type"] == "hr"
     
     @pytest.mark.asyncio
     async def test_llm_routing_invalid_json(self, request_context, mock_llm_adapter):
@@ -162,11 +171,11 @@ class TestRouterChain:
             agent_descriptions=DEFAULT_AGENT_DESCRIPTIONS
         )
         
-        request_context.prompt.prompt = "I need help with my apartment lease"
+        request_context.prompt.prompt = "I need help with my employee benefits"
         result = await chain.route(request_context)
         
         assert result.routing_method == RoutingMethod.REGEX
-        assert result.metadata["selected_agent"] == AgentType.LEASE.value
+        assert result.metadata["selected_agent"] == AgentType.HR.value
     
     @pytest.mark.asyncio
     async def test_chain_llm_fallback(self, request_context, mock_llm_adapter):

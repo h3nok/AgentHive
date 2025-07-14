@@ -18,9 +18,7 @@ import { EnterpriseFeatureProvider } from './shared/components/EnterpriseFeature
 const LandingPage = React.lazy(() => import('./app/pages/LandingPage'));
 const ChatPage = React.lazy(() => import('./app/layout/LayoutShell'));
 const AdminPage = React.lazy(() => import('./core/admin/AdminApp'));
-const DebugPage = React.lazy(() => import('./app/pages/DebugPage'));
 const DashboardPage = React.lazy(() => import('./app/pages/DashboardPage'));
-const TaskDetailsPage = React.lazy(() => import('./app/pages/TaskDetailsPage'));
 const EnterpriseOSDemo = React.lazy(() => import('./app/pages/EnterpriseOSDemo'));
 
 // Global styles for consistent UI
@@ -53,6 +51,10 @@ const globalStyles = (
         width: '100%',
         margin: 0,
         padding: 0,
+        // Add a beautiful honey-themed background
+        background: theme.palette.mode === 'dark' 
+          ? 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 50%, #0f0f0f 100%)'
+          : 'linear-gradient(135deg, #fefefe 0%, #fdfbf7 25%, #fcf6e8 50%, #fdf9f0 75%, #ffffff 100%)',
       },
       '#root': {
         display: 'flex',
@@ -198,7 +200,7 @@ const AppContent: React.FC = () => {
               <Suspense fallback={<LoadingFallback />}>
                 <Routes>
                   <Route path="/" element={<LandingPage />} />
-                  {/* Chat without session id (fallback) */}
+                  {/* Task without session id (fallback) */}
                   <Route
                     path="/chat"
                     element={
@@ -208,7 +210,7 @@ const AppContent: React.FC = () => {
                       />
                     }
                   />
-                  {/* Chat with session id – primary route */}
+                  {/* Task with session id – primary route */}
                   <Route
                     path="/chat/:sessionId"
                     element={
@@ -226,12 +228,8 @@ const AppContent: React.FC = () => {
                       />
                     } 
                   />
-                  <Route 
-                    path="/debug" 
-                    element={<DebugPage />} 
-                  />
+
                   <Route path="/dashboard" element={<DashboardPage />} />
-                  <Route path="/tasks/:taskId" element={<TaskDetailsPage />} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </Suspense>

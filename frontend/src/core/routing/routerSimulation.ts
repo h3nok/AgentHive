@@ -32,12 +32,11 @@ export interface SimulationConfig {
 class RouterSimulationService {
   private decisionHistory: RoutingDecision[] = [];
   private agentPerformance: Record<AgentType, { requests: number; avgConfidence: number; avgLatency: number }> = {
-    [AgentType.LEASE]: { requests: 0, avgConfidence: 0, avgLatency: 0 },
+    [AgentType.HR]: { requests: 0, avgConfidence: 0, avgLatency: 0 },
     [AgentType.SALES]: { requests: 0, avgConfidence: 0, avgLatency: 0 },
     [AgentType.SUPPORT]: { requests: 0, avgConfidence: 0, avgLatency: 0 },
     [AgentType.GENERAL]: { requests: 0, avgConfidence: 0, avgLatency: 0 },
     [AgentType.CUSTOM]: { requests: 0, avgConfidence: 0, avgLatency: 0 },
-    [AgentType.HR]: { requests: 0, avgConfidence: 0, avgLatency: 0 },
     [AgentType.MARKETING]: { requests: 0, avgConfidence: 0, avgLatency: 0 },
     [AgentType.ANALYTICS]: { requests: 0, avgConfidence: 0, avgLatency: 0 },
   };
@@ -52,7 +51,7 @@ class RouterSimulationService {
 
   // Regex patterns for different agents
   private regexPatterns = {
-    [AgentType.LEASE]: /\b(lease|rent|apartment|tenant|landlord|deposit|rental|eviction|maintenance|property|tractor supply|store|location|retail space)\b/i,
+    [AgentType.HR]: /\b(hr|human resources|employee|benefits|payroll|vacation|sick leave|time off|onboarding|performance|training|policy|compliance)\b/i,
     [AgentType.SALES]: /\b(buy|sell|purchase|price|cost|revenue|sales|customer|acquisition|conversion|marketing|campaign)\b/i,
     [AgentType.SUPPORT]: /\b(help|support|issue|problem|bug|error|technical|account|login|troubleshoot|assistance)\b/i,
     [AgentType.GENERAL]: /\b(explain|what|how|why|when|where|define|describe|tell me|information|knowledge)\b/i,
@@ -134,12 +133,11 @@ class RouterSimulationService {
    */
   private routeByRegex(query: string): { agent: AgentType; confidence: number; reasoning: string } {
     const scores: Record<AgentType, number> = {
-      [AgentType.LEASE]: 0,
+      [AgentType.HR]: 0,
       [AgentType.SALES]: 0, 
       [AgentType.SUPPORT]: 0,
       [AgentType.GENERAL]: 0,
       [AgentType.CUSTOM]: 0,
-      [AgentType.HR]: 0,
       [AgentType.MARKETING]: 0,
       [AgentType.ANALYTICS]: 0,
     };
@@ -220,7 +218,7 @@ class RouterSimulationService {
 
     // Simulate ML prediction with feature weights
     const predictions = {
-      [AgentType.LEASE]: this.calculateMLScore(features, 'lease'),
+      [AgentType.HR]: this.calculateMLScore(features, 'hr'),
       [AgentType.SALES]: this.calculateMLScore(features, 'sales'),
       [AgentType.SUPPORT]: this.calculateMLScore(features, 'support'),
       [AgentType.GENERAL]: this.calculateMLScore(features, 'general'),
@@ -339,7 +337,7 @@ class RouterSimulationService {
 
   private mapIntentToAgent(intent: string): AgentType {
     switch (intent) {
-      case 'lease': return AgentType.LEASE;
+      case 'hr': return AgentType.HR;
       case 'sales': return AgentType.SALES;
       case 'support': return AgentType.SUPPORT;
       default: return AgentType.GENERAL;

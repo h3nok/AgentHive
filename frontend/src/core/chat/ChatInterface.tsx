@@ -1,8 +1,10 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../shared/store';
 import { selectMessagesBySessionId, ChatMessage as ChatMessageType } from './chat/chatSlice';
 import ChatMessage from './ChatMessage';
+import EnterpriseAgentSelector from './EnterpriseAgentSelector';
+import { AgentType } from '../../shared/types/agent';
 import {
   Box,
   Typography,
@@ -42,7 +44,8 @@ import {
   ChevronLeft,
   Tune,
   Settings as SettingsIcon,
-  Message as MessageIcon
+  Message as MessageIcon,
+  Speed
 } from '@mui/icons-material';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 
@@ -67,7 +70,15 @@ interface SmartSuggestion {
   context?: string;
 }
 
-// Enhanced props interface for chat interface
+interface WorkspaceContext {
+  id: string;
+  title: string;
+  type: 'task' | 'conversation' | 'document' | 'workflow' | 'dashboard';
+  relatedTasks?: string[];
+  metadata?: Record<string, any>;
+}
+
+// Enhanced props interface for task interface
 export interface ChatInterfaceProps {
   onSendMessage: (message: string, agent?: string, workflow?: string) => void;
   isLoading?: boolean;
@@ -84,6 +95,10 @@ export interface ChatInterfaceProps {
     name: string;
     status: string;
   };
+  // Workspace context props
+  workspaceContext?: WorkspaceContext;
+  embeddedMode?: boolean; // When used inside dashboard
+  onWorkspaceAction?: (action: string, data?: any) => void;
 }
 
 const ChatInterface: React.FC<ChatInterfaceProps> = ({
@@ -105,15 +120,40 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isAutomationDrawerOpen, setIsAutomationDrawerOpen] = useState(false);
   
-  // Use messages from props or fallback to Redux state
-  const messages = propMessages.length > 0 ? propMessages : 
-    useSelector((state: RootState) => 
-      sessionId ? selectMessagesBySessionId(sessionId)(state) : []
-    );
+  // Get current session and messages from Redux state
+  const activeSessionId = useSelector((state: RootState) => state.chat.activeSessionId);
+  const allSessions = useSelector((state: RootState) => state.chat.sessions);
   
-  // Get active session info if sessionId is provided
-  const activeSession = useSelector((state: RootState) => 
-    sessionId ? state.chat.sessions.find((s: any) => s.id === sessionId) : null
+  // Use sessionId from props/params or fallback to active session
+  const currentSessionId = sessionId || activeSessionId;
+  
+  // Get messages from Redux state for the current session
+  const reduxMessages = useSelector((state: RootState) => {
+    if (!currentSessionId) return [];
+    return selectMessagesBySessionId(currentSessionId)(state);
+  });
+  
+  // Use props messages if provided, otherwise use Redux messages
+  const messages = useMemo(() => {
+    const messagesToUse = propMessages.length > 0 ? propMessages : reduxMessages;
+    // Filter out temporary messages that might cause duplicates
+    return messagesToUse.filter((msg: ChatMessageType, index: number, arr: ChatMessageType[]) => {
+      // Keep all non-temp messages
+      if (!msg.temp) return true;
+      // For temp messages, only keep if there's no non-temp version
+      return !arr.some((otherMsg: ChatMessageType, otherIndex: number) => 
+        otherIndex !== index && 
+        otherMsg.text === msg.text && 
+        otherMsg.sender === msg.sender && 
+        !otherMsg.temp
+      );
+    });
+  }, [propMessages, reduxMessages]);
+  
+  // Get active session info
+  const activeSession = useMemo(() => 
+    currentSessionId ? allSessions.find((s: any) => s.id === currentSessionId) : null, 
+    [currentSessionId, allSessions]
   );
   
   const currentWorkflow = activeSession?.workflow;
@@ -231,6 +271,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       const message = inputValue.trim();
       if (!message) return;
       
+      console.log('🔄 ChatInterface: Sending message:', message);
+      
       // Call the parent's send message handler
       onSendMessage(message);
       
@@ -241,7 +283,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       // Hide suggestions if shown
       setShowSuggestions(false);
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error('❌ Error sending message:', error);
       // Optionally show an error message to the user
     }
   }, [inputValue, onSendMessage]);
@@ -295,9 +337,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
 
   // Render messages with animations and proper styling
   const renderMessages = () => {
-    const displayMessages = messages || [];
-    
-    if (displayMessages.length === 0) {
+    if (!messages || messages.length === 0) {
       return (
         <Box 
           component={motion.div}
@@ -307,21 +347,30 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
           sx={{ 
             width: '100%',
             textAlign: 'center', 
-            py: 4, 
-            color: 'text.secondary' 
+            py: 8, 
+            color: 'text.secondary',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '200px'
           }}
         >
-          <Typography variant="body1">
-            No messages yet. Start a conversation!
+          <SmartToy sx={{ fontSize: 48, mb: 2, opacity: 0.3 }} />
+          <Typography variant="h6" sx={{ mb: 1, fontWeight: 500 }}>
+            Welcome to AgentHive
+          </Typography>
+          <Typography variant="body2" sx={{ opacity: 0.7 }}>
+            Start a conversation with our AI agents!
           </Typography>
         </Box>
       );
     }
 
     return (
-      <Box sx={{ flex: 1, overflowY: 'auto', p: 2 }}>
+      <Box sx={{ width: '100%' }}>
         <AnimatePresence>
-          {displayMessages.map((msg: ChatMessageType, index: number) => (
+          {messages.map((msg: ChatMessageType, index: number) => (
             <Box
               key={msg.id || `msg-${index}`}
               component={motion.div}
@@ -338,7 +387,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
             >
               <ChatMessage 
                 message={msg} 
-                isStreaming={isLoading && index === displayMessages.length - 1}
+                isStreaming={isLoading && index === messages.length - 1}
               />
             </Box>
           ))}
@@ -453,22 +502,40 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       )}
 
       {/* Main Content Area */}
-      <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <Box sx={{ 
+        flex: 1, 
+        display: 'flex', 
+        flexDirection: 'column', 
+        overflow: 'hidden',
+        bgcolor: theme.palette.mode === 'dark' 
+          ? 'rgba(18, 18, 18, 0.7)' // Lighter dark background
+          : 'rgba(255, 255, 255, 0.4)', // Very light transparent background
+      }}>
         {/* Chat Messages Area */}
-        <Box sx={{ flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
-          {/* Chat Messages */}
-          {(messages.length > 0 || currentWorkflow) && (
-            <Card sx={{ m: 3, borderRadius: 2, maxHeight: '70vh', overflow: 'auto' }}>
-              <CardContent sx={{ p: 0 }}>
-                {/* Chat Messages */}
-                <Box sx={{ p: 2 }}>
-                  {renderMessages()}
-                  <div ref={messagesEndRef} />
-                </Box>
+        <Box sx={{ 
+          flex: 1, 
+          overflow: 'auto', 
+          display: 'flex', 
+          flexDirection: 'column',
+          px: 3,
+          pt: { xs: 10, sm: 12 }, // Increased padding to properly clear the fixed transparent nav (80px mobile, 96px desktop)
+          pb: 2,
+          bgcolor: 'transparent', // Make chat area fully transparent
+        }}>
+          <Box sx={{ width: '100%', maxWidth: 800, mx: 'auto' }}>
+          {/* Messages Container */}
+          {messages.length > 0 ? (
+            <Box sx={{ 
+              flex: 1,
+              overflow: 'auto',
+              // Remove all background and borders for clean transparent look
+            }}>
+              <Box sx={{ p: 0, height: '100%', overflow: 'auto' }}>
+                {renderMessages()}
                 
                 {/* Active Workflow Visualization */}
                 {currentWorkflow && (
-                  <Box sx={{ borderTop: `1px solid ${alpha(theme.palette.divider, 0.1)}`, p: 2 }}>
+                  <Box sx={{ borderTop: `1px solid ${alpha(theme.palette.divider, 0.1)}`, pt: 2, mt: 2 }}>
                     <Stack direction="row" alignItems="center" spacing={2} mb={2}>
                       <AccountTree sx={{ color: theme.palette.primary.main }} />
                       <Typography variant="h6" sx={{ fontWeight: 600 }}>
@@ -506,195 +573,219 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
                     </Stack>
                   </Box>
                 )}
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Centered Input Area */}
-          <Box 
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
+              </Box>
+            </Box>
+          ) : (
+            // Welcome screen when no messages - Show Enterprise Agent Selector
+            <Box sx={{ 
+              flex: 1, 
+              display: 'flex', 
+              alignItems: 'flex-start', 
               justifyContent: 'center',
-              minHeight: messages.length === 0 ? '80vh' : 'auto',
-              px: 3,
-              pb: 3,
-              pt: messages.length === 0 ? 2 : 0, // Add top padding when no messages
-            }}
-          >
-            <Box sx={{ width: '100%', maxWidth: 800 }}>
-              {/* Smart Suggestions */}
-              <AnimatePresence>
-                {showSuggestions && smartSuggestions.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 20 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Paper 
-                      sx={{
-                        p: 2,
-                        mb: 2,
-                        borderRadius: 2,
-                        border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
-                        background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.02)} 0%, ${alpha(theme.palette.secondary.main, 0.02)} 100%)`
-                      }}
-                    >
-                      <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1.5 }}>
-                        💡 Smart Suggestions
-                      </Typography>
-                      <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                        {smartSuggestions.map((suggestion) => (
-                          <Chip
-                            key={suggestion.id}
-                            icon={suggestion.icon as React.ReactElement}
-                            label={suggestion.text}
-                            clickable
-                            size="small"
-                            onClick={() => handleSuggestionClick(suggestion)}
-                            sx={{
-                              '&:hover': {
-                                bgcolor: alpha(theme.palette.primary.main, 0.1),
-                                transform: 'translateY(-1px)'
-                              },
-                              transition: 'all 0.2s ease-in-out'
-                            }}
-                          />
-                        ))}
-                      </Stack>
-                    </Paper>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
-              {/* Main Input Field */}
-              <Paper 
-                elevation={4}
-                sx={{
-                  borderRadius: 3,
-                  border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
-                  overflow: 'hidden',
-                  background: `linear-gradient(135deg, ${alpha(theme.palette.background.paper, 0.95)} 0%, ${alpha(theme.palette.background.paper, 0.98)} 100%)`,
-                  backdropFilter: 'blur(10px)'
+              flexDirection: 'column',
+              pt: 4,
+              px: 2
+            }}>
+              <EnterpriseAgentSelector 
+                onQuickActionSelect={(action: string, agentType: AgentType) => {
+                  // Handle quick action by sending the pre-defined prompt
+                  onSendMessage(action, agentType);
                 }}
-              >
-                <Box sx={{ p: 3 }}>
-                  <TextField
-                    fullWidth
-                    variant="outlined"
-                    placeholder="Type a message..."
-                    value={inputValue}
-                    onChange={handleInputChange}
-                    onKeyPress={handleKeyPress}
-                    disabled={isLoading}
-                    inputRef={inputRef}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <IconButton size="small">
-                            <AttachFile fontSize="small" />
-                          </IconButton>
-                        </InputAdornment>
-                      ),
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Tooltip title="Voice input">
-                            <span>
-                              <IconButton size="small" disabled={isLoading}>
-                                <Mic />
-                              </IconButton>
-                            </span>
-                          </Tooltip>
-                          <Tooltip title="Send message">
-                            <span>
-                              <IconButton 
-                                onClick={handleSend}
-                                disabled={!inputValue.trim() || isLoading}
-                                sx={{
-                                  bgcolor: inputValue.trim() ? theme.palette.primary.main : 'transparent',
-                                  color: inputValue.trim() ? 'white' : theme.palette.text.disabled,
-                                  '&:hover': {
-                                    bgcolor: inputValue.trim() ? theme.palette.primary.dark : alpha(theme.palette.primary.main, 0.1)
-                                  },
-                                  transition: 'all 0.2s ease-in-out',
-                                  ml: 1
-                                }}
-                              >
-                                <Send />
-                              </IconButton>
-                            </span>
-                          </Tooltip>
-                        </InputAdornment>
-                      )
-                    }}
-                  />
-                  <Stack direction="row" justifyContent="space-between" alignItems="center" mt={2}>
-                    <Stack direction="row" spacing={1}>
-                      {enterpriseMode && (
-                        <>
-                          <Chip
-                            icon={<SmartToy />}
-                            label="AI Agents Ready"
-                            size="small"
-                            clickable
-                            onClick={onNavigateToAgents}
-                            sx={{
-                              fontSize: '0.7rem',
-                              '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.05) }
-                            }}
-                          />
-                          <Chip
-                            icon={<AutoAwesome />}
-                            label={`${activeWorkflows || 0} Active Workflows`}
-                            size="small"
-                            clickable
-                            onClick={onNavigateToWorkflows}
-                            sx={{
-                              fontSize: '0.7rem',
-                              '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.05) }
-                            }}
-                          />
-                        </>
-                      )}
-                    </Stack>
-                    
-                    <Stack direction="row" spacing={1} alignItems="center">
-                      <Typography variant="caption" color="text.secondary">
-                        Shift+Enter for new line
-                      </Typography>
-                      <Tooltip title="Workflow automation enabled">
-                        <AccountTree sx={{ fontSize: 16, color: theme.palette.primary.main }} />
-                      </Tooltip>
-                    </Stack>
-                  </Stack>
-                </Box>
-              </Paper>
+                onAgentSelect={(agentType: AgentType) => {
+                  // Handle agent selection by sending a generic greeting to that agent
+                  onSendMessage(`Hello! I'd like to get help from the ${agentType} agent.`, agentType);
+                }}
+              />
+            </Box>
+          )}
+          </Box>
+        </Box>
 
-              {/* Quick Actions beneath input */}
-              <Box sx={{ mt: 2 }}>
-                <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1.5, textAlign: 'center' }}>
-                  Popular Actions
-                </Typography>
-                <Stack direction="row" spacing={1} justifyContent="center" flexWrap="wrap" useFlexGap>
-                  {quickActions.slice(0, 4).map((action) => (
-                    <Chip
-                      key={action.id}
-                      icon={action.icon as React.ReactElement}
-                      label={action.label}
-                      clickable
-                      onClick={() => handleQuickAction(action)}
-                      sx={{
-                        '&:hover': {
-                          bgcolor: alpha(theme.palette.primary.main, 0.1),
-                          transform: 'translateY(-1px)'
-                        },
-                        transition: 'all 0.2s ease-in-out'
-                      }}
-                    />
-                  ))}
+        {/* Input Area */}
+        <Box 
+          sx={{
+            px: 3,
+            pb: 3,
+            pt: 1,
+          }}
+        >
+          <Box sx={{ width: '100%', maxWidth: 800, mx: 'auto' }}>
+            {/* Smart Suggestions */}
+            <AnimatePresence>
+              {showSuggestions && smartSuggestions.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Paper 
+                    sx={{
+                      p: 2,
+                      mb: 2,
+                      borderRadius: 2,
+                      border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+                      background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.02)} 0%, ${alpha(theme.palette.secondary.main, 0.02)} 100%)`
+                    }}
+                  >
+                    <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1.5 }}>
+                      💡 Smart Suggestions
+                    </Typography>
+                    <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                      {smartSuggestions.map((suggestion) => (
+                        <Chip
+                          key={suggestion.id}
+                          icon={suggestion.icon as React.ReactElement}
+                          label={suggestion.text}
+                          clickable
+                          size="small"
+                          onClick={() => handleSuggestionClick(suggestion)}
+                          sx={{
+                            '&:hover': {
+                              bgcolor: alpha(theme.palette.primary.main, 0.1),
+                              transform: 'translateY(-1px)'
+                            },
+                            transition: 'all 0.2s ease-in-out'
+                          }}
+                        />
+                      ))}
+                    </Stack>
+                  </Paper>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Main Input Field */}
+            <Paper 
+              elevation={0} // Remove shadow for lighter look
+              sx={{
+                borderRadius: 3,
+                border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`, // Lighter border
+                overflow: 'hidden',
+                background: theme.palette.mode === 'dark' 
+                  ? `rgba(30, 30, 30, 0.6)` // More transparent dark
+                  : `rgba(255, 255, 255, 0.7)`, // More transparent light
+                backdropFilter: 'blur(20px)', // Stronger blur for better text readability
+                WebkitBackdropFilter: 'blur(20px)',
+              }}
+            >
+              <Box sx={{ p: 3 }}>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  placeholder="Type a message..."
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onKeyPress={handleKeyPress}
+                  disabled={isLoading}
+                  inputRef={inputRef}
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <IconButton size="small">
+                          <AttachFile fontSize="small" />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Tooltip title="Voice input">
+                          <span>
+                            <IconButton size="small" disabled={isLoading}>
+                              <Mic />
+                            </IconButton>
+                          </span>
+                        </Tooltip>
+                        <Tooltip title="Send message">
+                          <span>
+                            <IconButton 
+                              onClick={handleSend}
+                              disabled={!inputValue.trim() || isLoading}
+                              sx={{
+                                bgcolor: inputValue.trim() ? theme.palette.primary.main : 'transparent',
+                                color: inputValue.trim() ? 'white' : theme.palette.text.disabled,
+                                '&:hover': {
+                                  bgcolor: inputValue.trim() ? theme.palette.primary.dark : alpha(theme.palette.primary.main, 0.1)
+                                },
+                                transition: 'all 0.2s ease-in-out',
+                                ml: 1
+                              }}
+                            >
+                              <Send />
+                            </IconButton>
+                          </span>
+                        </Tooltip>
+                      </InputAdornment>
+                    )
+                  }}
+                />
+                <Stack direction="row" justifyContent="space-between" alignItems="center" mt={2}>
+                  <Stack direction="row" spacing={1}>
+                    {enterpriseMode && (
+                      <>
+                        <Chip
+                          icon={<SmartToy />}
+                          label="AI Agents Ready"
+                          size="small"
+                          clickable
+                          onClick={onNavigateToAgents}
+                          sx={{
+                            fontSize: '0.7rem',
+                            '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.05) }
+                          }}
+                        />
+                        <Chip
+                          icon={<AutoAwesome />}
+                          label={`${activeWorkflows || 0} Active Workflows`}
+                          size="small"
+                          clickable
+                          onClick={onNavigateToWorkflows}
+                          sx={{
+                            fontSize: '0.7rem',
+                            '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.05) }
+                          }}
+                        />
+                      </>
+                    )}
+                  </Stack>
+                  
+                  <Stack direction="row" spacing={1} alignItems="center">
+                    <Typography variant="caption" color="text.secondary">
+                      Shift+Enter for new line
+                    </Typography>
+                    <Tooltip title="Workflow automation enabled">
+                      <AccountTree sx={{ fontSize: 16, color: theme.palette.primary.main }} />
+                    </Tooltip>
+                  </Stack>
                 </Stack>
               </Box>
+            </Paper>
+
+            {/* Quick Actions beneath input */}
+            <Box sx={{ mt: 2 }}>
+              <Stack direction="row" spacing={1} justifyContent="center" alignItems="center" mb={1.5}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 600, textAlign: 'center' }}>
+                  Popular Actions
+                </Typography>
+              </Stack>
+              <Stack direction="row" spacing={1} justifyContent="center" flexWrap="wrap" useFlexGap>
+                {quickActions.slice(0, 4).map((action) => (
+                  <Chip
+                    key={action.id}
+                    icon={action.icon as React.ReactElement}
+                    label={action.label}
+                    clickable
+                    onClick={() => handleQuickAction(action)}
+                    sx={{
+                      '&:hover': {
+                        bgcolor: alpha(theme.palette.primary.main, 0.1),
+                        transform: 'translateY(-1px)'
+                      },
+                      transition: 'all 0.2s ease-in-out'
+                    }}
+                  />
+                ))}
+              </Stack>
             </Box>
           </Box>
         </Box>
@@ -896,7 +987,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
               {/* Quick Actions in Drawer - Sleeker design */}
               <Box 
                 sx={{ 
-                  px: 1.5, 
+                  px: 3, 
                   py: 1.5,
                   mt: 0.5
                 }}

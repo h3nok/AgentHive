@@ -41,7 +41,9 @@ import {
 } from '@mui/icons-material';
 import StatusBadge from '../../shared/components/StatusBadge';
 import CommandCenter from '../../core/workflows/CommandCenter';
-import { useAppSelector, selectTheme, selectUser, selectConnectionStatus } from '../../shared/store';
+import { useAppSelector, useAppDispatch, selectTheme, selectUser } from '../../shared/store';
+import { setConnectionStatus } from '../../shared/store';
+import { useBackendConnection } from '../../shared/hooks/useBackendConnection';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useEnterpriseFeatures } from '../../shared/hooks/useEnterpriseFeatures';
 
@@ -260,12 +262,27 @@ const TopNav: React.FC<TopNavProps> = ({
   onAgentChange,
   agentStatuses = [],
 }) => {
+  const dispatch = useAppDispatch();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const currentTheme = useAppSelector(selectTheme);
   const user = useAppSelector(selectUser);
-  const connectionStatus = useAppSelector(selectConnectionStatus);
   const { openSettings } = useEnterpriseFeatures();
+  
+  // Real backend connection monitoring
+  const { status: backendStatus, reconnect } = useBackendConnection();
+  
+  // Map backend connection status to StatusBadge format
+  const connectionStatus = useMemo(() => {
+    if (backendStatus.isConnecting) return 'connecting';
+    if (backendStatus.isConnected) return 'online';
+    return 'offline';
+  }, [backendStatus.isConnecting, backendStatus.isConnected]);
+
+  // Update store with real connection status
+  useEffect(() => {
+    dispatch(setConnectionStatus(connectionStatus));
+  }, [dispatch, connectionStatus]);
   
   const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);
   const [moreMenuAnchor, setMoreMenuAnchor] = useState<null | HTMLElement>(null);
@@ -339,24 +356,22 @@ const TopNav: React.FC<TopNavProps> = ({
     <>
       <AppBar
         position="fixed"
-        elevation={2}
+        elevation={0} // Remove elevation for cleaner look
         sx={{
           ml: sidebarCollapsed ? '56px' : '240px',
           width: sidebarCollapsed ? 'calc(100% - 56px)' : 'calc(100% - 240px)',
           bgcolor: theme.palette.mode === 'dark' 
-            ? 'rgba(25, 25, 25, 0.98)' 
-            : 'rgba(255, 253, 250, 0.98)',
-          backdropFilter: 'blur(10px)',
-          WebkitBackdropFilter: 'blur(10px)',
-          borderBottom: `1px solid ${theme.palette.divider}`,
+            ? 'rgba(25, 25, 25, 0.7)' // More transparent
+            : 'rgba(255, 253, 250, 0.7)', // More transparent
+          backdropFilter: 'blur(20px)', // Stronger blur for better readability
+          WebkitBackdropFilter: 'blur(20px)',
+          borderBottom: `1px solid ${alpha(theme.palette.divider, 0.3)}`, // Lighter border
           color: theme.palette.text.primary,
           transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          boxShadow: theme.palette.mode === 'dark' 
-            ? '0 4px 20px -5px rgba(0, 0, 0, 0.5)' 
-            : '0 4px 20px -5px rgba(0, 0, 0, 0.1)',
+          boxShadow: 'none', // Remove shadow for transparent effect
           backgroundImage: theme.palette.mode === 'dark'
-            ? 'linear-gradient(135deg, rgba(255, 193, 7, 0.03) 0%, transparent 100%)'
-            : 'linear-gradient(135deg, rgba(255, 193, 7, 0.05) 0%, transparent 100%)',
+            ? 'linear-gradient(135deg, rgba(255, 193, 7, 0.02) 0%, transparent 100%)' // Lighter gradient
+            : 'linear-gradient(135deg, rgba(255, 193, 7, 0.03) 0%, transparent 100%)', // Lighter gradient
           '&:before': {
             content: '""',
             position: 'absolute',
@@ -401,11 +416,45 @@ const TopNav: React.FC<TopNavProps> = ({
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             {/* Live status indicator on the right */}
             {!isMobile && (
-              <StatusBadge
-                status={connectionStatus}
-                size="small"
-                showLabel={true}
-              />
+              <Tooltip 
+                title={
+                  <Box>
+                    <Typography variant="body2" sx={{ fontWeight: 600 }}>
+                      Backend Connection
+                    </Typography>
+                    <Typography variant="caption" display="block">
+                      Status: {connectionStatus === 'online' ? 'Connected' : connectionStatus === 'connecting' ? 'Connecting...' : 'Disconnected'}
+                    </Typography>
+                    {backendStatus.latency && (
+                      <Typography variant="caption" display="block">
+                        Latency: {backendStatus.latency}ms
+                      </Typography>
+                    )}
+                    {backendStatus.lastConnected && (
+                      <Typography variant="caption" display="block">
+                        Last connected: {backendStatus.lastConnected.toLocaleTimeString()}
+                      </Typography>
+                    )}
+                    {backendStatus.error && (
+                      <Typography variant="caption" display="block" color="error">
+                        Error: {backendStatus.error}
+                      </Typography>
+                    )}
+                    <Typography variant="caption" display="block" sx={{ mt: 0.5, fontStyle: 'italic' }}>
+                      Click to reconnect
+                    </Typography>
+                  </Box>
+                }
+                placement="bottom"
+              >
+                <Box sx={{ cursor: 'pointer' }} onClick={reconnect}>
+                  <StatusBadge
+                    status={connectionStatus}
+                    size="small"
+                    showLabel={true}
+                  />
+                </Box>
+              </Tooltip>
             )}
 
             {/* Push remaining controls to far right */}

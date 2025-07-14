@@ -28,7 +28,7 @@ class ContextType(str, Enum):
     KNOWLEDGE_GRAPH = "knowledge_graph"
     TOOL_OUTPUT = "tool_output"
     USER_PROFILE = "user_profile"
-    LEASE_DATA = "lease_data"
+    ENTERPRISE_DATA = "enterprise_data"
     SYSTEM = "system"
 
 class ContextItem(BaseModel):

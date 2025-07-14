@@ -84,7 +84,7 @@ def generate_mock_usage_report(days: int = 7) -> UsageReport:
         avg_session_duration=random.uniform(8.5, 25.0),  # minutes
         most_active_hours=[9, 10, 11, 14, 15, 16],  # Business hours
         top_agents=[
-            {"agent_id": "lease", "name": "TSC Lease Document Agent", "usage_count": random.randint(800, 1500), "percentage": random.uniform(35, 45)},
+            {"agent_id": "hr", "name": "HR Assistant Agent", "usage_count": random.randint(800, 1500), "percentage": random.uniform(35, 45)},
             {"agent_id": "support", "name": "TSC Customer Support", "usage_count": random.randint(600, 1200), "percentage": random.uniform(25, 35)},
             {"agent_id": "sales", "name": "TSC Sales Expert", "usage_count": random.randint(400, 800), "percentage": random.uniform(15, 25)},
             {"agent_id": "technical", "name": "TSC Technical Expert", "usage_count": random.randint(200, 600), "percentage": random.uniform(10, 20)},

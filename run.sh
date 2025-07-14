@@ -220,7 +220,7 @@ SNOWFLAKE_SCHEMA=
 
 # MongoDB Configuration
 MONGODB_URI=mongodb://localhost:27017
-MONGODB_DB_NAME=lease_agent
+MONGODB_DB_NAME=enterprise_agent
 MONGODB_SESSION_TTL_HOURS=24
 
 # Redis Configuration
@@ -239,7 +239,7 @@ if ! grep -q "MONGODB_URI" .env; then
     echo "" >> .env
     echo "# MongoDB Configuration" >> .env
     echo "MONGODB_URI=mongodb://localhost:27017" >> .env
-    echo "MONGODB_DB_NAME=lease_agent" >> .env
+    echo "MONGODB_DB_NAME=enterprise_agent" >> .env
     echo "MONGODB_SESSION_TTL_HOURS=24" >> .env
 fi
 
@@ -330,7 +330,7 @@ import os
 async def check_mongo():
     load_dotenv()
     uri = os.getenv('MONGODB_URI', 'mongodb://localhost:27017')
-    db_name = os.getenv('MONGODB_DB_NAME', 'lease_agent')
+    db_name = os.getenv('MONGODB_DB_NAME', 'enterprise_agent')
     try:
         client = AsyncIOMotorClient(uri, serverSelectionTimeoutMS=5000)
         await client.admin.command('ping')

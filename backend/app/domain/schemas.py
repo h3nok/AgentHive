@@ -18,6 +18,8 @@ class AgentType(str, Enum):
     SALES = "sales"
     SUPPORT = "support"
     HR = "hr"
+    FINANCE = "finance"
+    IT = "it"
     MARKETING = "marketing"
     ANALYTICS = "analytics"
     CUSTOM = "custom"

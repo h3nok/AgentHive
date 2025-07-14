@@ -38,7 +38,7 @@ export const useSessions = (limit = 50) =>
   useQuery({
     queryKey: [...listSessionsKey, limit],
     queryFn: async () => {
-      const { data } = await api.get<SessionSummary[]>(`/sessions?limit=${limit}`)
+      const { data } = await api.get<SessionSummary[]>(`/v1/sessions?limit=${limit}`)
       return data
     },
     staleTime: 30_000,
@@ -48,7 +48,7 @@ export const useSession = (id: string, enabled = true) =>
   useQuery({
     queryKey: ['session', id],
     queryFn: async () => {
-      const { data } = await api.get<Session>(`/sessions/${id}`)
+      const { data } = await api.get<Session>(`/v1/sessions/${id}`)
       return data
     },
     enabled,
@@ -63,7 +63,7 @@ function wrapMutation<TData, TVars>(m: ReturnType<typeof useMutation<TData, unkn
 export const useCreateSession = () => {
   const qc = useQueryClient()
   const m = useMutation<SessionSummary, unknown, CreateSessionBody>({
-    mutationFn: async (body) => (await api.post('/sessions', body)).data,
+    mutationFn: async (body) => (await api.post('/v1/sessions', body)).data,
     onSuccess: () => qc.invalidateQueries({ queryKey: listSessionsKey }),
   })
   return wrapMutation(m)
@@ -73,7 +73,7 @@ export const useUpdateSession = () => {
   const qc = useQueryClient()
   const m = useMutation<void, unknown, { id: string; changes: UpdateSessionBody }>({
     mutationFn: async ({ id, changes }) => {
-      await api.patch(`/sessions/${id}`, changes)
+      await api.patch(`/v1/sessions/${id}`, changes)
     },
     onSuccess: (_d, { id }) => {
       qc.invalidateQueries({ queryKey: ['session', id] })
@@ -87,7 +87,7 @@ export const useDeleteSession = () => {
   const qc = useQueryClient()
   const m = useMutation<void, unknown, string>({
     mutationFn: async (id) => {
-      await api.delete(`/sessions/${id}`)
+      await api.delete(`/v1/sessions/${id}`)
     },
     onSuccess: (_d, id) => {
       qc.invalidateQueries({ queryKey: ['session', id] })

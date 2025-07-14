@@ -1,0 +1,6 @@
+# MCP Servers Requirements for AgentHive Demo
+# These are the dependencies needed to run the mock enterprise MCP servers
+
+aiohttp>=3.8.0
+asyncio-mqtt>=0.11.0  # If MQTT support is needed later
+pydantic>=2.0.0       # For data validation

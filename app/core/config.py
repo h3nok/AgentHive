@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 load_dotenv(override=True)  # Override existing environment variables
 
 # Determine if debug mode is enabled globally
-DEBUG_MODE = os.environ.get("LEASE_AGENT_DEBUG", "").lower() in ("true", "1", "yes")
+DEBUG_MODE = os.environ.get("ENTERPRISE_DEBUG", "").lower() in ("true", "1", "yes")
 
 
 class Settings(BaseModel):
@@ -23,19 +23,25 @@ class Settings(BaseModel):
     LOG_LEVEL: str = "DEBUG" if DEBUG_MODE else "INFO"
 
     # LLM Provider
-    LLM_PROVIDER: Literal["azure", "ollama", "coretex"] = os.getenv(
-        "LLM_PROVIDER", "azure"
-    ).lower()
+    _llm_provider = os.getenv("LLM_PROVIDER", "openai").lower()
+    if _llm_provider not in ["azure", "openai", "ollama", "coretex"]:
+        _llm_provider = "openai"
+    LLM_PROVIDER: Literal["azure", "openai", "ollama", "coretex"] = _llm_provider  # type: ignore
 
     # Azure OpenAI Settings
     AZURE_OPENAI_ENDPOINT: str = os.getenv("AZURE_OPENAI_ENDPOINT", "")
     AZURE_OPENAI_API_KEY: str = os.getenv("AZURE_OPENAI_API_KEY", "")
     AZURE_OPENAI_API_VERSION: str = os.getenv("AZURE_OPENAI_API_VERSION", "2023-05-15")
     AZURE_OPENAI_DEPLOYMENT: str = os.getenv("AZURE_OPENAI_DEPLOYMENT", "")
-    AZURE_OPENAI_MODEL: str = os.getenv("AZURE_OPENAI_MODEL", "gpt-4")
+    AZURE_OPENAI_MODEL: str = os.getenv("AZURE_OPENAI_MODEL", "gpt-3.5-turbo")
     AZURE_OPENAI_NUM_CONCURRENT_CONNECTIONS: int = int(
         os.getenv("AZURE_OPENAI_NUM_CONCURRENT_CONNECTIONS", "10")
     )
+
+    # OpenAI Settings
+    OPENAI_API_KEY: str = os.getenv("OPENAI_API_KEY", "")
+    OPENAI_MODEL: str = os.getenv("OPENAI_MODEL", "gpt-3.5-turbo")
+    OPENAI_ORGANIZATION: str = os.getenv("OPENAI_ORGANIZATION", "")
 
     # Ollama Settings (Fallback LLM)
     OLLAMA_BASE_URL: str = os.getenv("OLLAMA_BASE_URL", "http://localhost:11434")
@@ -77,7 +83,7 @@ class Settings(BaseModel):
 
     # MongoDB Settings
     MONGODB_URI: str = os.getenv("MONGODB_URI", "mongodb://localhost:27017")
-    MONGODB_DB_NAME: str = os.getenv("MONGODB_DB_NAME", "lease_agent")
+    MONGODB_DB_NAME: str = os.getenv("MONGODB_DB_NAME", "enterprise_hive")
     MONGODB_SESSION_TTL_HOURS: int = int(os.getenv("MONGODB_SESSION_TTL_HOURS", "24"))
 
     # Redis Settings
@@ -94,7 +100,7 @@ class Settings(BaseModel):
     COUCHBASE_CONNECTION_STRING: str = os.getenv("COUCHBASE_CONNECTION_STRING", "")
     COUCHBASE_USERNAME: str = os.getenv("COUCHBASE_USERNAME", "")
     COUCHBASE_PASSWORD: str = os.getenv("COUCHBASE_PASSWORD", "")
-    COUCHBASE_BUCKET: str = os.getenv("COUCHBASE_BUCKET", "lease_agent")
+    COUCHBASE_BUCKET: str = os.getenv("COUCHBASE_BUCKET", "enterprise_hive")
     COUCHBASE_SCOPE: str = os.getenv("COUCHBASE_SCOPE", "_default")
     COUCHBASE_SSL: bool = os.getenv("COUCHBASE_SSL", "True").lower() == "true"
     COUCHBASE_CERT_PATH: str = os.getenv("COUCHBASE_CERT_PATH", "")

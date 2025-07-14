@@ -1,0 +1,81 @@
+http:
+  middlewares:
+    # Security headers middleware
+    security-headers:
+      headers:
+        sslRedirect: true
+        forceSTSHeader: true
+        stsIncludeSubdomains: true
+        stsPreload: true
+        stsSeconds: 15552000
+        browserXssFilter: true
+        contentTypeNosniff: true
+        frameDeny: true
+        sslHost: "${DOMAIN}"
+        referrerPolicy: "strict-origin-when-cross-origin"
+        
+    # Rate limiting
+    rate-limit:
+      rateLimit:
+        average: 100
+        burst: 50
+
+  # Routers
+  routers:
+    # API Router
+    api-router:
+      rule: "Host(`api.${DOMAIN}`) || PathPrefix(`/api`)"
+      service: backend
+      middlewares:
+        - security-headers
+      tls:
+        certResolver: letsencrypt
+        domains:
+          - main: "${DOMAIN}"
+            sans:
+              - "api.${DOMAIN}"
+
+    # Frontend Router
+    frontend-router:
+      rule: "Host(`${DOMAIN}`) || Host(`www.${DOMAIN}`)"
+      service: frontend
+      middlewares:
+        - security-headers
+      tls:
+        certResolver: letsencrypt
+        domains:
+          - main: "${DOMAIN}"
+            sans:
+              - "www.${DOMAIN}"
+
+    # Monitoring Router
+    monitoring-router:
+      rule: "Host(`monitor.${DOMAIN}`)"
+      service: monitoring
+      middlewares:
+        - security-headers
+        - rate-limit
+      tls:
+        certResolver: letsencrypt
+        domains:
+          - main: "monitor.${DOMAIN}"
+
+  # Services
+  services:
+    backend:
+      loadBalancer:
+        servers:
+          - url: "http://backend:8000"
+        passHostHeader: true
+
+    frontend:
+      loadBalancer:
+        servers:
+          - url: "http://frontend:80"
+        passHostHeader: true
+
+    monitoring:
+      loadBalancer:
+        servers:
+          - url: "http://grafana:3000"
+        passHostHeader: true

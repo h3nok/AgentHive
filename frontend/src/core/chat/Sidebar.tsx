@@ -61,7 +61,9 @@ import {
   updateFolderName,
   deleteFolder,
   updateSessionTitle,
-  clearSessionMessages
+  clearSessionMessages,
+  incrementTaskCounter,
+  fixLegacySessionNames
 } from './chat/chatSlice';
 import { 
   useListSessionsQuery as useListSessionsQueryApi,
@@ -205,27 +207,85 @@ const Sidebar: React.FC<SidebarProps> = ({
   // Fetch sessions from API
   const { data: sessionsData } = useListSessionsQueryApi();
   
-  // Transform API data to match expected format
-  const transformedSessions = sessionsData?.map(session => ({
-    id: session.session_id,
-    title: session.title || `Chat ${new Date().toLocaleDateString()}`,
-    messages: [], // Will be populated when session is selected
-    createdAt: session.updated_at,
-    updatedAt: session.updated_at,
-    folderId: 'default', // Default folder for now
-    pinned: session.pinned || false,
-  })) || [];
-  
-  const sessions = transformedSessions;
   const folders = useSelector((state: RootState) => state.chat.folders);
   const activeSessionId = useSelector((state: RootState) => state.chat.activeSessionId);
+  const taskCounter = useSelector((state: RootState) => state.chat.taskCounter);
+  const reduxSessions = useSelector((state: RootState) => state.chat.sessions);
   
-  // Ensure default folder exists
+  // Transform API data to match expected format
+  const transformedSessions = React.useMemo(() => {
+    return sessionsData?.map(session => {
+      // Get messages from Redux store for this session
+      const reduxSession = reduxSessions.find(s => s.id === session.session_id);
+      
+      return {
+        id: session.session_id,
+        title: session.title || `Task ${new Date().toLocaleDateString()}`,
+        messages: reduxSession?.messages || [], // Get messages from Redux store
+        createdAt: session.updated_at,
+        updatedAt: session.updated_at,
+        folderId: folders.length > 0 ? folders[0].id : 'default', // Use first folder ID
+        pinned: session.pinned || false,
+      };
+    }) || [];
+  }, [sessionsData, folders, reduxSessions]);
+  
+  const sessions = transformedSessions;
+  
+  // Ensure default folder exists (prevent duplicates)
   React.useEffect(() => {
     if (folders.length === 0) {
       dispatch(createFolder("Default"));
+    } else {
+      // Check for and cleanup duplicate default folders
+      const defaultFolders = folders.filter(f => 
+        f.name === "Default" || 
+        f.name === "Default Session" || 
+        f.name.toLowerCase().includes("default")
+      );
+      
+      if (defaultFolders.length > 1) {
+        console.warn(`Found ${defaultFolders.length} default folders, cleaning up duplicates`);
+        
+        // Keep the first one and remove the rest
+        const folderToKeep = defaultFolders[0];
+        const foldersToRemove = defaultFolders.slice(1);
+        
+        // Move all sessions from duplicate folders to the main one
+        foldersToRemove.forEach(duplicateFolder => {
+          const sessionsInDuplicate = sessions.filter(s => s.folderId === duplicateFolder.id);
+          sessionsInDuplicate.forEach(session => {
+            dispatch(moveSessionToFolder({ sessionId: session.id, folderId: folderToKeep.id }));
+          });
+          
+          // Delete the duplicate folder
+          dispatch(deleteFolder(duplicateFolder.id));
+        });
+        
+        // Rename the kept folder to "Default" if it's not already
+        if (folderToKeep.name !== "Default") {
+          dispatch(updateFolderName({ folderId: folderToKeep.id, name: "Default" }));
+        }
+      }
     }
-  }, [folders.length, dispatch]);
+  }, [folders, sessions, dispatch]);
+
+  // Fix old session names on mount (one-time operation)
+  React.useEffect(() => {
+    if (sessions.length > 0) {
+      const hasOldNames = sessions.some(session => 
+        !session.title || 
+        session.title.includes('New Chat') ||
+        session.title.includes('Chat ') ||
+        (session.title.includes('Session ') && !session.title.startsWith('Task '))
+      );
+      
+      if (hasOldNames) {
+        console.log('🔧 Fixing old session names...');
+        dispatch(fixLegacySessionNames());
+      }
+    }
+  }, [sessions.length, dispatch]); // Only run when sessions are first loaded
   
   // Hover state for expand on hover
   const [isHovered, setIsHovered] = useState(false);
@@ -319,8 +379,8 @@ const Sidebar: React.FC<SidebarProps> = ({
   // Handler for closing the move folder submenu
   const handleMoveFolderMenuClose = closeMoveFolderMenuAnchor;
   
-  // Handler for moving all chats from one folder to another
-  const handleMoveAllChats = (targetFolderId: string) => {
+  // Handler for moving all tasks from one folder to another
+  const handleMoveAllTasks = (targetFolderId: string) => {
     if (selectedFolderId && targetFolderId !== selectedFolderId) {
       // Get all sessions in the selected folder
       const sessionsToMove = sessions.filter(session => session.folderId === selectedFolderId);
@@ -413,7 +473,10 @@ const Sidebar: React.FC<SidebarProps> = ({
       try {
         const session = sessions.find(s => s.id === selectedSessionId);
         if (session) {
-          const duplicateTitle = `${session.title || 'Chat'} (Copy)`;
+          // Increment task counter first
+          dispatch(incrementTaskCounter());
+          const nextTaskNumber = taskCounter + 1;
+          const duplicateTitle = `Task ${nextTaskNumber} (Copy)`;
           const result = await createSession({ title: duplicateTitle }).unwrap();
           const newSessionId = result.session_id;
           
@@ -525,12 +588,14 @@ const Sidebar: React.FC<SidebarProps> = ({
     }));
   };
 
-  // Add folder-specific new chat handler
-  const handleNewChatInFolder = async (folderId: string, event?: React.MouseEvent) => {
+  // Add folder-specific new task handler
+  const handleNewTaskInFolder = async (folderId: string, event?: React.MouseEvent) => {
     if (event) event.stopPropagation();
     try {
-      const now = new Date();
-      const defaultTitle = `Chat ${now.toLocaleDateString()} ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+      // Increment task counter first
+      dispatch(incrementTaskCounter());
+      const nextTaskNumber = taskCounter + 1;
+      const defaultTitle = `Task ${nextTaskNumber}`;
       const result = await createSession({ title: defaultTitle }).unwrap();
       const newId = result.session_id;
       // Ensure session linked to selected folder
@@ -542,20 +607,24 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
-  const handleNewChat = async () => {
+  const handleNewTask = async () => {
     try {
       // Check if there are any folders, and create a default one if not
       if (folders.length === 0) {
-        dispatch(createFolder("Default Session"));
+        dispatch(createFolder("Default"));
         // Wait a bit for the folder to be created
         await new Promise(resolve => setTimeout(resolve, 100));
       }
       
       const now = new Date();
-      const defaultTitle = `Chat ${now.toLocaleDateString()} ${now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}`;
+      // Increment task counter first
+      dispatch(incrementTaskCounter());
+      const nextTaskNumber = taskCounter + 1;
+      const defaultTitle = `Task ${nextTaskNumber}`;
       const result = await createSession({ title: defaultTitle }).unwrap();
       const newId = result.session_id;
       
+      // Increment task counter after successful creation
       dispatch(updateSessionTitle({ sessionId: newId, title: defaultTitle }));
       
       // Ensure session linked to selected folder
@@ -578,7 +647,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   
   // Function to render a session list item
   const renderSessionItem = (session: typeof sessions[number]) => {
-    const sessionTitle = session.title || `Chat ${new Date(session.createdAt).toLocaleDateString()}`;
+    const sessionTitle = session.title || `Task ${new Date(session.createdAt).toLocaleDateString()}`;
     const messageCount = `${session.messages.length} messages`;
     const isActive = session.id === activeSessionId;
     
@@ -784,11 +853,11 @@ const Sidebar: React.FC<SidebarProps> = ({
             <Typography variant="body2" sx={{ fontSize: '0.875rem', fontWeight: 500, flexGrow: 1, textTransform: 'none' }}>
               {folder.name} ({folderContent.length})
             </Typography>
-            {/* Add New Chat to Folder Button */}
-            <Tooltip title="New chat in this session" PopperProps={{ sx: { zIndex: 1400 } }}>
+            {/* Add New Task to Folder Button */}
+            <Tooltip title="New task in this folder" PopperProps={{ sx: { zIndex: 1400 } }}>
               <IconButton
                 size="small"
-                onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleNewChatInFolder(folder.id, e)}
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleNewTaskInFolder(folder.id, e)}
                 sx={{
                   opacity: 0.8,
                   color: theme.palette.primary.main,
@@ -881,7 +950,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                   color="primary"
                   size="small"
                   startIcon={<AddIcon fontSize="small" />}
-                  onClick={() => handleNewChatInFolder(folder.id)}
+                  onClick={() => handleNewTaskInFolder(folder.id)}
                   sx={{
                     textTransform: 'none',
                     fontSize: '0.75rem',
@@ -1160,9 +1229,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                         transition: 'opacity 0.3s ease'
                       }}
                     >
-                      Sessions
+                      Tasks
                     </Typography>
-                    <Tooltip title="New Session" PopperProps={{ sx: { zIndex: 1400 } }}>
+                    <Tooltip title="New Task" PopperProps={{ sx: { zIndex: 1400 } }}>
                       <IconButton 
                         size="small" 
                         onClick={() => setFolderDialogOpen(true)}
@@ -1252,7 +1321,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                         transition: 'opacity 0.3s ease'
                       }}
                     >
-                      Pinned Chats
+                      Pinned Tasks
                     </Typography>
                   )}
                   <List dense sx={{ mt: isCollapsed && !isHovered ? 0 : 0.5, px: isExpanded ? undefined : 0, textAlign: isExpanded ? undefined : 'center' }}>
@@ -1302,7 +1371,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                       }}
                     >
                       <Typography variant="body2" sx={{ fontSize: '0.85rem' }}>
-                        No sessions available
+                        No tasks available
                       </Typography>
                       <Button
                         variant="contained"
@@ -1321,7 +1390,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                           }
                         }}
                       >
-                        Create Session
+                        Create Task
                       </Button>
                     </Box>
                   )
@@ -1330,7 +1399,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               )}
             </Box>
 
-            {/* New Chat Button - Enterprise FAB for collapsed state, button for expanded state */}
+            {/* New Task Button - Enterprise FAB for collapsed state, button for expanded state */}
             <Box 
               sx={{ 
                 mt: 'auto', 
@@ -1351,7 +1420,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                   color="primary"
                   size="large"
                   startIcon={<AddIcon />}
-                  onClick={handleNewChat}
+                  onClick={handleNewTask}
                   sx={{
                     textTransform: 'none',
                     fontWeight: 600,
@@ -1387,14 +1456,14 @@ const Sidebar: React.FC<SidebarProps> = ({
                     },
                   }}
                 >
-                  New Chat
+                  New Task
                 </Button>
               ) : (
                 <EnterpriseFloatingActionButton
                   icon={<AddIcon />}
-                  tooltip="New Chat"
+                  tooltip="New Task"
                   colorVariant="primary"
-                  onClick={handleNewChat}
+                  onClick={handleNewTask}
                   size="medium"
                 />
               )}
@@ -1484,7 +1553,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 <ListItemIcon sx={{ color: theme.palette.primary.main }}>
                   <DeleteOutlineIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText primary="Clear chats" />
+                <ListItemText primary="Clear tasks" />
               </MenuItem>
               
               <Divider sx={{ 
@@ -1626,7 +1695,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 <ListItemIcon sx={{ color: theme.palette.primary.main }}>
                   <FolderIcon fontSize="small" />
                 </ListItemIcon>
-                <ListItemText primary="Move all chats to" />
+                <ListItemText primary="                  Move all tasks to" />
               </MenuItem>
               
               <MenuItem 
@@ -1688,7 +1757,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                 .map(folder => (
                   <MenuItem 
                     key={folder.id} 
-                    onClick={() => handleMoveAllChats(folder.id)}
+                    onClick={() => handleMoveAllTasks(folder.id)}
                     dense
                     sx={{
                       pl: 2,
@@ -1716,12 +1785,12 @@ const Sidebar: React.FC<SidebarProps> = ({
               fullWidth
               sx={{ zIndex: 1400 }}
             >
-              <DialogTitle>New Session</DialogTitle>
+              <DialogTitle>New Folder</DialogTitle>
               <DialogContent sx={{ pt: 2 }}>
                 <TextField
                   autoFocus
                   margin="dense"
-                  label="Session Name"
+                  label="Folder Name"
                   type="text"
                   fullWidth
                   variant="outlined"
@@ -1750,12 +1819,12 @@ const Sidebar: React.FC<SidebarProps> = ({
               fullWidth
               sx={{ zIndex: 1400 }}
             >
-              <DialogTitle>Rename Session</DialogTitle>
+              <DialogTitle>Rename Folder</DialogTitle>
               <DialogContent sx={{ pt: 2 }}>
                 <TextField
                   autoFocus
                   margin="dense"
-                  label="Session Name"
+                  label="Folder Name"
                   type="text"
                   fullWidth
                   variant="outlined"
@@ -1784,12 +1853,12 @@ const Sidebar: React.FC<SidebarProps> = ({
               fullWidth
               sx={{ zIndex: 1400 }}
             >
-              <DialogTitle>Rename Chat</DialogTitle>
+              <DialogTitle>Rename Task</DialogTitle>
               <DialogContent sx={{ pt: 2 }}>
                 <TextField
                   autoFocus
                   margin="dense"
-                  label="Chat Name"
+                  label="Task Name"
                   type="text"
                   fullWidth
                   variant="outlined"
@@ -1834,7 +1903,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     </Typography>
                     
                     <Typography variant="body2" sx={{ mb: 2, color: theme.palette.text.secondary }}>
-                      Chats in this session will be moved to another available session.
+                      Tasks in this session will be moved to another available session.
                     </Typography>
                     
                     {folderDeleteError && (

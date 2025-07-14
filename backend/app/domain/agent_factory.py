@@ -238,9 +238,14 @@ class GeneralAgent(BaseAgent):
     async def _initialize(self) -> None:
         """Initialize the general agent."""
         # Import here to avoid circular dependencies
-        from ..adapters.llm_openai import OpenAIAdapter
-        self.llm_adapter = OpenAIAdapter()
-        logger.info("General agent initialized")
+        from ..domain.llm_factory import create_llm_adapter
+        try:
+            self.llm_adapter = create_llm_adapter()
+            logger.info("General agent initialized with LLM adapter")
+        except Exception as e:
+            logger.error(f"Failed to initialize General agent LLM adapter: {e}")
+            # This agent cannot function without an LLM adapter
+            raise RuntimeError(f"General agent initialization failed: No LLM provider available. {e}")
     
     @measure_tokens
     async def handle(self, context: RequestContext) -> Union[AgentResponse, AsyncIterator[str]]:
@@ -273,7 +278,7 @@ class GeneralAgent(BaseAgent):
                 agent_type=AgentType.GENERAL,
                 metadata={"model": response.model},
                 usage=response.usage,
-                latency_ms=response.metadata.get("latency_ms")
+                latency_ms=response.metadata.get("latency_ms") if response.metadata else None
             )
     
     async def _stream_response(self, context: RequestContext, messages: list) -> AsyncIterator[str]:
