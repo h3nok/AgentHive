@@ -5,6 +5,7 @@ import { chatApi } from "../core/chat/chat/chatApi";
 import { sessionsApi } from "../core/chat/chat/sessionsApi";
 import websocketReducer from "../core/chat/chat/websocketSlice";
 import routerTraceReducer from "../core/routing/routerTrace/routerTraceSlice";
+import autoRoutingReducer from "../core/routing/autoRoutingSlice";
 import { routerAnalyticsApi } from "../core/routing/router/routerAnalyticsApi";
 import { modelsApi } from "../core/models/modelsApi";
 import { pluginApi } from "../core/plugins/pluginApi";
@@ -190,6 +191,7 @@ export const store = configureStore({
     chat: chatReducer,
     websocket: websocketReducer,
     routerTrace: routerTraceReducer,
+    autoRouting: autoRoutingReducer,
     strategy: strategyReducer,
     // Add the generated reducer as a specific top-level slice
     [chatApi.reducerPath]: chatApi.reducer,

@@ -355,6 +355,123 @@ class EnterpriseMCPService:
         self.tool_registry.clear()
         self.initialized = False
         logger.info("MCP service shutdown complete")
+    
+    # Agent-specific methods for enterprise operations
+    
+    async def search_user_info(self, user_identifier: str) -> MCPToolResult:
+        """Search for user information in IT systems."""
+        return await self.execute_tool("search_user", {"user_id": user_identifier})
+    
+    async def reset_password(self, user_identifier: str) -> MCPToolResult:
+        """Reset user password via IT systems."""
+        return await self.execute_tool("reset_password", {"user_id": user_identifier})
+    
+    async def create_service_ticket(self, summary: str, description: str, category: str = "General", priority: str = "Medium") -> MCPToolResult:
+        """Create a service ticket in ITSM system."""
+        return await self.execute_tool("create_ticket", {
+            "summary": summary,
+            "description": description, 
+            "category": category,
+            "priority": priority
+        })
+    
+    async def provision_user_account(self, user_data: Dict[str, Any]) -> MCPToolResult:
+        """Provision a new user account."""
+        return await self.execute_tool("provision_account", user_data)
+    
+    async def check_system_status(self, system_name: str) -> MCPToolResult:
+        """Check the status of an IT system."""
+        return await self.execute_tool("check_system_status", {"system": system_name})
+    
+    async def assign_software_license(self, user_id: str, software: str) -> MCPToolResult:
+        """Assign software license to user."""
+        return await self.execute_tool("assign_software_license", {
+            "user_id": user_id,
+            "software": software
+        })
+    
+    # Finance-specific methods
+    
+    async def submit_expense_report(self, expense_data: Dict[str, Any]) -> MCPToolResult:
+        """Submit an expense report to finance systems."""
+        return await self.execute_tool("submit_expense_report", expense_data)
+    
+    async def check_budget_balance(self, department: str, budget_category: str) -> MCPToolResult:
+        """Check budget balance for department/category."""
+        return await self.execute_tool("check_budget_balance", {
+            "department": department,
+            "category": budget_category
+        })
+    
+    async def process_reimbursement(self, reimbursement_data: Dict[str, Any]) -> MCPToolResult:
+        """Process a reimbursement request."""
+        return await self.execute_tool("process_reimbursement", reimbursement_data)
+    
+    async def create_purchase_order(self, po_data: Dict[str, Any]) -> MCPToolResult:
+        """Create a purchase order."""
+        return await self.execute_tool("create_purchase_order", po_data)
+    
+    async def get_financial_reports(self, report_type: str, parameters: Dict[str, Any]) -> MCPToolResult:
+        """Generate financial reports."""
+        return await self.execute_tool("get_financial_reports", {
+            "report_type": report_type,
+            **parameters
+        })
+    
+    # HR-specific methods
+    
+    async def submit_pto_request(self, pto_data: Dict[str, Any]) -> MCPToolResult:
+        """Submit a PTO/vacation request."""
+        return await self.execute_tool("submit_pto_request", pto_data)
+    
+    async def check_pto_balance(self, user_id: str) -> MCPToolResult:
+        """Check PTO balance for user."""
+        return await self.execute_tool("check_pto_balance", {"user_id": user_id})
+    
+    async def update_employee_info(self, user_id: str, updates: Dict[str, Any]) -> MCPToolResult:
+        """Update employee information."""
+        return await self.execute_tool("update_employee_info", {
+            "user_id": user_id,
+            "updates": updates
+        })
+    
+    async def enroll_benefits(self, user_id: str, benefits_data: Dict[str, Any]) -> MCPToolResult:
+        """Enroll employee in benefits."""
+        return await self.execute_tool("enroll_benefits", {
+            "user_id": user_id,
+            **benefits_data
+        })
+    
+    # Microsoft 365 integration methods
+    
+    async def create_calendar_event(self, event_data: Dict[str, Any]) -> MCPToolResult:
+        """Create a calendar event in M365."""
+        return await self.execute_tool("create_calendar_event", event_data)
+    
+    async def send_email(self, email_data: Dict[str, Any]) -> MCPToolResult:
+        """Send email via M365."""
+        return await self.execute_tool("send_email", email_data)
+    
+    async def create_teams_meeting(self, meeting_data: Dict[str, Any]) -> MCPToolResult:
+        """Create a Teams meeting."""
+        return await self.execute_tool("create_teams_meeting", meeting_data)
+    
+    async def search_sharepoint(self, query: str, site: Optional[str] = None) -> MCPToolResult:
+        """Search SharePoint for documents."""
+        params = {"query": query}
+        if site:
+            params["site"] = site
+        return await self.execute_tool("search_sharepoint", params)
+
+    async def shutdown(self):
+        """Shutdown all MCP connections."""
+        for client in self.clients.values():
+            await client.disconnect()
+        
+        self.clients.clear()
+        self.tool_registry.clear()
+        self.initialized = False
+        logger.info("MCP service shutdown complete")
 
 
 # Global MCP service instance

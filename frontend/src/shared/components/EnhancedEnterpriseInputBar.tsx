@@ -1,4 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
+import { useAppDispatch, useAppSelector } from '@/shared/store';
+import { setAutoRouting } from '@core/routing/autoRoutingSlice';
 import {
   Box,
   Paper,
@@ -160,7 +162,7 @@ const EnhancedEnterpriseInputBar: React.FC<EnhancedEnterpriseInputBarProps> = ({
   onFileUpload,
   onVoiceInput,
   maxTokens = 8192,
-  autoRouting = true,
+  autoRouting,
   onAutoRoutingChange,
   selectedAgent = 'general',
   onAgentChange,
@@ -172,7 +174,21 @@ const EnhancedEnterpriseInputBar: React.FC<EnhancedEnterpriseInputBarProps> = ({
   enableAgentRouting = true,
   enableSmartSuggestions = true,
   enableVoiceInput = true,
+  ...restProps
 }) => {
+  const dispatch = useAppDispatch();
+  const globalAutoRouting = useAppSelector(state => state.autoRouting.enabled);
+  // Determine which autoRouting value to use (prop overrides global)
+  const effectiveAutoRouting = autoRouting ?? globalAutoRouting;
+
+  // Handler uses prop callback if provided, otherwise dispatches to Redux
+  const handleAutoRoutingChange = useCallback((enabled: boolean) => {
+    if (onAutoRoutingChange) {
+      onAutoRoutingChange(enabled);
+    } else {
+      dispatch(setAutoRouting(enabled));
+    }
+  }, [onAutoRoutingChange, dispatch]);
   const [inputValue, setInputValue] = useState('');
   const [showCommands, setShowCommands] = useState(false);
   const [selectedCommandIndex, setSelectedCommandIndex] = useState(0);
@@ -243,7 +259,7 @@ const EnhancedEnterpriseInputBar: React.FC<EnhancedEnterpriseInputBarProps> = ({
 
   const handleSend = useCallback(() => {
     if (inputValue.trim() && !isLoading) {
-      const finalAgent = autoRouting ? determineAgent(inputValue.trim()) : (selectedAgent || 'general');
+      const finalAgent = effectiveAutoRouting ? determineAgent(inputValue.trim()) : (selectedAgent || 'general');
       onSendMessage(inputValue.trim(), finalAgent);
       setInputValue('');
       setAttachedFiles([]);
@@ -372,21 +388,21 @@ const EnhancedEnterpriseInputBar: React.FC<EnhancedEnterpriseInputBarProps> = ({
       {enableAgentRouting && (
         <Box sx={{ mb: 1, display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
           {/* Current Agent Display */}
-          <Tooltip title={autoRouting ? "Auto-routing enabled - agent will be selected automatically" : "Click to change agent"}>
+          <Tooltip title={effectiveAutoRouting ? "Auto-routing enabled - agent will be selected automatically" : "Click to change agent"}>
             <Chip
               avatar={
                 <Avatar sx={{ bgcolor: currentAgent.color, width: 24, height: 24 }}>
                   {React.createElement(currentAgent.icon, { fontSize: 'small', sx: { color: 'white' } })}
                 </Avatar>
               }
-              label={autoRouting ? "Auto-Route" : currentAgent.name}
-              onClick={!autoRouting ? (e) => setAgentMenuAnchor(e.currentTarget) : undefined}
+              label={effectiveAutoRouting ? "Auto-Route" : currentAgent.name}
+              onClick={!effectiveAutoRouting ? (e) => setAgentMenuAnchor(e.currentTarget) : undefined}
               sx={{
                 backgroundColor: alpha(currentAgent.color, 0.1),
                 color: currentAgent.color,
                 borderColor: alpha(currentAgent.color, 0.3),
-                cursor: autoRouting ? 'default' : 'pointer',
-                '&:hover': !autoRouting ? {
+                cursor: effectiveAutoRouting ? 'default' : 'pointer',
+                '&:hover': !effectiveAutoRouting ? {
                   backgroundColor: alpha(currentAgent.color, 0.2),
                 } : {},
               }}
@@ -394,13 +410,13 @@ const EnhancedEnterpriseInputBar: React.FC<EnhancedEnterpriseInputBarProps> = ({
           </Tooltip>
 
           {/* Auto-routing Toggle */}
-          <Tooltip title={autoRouting ? "Disable auto-routing to manually select agents" : "Enable auto-routing for smart agent selection"}>
+          <Tooltip title={effectiveAutoRouting ? "Disable auto-routing to manually select agents" : "Enable auto-routing for smart agent selection"}>
             <Chip
               icon={<AutoModeIcon />}
-              label={autoRouting ? "Auto" : "Manual"}
-              onClick={() => onAutoRoutingChange?.(!autoRouting)}
-              color={autoRouting ? "primary" : "default"}
-              variant={autoRouting ? "filled" : "outlined"}
+              label={effectiveAutoRouting ? "Auto" : "Manual"}
+              onClick={() => handleAutoRoutingChange(!effectiveAutoRouting)}
+              color={effectiveAutoRouting ? "primary" : "default"}
+              variant={effectiveAutoRouting ? "filled" : "outlined"}
               sx={{
                 cursor: 'pointer',
                 '&:hover': {

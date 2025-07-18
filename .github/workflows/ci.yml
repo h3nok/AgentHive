@@ -1,0 +1,45 @@
+name: frontend-ci
+
+on:
+  push:
+    branches: [main, development]
+  pull_request:
+    branches: [main, development]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+        working-directory: frontend
+
+      - name: Lint
+        run: pnpm lint
+        working-directory: frontend
+
+      - name: Type check
+        run: pnpm exec tsc --noEmit
+        working-directory: frontend
+
+      - name: Unit tests
+        run: pnpm test -- --run
+        working-directory: frontend
+
+      - name: Build
+        run: pnpm build
+        working-directory: frontend

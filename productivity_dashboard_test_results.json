@@ -1,49 +1,49 @@
 {
   "total_tests": 7,
-  "passed_tests": 2,
-  "success_rate": 28.57142857142857,
+  "passed_tests": 1,
+  "success_rate": 14.285714285714285,
   "detailed_results": [
     {
       "test": "Component Imports",
       "success": false,
       "details": "Missing imports: [\"import ChatInterface from '../chat/ChatInterface'\", \"import KPICard from '../admin/components/KPICard'\", \"import HeadsUpTile from '../admin/components/HeadsUpTile'\", \"import { useDispatch, useSelector } from 'react-redux'\", 'selectMessagesBySessionId', 'createNewSession', 'setActiveSession', 'addMessage']",
-      "timestamp": "2025-07-14 10:14:31"
+      "timestamp": "2025-07-14 10:19:27"
     },
     {
       "test": "ChatInterface Props",
       "success": false,
       "details": "Missing props: ['onSendMessage={handleSendMessage}', 'messages={messages}', 'sessionId={activeSessionId}', 'enterpriseMode={true}', 'embeddedMode={true}', 'workspaceContext=']",
-      "timestamp": "2025-07-14 10:14:31"
+      "timestamp": "2025-07-14 10:19:27"
     },
     {
       "test": "Analytics Enhancement",
       "success": false,
       "details": "Missing components: ['<KPICard', '<HeadsUpTile', 'Productivity Score', 'Avg Response Time']",
-      "timestamp": "2025-07-14 10:14:31"
+      "timestamp": "2025-07-14 10:19:27"
     },
     {
       "test": "Redux Integration",
       "success": false,
       "details": "Missing Redux elements: ['const dispatch = useDispatch()', 'const sessions = useSelector', 'const activeSessionId = useSelector', 'const messages = useSelector', 'const handleSendMessage = useCallback', 'dispatch(createNewSession(', 'dispatch(setActiveSession(', 'dispatch(addMessage(']",
-      "timestamp": "2025-07-14 10:14:31"
+      "timestamp": "2025-07-14 10:19:27"
     },
     {
       "test": "Workspace Context",
       "success": false,
       "details": "Missing context elements: ['workspaceContext={selectedWorkspace ?', 'id: selectedWorkspace', 'title: workspaces.find', 'type: workspaces.find', 'metadata: {', 'onWorkspaceAction=']",
-      "timestamp": "2025-07-14 10:14:31"
+      "timestamp": "2025-07-14 10:19:27"
     },
     {
       "test": "Admin Component Reuse",
       "success": true,
       "details": "Admin components exist and are properly structured",
-      "timestamp": "2025-07-14 10:14:31"
+      "timestamp": "2025-07-14 10:19:27"
     },
     {
       "test": "Dashboard Accessibility",
-      "success": true,
-      "details": "Status: 200",
-      "timestamp": "2025-07-14 10:14:31"
+      "success": false,
+      "details": "HTTPConnectionPool(host='localhost', port=5173): Max retries exceeded with url: /dashboard (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x100e4caa0>: Failed to establish a new connection: [Errno 61] Connection refused'))",
+      "timestamp": "2025-07-14 10:19:27"
     }
   ]
 }

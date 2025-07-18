@@ -12,6 +12,8 @@
     "preview": "vite preview",
     "preview:build": "vite preview --port 4173 --host",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
     "rebuild-esbuild": "pnpm rebuild esbuild",
     "deploy:gh-pages": "gh-pages -d dist -t true"
   },
@@ -150,8 +152,8 @@
     "globals": "^15.12.0",
     "jsdom": "^26.1.0",
     "postcss": "8.4.49",
+    "prettier": "^3.3.2",
     "react-grid-layout": "^1.5.1",
-    "react-resizable": "^3.0.4",
     "tailwindcss": "v3.4.16",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.15.0",
