@@ -1,10 +1,11 @@
 import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../shared/store';
-import { selectMessagesBySessionId, ChatMessage as ChatMessageType } from './chat/chatSlice';
+import { selectMessagesBySessionId, ChatMessage as ChatMessageType, setActiveSession } from './chat/chatSlice';
 import ChatMessage from './ChatMessage';
 import EnterpriseAgentSelector from './EnterpriseAgentSelector';
 import { AgentType } from '../../shared/types/agent';
+import EnhancedEnterpriseInputBar from '../../shared/components/EnhancedEnterpriseInputBar';
 import {
   Box,
   Typography,
@@ -121,11 +122,16 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [isAutomationDrawerOpen, setIsAutomationDrawerOpen] = useState(false);
   
   // Get current session and messages from Redux state
+  const dispatch = useDispatch();
   const activeSessionId = useSelector((state: RootState) => state.chat.activeSessionId);
   const allSessions = useSelector((state: RootState) => state.chat.sessions);
   
-  // Use sessionId from props/params or fallback to active session
-  const currentSessionId = sessionId || activeSessionId;
+  // Determine effective session id: props -> active -> first available
+  const currentSessionId = useMemo(() => {
+    if (sessionId) return sessionId;
+    if (activeSessionId) return activeSessionId;
+    return allSessions.length > 0 ? allSessions[0].id : null;
+  }, [sessionId, activeSessionId, allSessions]);
   
   // Get messages from Redux state for the current session
   const reduxMessages = useSelector((state: RootState) => {
@@ -150,6 +156,13 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     });
   }, [propMessages, reduxMessages]);
   
+  // When there is no activeSessionId but sessions exist, set the first one as active
+  useEffect(() => {
+    if (!activeSessionId && allSessions.length > 0) {
+      dispatch(setActiveSession(allSessions[0].id));
+    }
+  }, [activeSessionId, allSessions, dispatch]);
+
   // Get active session info
   const activeSession = useMemo(() => 
     currentSessionId ? allSessions.find((s: any) => s.id === currentSessionId) : null, 
@@ -655,111 +668,15 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
               )}
             </AnimatePresence>
 
-            {/* Main Input Field */}
-            <Paper 
-              elevation={0} // Remove shadow for lighter look
-              sx={{
-                borderRadius: 3,
-                border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`, // Lighter border
-                overflow: 'hidden',
-                background: theme.palette.mode === 'dark' 
-                  ? `rgba(30, 30, 30, 0.6)` // More transparent dark
-                  : `rgba(255, 255, 255, 0.7)`, // More transparent light
-                backdropFilter: 'blur(20px)', // Stronger blur for better text readability
-                WebkitBackdropFilter: 'blur(20px)',
-              }}
-            >
-              <Box sx={{ p: 3 }}>
-                <TextField
-                  fullWidth
-                  variant="outlined"
-                  placeholder="Type a message..."
-                  value={inputValue}
-                  onChange={handleInputChange}
-                  onKeyPress={handleKeyPress}
-                  disabled={isLoading}
-                  inputRef={inputRef}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <IconButton size="small">
-                          <AttachFile fontSize="small" />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Tooltip title="Voice input">
-                          <span>
-                            <IconButton size="small" disabled={isLoading}>
-                              <Mic />
-                            </IconButton>
-                          </span>
-                        </Tooltip>
-                        <Tooltip title="Send message">
-                          <span>
-                            <IconButton 
-                              onClick={handleSend}
-                              disabled={!inputValue.trim() || isLoading}
-                              sx={{
-                                bgcolor: inputValue.trim() ? theme.palette.primary.main : 'transparent',
-                                color: inputValue.trim() ? 'white' : theme.palette.text.disabled,
-                                '&:hover': {
-                                  bgcolor: inputValue.trim() ? theme.palette.primary.dark : alpha(theme.palette.primary.main, 0.1)
-                                },
-                                transition: 'all 0.2s ease-in-out',
-                                ml: 1
-                              }}
-                            >
-                              <Send />
-                            </IconButton>
-                          </span>
-                        </Tooltip>
-                      </InputAdornment>
-                    )
-                  }}
-                />
-                <Stack direction="row" justifyContent="space-between" alignItems="center" mt={2}>
-                  <Stack direction="row" spacing={1}>
-                    {enterpriseMode && (
-                      <>
-                        <Chip
-                          icon={<SmartToy />}
-                          label="AI Agents Ready"
-                          size="small"
-                          clickable
-                          onClick={onNavigateToAgents}
-                          sx={{
-                            fontSize: '0.7rem',
-                            '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.05) }
-                          }}
-                        />
-                        <Chip
-                          icon={<AutoAwesome />}
-                          label={`${activeWorkflows || 0} Active Workflows`}
-                          size="small"
-                          clickable
-                          onClick={onNavigateToWorkflows}
-                          sx={{
-                            fontSize: '0.7rem',
-                            '&:hover': { bgcolor: alpha(theme.palette.primary.main, 0.05) }
-                          }}
-                        />
-                      </>
-                    )}
-                  </Stack>
-                  
-                  <Stack direction="row" spacing={1} alignItems="center">
-                    <Typography variant="caption" color="text.secondary">
-                      Shift+Enter for new line
-                    </Typography>
-                    <Tooltip title="Workflow automation enabled">
-                      <AccountTree sx={{ fontSize: 16, color: theme.palette.primary.main }} />
-                    </Tooltip>
-                  </Stack>
-                </Stack>
-              </Box>
-            </Paper>
+            {/* Modern Input Bar */}
+            <Box sx={{ mt: 2 }}>
+              <EnhancedEnterpriseInputBar
+                onSendMessage={(msg: string, agent?: string) => onSendMessage(msg, agent)}
+                isLoading={isLoading}
+                selectedAgent={currentAgent?.id || 'general'}
+                enableVoiceInput
+              />
+            </Box>
 
             {/* Quick Actions beneath input */}
             <Box sx={{ mt: 2 }}>
