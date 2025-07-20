@@ -40,7 +40,7 @@ export interface UpdateSessionBody {
 export const sessionsApi = createApi({
   reducerPath: "sessionsApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: API_BASE_URL + '/v1',
+    baseUrl: API_BASE_URL + '/api/v1',
     prepareHeaders: async (headers) => {
       let token = localStorage.getItem('access_token');
       if (!token) {

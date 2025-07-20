@@ -11,6 +11,7 @@ export enum AgentType {
   IT = "it",
   MARKETING = "marketing",
   ANALYTICS = "analytics",
+  GITHUB = "github",
   CUSTOM = "custom"
 }
 

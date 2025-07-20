@@ -56,6 +56,21 @@ export * from './toggle-group';
 export * from './calendar';
 export * from './input-otp';
 
+// Admin Hub UI components
+export { HealthChip } from './HealthChip';
+export { ConnectorIcon } from './ConnectorIcon';
+export { GalleryCard } from './GalleryCard';
+export { JSONSchemaViewer } from './JSONSchemaViewer';
+export { FixtureRunner } from './FixtureRunner';
+
+// Loading state components
+export {
+  ConnectorCardSkeleton,
+  HoneySpinner,
+  LoadingOverlay,
+  DashboardCardSkeleton
+} from './LoadingStates';
+
 // Data Display
 export * from './table';
 export * from './chart';

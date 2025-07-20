@@ -19,6 +19,8 @@ import {
   alpha,
   Badge,
   Portal,
+  InputBase,
+  Fade,
 } from '@mui/material';
 import {
   DarkMode as MoonIcon,
@@ -33,6 +35,8 @@ import {
   Dashboard as DashboardIcon,
   ExpandMore as ExpandMoreIcon,
   Build as CommandCenterIcon,
+  Search as SearchIcon,
+  Close as CloseIcon,
   // Agent icons
   SmartToy,
   Code,
@@ -62,6 +66,9 @@ interface TopNavProps {
     status: 'ready' | 'thinking' | 'processing' | 'offline';
     confidence: number;
   }>;
+  // Page context
+  pageTitle?: string;
+  pageSubtitle?: string;
 }
 
 // Enhanced TopNav AgentSelector Component
@@ -255,12 +262,16 @@ const TopNavAgentSelector: React.FC<{
 const TopNav: React.FC<TopNavProps> = ({
   toggleTheme,
   showNotifications = true,
+  showSearch = true,
   sidebarCollapsed = false,
   onSidebarToggle,
   // Agent selection props
   selectedAgent,
   onAgentChange,
   agentStatuses = [],
+  // Page context props
+  pageTitle,
+  pageSubtitle,
 }) => {
   const dispatch = useAppDispatch();
   const theme = useTheme();
@@ -409,8 +420,82 @@ const TopNav: React.FC<TopNavProps> = ({
             />
           )}
 
-          {/* Center Section - Spacer */}
-          <Box sx={{ flexGrow: 1 }} />
+          {/* Center Section - Search & Page Context */}
+          <Box sx={{ 
+            flexGrow: 1, 
+            display: 'flex', 
+            alignItems: 'center', 
+            justifyContent: 'center',
+            maxWidth: 600,
+            mx: 2
+          }}>
+            {showSearch !== false && !isMobile && (
+              <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                backgroundColor: alpha(theme.palette.background.paper, 0.8),
+                borderRadius: 3,
+                border: `1px solid ${alpha(theme.palette.divider, 0.2)}`,
+                backdropFilter: 'blur(10px)',
+                width: '100%',
+                maxWidth: 400,
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  backgroundColor: alpha(theme.palette.background.paper, 0.9),
+                  border: `1px solid ${alpha(theme.palette.primary.main, 0.3)}`,
+                },
+                '&:focus-within': {
+                  backgroundColor: alpha(theme.palette.background.paper, 0.95),
+                  border: `1px solid ${theme.palette.primary.main}`,
+                  boxShadow: `0 0 0 2px ${alpha(theme.palette.primary.main, 0.1)}`,
+                }
+              }}>
+                <SearchIcon sx={{ 
+                  ml: 2, 
+                  mr: 1, 
+                  color: theme.palette.text.secondary,
+                  fontSize: '1.2rem'
+                }} />
+                <InputBase
+                  placeholder="Search dashboards, agents, users..."
+                  sx={{
+                    flex: 1,
+                    py: 1,
+                    pr: 2,
+                    fontSize: '0.875rem',
+                    '& input': {
+                      padding: 0,
+                      '&::placeholder': {
+                        color: theme.palette.text.secondary,
+                        opacity: 0.7
+                      }
+                    }
+                  }}
+                />
+              </Box>
+            )}
+            
+            {/* Page Context - only show if no search or on mobile */}
+            {(showSearch === false || isMobile) && pageTitle && (
+              <Box sx={{ textAlign: 'center' }}>
+                <Typography variant="h6" sx={{ 
+                  fontWeight: 600,
+                  color: theme.palette.text.primary,
+                  fontSize: '1rem'
+                }}>
+                  {pageTitle}
+                </Typography>
+                {pageSubtitle && (
+                  <Typography variant="caption" sx={{ 
+                    color: theme.palette.text.secondary,
+                    fontSize: '0.75rem'
+                  }}>
+                    {pageSubtitle}
+                  </Typography>
+                )}
+              </Box>
+            )}
+          </Box>
 
           {/* Right Section */}
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>

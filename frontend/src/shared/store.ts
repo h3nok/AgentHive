@@ -10,6 +10,8 @@ import { routerAnalyticsApi } from "../core/routing/router/routerAnalyticsApi";
 import { modelsApi } from "../core/models/modelsApi";
 import { pluginApi } from "../core/plugins/pluginApi";
 import strategyReducer from "../core/strategySlice";
+import agentHubReducer from "../features/agentHub/agentHubSlice";
+import { agentApi } from "../features/agentHub/api/agentApi";
 
 // Types
 export interface User {
@@ -193,12 +195,14 @@ export const store = configureStore({
     routerTrace: routerTraceReducer,
     autoRouting: autoRoutingReducer,
     strategy: strategyReducer,
+    agentHub: agentHubReducer,
     // Add the generated reducer as a specific top-level slice
     [chatApi.reducerPath]: chatApi.reducer,
     [sessionsApi.reducerPath]: sessionsApi.reducer,
     [modelsApi.reducerPath]: modelsApi.reducer,
     [routerAnalyticsApi.reducerPath]: routerAnalyticsApi.reducer,
     [pluginApi.reducerPath]: pluginApi.reducer,
+    [agentApi.reducerPath]: agentApi.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
@@ -215,7 +219,7 @@ export const store = configureStore({
           'routerTrace.traces.*.steps.*.timestamp'
         ],
       },
-    }).concat(chatApi.middleware, sessionsApi.middleware, modelsApi.middleware, routerAnalyticsApi.middleware, pluginApi.middleware),
+    }).concat(chatApi.middleware, sessionsApi.middleware, modelsApi.middleware, routerAnalyticsApi.middleware, pluginApi.middleware, agentApi.middleware),
   devTools: process.env.NODE_ENV !== 'production',
 });
 

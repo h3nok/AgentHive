@@ -38,6 +38,27 @@ from .swarm import router as swarm_router
 from .orchestrator import router as orchestrator_router
 
 logger = get_logger(__name__)
+
+# GitHub connector endpoints added directly to main router
+from pydantic import BaseModel
+from connectors.github import GitHubConnector
+from typing import Dict, Any, Optional
+
+class GitHubConfigRequest(BaseModel):
+    token: str
+    base_url: Optional[str] = "https://api.github.com"
+    organization: Optional[str] = None
+    mock_mode: Optional[bool] = False
+
+class GitHubCommitsRequest(BaseModel):
+    token: str
+    owner: str
+    repo: str
+    base_url: Optional[str] = "https://api.github.com"
+    organization: Optional[str] = None
+    limit: Optional[int] = 20
+    since: Optional[str] = None
+    mock_mode: Optional[bool] = False
 # Initialize global load balancer instance
 load_balancer = RouterLoadBalancer()
 
@@ -55,6 +76,9 @@ router.include_router(microservices_router)
 router.include_router(mcp_router)
 router.include_router(swarm_router)
 router.include_router(orchestrator_router)
+
+# GitHub connector endpoints added directly to main router
+# (No separate router inclusion needed)
 
 # Include debug router for development/testing
 if settings.ENVIRONMENT in ["development", "test"]:
@@ -801,6 +825,118 @@ async def export_learning_data(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Failed to export learning data"
         ) from e
+
+
+# GitHub Connector Endpoints
+# Added directly to main router to ensure proper registration
+
+@router.get("/connectors/github/health")
+async def github_connector_health():
+    """GitHub connector health check"""
+    return {
+        "status": "healthy", 
+        "service": "github-connector",
+        "timestamp": datetime.utcnow().isoformat()
+    }
+
+@router.get("/connectors/github/capabilities")
+async def github_connector_capabilities():
+    """Get GitHub connector capabilities"""
+    return {
+        "name": "GitHub Enterprise Connector",
+        "version": "1.0.0",
+        "description": "Connect to GitHub Enterprise for repository and organization management",
+        "supported_operations": [
+            "test_connection",
+            "discover_apis",
+            "list_repositories",
+            "get_organization_info",
+            "manage_webhooks"
+        ],
+        "authentication_methods": ["personal_access_token", "github_app"],
+        "api_version": "v3",
+        "timestamp": datetime.utcnow().isoformat()
+    }
+
+@router.post("/connectors/github/test-connection")
+async def github_connector_test_connection(config: GitHubConfigRequest):
+    """Test GitHub connection"""
+    if config.mock_mode:
+        return {
+            "success": True,
+            "message": "Mock connection successful",
+            "user_info": {
+                "login": "mock_user",
+                "name": "Mock User",
+                "company": "Mock Company"
+            },
+            "rate_limit": {"remaining": 4999, "limit": 5000},
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    else:
+        # For real connections, we'd use the GitHub API here
+        return {
+            "success": False,
+            "message": "Real GitHub API integration not implemented yet",
+            "error": "Feature in development",
+            "timestamp": datetime.utcnow().isoformat()
+        }
+
+# ------------------ New Commits Endpoint ------------------
+@router.post("/connectors/github/commits")
+async def github_connector_commits(req: GitHubCommitsRequest):
+    """Get recent commit messages for a repository"""
+    if req.mock_mode:
+        connector = GitHubConnector(mock=True)
+    else:
+        connector = GitHubConnector(
+            access_token=req.token,
+            base_url=req.base_url,
+            organization=req.organization,
+            mock=False
+        )
+    result = connector.call("get_commits", {
+        "owner": req.owner,
+        "repo": req.repo,
+        "limit": req.limit,
+        "since": req.since
+    })
+    return result
+
+@router.post("/connectors/github/discover-apis")
+async def github_connector_discover_apis(config: GitHubConfigRequest):
+    """Discover available GitHub APIs"""
+    if config.mock_mode:
+        return {
+            "apis": [
+                {
+                    "name": "Repositories API",
+                    "endpoint": "/repos",
+                    "methods": ["GET", "POST", "PATCH", "DELETE"],
+                    "description": "Manage repositories"
+                },
+                {
+                    "name": "Organizations API",
+                    "endpoint": "/orgs",
+                    "methods": ["GET", "PATCH"],
+                    "description": "Manage organizations"
+                },
+                {
+                    "name": "Users API",
+                    "endpoint": "/users",
+                    "methods": ["GET"],
+                    "description": "Get user information"
+                }
+            ],
+            "total_apis": 3,
+            "discovery_time": datetime.utcnow().isoformat()
+        }
+    else:
+        return {
+            "apis": [],
+            "error": "Real API discovery not implemented yet",
+            "timestamp": datetime.utcnow().isoformat()
+        }
 
 
 # Include this router in the main app

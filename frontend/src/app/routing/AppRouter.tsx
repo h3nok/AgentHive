@@ -4,7 +4,7 @@ import PrimaryLayout from '../layout/PrimaryLayout';
 import CircularProgress from '@mui/material/CircularProgress';
 
 // Lazy pages
-const Landing = lazy(() => import('../pages/Landing')); // placeholder
+const Landing = lazy(() => import('../pages/LandingPage')); // Updated to use LandingPage directly
 const ChatWorkspace = lazy(() => import('../pages/ChatWorkspace')); // placeholder
 const Dashboard = lazy(() => import('../pages/Dashboard')); // placeholder
 const Settings = lazy(() => import('../pages/Settings')); // placeholder

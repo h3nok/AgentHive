@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
-  Card,
-  CardContent,
   Typography,
   Stack,
   LinearProgress,
@@ -11,7 +9,6 @@ import {
   Alert,
   useTheme,
   alpha,
-  Paper,
   IconButton,
   Tooltip
 } from '@mui/material';
@@ -19,7 +16,6 @@ import {
   Groups,
   AccountTree,
   Speed,
-  Memory,
   TrendingUp,
   Settings,
   Refresh,
@@ -27,7 +23,7 @@ import {
   ElectricBolt,
   Timeline
 } from '@mui/icons-material';
-import { motion } from 'framer-motion';
+import { DashboardGrid, DashboardCardProps } from '../../../shared/components/dashboard';
 
 interface SwarmMetrics {
   totalAgents: number;
@@ -81,251 +77,284 @@ const SwarmDashboard = () => {
     }
   };
 
-  const MetricCard: React.FC<{
-    title: string;
-    value: string | number;
-    subtitle?: string;
-    icon: React.ReactNode;
-    color?: string;
-    progress?: number;
-  }> = ({ title, value, subtitle, icon, color, progress }) => (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.3 }}
-    >
-      <Card
-        sx={{
-          height: '100%',
-          background: `linear-gradient(135deg, ${alpha(color || theme.palette.primary.main, 0.05)} 0%, ${alpha(theme.palette.background.paper, 1)} 100%)`,
-          border: `1px solid ${alpha(color || theme.palette.primary.main, 0.1)}`,
-          '&:hover': {
-            boxShadow: theme.shadows[4],
-            transform: 'translateY(-2px)',
-          },
-          transition: 'all 0.2s ease-in-out'
-        }}
-      >
-        <CardContent>
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <Box
-              sx={{
-                p: 1.5,
-                borderRadius: 2,
-                bgcolor: alpha(color || theme.palette.primary.main, 0.1),
-                color: color || theme.palette.primary.main,
-              }}
-            >
-              {icon}
-            </Box>
-            <Box sx={{ flex: 1 }}>
-              <Typography variant="h4" sx={{ fontWeight: 600, mb: 0.5 }}>
-                {value}
+  const dashboardCards: DashboardCardProps[] = [
+    // Total Agents Metric
+    {
+      id: 'total-agents',
+      title: 'Total Agents',
+      defaultLayout: { x: 0, y: 0, w: 3, h: 4 },
+      children: (
+        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Groups sx={{ color: theme.palette.primary.main, fontSize: '2rem' }} />
+            <Box>
+              <Typography variant="h3" sx={{ fontWeight: 700, color: theme.palette.primary.main }}>
+                {metrics.totalAgents}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                {title}
+                Configured in swarm
               </Typography>
-              {subtitle && (
-                <Typography variant="caption" color="text.secondary">
-                  {subtitle}
-                </Typography>
-              )}
             </Box>
+          </Box>
+        </Box>
+      ),
+    },
+    // Active Agents Metric
+    {
+      id: 'active-agents',
+      title: 'Active Agents',
+      defaultLayout: { x: 3, y: 0, w: 3, h: 4 },
+      children: (
+        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Hub sx={{ color: theme.palette.success.main, fontSize: '2rem' }} />
+            <Box>
+              <Typography variant="h3" sx={{ fontWeight: 700, color: theme.palette.success.main }}>
+                {metrics.activeAgents}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {Math.round((metrics.activeAgents / metrics.totalAgents) * 100)}% operational
+              </Typography>
+            </Box>
+          </Box>
+          <LinearProgress
+            variant="determinate"
+            value={(metrics.activeAgents / metrics.totalAgents) * 100}
+            sx={{
+              height: 6,
+              borderRadius: 3,
+              bgcolor: alpha(theme.palette.success.main, 0.1),
+              '& .MuiLinearProgress-bar': {
+                borderRadius: 3,
+                bgcolor: theme.palette.success.main,
+              },
+            }}
+          />
+        </Box>
+      ),
+    },
+    // Tasks Completed Metric
+    {
+      id: 'tasks-completed',
+      title: 'Tasks Completed',
+      defaultLayout: { x: 6, y: 0, w: 3, h: 4 },
+      children: (
+        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <TrendingUp sx={{ color: '#f59e0b', fontSize: '2rem' }} />
+            <Box>
+              <Typography variant="h3" sx={{ fontWeight: 700, color: '#f59e0b' }}>
+                {metrics.tasksCompleted}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Today
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+      ),
+    },
+    // Response Time Metric
+    {
+      id: 'response-time',
+      title: 'Avg Response Time',
+      defaultLayout: { x: 9, y: 0, w: 3, h: 4 },
+      children: (
+        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Speed sx={{ color: theme.palette.warning.main, fontSize: '2rem' }} />
+            <Box>
+              <Typography variant="h3" sx={{ fontWeight: 700, color: theme.palette.warning.main }}>
+                {metrics.averageResponseTime.toFixed(1)}s
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                Last 24 hours
+              </Typography>
+            </Box>
+          </Box>
+        </Box>
+      ),
+    },
+    // Swarm Efficiency
+    {
+      id: 'swarm-efficiency',
+      title: 'Swarm Efficiency',
+      defaultLayout: { x: 0, y: 4, w: 8, h: 6 },
+      children: (
+        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+            Swarm Efficiency
+          </Typography>
+          <Box sx={{ mb: 2 }}>
+            <Stack direction="row" alignItems="center" justifyContent="space-between">
+              <Typography variant="body2">Overall Performance</Typography>
+              <Typography variant="h6">{metrics.efficiency}%</Typography>
+            </Stack>
+            <LinearProgress
+              variant="determinate"
+              value={metrics.efficiency}
+              sx={{
+                height: 8,
+                borderRadius: 4,
+                mt: 1,
+                bgcolor: alpha(theme.palette.primary.main, 0.1),
+                '& .MuiLinearProgress-bar': {
+                  borderRadius: 4,
+                  bgcolor: theme.palette.primary.main,
+                },
+              }}
+            />
+          </Box>
+          <Stack direction="row" spacing={2}>
+            <Chip
+              label={`Network: ${metrics.networkHealth}`}
+              size="small"
+              sx={{
+                bgcolor: alpha(getHealthColor(metrics.networkHealth), 0.1),
+                color: getHealthColor(metrics.networkHealth),
+              }}
+            />
+            <Chip
+              label={isLoading ? 'Updating...' : 'Live'}
+              size="small"
+              color={isLoading ? 'default' : 'success'}
+              variant="outlined"
+            />
           </Stack>
-          {progress !== undefined && (
-            <Box sx={{ mt: 2 }}>
-              <LinearProgress
-                variant="determinate"
-                value={progress}
-                sx={{
-                  height: 6,
-                  borderRadius: 3,
-                  bgcolor: alpha(color || theme.palette.primary.main, 0.1),
-                  '& .MuiLinearProgress-bar': {
-                    bgcolor: color || theme.palette.primary.main,
-                  },
-                }}
-              />
-            </Box>
-          )}
-        </CardContent>
-      </Card>
-    </motion.div>
-  );
+        </Box>
+      ),
+    },
+    // Quick Actions
+    {
+      id: 'quick-actions',
+      title: 'Quick Actions',
+      defaultLayout: { x: 8, y: 4, w: 4, h: 6 },
+      children: (
+        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
+            Quick Actions
+          </Typography>
+          <Stack spacing={2}>
+            <Button
+              variant="outlined"
+              startIcon={<AccountTree />}
+              fullWidth
+              disabled={isLoading}
+              sx={{ justifyContent: 'flex-start' }}
+            >
+              View Agent Network
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<Timeline />}
+              fullWidth
+              disabled={isLoading}
+              sx={{ justifyContent: 'flex-start' }}
+            >
+              Performance History
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<ElectricBolt />}
+              fullWidth
+              disabled={isLoading}
+              sx={{ justifyContent: 'flex-start' }}
+            >
+              Scale Resources
+            </Button>
+          </Stack>
+        </Box>
+      ),
+    },
+  ];
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: 3, maxWidth: 1400, mx: 'auto' }}>
       {/* Header */}
-      <Box sx={{ mb: 4 }}>
-        <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <Stack direction="row" spacing={1}>
-            <Tooltip title="Refresh Metrics">
-              <IconButton
-                onClick={refreshMetrics}
-                disabled={isLoading}
-                sx={{
-                  bgcolor: alpha(theme.palette.primary.main, 0.1),
-                  '&:hover': {
-                    bgcolor: alpha(theme.palette.primary.main, 0.2),
-                  },
-                }}
-              >
-                <Refresh />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Settings">
-              <IconButton
-                sx={{
-                  bgcolor: alpha(theme.palette.secondary.main, 0.1),
-                  '&:hover': {
-                    bgcolor: alpha(theme.palette.secondary.main, 0.2),
-                  },
-                }}
-              >
-                <Settings />
-              </IconButton>
-            </Tooltip>
-          </Stack>
+      <Box sx={{ 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center', 
+        mb: 4 
+      }}>
+        <Box>
+          <Typography 
+            variant="h4" 
+            sx={{ 
+              fontWeight: 700,
+              background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+              backgroundClip: 'text',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              mb: 1
+            }}
+          >
+            🐝 Swarm Intelligence Dashboard
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            Monitor and manage your agent swarm performance in real-time
+          </Typography>
+        </Box>
+        <Stack direction="row" spacing={2}>
+          <Tooltip title="Refresh Data">
+            <IconButton 
+              onClick={refreshMetrics}
+              disabled={isLoading}
+              sx={{
+                bgcolor: alpha(theme.palette.primary.main, 0.1),
+                '&:hover': {
+                  bgcolor: alpha(theme.palette.primary.main, 0.2),
+                }
+              }}
+            >
+              <Refresh sx={{ 
+                animation: isLoading ? 'spin 1s linear infinite' : 'none',
+                '@keyframes spin': {
+                  '0%': { transform: 'rotate(0deg)' },
+                  '100%': { transform: 'rotate(360deg)' },
+                }
+              }} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Settings">
+            <IconButton>
+              <Settings />
+            </IconButton>
+          </Tooltip>
         </Stack>
       </Box>
 
-      {/* Network Health Alert */}
+      {/* Status Alert */}
+      {metrics.networkHealth === 'critical' && (
+        <Alert severity="error" sx={{ mb: 3 }}>
+          Critical network health detected. Some agents may be experiencing issues.
+        </Alert>
+      )}
       {metrics.networkHealth === 'warning' && (
         <Alert severity="warning" sx={{ mb: 3 }}>
-          Swarm network performance is below optimal. Consider scaling resources.
+          Network performance is below optimal. Monitor agent activity closely.
         </Alert>
       )}
 
-      {/* Metrics Cards */}
-      <Box sx={{ 
-        display: 'flex', 
-        flexWrap: 'wrap', 
-        gap: 3, 
-        mb: 3
-      }}>
-        <Box sx={{ flex: '1 1 250px', minWidth: 250 }}>
-          <MetricCard
-            title="Total Agents"
-            value={metrics.totalAgents}
-            subtitle="Configured in swarm"
-            icon={<Groups />}
-            color={theme.palette.primary.main}
-          />
-        </Box>
-        <Box sx={{ flex: '1 1 250px', minWidth: 250 }}>
-          <MetricCard
-            title="Active Agents"
-            value={metrics.activeAgents}
-            subtitle={`${Math.round((metrics.activeAgents / metrics.totalAgents) * 100)}% operational`}
-            icon={<Hub />}
-            color={theme.palette.success.main}
-            progress={(metrics.activeAgents / metrics.totalAgents) * 100}
-          />
-        </Box>
-        <Box sx={{ flex: '1 1 250px', minWidth: 250 }}>
-          <MetricCard
-            title="Tasks Completed"
-            value={metrics.tasksCompleted}
-            subtitle="Today"
-            icon={<TrendingUp />}
-            color={theme.palette.info.main}
-          />
-        </Box>
-        <Box sx={{ flex: '1 1 250px', minWidth: 250 }}>
-          <MetricCard
-            title="Avg Response Time"
-            value={`${metrics.averageResponseTime.toFixed(1)}s`}
-            subtitle="Last 24 hours"
-            icon={<Speed />}
-            color={theme.palette.warning.main}
-          />
-        </Box>
-      </Box>
+      {/* Dashboard Grid with Draggable/Resizable Cards */}
+      <DashboardGrid
+        cards={dashboardCards}
+        cols={{
+          lg: 12,
+          md: 10,
+          sm: 6,
+          xs: 4,
+          xxs: 2,
+        }}
+        rowHeight={60}
+        margin={[16, 16]}
+        containerPadding={[0, 0]}
+        onLayoutChange={(_, layouts) => {
+          // Save layout preferences to localStorage or backend
+          console.log('Swarm dashboard layout changed:', layouts);
+        }}
+      />
 
-      {/* Additional Metrics */}
-      <Box sx={{ 
-        display: 'flex', 
-        flexWrap: 'wrap', 
-        gap: 3, 
-        mt: 2
-      }}>
-        <Box sx={{ flex: '2 1 500px', minWidth: 500 }}>
-          <Card sx={{ height: '100%' }}>
-            <CardContent>
-              <Typography variant="h6" sx={{ mb: 2 }}>
-                Swarm Efficiency
-              </Typography>
-              <Box sx={{ mb: 2 }}>
-                <Stack direction="row" alignItems="center" justifyContent="space-between">
-                  <Typography variant="body2">Overall Performance</Typography>
-                  <Typography variant="h6">{metrics.efficiency}%</Typography>
-                </Stack>
-                <LinearProgress
-                  variant="determinate"
-                  value={metrics.efficiency}
-                  sx={{
-                    height: 8,
-                    borderRadius: 4,
-                    mt: 1,
-                    bgcolor: alpha(theme.palette.primary.main, 0.1),
-                  }}
-                />
-              </Box>
-              <Stack direction="row" spacing={2}>
-                <Chip
-                  label={`Network: ${metrics.networkHealth}`}
-                  size="small"
-                  sx={{
-                    bgcolor: alpha(getHealthColor(metrics.networkHealth), 0.1),
-                    color: getHealthColor(metrics.networkHealth),
-                  }}
-                />
-                <Chip
-                  label={isLoading ? 'Updating...' : 'Live'}
-                  size="small"
-                  color={isLoading ? 'default' : 'success'}
-                  variant="outlined"
-                />
-              </Stack>
-            </CardContent>
-          </Card>
-        </Box>
-        <Box sx={{ flex: '1 1 300px', minWidth: 300 }}>
-          <Card sx={{ height: '100%' }}>
-            <CardContent>
-              <Typography variant="h6" sx={{ mb: 2 }}>
-                Quick Actions
-              </Typography>
-              <Stack spacing={2}>
-                <Button
-                  variant="outlined"
-                  startIcon={<AccountTree />}
-                  fullWidth
-                  disabled={isLoading}
-                >
-                  View Agent Network
-                </Button>
-                <Button
-                  variant="outlined"
-                  startIcon={<Timeline />}
-                  fullWidth
-                  disabled={isLoading}
-                >
-                  Performance History
-                </Button>
-                <Button
-                  variant="outlined"
-                  startIcon={<ElectricBolt />}
-                  fullWidth
-                  disabled={isLoading}
-                >
-                  Scale Resources
-                </Button>
-              </Stack>
-            </CardContent>
-          </Card>
-        </Box>
-      </Box>
     </Box>
   );
 };

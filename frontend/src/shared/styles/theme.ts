@@ -86,11 +86,11 @@ const lightTheme = createTheme({
       styleOverrides: {
         body: {
           background: `
-            radial-gradient(circle at 15% 85%, rgba(120, 119, 198, 0.08) 0%, transparent 45%),
+            radial-gradient(circle at 15% 85%, rgba(245, 158, 11, 0.06) 0%, transparent 45%),
             radial-gradient(circle at 85% 15%, rgba(255, 179, 0, 0.08) 0%, transparent 45%),
-            radial-gradient(circle at 50% 50%, rgba(139, 92, 246, 0.04) 0%, transparent 60%),
-            radial-gradient(circle at 30% 30%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
-            linear-gradient(135deg, #FAFCFF 0%, #F8FAFC 20%, #F1F5F9 40%, #E2E8F0 70%, #CBD5E1 90%, #B4BCC8 100%)
+            radial-gradient(circle at 50% 50%, rgba(251, 191, 36, 0.04) 0%, transparent 60%),
+            radial-gradient(circle at 30% 30%, rgba(217, 119, 6, 0.03) 0%, transparent 50%),
+            linear-gradient(135deg, #FEFCE8 0%, #FEF3C7 25%, #FDE68A 50%, #F59E0B 75%, #D97706 100%)
           `,
           minHeight: '100vh',
           perspective: '1500px',
@@ -98,11 +98,11 @@ const lightTheme = createTheme({
           // Apply enhanced honey accent for admin pages
           '&.admin-page': {
             background: `
-              radial-gradient(circle at 15% 85%, rgba(120, 119, 198, 0.1) 0%, transparent 45%),
+              radial-gradient(circle at 15% 85%, rgba(245, 158, 11, 0.08) 0%, transparent 45%),
               radial-gradient(circle at 85% 15%, rgba(255, 179, 0, 0.1) 0%, transparent 45%),
-              radial-gradient(circle at 65% 65%, rgba(168, 85, 247, 0.06) 0%, transparent 60%),
-              radial-gradient(circle at 25% 75%, rgba(59, 130, 246, 0.04) 0%, transparent 50%),
-              linear-gradient(135deg, #FAFCFF 0%, #FFF9F0 15%, rgba(248, 250, 252, 0.98) 35%, rgba(241, 245, 249, 0.95) 60%, #E2E8F0 85%, #CBD5E1 100%)
+              radial-gradient(circle at 65% 65%, rgba(251, 191, 36, 0.06) 0%, transparent 60%),
+              radial-gradient(circle at 25% 75%, rgba(217, 119, 6, 0.04) 0%, transparent 50%),
+              linear-gradient(135deg, #FEFCE8 0%, #FEF3C7 15%, #FDE68A 35%, #F59E0B 60%, #D97706 85%, #B45309 100%)
             `,
           }
         },
@@ -587,7 +587,7 @@ const darkTheme = createTheme({
       main: '#FFA726',
     },
     info: {
-      main: '#42A5F5',
+      main: '#fbbf24', // Honey-themed instead of blue
     },
     error: {
       main: '#EF5350',

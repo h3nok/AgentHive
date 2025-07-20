@@ -6,6 +6,7 @@ import ChatMessage from './ChatMessage';
 import EnterpriseAgentSelector from './EnterpriseAgentSelector';
 import { AgentType } from '../../shared/types/agent';
 import EnhancedEnterpriseInputBar from '../../shared/components/EnhancedEnterpriseInputBar';
+import ContextDrawer from '../../shared/components/ContextDrawer';
 import {
   Box,
   Typography,
@@ -31,6 +32,7 @@ import {
   AttachFile,
   SmartToy,
   AutoAwesome,
+  
   AccessTime,
   Payment,
   PersonAdd,
@@ -38,7 +40,7 @@ import {
   TrendingUp,
   CheckCircle,
   AccountTree,
-  Hub,
+  
   Security,
   Assessment,
   ChevronRight,
@@ -102,6 +104,9 @@ export interface ChatInterfaceProps {
   onWorkspaceAction?: (action: string, data?: any) => void;
 }
 
+// ------------------
+// ChatInterface Component
+// ------------------
 const ChatInterface: React.FC<ChatInterfaceProps> = ({
   onSendMessage,
   isLoading = false,
@@ -120,6 +125,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [inputValue, setInputValue] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isAutomationDrawerOpen, setIsAutomationDrawerOpen] = useState(false);
+// Selected agent from selector
+const [selectedAgent, setSelectedAgent] = useState<AgentType | null>(null);
   
   // Get current session and messages from Redux state
   const dispatch = useDispatch();
@@ -219,7 +226,11 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
     }
   ];
 
-  // Enterprise-specific quick actions
+  // ------------------
+// Handlers (basic wrappers left intentionally blank as useCallback versions are below)
+// ------------------
+
+// Enterprise-specific quick actions
   const enterpriseQuickActions: QuickAction[] = [
     {
       id: 'quarterly-report',
@@ -289,7 +300,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       // Call the parent's send message handler
       onSendMessage(message);
       
-      // Reset input and maintain focus
+      // Reset input
       setInputValue('');
       inputRef.current?.focus();
       
@@ -325,6 +336,22 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
       onWorkflowTrigger(action.id);
     }
   }, [onWorkflowTrigger]);
+
+  // Quick action coming from EnterpriseAgentSelector component
+  const handleSelectorQuickAction = useCallback(
+    (prompt: string, agentType: AgentType) => {
+      setInputValue(prompt);
+      inputRef.current?.focus();
+      setSelectedAgent(agentType);
+    },
+    []
+  );
+
+  // Agent tile selection from EnterpriseAgentSelector
+  const handleAgentSelect = useCallback((agentType: AgentType) => {
+    setSelectedAgent(agentType);
+    inputRef.current?.focus();
+  }, []);
 
   const handleSuggestionClick = useCallback((suggestion: SmartSuggestion) => {
     setInputValue(suggestion.text);
@@ -458,8 +485,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
         </IconButton>
       </Tooltip>
 
-      {/* Enterprise Navigation Buttons (if needed) */}
-      {enterpriseMode && (
+      
+      {false && (
         <Box
           sx={{
             position: 'fixed',
@@ -488,7 +515,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 transition: 'all 0.2s ease',
               }}
             >
-              <Hub />
+              {/* <Hub /> */}
             </IconButton>
           </Tooltip>
           <Tooltip title="Navigate to Workflow Hub">
@@ -600,14 +627,8 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
               px: 2
             }}>
               <EnterpriseAgentSelector 
-                onQuickActionSelect={(action: string, agentType: AgentType) => {
-                  // Handle quick action by sending the pre-defined prompt
-                  onSendMessage(action, agentType);
-                }}
-                onAgentSelect={(agentType: AgentType) => {
-                  // Handle agent selection by sending a generic greeting to that agent
-                  onSendMessage(`Hello! I'd like to get help from the ${agentType} agent.`, agentType);
-                }}
+                onQuickActionSelect={handleSelectorQuickAction}
+                onAgentSelect={handleAgentSelect}
               />
             </Box>
           )}
@@ -675,6 +696,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
                 isLoading={isLoading}
                 selectedAgent={currentAgent?.id || 'general'}
                 enableVoiceInput
+                externalValue={inputValue}
               />
             </Box>
 
@@ -829,7 +851,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
               </Box>
 
               {/* Enterprise Status - More compact */}
-              {enterpriseMode && (
+              {/* enterprise nav buttons removed
                 <Box 
                   sx={{ 
                     px: 2, 

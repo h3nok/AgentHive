@@ -24,6 +24,7 @@ import {
   ExpandLess,
   AutoAwesome,
   Business,
+  GitHub as GitHubIcon,
   Assignment
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -60,6 +61,16 @@ const ENTERPRISE_AGENTS: AgentInfo[] = [
     emoji: "💰",
     capabilities: ["Expense Reports", "Budget Inquiry", "Reimbursements", "Invoice Processing"],
     quickActions: ["Submit expense report", "Check budget status", "Track reimbursement", "Financial policies"]
+  },
+  {
+    type: AgentType.GITHUB,
+    name: "GitHub Assistant",
+    description: "Query commits, pull requests, and issues",
+    icon: <GitHubIcon />,
+    color: "#333333",
+    emoji: "🐙",
+    capabilities: ["Commit History", "Pull Requests", "Issues", "Repo Insights"],
+    quickActions: ["Show recent commits", "Open pull requests", "List issues", "Repository insights"]
   },
   {
     type: AgentType.IT,
@@ -107,6 +118,7 @@ const EnterpriseAgentSelector: React.FC<EnterpriseAgentSelectorProps> = ({
   compact = false
 }) => {
   const theme = useTheme();
+  const textColor = theme.palette.mode === 'dark' ? alpha('#ffffff', 0.8) : theme.palette.text.secondary;
   const [expandedAgent, setExpandedAgent] = useState<AgentType | null>(null);
   const [showAllAgents, setShowAllAgents] = useState(false);
 
@@ -128,7 +140,7 @@ const EnterpriseAgentSelector: React.FC<EnterpriseAgentSelectorProps> = ({
   if (compact) {
     return (
       <Box sx={{ mb: 2 }}>
-        <Typography variant="subtitle2" sx={{ mb: 1, color: theme.palette.text.secondary }}>
+        <Typography variant="subtitle2" sx={{ color: textColor, mb: 1 }}>
           🤖 Available Assistants
         </Typography>
         <Stack direction="row" spacing={1} sx={{ flexWrap: 'wrap', gap: 1 }}>
@@ -136,7 +148,7 @@ const EnterpriseAgentSelector: React.FC<EnterpriseAgentSelectorProps> = ({
             <Chip
               key={agent.type}
               label={agent.name}
-              avatar={<Avatar sx={{ bgcolor: agent.color, width: 24, height: 24 }}>{agent.emoji}</Avatar>}
+              avatar={<Avatar sx={{ bgcolor: agent.type === AgentType.GITHUB && theme.palette.mode === 'dark' ? textColor : agent.color, width: 24, height: 24 }}>{agent.emoji}</Avatar>}
               onClick={() => onAgentSelect?.(agent.type)}
               variant={selectedAgent === agent.type ? "filled" : "outlined"}
               sx={{
@@ -147,7 +159,7 @@ const EnterpriseAgentSelector: React.FC<EnterpriseAgentSelectorProps> = ({
                 ...(selectedAgent === agent.type && {
                   backgroundColor: alpha(agent.color, 0.15),
                   borderColor: agent.color,
-                  color: agent.color,
+                  color: agent.type === AgentType.GITHUB && theme.palette.mode === 'dark' ? textColor : agent.color,
                 })
               }}
             />
@@ -207,7 +219,9 @@ const EnterpriseAgentSelector: React.FC<EnterpriseAgentSelectorProps> = ({
                   '&:hover': {
                     transform: 'translateY(-4px)',
                     boxShadow: `0 8px 25px ${alpha(agent.color, 0.2)}`,
-                    borderColor: agent.color,
+                    borderColor: agent.type === AgentType.GITHUB && theme.palette.mode === 'dark'
+                      ? alpha('#ffffff', 0.5)
+                      : agent.color,
                   },
                 }}
                 onClick={() => handleAgentClick(agent.type)}
@@ -216,7 +230,7 @@ const EnterpriseAgentSelector: React.FC<EnterpriseAgentSelectorProps> = ({
                   <Box sx={{ display: 'flex', alignItems: 'flex-start', gap: 2 }}>
                     <Avatar
                       sx={{
-                        bgcolor: agent.color,
+                        bgcolor: agent.type === AgentType.GITHUB && theme.palette.mode === 'dark' ? textColor : agent.color,
                         color: 'white',
                         width: 48,
                         height: 48,
@@ -227,13 +241,13 @@ const EnterpriseAgentSelector: React.FC<EnterpriseAgentSelectorProps> = ({
                     </Avatar>
                     <Box sx={{ flex: 1, minWidth: 0 }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                        <Typography variant="h6" sx={{ fontWeight: 600, color: agent.color }}>
+                        <Typography variant="h6" sx={{ fontWeight: 600, color: agent.type === AgentType.GITHUB && theme.palette.mode === 'dark' ? textColor : agent.color }}>
                           {agent.name}
                         </Typography>
                         <IconButton
                           size="small"
                           sx={{
-                            color: agent.color,
+                            color: agent.type === AgentType.GITHUB && theme.palette.mode === 'dark' ? textColor : agent.color,
                             transform: expandedAgent === agent.type ? 'rotate(180deg)' : 'rotate(0deg)',
                             transition: 'transform 0.3s',
                           }}
@@ -244,7 +258,7 @@ const EnterpriseAgentSelector: React.FC<EnterpriseAgentSelectorProps> = ({
                       <Typography
                         variant="body2"
                         sx={{
-                          color: theme.palette.text.secondary,
+                          color: textColor,
                           mb: 1,
                           lineHeight: 1.4,
                         }}
@@ -263,8 +277,8 @@ const EnterpriseAgentSelector: React.FC<EnterpriseAgentSelectorProps> = ({
                             sx={{
                               fontSize: '0.7rem',
                               height: 24,
-                              borderColor: alpha(agent.color, 0.3),
-                              color: agent.color,
+                              borderColor: agent.type === AgentType.GITHUB && theme.palette.mode === 'dark' ? alpha(textColor, 0.3) : alpha(agent.color, 0.3),
+                              color: agent.type === AgentType.GITHUB && theme.palette.mode === 'dark' ? textColor : agent.color,
                             }}
                           />
                         ))}
@@ -277,7 +291,7 @@ const EnterpriseAgentSelector: React.FC<EnterpriseAgentSelectorProps> = ({
                               fontSize: '0.7rem',
                               height: 24,
                               bgcolor: alpha(agent.color, 0.1),
-                              color: agent.color,
+                              color: agent.type === AgentType.GITHUB && theme.palette.mode === 'dark' ? textColor : agent.color,
                             }}
                           />
                         )}
@@ -288,7 +302,7 @@ const EnterpriseAgentSelector: React.FC<EnterpriseAgentSelectorProps> = ({
                   {/* Expanded Quick Actions */}
                   <Collapse in={expandedAgent === agent.type}>
                     <Box sx={{ mt: 2, pt: 2, borderTop: `1px solid ${alpha(agent.color, 0.1)}` }}>
-                      <Typography variant="subtitle2" sx={{ mb: 1, color: agent.color, fontWeight: 600 }}>
+                      <Typography variant="subtitle2" sx={{ mb: 1, color: agent.type === AgentType.GITHUB && theme.palette.mode === 'dark' ? textColor : agent.color, fontWeight: 600 }}>
                         Quick Actions
                       </Typography>
                       <Box
@@ -310,8 +324,8 @@ const EnterpriseAgentSelector: React.FC<EnterpriseAgentSelectorProps> = ({
                               handleQuickActionClick(action, agent.type);
                             }}
                             sx={{
-                              borderColor: alpha(agent.color, 0.3),
-                              color: agent.color,
+                              borderColor: agent.type === AgentType.GITHUB && theme.palette.mode === 'dark' ? alpha(textColor, 0.3) : alpha(agent.color, 0.3),
+                              color: agent.type === AgentType.GITHUB && theme.palette.mode === 'dark' ? textColor : agent.color,
                               textTransform: 'none',
                               fontSize: '0.75rem',
                               py: 0.5,

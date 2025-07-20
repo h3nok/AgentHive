@@ -176,7 +176,8 @@ def create_app() -> FastAPI:
     register_exception_handlers(app)
     
     # Include routers
-    app.include_router(v1_router)
+    # Mount API v1 router under /api to expose endpoints at /api/v1/*
+    app.include_router(v1_router, prefix="/api")
     
     # Include debug routers for development/testing
     if settings.ENVIRONMENT in ["development", "test"]:

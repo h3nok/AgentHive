@@ -273,6 +273,39 @@ const AnimatedBackground = memo(({ y1, y2 }: { y1: MotionValue<number>; y2: Moti
           `
       }} />
 
+      {/* Gradient backdrop */}
+      <Box sx={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        zIndex: 1,
+        background: theme.palette.mode === 'dark'
+          ? `linear-gradient(135deg, ${alpha('#FF8F00', 0.06)} 0%, ${alpha('#FF8F00', 0.04)} 50%, ${alpha('#00BCD4', 0.03)} 100%)`
+          : `linear-gradient(135deg, ${alpha('#FF8F00', 0.03)} 0%, ${alpha('#FF8F00', 0.02)} 50%, ${alpha('#00BCD4', 0.02)} 100%)`,
+        animation: 'gradientShift 20s ease-in-out infinite alternate',
+        '@keyframes gradientShift': {
+          '0%': { transform: 'translateX(-2%) translateY(-1%)' },
+          '100%': { transform: 'translateX(2%) translateY(1%)' }
+        }
+      }} />
+
+      {/* SVG Honeycomb overlay */}
+      <Box sx={{
+        position: 'absolute',
+        inset: 0,
+        pointerEvents: 'none',
+        zIndex: 2,
+        opacity: theme.palette.mode === 'dark' ? 0.4 : 0.5,
+        backgroundImage: `url("data:image/svg+xml,%3Csvg width='100' height='87' viewBox='0 0 100 87' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M25 0l25 14.43L75 0l25 14.43v28.87L75 57.74 50 43.3 25 57.74 0 43.3V14.43L25 0z' fill='none' stroke='%23${theme.palette.mode === 'dark' ? 'FFC107' : 'FF8F00'}' stroke-width='0.8' opacity='0.6'/%3E%3C/svg%3E")`,
+        backgroundSize: '100px 87px',
+        backgroundPosition: '0 0, 50px 43.5px',
+        animation: 'honeycombDrift 60s linear infinite',
+        '@keyframes honeycombDrift': {
+          '0%': { backgroundPosition: '0 0, 50px 43.5px' },
+          '100%': { backgroundPosition: '100px 87px, 150px 130.5px' }
+        }
+      }} />
+
       {/* Animated geometric shapes - subtle */}
       <motion.div 
         style={{ position: 'absolute', top: '10%', left: '10%', y: y1 }}
@@ -486,9 +519,7 @@ const HeroSection = memo(() => {
               position: 'relative',
             }}
           >
-            Propelling Open-Source
-            <Box component="br" />
-            Multiagent Innovation
+            Universal Employee Copilot
           </Typography>
 
           {/* Animated Subheading */}
@@ -517,7 +548,7 @@ const HeroSection = memo(() => {
                   position: 'relative',
                 }}
               >
-                Join us in building the future of autonomous intelligence. AgentHive is an open-source multiagent platform where developers, researchers, and innovators collaborate to create extensible, remarkable AI systems that work together as a unified hive.
+                Slash help-desk tickets 54% • Accelerate routine tasks • Surface knowledge instantly
               </Typography>
             </Box>
           </motion.div>

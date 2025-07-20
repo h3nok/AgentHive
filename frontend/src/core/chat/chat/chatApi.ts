@@ -7,7 +7,7 @@ import { MessageNotSentError, ApiConnectionError, StreamingError, getUserFriendl
 // API Config
 // Use environment variable or fallback to local development server
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "http://localhost:8000";
-const AGENT_QUERY_ENDPOINT = `${API_BASE_URL}/v1/agent/query`;
+const AGENT_QUERY_ENDPOINT = `${API_BASE_URL}/api/v1/agent/query`;
 
 // For debugging - log the endpoint being used
 console.log("API endpoint being used:", AGENT_QUERY_ENDPOINT);
@@ -207,7 +207,7 @@ export const chatApi = createApi({
           // This avoids TypeScript errors with the complex type
           
           // Always hit the generic agent/query endpoint; the agent type is passed in the body
-          const url = `${API_BASE_URL}/v1/agent/query`;
+          const url = `${API_BASE_URL}/api/v1/agent/query`;
           
           // Prepare request body with explicit agent if specified
           const requestBody: AgentQueryRequest = {

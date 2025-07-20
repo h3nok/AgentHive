@@ -10,6 +10,9 @@ import CostTrendChart from '../components/CostTrendChart';
 import { RouterAnalyticsDashboard } from '../components/RouterAnalytics';
 import EnterpriseMetrics from '../../../shared/components/EnterpriseMetrics';
 import AnalyticsDashboard from '../../workflows/AnalyticsDashboard';
+import ContextEnginePanel from '../components/ContextEnginePanel';
+import ConnectorMarketplace from '../components/ConnectorMarketplace';
+import GitHubConnectorConfig from '../components/GitHubConnectorConfig';
 import { useKpiMetrics } from '../hooks/useKpiMetrics';
 import { useForecast } from '../hooks/useForecast';
 import { useQueryClient } from '@tanstack/react-query';
@@ -36,6 +39,8 @@ function TabPanel({ children, value, index }: TabPanelProps) {
 const DashboardPage: React.FC = () => {
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [activeTab, setActiveTab] = useState(0);
+  const [selectedConnectorId, setSelectedConnectorId] = useState<string | null>(null);
+  const [showConnectorConfig, setShowConnectorConfig] = useState(false);
   const queryClient = useQueryClient();
 
   const {
@@ -72,13 +77,15 @@ const DashboardPage: React.FC = () => {
       <Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
         <Tabs
           value={activeTab}
-          onChange={(event: React.SyntheticEvent, newValue: number) => setActiveTab(newValue)}
+          onChange={(_, newValue: number) => setActiveTab(newValue)}
           aria-label="Dashboard Tabs"
         >
           <Tab label="System Overview" id="dashboard-tab-0" aria-controls="dashboard-tabpanel-0" />
           <Tab label="Router Analytics" id="dashboard-tab-1" aria-controls="dashboard-tabpanel-1" />
           <Tab label="Enterprise Metrics" id="dashboard-tab-2" aria-controls="dashboard-tabpanel-2" />
           <Tab label="Agent Analytics" id="dashboard-tab-3" aria-controls="dashboard-tabpanel-3" />
+          <Tab label="Context Engine" id="dashboard-tab-4" aria-controls="dashboard-tabpanel-4" />
+          <Tab label="Connector Marketplace" id="dashboard-tab-5" aria-controls="dashboard-tabpanel-5" />
         </Tabs>
       </Box>
 
@@ -137,88 +144,54 @@ const DashboardPage: React.FC = () => {
 
       {/* Agent Analytics Tab */}
       <TabPanel value={activeTab} index={3}>
-        <Typography variant="h5" component="h2" sx={{ mb: 2 }}>
-          Agent Analytics & Performance
-        </Typography>
-        <AnalyticsDashboard 
-          systemMetrics={{
-            totalAgents: 5,
-            activeAgents: 3,
-            totalQueries: 12456,
-            avgResponseTime: 145,
-            successRate: 98.5,
-            tokensUsed: 234567,
-            cost: 45.67,
-            uptime: 99.98,
-            errorRate: 0.02
-          }}
-          agentMetrics={[
-            {
-              agentId: 'general',
-              agentName: 'General Assistant',
-              totalQueries: 1456,
-              successRate: 98.5,
-              avgResponseTime: 1200,
-              tokensUsed: 45000,
-              errorRate: 0.015,
-              uptime: 99.9,
-              lastActivity: new Date().toISOString(),
-              trend: 'up' as const,
-              status: 'active' as const
-            },
-            {
-              agentId: 'technical',
-              agentName: 'Technical Expert',
-              totalQueries: 890,
-              successRate: 96.2,
-              avgResponseTime: 1450,
-              tokensUsed: 32000,
-              errorRate: 0.038,
-              uptime: 98.7,
-              lastActivity: new Date().toISOString(),
-              trend: 'stable' as const,
-              status: 'active' as const
-            },
-            {
-              agentId: 'support',
-              agentName: 'Support Agent',
-              totalQueries: 2103,
-              successRate: 99.1,
-              avgResponseTime: 980,
-              tokensUsed: 58000,
-              errorRate: 0.009,
-              uptime: 99.8,
-              lastActivity: new Date().toISOString(),
-              trend: 'up' as const,
-              status: 'active' as const
-            }
-          ]}
-          performanceData={[
-            { timestamp: '2025-06-19T12:00:00Z', value: 45, label: '12:00' },
-            { timestamp: '2025-06-19T13:00:00Z', value: 52, label: '13:00' },
-            { timestamp: '2025-06-19T14:00:00Z', value: 38, label: '14:00' },
-            { timestamp: '2025-06-19T15:00:00Z', value: 67, label: '15:00' },
-            { timestamp: '2025-06-19T16:00:00Z', value: 58, label: '16:00' }
-          ]}
-          usageData={[
-            { timestamp: '2025-06-19T12:00:00Z', value: 120, label: '12:00' },
-            { timestamp: '2025-06-19T13:00:00Z', value: 145, label: '13:00' },
-            { timestamp: '2025-06-19T14:00:00Z', value: 98, label: '14:00' },
-            { timestamp: '2025-06-19T15:00:00Z', value: 189, label: '15:00' },
-            { timestamp: '2025-06-19T16:00:00Z', value: 167, label: '16:00' }
-          ]}
-          errorData={[
-            { timestamp: '2025-06-19T12:00:00Z', value: 2, label: '12:00' },
-            { timestamp: '2025-06-19T13:00:00Z', value: 1, label: '13:00' },
-            { timestamp: '2025-06-19T14:00:00Z', value: 3, label: '14:00' },
-            { timestamp: '2025-06-19T15:00:00Z', value: 0, label: '15:00' },
-            { timestamp: '2025-06-19T16:00:00Z', value: 1, label: '16:00' }
-          ]}
-          timeRange="24h"
-          onTimeRangeChange={(range) => console.log('Time range changed:', range)}
-          onRefresh={() => console.log('Refreshing analytics...')}
-          onExport={(type) => console.log('Exporting as:', type)}
-        />
+        <AnalyticsDashboard />
+      </TabPanel>
+
+      {/* Context Engine Tab */}
+      <TabPanel value={activeTab} index={4}>
+        <ContextEnginePanel />
+      </TabPanel>
+
+      {/* Connector Marketplace Tab */}
+      <TabPanel value={activeTab} index={5}>
+        {showConnectorConfig && selectedConnectorId === 'github-enterprise' ? (
+          <GitHubConnectorConfig 
+            connectorId={selectedConnectorId}
+            onSave={(config) => {
+              console.log('Saving GitHub config:', config);
+              setShowConnectorConfig(false);
+              setSelectedConnectorId(null);
+            }}
+            onTest={(connectorId) => console.log('Testing connector:', connectorId)}
+            onDelete={(connectorId) => {
+              console.log('Deleting connector:', connectorId);
+              setShowConnectorConfig(false);
+              setSelectedConnectorId(null);
+            }}
+            onBack={() => {
+              setShowConnectorConfig(false);
+              setSelectedConnectorId(null);
+            }}
+          />
+        ) : (
+          <ConnectorMarketplace 
+            onInstallConnector={(connectorId) => {
+              console.log('Installing connector:', connectorId);
+              if (connectorId === 'github-enterprise') {
+                setSelectedConnectorId(connectorId);
+                setShowConnectorConfig(true);
+              }
+            }}
+            onConfigureConnector={(connectorId) => {
+              console.log('Configuring connector:', connectorId);
+              if (connectorId === 'github-enterprise') {
+                setSelectedConnectorId(connectorId);
+                setShowConnectorConfig(true);
+              }
+            }}
+            onUninstallConnector={(connectorId) => console.log('Uninstalling connector:', connectorId)}
+          />
+        )}
       </TabPanel>
     </Box>
   );

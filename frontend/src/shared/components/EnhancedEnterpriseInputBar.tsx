@@ -84,6 +84,11 @@ interface EnhancedEnterpriseInputBarProps {
   enableAgentRouting?: boolean;
   enableSmartSuggestions?: boolean;
   enableVoiceInput?: boolean;
+  /**
+   * External value to control the textarea input. When this changes, the component will sync its
+   * internal state and move the caret to the end so that the user can immediately continue typing.
+   */
+  externalValue?: string;
 }
 
 // Enhanced slash commands for enterprise
@@ -174,7 +179,7 @@ const EnhancedEnterpriseInputBar: React.FC<EnhancedEnterpriseInputBarProps> = ({
   enableAgentRouting = true,
   enableSmartSuggestions = true,
   enableVoiceInput = true,
-  ...restProps
+  externalValue,
 }) => {
   const dispatch = useAppDispatch();
   const globalAutoRouting = useAppSelector(state => state.autoRouting.enabled);
@@ -190,6 +195,14 @@ const EnhancedEnterpriseInputBar: React.FC<EnhancedEnterpriseInputBarProps> = ({
     }
   }, [onAutoRoutingChange, dispatch]);
   const [inputValue, setInputValue] = useState('');
+
+  // Sync externalValue -> internal state
+  useEffect(() => {
+    if (externalValue !== undefined && externalValue !== inputValue) {
+      setInputValue(externalValue);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [externalValue]);
   const [showCommands, setShowCommands] = useState(false);
   const [selectedCommandIndex, setSelectedCommandIndex] = useState(0);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -880,7 +893,7 @@ const EnhancedEnterpriseInputBar: React.FC<EnhancedEnterpriseInputBarProps> = ({
       </Menu>
 
       {/* Model Indicator */}
-      {selectedModel && (
+      {false && (
         <Box
           sx={{
             position: 'absolute',
