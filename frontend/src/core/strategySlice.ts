@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { RootState } from '../store';
+import { RootState } from '../shared/store';
 
 // Define routing strategies
 export type RoutingStrategy = 'latency' | 'cost' | 'accuracy';
@@ -20,7 +20,7 @@ export const setRoutingStrategy = createAsyncThunk<RoutingStrategy, RoutingStrat
   'strategy/setRoutingStrategy',
   async (strategy, { rejectWithValue }) => {
     try {
-      const res = await fetch('/v1/strategy', {
+      const res = await fetch('/api/v1/strategy', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ strategy }),

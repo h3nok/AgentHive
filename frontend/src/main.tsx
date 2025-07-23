@@ -38,14 +38,13 @@ if (import.meta.env.MODE === 'development') {
   
   store.subscribe(() => {
     const currentState = store.getState();
-    const currentChatState = currentState.chat;
     
-    // Only log if important chat state fields changed
+    // Only log if important UI state fields changed (using consolidated store)
     const importantFields = {
-      isLoading: currentChatState.isLoading,
-      processingStatus: currentChatState.processingStatus,
-      currentAssistantMessageId: currentChatState.currentAssistantMessageId,
-      messagesCount: currentChatState.sessions.find(s => s.id === currentChatState.activeSessionId)?.messages?.length || 0
+      isLoading: (currentState as any).ui?.isLoading || false,
+      processingStatus: (currentState as any).ui?.processingStatus || 'idle',
+      currentAssistantMessageId: (currentState as any).ui?.currentAssistantMessageId || null,
+      messagesCount: Object.keys((currentState as any).entities?.messages?.entities || {}).length
     };
     
     if (JSON.stringify(importantFields) !== JSON.stringify(lastChatState)) {

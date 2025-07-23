@@ -37,9 +37,28 @@ import {
   AccessTime as AccessTimeIcon,
   Psychology as PsychologyIcon,
 } from '@mui/icons-material';
-import { useRouterTrace } from '../hooks/useRouterTrace';
-import { RouterTrace, RouterStep } from '../features/routerTrace/routerTraceSlice';
+import { useAppSelector } from '@/shared/store';
 import RouterSimulationPanel from './RouterSimulationPanel';
+
+// Router trace types for consolidated store compatibility
+interface RouterTrace {
+  id: string;
+  sessionId: string;
+  timestamp: number;
+  steps: RouterStep[];
+  totalDuration: number;
+  success: boolean;
+}
+
+interface RouterStep {
+  id: string;
+  type: 'analysis' | 'routing' | 'execution' | 'response';
+  name: string;
+  duration: number;
+  status: 'pending' | 'running' | 'completed' | 'failed';
+  details?: any;
+  timestamp: number;
+}
 
 interface RouterDebugDrawerProps {
   sessionId?: string;

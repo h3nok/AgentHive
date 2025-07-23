@@ -1,7 +1,6 @@
-import React, { useState, useCallback, useRef, useEffect, useMemo } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '../../shared/store';
-import { selectMessagesBySessionId, ChatMessage as ChatMessageType, setActiveSession } from './chat/chatSlice';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../shared/store';
+import type { Message as ChatMessageType } from '../../shared/store/slices/entitiesSlice';
 import ChatMessage from './ChatMessage';
 import EnterpriseAgentSelector from './EnterpriseAgentSelector';
 import { AgentType } from '../../shared/types/agent';
@@ -10,20 +9,29 @@ import ContextDrawer from '../../shared/components/ContextDrawer';
 import {
   Box,
   Typography,
-  Card,
-  CardContent,
-  Chip,
-  Avatar,
-  Stack,
   Paper,
   IconButton,
   Tooltip,
+  Chip,
+  Zoom,
+  Fade,
+  Grid,
+  List,
+  ListItem,
+  Card,
+  CardContent,
+  Slide,
+  Avatar,
+  Stack,
+  Collapse,
+  Grow,
   TextField,
   InputAdornment,
   alpha,
   useTheme,
   Button,
-  Divider
+  Divider,
+  CircularProgress
 } from '@mui/material';
 import { lighten } from '@mui/material/styles';
 import {
@@ -32,7 +40,7 @@ import {
   AttachFile,
   SmartToy,
   AutoAwesome,
-  
+  Psychology,
   AccessTime,
   Payment,
   PersonAdd,
@@ -40,7 +48,6 @@ import {
   TrendingUp,
   CheckCircle,
   AccountTree,
-  
   Security,
   Assessment,
   ChevronRight,
@@ -125,58 +132,35 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({
   const [inputValue, setInputValue] = useState('');
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [isAutomationDrawerOpen, setIsAutomationDrawerOpen] = useState(false);
-// Selected agent from selector
-const [selectedAgent, setSelectedAgent] = useState<AgentType | null>(null);
+// Selected agent state (for agent selector)
+  const [selectedAgent, setSelectedAgent] = useState<AgentType | null>(null);
   
-  // Get current session and messages from Redux state
-  const dispatch = useDispatch();
-  const activeSessionId = useSelector((state: RootState) => state.chat.activeSessionId);
-  const allSessions = useSelector((state: RootState) => state.chat.sessions);
-  
-  // Determine effective session id: props -> active -> first available
-  const currentSessionId = useMemo(() => {
-    if (sessionId) return sessionId;
-    if (activeSessionId) return activeSessionId;
-    return allSessions.length > 0 ? allSessions[0].id : null;
-  }, [sessionId, activeSessionId, allSessions]);
-  
-  // Get messages from Redux state for the current session
-  const reduxMessages = useSelector((state: RootState) => {
-    if (!currentSessionId) return [];
-    return selectMessagesBySessionId(currentSessionId)(state);
+  // Pure presentational component - use only props, no internal Redux selectors
+  // EMERGENCY FIX: Direct Redux access since props aren't working
+  const directMessages = useAppSelector(state => {
+    const allMessages = state.entities?.messages?.entities || {};
+    const messageIds = state.entities?.messages?.ids || [];
+    const messagesArray = messageIds.map(id => allMessages[id]).filter(Boolean);
+    const sessionMessages = messagesArray.filter(msg => msg.sessionId === sessionId);
+    
+    console.log('🚨 EMERGENCY FIX: Direct Redux access in ChatInterface');
+    console.log('🚨 EMERGENCY FIX: messageIds:', messageIds);
+    console.log('🚨 EMERGENCY FIX: messagesArray:', messagesArray);
+    console.log('🚨 EMERGENCY FIX: sessionMessages for', sessionId, ':', sessionMessages);
+    
+    return sessionMessages;
   });
   
-  // Use props messages if provided, otherwise use Redux messages
-  const messages = useMemo(() => {
-    const messagesToUse = propMessages.length > 0 ? propMessages : reduxMessages;
-    // Filter out temporary messages that might cause duplicates
-    return messagesToUse.filter((msg: ChatMessageType, index: number, arr: ChatMessageType[]) => {
-      // Keep all non-temp messages
-      if (!msg.temp) return true;
-      // For temp messages, only keep if there's no non-temp version
-      return !arr.some((otherMsg: ChatMessageType, otherIndex: number) => 
-        otherIndex !== index && 
-        otherMsg.text === msg.text && 
-        otherMsg.sender === msg.sender && 
-        !otherMsg.temp
-      );
-    });
-  }, [propMessages, reduxMessages]);
+  // Use direct messages if props are empty, otherwise use props
+  const messages = propMessages?.length > 0 ? propMessages : directMessages;
   
-  // When there is no activeSessionId but sessions exist, set the first one as active
-  useEffect(() => {
-    if (!activeSessionId && allSessions.length > 0) {
-      dispatch(setActiveSession(allSessions[0].id));
-    }
-  }, [activeSessionId, allSessions, dispatch]);
-
-  // Get active session info
-  const activeSession = useMemo(() => 
-    currentSessionId ? allSessions.find((s: any) => s.id === currentSessionId) : null, 
-    [currentSessionId, allSessions]
-  );
+  // Use sessionId from props (managed by parent)
+  const currentSessionId = sessionId;
   
-  const currentWorkflow = activeSession?.workflow;
+  console.log('🎯 ChatInterface: Rendering', messages.length, 'messages for session', currentSessionId);
+  
+  // Current workflow (passed via props or derived from messages)
+  const currentWorkflow = null; // TODO: Add workflow prop when needed
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -432,6 +416,84 @@ const [selectedAgent, setSelectedAgent] = useState<AgentType | null>(null);
             </Box>
           ))}
         </AnimatePresence>
+        
+        {/* Agentic Thinking Indicator */}
+        {isLoading && (
+          <Fade in={isLoading} timeout={500}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 2,
+                p: 2,
+                mb: 2,
+                borderRadius: 2,
+                background: `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.05)} 0%, ${alpha(theme.palette.secondary.main, 0.05)} 100%)`,
+                border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+                animation: 'pulse 2s ease-in-out infinite'
+              }}
+            >
+              <Box sx={{ position: 'relative' }}>
+                <Psychology 
+                  sx={{ 
+                    fontSize: 24, 
+                    color: theme.palette.primary.main,
+                    animation: 'rotate 3s linear infinite'
+                  }} 
+                />
+                <CircularProgress
+                  size={32}
+                  thickness={2}
+                  sx={{
+                    position: 'absolute',
+                    top: -4,
+                    left: -4,
+                    color: alpha(theme.palette.primary.main, 0.3)
+                  }}
+                />
+              </Box>
+              
+              <Box sx={{ flex: 1 }}>
+                <Typography 
+                  variant="body2" 
+                  sx={{ 
+                    fontWeight: 600,
+                    color: theme.palette.primary.main,
+                    mb: 0.5
+                  }}
+                >
+                  🤖 Assistant is thinking...
+                </Typography>
+                <Typography 
+                  variant="caption" 
+                  sx={{ 
+                    opacity: 0.7,
+                    fontSize: '0.75rem',
+                    fontStyle: 'italic'
+                  }}
+                >
+                  Processing your request with AI agents
+                </Typography>
+              </Box>
+              
+              <Chip
+                label="Processing"
+                size="small"
+                color="primary"
+                variant="outlined"
+                sx={{
+                  fontSize: '0.7rem',
+                  height: 24,
+                  opacity: 0.8,
+                  '& .MuiChip-label': {
+                    animation: 'fade 2s ease-in-out infinite alternate'
+                  }
+                }}
+              />
+            </Box>
+          </Fade>
+        )}
+        
         <div ref={messagesEndRef} />
       </Box>
     );

@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { useAppDispatch, useAppSelector } from '@/shared/store';
-import { setAutoRouting } from '@core/routing/autoRoutingSlice';
+import { setRouterAutoRefresh } from '@/shared/store/slices/uiSlice';
 import {
   Box,
   Paper,
@@ -182,7 +182,7 @@ const EnhancedEnterpriseInputBar: React.FC<EnhancedEnterpriseInputBarProps> = ({
   externalValue,
 }) => {
   const dispatch = useAppDispatch();
-  const globalAutoRouting = useAppSelector(state => state.autoRouting.enabled);
+  const globalAutoRouting = useAppSelector(state => (state.ui as any)?.routerAutoRefresh ?? false);
   // Determine which autoRouting value to use (prop overrides global)
   const effectiveAutoRouting = autoRouting ?? globalAutoRouting;
 
@@ -191,7 +191,7 @@ const EnhancedEnterpriseInputBar: React.FC<EnhancedEnterpriseInputBarProps> = ({
     if (onAutoRoutingChange) {
       onAutoRoutingChange(enabled);
     } else {
-      dispatch(setAutoRouting(enabled));
+      dispatch(setRouterAutoRefresh(enabled));
     }
   }, [onAutoRoutingChange, dispatch]);
   const [inputValue, setInputValue] = useState('');

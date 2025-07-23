@@ -19,9 +19,9 @@ if (import.meta.env.MODE === 'development') {
 
   store.subscribe(() => {
     const state = store.getState();
-    const activeSessionId = state.chat.activeSessionId;
-    const activeSession = state.chat.sessions.find((s) => s.id === activeSessionId);
-    const msgCount = activeSession?.messages.length ?? 0;
+    const activeSessionId = (state.entities as any)?.activeSessionId || null;
+    const activeSession = activeSessionId ? (state.entities as any)?.sessions?.entities?.[activeSessionId] : null;
+    const msgCount = activeSession?.messageIds?.length ?? 0;
 
     // Only log when something meaningful changes to reduce console spam.
     if (activeSessionId !== prevActiveSessionId || msgCount !== prevMsgCount) {

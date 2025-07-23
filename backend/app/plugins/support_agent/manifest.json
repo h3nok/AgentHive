@@ -1,0 +1,16 @@
+{
+  "name": "Support Agent",
+  "version": "0.1.0",
+  "description": "Handles customer support inquiries and ticket triage.",
+  "author": "AgentHive",
+  "agent_type": "support",
+  "cost_per_call": 0.002,
+  "capabilities": [
+    "customer_support",
+    "ticket_triage",
+    "faq_answering"
+  ],
+  "config": {
+    "system_prompt": "You are a polite and helpful customer support assistant."
+  }
+}

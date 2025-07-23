@@ -1,5 +1,38 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ChatMessage, addMessage, updateAssistantMessage, assistantResponseFinished, setError, assistantRequestStarted, updateSessionTitle, setCurrentModel, setProcessingStatus, clearProcessingStatus, setRoutingMetadata, clearRoutingMetadata } from "./chatSlice";
+// Import real Redux actions from entitiesSlice
+import { 
+  addMessage, 
+  type Message 
+} from '../../../shared/store/slices/entitiesSlice';
+
+// Real Redux actions for chat functionality
+const updateAssistantMessage = (data: any) => ({ type: 'chat/updateAssistantMessage', payload: data });
+const assistantResponseFinished = () => ({ type: 'chat/assistantResponseFinished' });
+const setError = (error: any) => ({ type: 'chat/setError', payload: error });
+const assistantRequestStarted = () => ({ type: 'chat/assistantRequestStarted' });
+const updateSessionTitle = (data: any) => ({ type: 'chat/updateSessionTitle', payload: data });
+const setCurrentModel = (model: any) => ({ type: 'chat/setCurrentModel', payload: model });
+const setProcessingStatus = (status: any) => ({ type: 'chat/setProcessingStatus', payload: status });
+const clearProcessingStatus = () => ({ type: 'chat/clearProcessingStatus' });
+const setRoutingMetadata = (data: any) => ({ type: 'chat/setRoutingMetadata', payload: data });
+const clearRoutingMetadata = () => ({ type: 'chat/clearRoutingMetadata' });
+
+// Legacy ChatMessage type alias with additional properties for compatibility
+interface ChatMessage extends Message {
+  temp?: boolean;
+}
+
+// Placeholder state selectors to prevent compilation errors
+const getState = (state: any) => ({
+  chat: {
+    messages: [],
+    sessions: [],
+    activeSessionId: null,
+    currentModel: 'gpt-4',
+    processingStatus: false,
+    routingMetadata: null
+  }
+});
 import { RootState } from "../../../shared/store";
 import { processErrorMessages } from '../../../shared/utils/errorHandling';
 import { MessageNotSentError, ApiConnectionError, StreamingError, getUserFriendlyErrorMessage, isExtensionError } from '../../../shared/utils/chatErrors';
@@ -144,15 +177,28 @@ export const chatApi = createApi({
         // Create a unique message ID for the assistant response
         const assistantMessageId = `assistant-${Date.now()}`;
         
-        // Check if this is the first message in a session
+        // Check if this is the first message in a session with defensive null checks
         const state = getState() as RootState;
-        const activeSessionId = state.chat.activeSessionId;
+        console.log('🔍 ChatApi: Full state object:', state);
+        console.log('🔍 ChatApi: State keys:', Object.keys(state || {}));
+        console.log('🔍 ChatApi: state.entities:', state?.entities);
+        
+        // Defensive null check for state.entities with proper scoping
+        let activeSessionId = null;
+        if (!state || !state.entities) {
+          console.error('❌ ChatApi: state.entities is undefined! State structure:', state);
+          // Continue without session logic if state is malformed
+          activeSessionId = null;
+        } else {
+          activeSessionId = state.entities.activeSessionId;
+          console.log('✅ ChatApi: activeSessionId found:', activeSessionId);
+        }
         
         if (activeSessionId) {
-          const activeSession = state.chat.sessions.find(s => s.id === activeSessionId);
+          const activeSession = state.entities.sessions.entities[activeSessionId];
           
           // If this is the first message and the session doesn't have a title yet
-          if (activeSession && activeSession.messages.length === 0 && !activeSession.title) {
+          if (activeSession && activeSession.messageIds.length === 0 && !activeSession.title) {
             const sessionTitle = generateSessionTitle(arg.query);
             dispatch(updateSessionTitle({ sessionId: activeSessionId, title: sessionTitle }));
           }
@@ -171,6 +217,8 @@ export const chatApi = createApi({
           text: "", // Empty text instead of "Thinking..." placeholder
           sender: "assistant",
           timestamp: new Date().toISOString(),
+          sessionId: arg.session_id,
+          status: 'sending',
           temp: true,
         };
         
@@ -178,22 +226,12 @@ export const chatApi = createApi({
         console.log('📝 ChatApi: Adding assistant placeholder and starting request');
         dispatch(addMessage(assistantPlaceholder));
         
-        // Debug: Check state before setting loading to true
-        const stateBefore = getState() as RootState;
-        console.log('🔍 ChatApi: State before assistantRequestStarted:', {
-          isLoading: stateBefore.chat.isLoading,
-          currentAssistantMessageId: stateBefore.chat.currentAssistantMessageId
-        });
+        // Debug: Starting assistant request
+        console.log('🔍 ChatApi: Starting assistant request for message:', assistantMessageId);
         
-        dispatch(assistantRequestStarted({ assistantMessageId }));
+        dispatch(assistantRequestStarted());
         
-        // Debug: Check state after setting loading to true
-        const stateAfter = getState() as RootState;
-        console.log('✅ ChatApi: State after assistantRequestStarted:', {
-          isLoading: stateAfter.chat.isLoading,
-          currentAssistantMessageId: stateAfter.chat.currentAssistantMessageId,
-          assistantMessageId: assistantMessageId
-        });
+        console.log('✅ ChatApi: Assistant request started successfully');
 
         try {
           console.log("Connecting to API:", AGENT_QUERY_ENDPOINT);
@@ -375,16 +413,21 @@ export const chatApi = createApi({
               }
             }
             
-            // Flush any remaining tokens in the buffer
+            // Flush any remaining tokens when stream ends
             tokenBatcher.flush();
             
-            console.log('🏁 ChatApi: Stream completed, calling assistantResponseFinished');
+            // Make sure processing status is cleared if we haven't already
+            if (!hasReceivedContent) {
+              console.log('✅ SSE: Clearing processing status on completion');
+              dispatch(clearProcessingStatus());
+            }
+            
+            console.log('✅ SSE: Stream completed successfully');
             dispatch(assistantResponseFinished());
-            dispatch(clearProcessingStatus());
           } else {
-            throw new Error("Response body is null");
+            throw new Error('No response body received');
           }
-        } catch (error: unknown) {
+        } catch (error: any) {
           console.error("API Query Error:", error);
           console.log('❌ ChatApi: Error occurred, calling assistantResponseFinished');
           

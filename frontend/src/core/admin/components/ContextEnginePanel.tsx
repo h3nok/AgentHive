@@ -6,35 +6,35 @@ import {
   Chip,
   IconButton,
   Button,
-  Card,
-  CardContent,
+
+
   Divider,
   Switch,
   FormControlLabel,
   Select,
   MenuItem,
   FormControl,
-  InputLabel,
-  Tooltip,
+
+
   Badge,
   alpha,
   useTheme
 } from '@mui/material';
 import {
-  Security,
+
   LocationOn,
   Schedule,
   Person,
-  Group,
+
   Business,
-  Visibility,
-  VisibilityOff,
+
+
   Settings,
   Refresh,
-  Warning,
-  CheckCircle,
-  Error,
-  Info,
+
+
+
+
   AdminPanelSettings,
   WorkOutline,
   AccessTime,
@@ -264,7 +264,11 @@ const ContextEnginePanel: React.FC = () => {
             <Typography variant="h6" sx={{ color: theme.palette.text.primary, fontWeight: 600 }}>
               Role-Based Access Control
             </Typography>
-            <IconButton size="small" onClick={() => console.log('Refresh RBAC')}>
+            <IconButton 
+              size="small" 
+              onClick={() => console.log('Refresh RBAC')}
+              aria-label="Refresh RBAC permissions"
+            >
               <Refresh fontSize="small" />
             </IconButton>
           </Box>
@@ -425,7 +429,11 @@ const ContextEnginePanel: React.FC = () => {
             <Typography variant="h6" sx={{ color: theme.palette.text.primary, fontWeight: 600 }}>
               Shift-Based Context
             </Typography>
-            <IconButton size="small" onClick={() => console.log('Refresh shifts')}>
+            <IconButton 
+              size="small" 
+              onClick={() => console.log('Refresh shifts')}
+              aria-label="Refresh shift schedules"
+            >
               <Schedule fontSize="small" />
             </IconButton>
           </Box>

@@ -1,45 +1,82 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Box, CircularProgress } from '@mui/material';
 import { ChatInterface } from '@core/chat';
+import { useAppDispatch, useAppSelector } from '@/shared/store';
 import { 
-  selectMessagesBySessionId,
-  createNewSession,
+  selectAllSessions,
+  selectActiveSession,
   setActiveSession,
-  addMessage
-} from '@core/chat/chat/chatSlice';
-import type { RootState } from '@/shared/store';
+  addMessage,
+  addSession,
+  selectMessagesBySession,
+  setMessages
+} from '@/shared/store/slices/entitiesSlice';
+import {
+  useGetSessionMessagesQuery,
+  useSendMessageMutation,
+} from '@/shared/store/api/apiSlice';
+import { nanoid } from '@reduxjs/toolkit';
 
 const ChatWorkspace: React.FC = () => {
-  const dispatch = useDispatch();
-  const sessions = useSelector((state: RootState) => state.chat.sessions);
-  const activeSessionId = useSelector((state: RootState) => state.chat.activeSessionId);
+  const dispatch = useAppDispatch();
+  const sessions = useAppSelector(selectAllSessions);
+  const activeSession = useAppSelector(selectActiveSession);
+  const activeSessionId = activeSession?.id;
   
   // Ensure a session exists and is active before allowing message send
   useEffect(() => {
     if (!activeSessionId || !sessions.find(s => s.id === activeSessionId)) {
       const newSessionId = `session-${Date.now()}`;
-      dispatch(createNewSession(newSessionId));
+      // Note: createSession action needs to be implemented in entitiesSlice
       dispatch(setActiveSession(newSessionId));
     }
   }, [activeSessionId, sessions, dispatch]);
 
-  // Get messages for the active session
-  const messages = useSelector((state: RootState) => 
-    activeSessionId ? selectMessagesBySessionId(activeSessionId)(state) : []
+  // Fetch messages via RTK Query and sync to store
+  const { data: apiMessages = [], isFetching } = useGetSessionMessagesQuery(activeSessionId!, {
+    skip: !activeSessionId,
+  });
+
+  useEffect(() => {
+    if (apiMessages.length) {
+      dispatch(setMessages(apiMessages));
+    }
+  }, [apiMessages, dispatch]);
+
+  const messages = useAppSelector(state =>
+    activeSessionId ? selectMessagesBySession(state as any, activeSessionId) : []
   );
 
+  const [sendMessage] = useSendMessageMutation();
+
   const handleSendMessage = async (message: string) => {
+  let sid = activeSessionId;
+  // If no session yet, create one on the fly
+  if (!sid) {
+    sid = nanoid();
+    dispatch(addSession({
+      id: sid,
+      title: 'New Chat',
+      userId: 'me',
+      status: 'active',
+      messageIds: [],
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    }));
+    dispatch(setActiveSession(sid));
+  }
     // Only allow sending if a valid session exists
     if (!activeSessionId || !sessions.find(s => s.id === activeSessionId)) return;
     try {
       dispatch(addMessage({
-        id: `user-${Date.now()}`,
+        id: nanoid(),
+        sessionId: sid,
         text: message,
         sender: 'user',
         timestamp: new Date().toISOString(),
-        agent: 'general',
+        status: 'sent',
       }));
+      await sendMessage({ sessionId: sid, text: message }).unwrap();
     } catch (error) {
       console.error('Failed to send message:', error);
     }
@@ -56,7 +93,7 @@ const ChatWorkspace: React.FC = () => {
   return (
     <ChatInterface
       onSendMessage={handleSendMessage}
-      isLoading={false}
+      isLoading={isFetching}
       messages={messages}
       sessionId={activeSessionId}
     />

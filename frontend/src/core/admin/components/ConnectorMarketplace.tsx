@@ -672,7 +672,10 @@ const ConnectorMarketplace: React.FC<ConnectorMarketplaceProps> = ({
                     </Typography>
                   </Box>
                 </Box>
-                <IconButton onClick={() => setDetailDialogOpen(false)}>
+                <IconButton 
+                  onClick={() => setDetailDialogOpen(false)}
+                  aria-label="Close connector details dialog"
+                >
                   <Close />
                 </IconButton>
               </Box>

@@ -5,7 +5,8 @@ import { ThemeProvider, CssBaseline, GlobalStyles, useMediaQuery } from '@mui/ma
 import { Box, LinearProgress, Alert, Snackbar } from '@mui/material';
 
 // Store and state management
-import { store, useAppSelector, useAppDispatch, selectTheme, selectError, clearError, setTheme } from './shared/store';
+import { store, useAppSelector, useAppDispatch, setTheme, clearAllErrors } from './shared/store';
+import { selectTheme, selectGlobalError } from './shared/store/slices/uiSlice';
 import { lightTheme, darkTheme } from './shared/styles/theme';
 
 // Error boundaries
@@ -20,6 +21,7 @@ const ChatPage = React.lazy(() => import('./app/layout/LayoutShell'));
 const AdminPage = React.lazy(() => import('./core/admin/AdminApp'));
 const DashboardPage = React.lazy(() => import('./app/pages/DashboardPage'));
 const EnterpriseOSDemo = React.lazy(() => import('./app/pages/EnterpriseOSDemo'));
+const AgenticUIPage = React.lazy(() => import('./pages/AgenticUIPage'));
 
 // Global styles for consistent UI
 const globalStyles = (
@@ -127,7 +129,7 @@ const LoadingFallback: React.FC = () => (
 const AppContent: React.FC = () => {
   const themeMode = useAppSelector(selectTheme);
   const dispatch = useAppDispatch();
-  const error = useAppSelector(selectError);
+  const globalError = useAppSelector(selectGlobalError);
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
 
   // Theme calculation
@@ -161,7 +163,7 @@ const AppContent: React.FC = () => {
 
   // Error handling
   const handleCloseError = () => {
-    dispatch(clearError());
+    dispatch(clearAllErrors());
   };
 
   // Focus management for accessibility
@@ -230,6 +232,7 @@ const AppContent: React.FC = () => {
                   />
 
                   <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/agentic" element={<AgenticUIPage />} />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
               </Suspense>
@@ -237,13 +240,13 @@ const AppContent: React.FC = () => {
 
             {/* Global error snackbar */}
             <Snackbar
-              open={!!error}
+              open={!!globalError}
               autoHideDuration={6000}
               onClose={handleCloseError}
               anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             >
               <Alert onClose={handleCloseError} severity="error" sx={{ width: '100%' }}>
-                {error}
+                {globalError}
               </Alert>
             </Snackbar>
           </Box>

@@ -299,27 +299,109 @@ agent_factory = AgentFactory(agent_registry)
 
 async def initialize_builtin_agents():
     """Initialize built-in agents."""
-    # Register the general agent
-    await agent_registry.register_agent_class(AgentType.GENERAL, GeneralAgent)
+    # Register the general agent class for all agent types
+    # Using GeneralAgent as the base implementation for all types
+    agent_types_to_register = [
+        AgentType.GENERAL,
+        AgentType.SUPPORT,
+        AgentType.SALES,
+        AgentType.HR,
+        AgentType.FINANCE,
+        AgentType.IT,
+        AgentType.MARKETING,
+        AgentType.ANALYTICS,
+        AgentType.CUSTOM
+    ]
     
-    # Create a manifest for the general agent
-    general_manifest = AgentManifest(
-        name="general",
-        description="General purpose conversational agent",
-        version="1.0.0",
-        agent_type=AgentType.GENERAL,
-        module_path="agent",
-        capabilities=["conversation", "q&a", "general_knowledge"],
-        cost_per_call=0.01
-    )
+    # Register GeneralAgent class for all agent types
+    for agent_type in agent_types_to_register:
+        await agent_registry.register_agent_class(agent_type, GeneralAgent)
     
-    # Register it
-    registration = AgentRegistration(
-        agent_id="general_builtin",
-        agent_type=AgentType.GENERAL,
-        manifest=general_manifest
-    )
+    # Create manifests and registrations for each agent type
+    agent_configs = [
+        {
+            "id": "general_builtin",
+            "type": AgentType.GENERAL,
+            "name": "general",
+            "description": "General purpose conversational agent",
+            "capabilities": ["conversation", "q&a", "general_knowledge"]
+        },
+        {
+            "id": "support_builtin",
+            "type": AgentType.SUPPORT,
+            "name": "support",
+            "description": "Customer support specialist agent",
+            "capabilities": ["customer_service", "troubleshooting", "technical_support"]
+        },
+        {
+            "id": "sales_builtin",
+            "type": AgentType.SALES,
+            "name": "sales",
+            "description": "Sales and business development agent",
+            "capabilities": ["lead_qualification", "product_demos", "sales_support"]
+        },
+        {
+            "id": "hr_builtin",
+            "type": AgentType.HR,
+            "name": "hr",
+            "description": "Human resources specialist agent",
+            "capabilities": ["employee_support", "policy_guidance", "recruitment"]
+        },
+        {
+            "id": "finance_builtin",
+            "type": AgentType.FINANCE,
+            "name": "finance",
+            "description": "Financial analysis and planning agent",
+            "capabilities": ["financial_analysis", "budgeting", "reporting"]
+        },
+        {
+            "id": "it_builtin",
+            "type": AgentType.IT,
+            "name": "it",
+            "description": "IT support and technical assistance agent",
+            "capabilities": ["technical_support", "system_administration", "troubleshooting"]
+        },
+        {
+            "id": "marketing_builtin",
+            "type": AgentType.MARKETING,
+            "name": "marketing",
+            "description": "Marketing and content strategy agent",
+            "capabilities": ["content_creation", "campaign_planning", "market_analysis"]
+        },
+        {
+            "id": "analytics_builtin",
+            "type": AgentType.ANALYTICS,
+            "name": "analytics",
+            "description": "Data analytics and insights agent",
+            "capabilities": ["data_analysis", "reporting", "insights_generation"]
+        },
+        {
+            "id": "custom_builtin",
+            "type": AgentType.CUSTOM,
+            "name": "custom",
+            "description": "Customizable agent for specialized tasks",
+            "capabilities": ["custom_workflows", "specialized_tasks", "adaptable_responses"]
+        }
+    ]
     
-    agent_registry._registrations["general_builtin"] = registration
+    # Register each agent configuration
+    for config in agent_configs:
+        manifest = AgentManifest(
+            name=config["name"],
+            description=config["description"],
+            version="1.0.0",
+            agent_type=config["type"],
+            module_path="agent",
+            capabilities=config["capabilities"],
+            cost_per_call=0.01
+        )
+        
+        registration = AgentRegistration(
+            agent_id=config["id"],
+            agent_type=config["type"],
+            manifest=manifest
+        )
+        
+        agent_registry._registrations[config["id"]] = registration
     
     logger.info("Initialized built-in agents") 

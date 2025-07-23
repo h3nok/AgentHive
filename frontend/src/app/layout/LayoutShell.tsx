@@ -4,11 +4,11 @@ import TopNav from './TopNav';
 import Sidebar from '../../core/chat/Sidebar';
 import ChatInterface from '../../core/chat/ChatInterface';
 import ChatErrorBoundary from '../../shared/components/ErrorBoundary';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState, AppDispatch } from '../../shared/store';
-import { addMessage, clearChat, setActiveSession, assistantResponseFinished, setError, createFolder, updateSessionTitle, startWorkflow, ChatMessage } from '../../core/chat/chat/chatSlice';
-import { useAgentQueryMutation } from '../../core/chat/chat/chatApi';
-import { useCreateSessionMutation } from '../../core/chat/chat/sessionsApi';
+import { useAppDispatch, useAppSelector } from '../../shared/store';
+import { addMessage, setActiveSession, selectMessagesBySession } from '../../shared/store/slices/entitiesSlice';
+import { selectIsLoading } from '../../shared/store/slices/uiSlice';
+import { chatApi } from '../../core/chat/chat/chatApi';
+import { useCreateSessionMutation } from '../../shared/store/api/apiSlice';
 import { useParams, useNavigate } from 'react-router-dom';
 
 
@@ -21,18 +21,61 @@ interface LayoutShellProps {
 const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = false, initialAgent }) => {
   const theme = useTheme();
   const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
-  const dispatch = useDispatch<AppDispatch>();
-  const isLoading = useSelector((state: RootState) => state.chat.isLoading);
-  const routingMetadata = useSelector((state: RootState) => state.chat.routingMetadata);
-  const [triggerAgentQuery] = useAgentQueryMutation();
+  const dispatch = useAppDispatch();
+  const isLoading = useAppSelector(selectIsLoading);
+  
+  // Memoized selectors to prevent unnecessary re-renders
+  const sessions = useAppSelector(useMemo(() => (state: any) => {
+    const sessionIds = state.entities?.sessions?.ids || [];
+    return sessionIds.map((id: string) => state.entities.sessions.entities[id]).filter(Boolean);
+  }, []));
+  const folders = useAppSelector(useMemo(() => (state: any) => (state.entities as any)?.folders || [], []));
+  
+  const [triggerAgentQuery] = chatApi.useAgentQueryMutation();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   // Canvas functionality placeholder
   const isCanvasOpen = false;
   const drawerWidth = useMemo(() => isSidebarCollapsed ? 0 : 240, [isSidebarCollapsed]);
   const { sessionId, agentId: paramAgentId } = useParams<{ sessionId?: string; agentId?: string }>();
-  const sessions = useSelector((state: RootState) => state.chat.sessions);
-  const folders = useSelector((state: RootState) => state.chat.folders);
-  const activeSessionId = useSelector((state: RootState) => state.chat.activeSessionId);
+  const activeSessionId = useAppSelector(state => state.entities.activeSessionId);
+  
+  // DIRECT REDUX STATE INSPECTION - bypassing selectors entirely
+  const messages = useAppSelector(state => {
+    console.log('🔬 DIRECT STATE INSPECTION: Full Redux state:', state);
+    console.log('🔬 DIRECT STATE INSPECTION: state.entities:', state.entities);
+    console.log('🔬 DIRECT STATE INSPECTION: state.entities.messages:', state.entities?.messages);
+    console.log('🔬 DIRECT STATE INSPECTION: state.entities.messages.entities:', state.entities?.messages?.entities);
+    console.log('🔬 DIRECT STATE INSPECTION: state.entities.messages.ids:', state.entities?.messages?.ids);
+    
+    // Manual message extraction without selectors
+    const messageEntities = state.entities?.messages?.entities || {};
+    const messageIds = state.entities?.messages?.ids || [];
+    const allMessagesRaw = messageIds.map(id => messageEntities[id]).filter(Boolean);
+    
+    console.log('🔬 DIRECT EXTRACTION: messageIds:', messageIds);
+    console.log('🔬 DIRECT EXTRACTION: messageEntities:', messageEntities);
+    console.log('🔬 DIRECT EXTRACTION: allMessagesRaw:', allMessagesRaw);
+    
+    // Filter by session ID manually
+    const sessionMessages = activeSessionId 
+      ? allMessagesRaw.filter(msg => msg && msg.sessionId === activeSessionId)
+      : [];
+    
+    console.log('🔬 DIRECT FILTERING: activeSessionId:', activeSessionId);
+    console.log('🔬 DIRECT FILTERING: sessionMessages:', sessionMessages);
+    
+    // Compare with selector results
+    if (activeSessionId) {
+      const selectorResult = selectMessagesBySession(state, activeSessionId);
+      console.log('🔬 SELECTOR COMPARISON: selectMessagesBySession result:', selectorResult);
+      console.log('🔬 SELECTOR COMPARISON: manual vs selector equal:', JSON.stringify(sessionMessages) === JSON.stringify(selectorResult));
+    }
+    
+    return sessionMessages;
+  });
+  
+  console.log('📋 LayoutShell: Active session:', activeSessionId, 'Messages count:', messages.length);
+  console.log('📋 LayoutShell: Actual messages array:', messages);
   
   // Agent status for TopNav
   const [selectedAgent, setSelectedAgent] = useState(initialAgent || 'general');
@@ -63,7 +106,8 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
   // Clear chat state when isNewSession is true
   useEffect(() => {
     if (isNewSession) {
-      dispatch(clearChat());
+      // TODO: Implement clearChat equivalent in consolidated store
+      console.log('Clear chat requested for new session');
     }
   }, [isNewSession, dispatch]);
 
@@ -91,7 +135,8 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
   const ensureDefaultFolder = useCallback(() => {
     // Check if we already have any folders
     if (folders.length === 0) {
-      dispatch(createFolder("Default"));
+      // TODO: Implement createFolder equivalent in consolidated store
+      console.log('Create default folder requested');
       return true; // folder was created
     }
     
@@ -112,9 +157,27 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
       await new Promise(resolve => setTimeout(resolve, 200));
     }
     
-    // We need an active session before we can add messages
-    let currentSessionId = activeSessionId || '';
-    console.log('📋 Current session ID:', currentSessionId);
+    // CRITICAL: Ensure we have an active session ID before proceeding
+    let currentSessionId: string = activeSessionId || '';
+    if (!currentSessionId) {
+      // Create a new session if none exists
+      const newSessionId = crypto.randomUUID ? crypto.randomUUID() : `session-${Date.now()}`;
+      console.log('🆕 LayoutShell: Creating new session:', newSessionId);
+      dispatch(setActiveSession(newSessionId));
+      currentSessionId = newSessionId;
+      
+      // Also ensure the session exists in the store
+      try {
+        const sessionData = {
+          title: text.slice(0, 50) + (text.length > 50 ? '...' : ''),
+        };
+        await createSession({ ...sessionData }).unwrap();
+      } catch (error) {
+        console.error('❌ Failed to create session:', error);
+      }
+    }
+    
+    console.log('✅ LayoutShell: Using sessionId:', currentSessionId);
     
     if (!currentSessionId) {
       try {
@@ -125,13 +188,13 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
 
         console.log('✅ Session created:', currentSessionId);
         dispatch(setActiveSession(currentSessionId));
-        dispatch(updateSessionTitle({ sessionId: currentSessionId, title }));
+        console.log('Update session title requested:', { sessionId: activeSessionId, title: title });
         navigate(`/chat/${currentSessionId}`);
         // Give backend a brief moment to make the session visible for /agent/query
         await new Promise(r => setTimeout(r, 300));
       } catch (error) {
         console.error('❌ Failed to create new session:', error);
-        dispatch(setError('Failed to create a new session. Please try again.'));
+        console.error('No active session found. Please create a new session.');
         return;
       }
     }
@@ -139,11 +202,12 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
     // Now that we have a session, add the user message
     const userMessage = {
       id: `user-${Date.now()}`,
-      text,
+      text: text,
       sender: 'user' as const,
       timestamp: new Date().toISOString(),
-      agent,
-      temp: false, // Don't mark as temp to avoid filtering issues
+      sessionId: currentSessionId, // Use the guaranteed non-empty currentSessionId
+      agentId: agent,
+      status: 'sent' as const
     };
     
     console.log('💬 Adding user message:', userMessage);
@@ -154,7 +218,8 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
     triggerAgentQuery({ 
       session_id: currentSessionId, 
       query: text, 
-      explicit_agent: agent
+      explicit_agent: agent,
+      stream: true
     });
   }, [dispatch, triggerAgentQuery, activeSessionId, createSession, navigate, ensureDefaultFolder, selectedAgent]);
 
@@ -175,22 +240,24 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
     
     const agentIds = workflowAgentMap[workflowId] || ['General Agent'];
     
-    // Start the workflow in the chat state
-    dispatch(startWorkflow({ 
+    // TODO: Implement startWorkflow equivalent in consolidated store
+    console.log('Start workflow requested:', { 
       workflowId, 
       name: workflowId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
       agentIds 
-    }));
+    });
     
     // Send the workflow trigger message if we have a prompt
     if (params?.prompt) {
       // Add a system message to show the workflow is starting
-      const systemMessage: ChatMessage = {
+      const systemMessage = {
         id: `system-${Date.now()}`,
         text: `🔄 **Workflow Started:** ${workflowId.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}\n\n**Agents Involved:** ${agentIds.join(', ')}\n\n**Status:** Initializing...`,
-        sender: 'system',
+        sender: 'system' as const,
         timestamp: new Date().toISOString(),
-        temp: false
+        sessionId: activeSessionId || '',
+        agentId: 'system',
+        status: 'sent' as const
       };
       dispatch(addMessage(systemMessage));
       
@@ -204,11 +271,10 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
     // Set the stop flag
     shouldStopRef.current = true;
     
-    // Manually handle stopping the response
-    dispatch(assistantResponseFinished());
+    console.log('Assistant response finished');
     
-    // Add a message to indicate the request was stopped
-    dispatch(setError("Response generation stopped by user"));
+    // TODO: Implement setError equivalent in consolidated store
+    console.log("Response generation stopped by user");
   }, [dispatch]);
 
   const resolvedAgentId = initialAgent ?? paramAgentId;
@@ -309,10 +375,11 @@ const LayoutShell: React.FC<LayoutShellProps> = ({ toggleTheme, isNewSession = f
             }}>
               <ChatErrorBoundary>
                 <ChatInterface 
+                  messages={messages}
+                  sessionId={activeSessionId}
                   onSendMessage={handleSendMessage} 
                   isLoading={isLoading} 
                   onWorkflowTrigger={handleWorkflowTrigger}
-                  sessionId={activeSessionId}
                   enterpriseMode={true}
                   activeWorkflows={0}
                   currentAgent={{

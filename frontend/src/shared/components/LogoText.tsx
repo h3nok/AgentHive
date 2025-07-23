@@ -1,6 +1,8 @@
 import React, { memo, useMemo, useCallback, useEffect } from 'react';
 import { Box, Typography, Skeleton, useTheme, Tooltip } from '@mui/material';
-import { useAppSelector, selectTheme, selectConnectionStatus } from '../store';
+import { useAppSelector } from '../store';
+import { selectTheme } from '../store/slices/uiSlice';
+import { selectOnlineStatus } from '../store/slices/connectionSlice';
 import { ComponentErrorBoundary } from './ErrorBoundary';
 
 interface LogoTextProps {
@@ -126,7 +128,7 @@ const LogoTextContent: React.FC<LogoTextProps> = ({
 }) => {
   const theme = useTheme();
   const currentTheme = useAppSelector(selectTheme);
-  const connectionStatus = useAppSelector(selectConnectionStatus);
+  const connectionStatus = useAppSelector(selectOnlineStatus);
 
   const config = SIZE_CONFIGS[size];
   

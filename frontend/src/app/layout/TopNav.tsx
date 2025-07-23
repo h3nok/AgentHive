@@ -45,8 +45,10 @@ import {
 } from '@mui/icons-material';
 import StatusBadge from '../../shared/components/StatusBadge';
 import CommandCenter from '../../core/workflows/CommandCenter';
-import { useAppSelector, useAppDispatch, selectTheme, selectUser } from '../../shared/store';
-import { setConnectionStatus } from '../../shared/store';
+import { useAppSelector, useAppDispatch } from '../../shared/store';
+import { selectTheme } from '../../shared/store/slices/uiSlice';
+import { selectActiveUser } from '../../shared/store/slices/entitiesSlice';
+import { setOnlineStatus } from '../../shared/store/slices/connectionSlice';
 import { useBackendConnection } from '../../shared/hooks/useBackendConnection';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useEnterpriseFeatures } from '../../shared/hooks/useEnterpriseFeatures';
@@ -277,7 +279,7 @@ const TopNav: React.FC<TopNavProps> = ({
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const currentTheme = useAppSelector(selectTheme);
-  const user = useAppSelector(selectUser);
+  const user = useAppSelector(selectActiveUser);
   const { openSettings } = useEnterpriseFeatures();
   
   // Real backend connection monitoring
@@ -292,7 +294,7 @@ const TopNav: React.FC<TopNavProps> = ({
 
   // Update store with real connection status
   useEffect(() => {
-    dispatch(setConnectionStatus(connectionStatus));
+    dispatch(setOnlineStatus(connectionStatus === 'online'));
   }, [dispatch, connectionStatus]);
   
   const [userMenuAnchor, setUserMenuAnchor] = useState<null | HTMLElement>(null);

@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../shared/store';
 import { 
   Box, 
   Typography, 
-  Avatar, 
-  Paper, 
-  Tooltip, 
-  IconButton, 
-  Snackbar, 
-  CircularProgress,
-  keyframes
+  Avatar,
+  Paper,
+  Tooltip,
+  IconButton,
+  Snackbar,
+  CircularProgress
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import PersonIcon from '@mui/icons-material/Person';
@@ -21,7 +19,8 @@ import ViewSidebarRoundedIcon from '@mui/icons-material/ViewSidebarRounded';
 import { agentStyles } from '../../shared/constants/agentStyles';
 import MarkdownRenderer from '../../shared/components/MarkdownRenderer';
 import LogoText from '../../shared/components/LogoText';
-import type { ChatMessage as ChatMessageType } from './chat/chatSlice';
+import type { Message as ChatMessageType } from '../../shared/store/slices/entitiesSlice';
+import { selectTheme, selectChatTyping } from '../../shared/store/slices/uiSlice';
 import {
   ChartComponent,
   CodeBlockComponent,
@@ -42,18 +41,17 @@ interface ChatMessageProps {
 const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming = false, onRerun, activeAgent = "general" }) => {
   const isUser = message.sender === 'user';
   const isAgent = message.sender === 'assistant';
-  const isSystem = message.sender === 'system';
-  const isHRAgent = message.sender === 'assistant' && message.agent === 'hr';
+  // isSystem and isHRAgent variables removed - unused
   
-  // Get theme mode from Redux store or default to light
-  const mode = useSelector((state: RootState) => state.app.theme) || 'light';
+  // Get theme mode from consolidated UI store
+  const mode = useSelector(selectTheme);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [rerunSnackbarOpen, setRerunSnackbarOpen] = useState(false);
   // Canvas functionality placeholder
   const openWithMessage = (message: any) => {
     console.log('Canvas functionality disabled:', message);
   };
-  const processingStatus = useSelector((state: RootState) => state.chat.processingStatus);
+  const processingStatus = useSelector(selectChatTyping);
   // Track whether this message is currently being read aloud
   const [isSpeaking, setIsSpeaking] = useState(false);
   
@@ -369,9 +367,9 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isStreaming = false,
               )}
               
               {/* Legacy chart support */}
-              {message.chart && (
+              {message.metadata?.chart && (
                 <Box sx={{ mt: 2 }}>
-                  {message.chart}
+                  {message.metadata.chart}
                 </Box>
               )}
             </>

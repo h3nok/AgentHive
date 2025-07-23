@@ -4,7 +4,7 @@ import {
   Typography,
   Card,
   CardContent,
-  CardActions,
+
   Button,
   TextField,
   FormControl,
@@ -18,7 +18,7 @@ import {
   Alert,
   Tabs,
   Tab,
-  Divider,
+
   List,
   ListItem,
   ListItemText,
@@ -32,7 +32,7 @@ import {
   AccordionSummary,
   AccordionDetails,
   LinearProgress,
-  Tooltip
+
 } from '@mui/material';
 import {
   Settings,
@@ -47,12 +47,12 @@ import {
   Warning,
   Info,
   ExpandMore,
-  Edit,
-  Add,
-  Remove,
+
+
+
   Security,
   Analytics,
-  Notifications
+
 } from '@mui/icons-material';
 import { useTheme } from '@mui/material/styles';
 
@@ -367,7 +367,10 @@ const ConnectorConfiguration: React.FC<ConnectorConfigurationProps> = ({
             required={field.required}
             InputProps={{
               endAdornment: field.sensitive && (
-                <IconButton onClick={() => toggleSensitiveVisibility(field.key)}>
+                <IconButton 
+                  onClick={() => toggleSensitiveVisibility(field.key)}
+                  aria-label={showSensitive[field.key] ? 'Hide sensitive value' : 'Show sensitive value'}
+                >
                   {showSensitive[field.key] ? <VisibilityOff /> : <Visibility />}
                 </IconButton>
               )

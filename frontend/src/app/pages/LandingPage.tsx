@@ -42,7 +42,8 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 // Import directly from the correct physical path
 import { EmbeddedWidget } from '../../../../packages/ubiqora-ai-widget/ubiqora-ai-widget/src';
 import { ComponentErrorBoundary } from '../../shared/components/ErrorBoundary';
-import { useAppSelector, useAppDispatch, selectTheme, setTheme } from '../../shared/store';
+import { useAppSelector, useAppDispatch, setTheme } from '../../shared/store';
+import { selectTheme } from '../../shared/store/slices/uiSlice';
 
 // Lazy load components for performance
 const LazyLogoText = React.lazy(() => import('../../shared/components/LogoText'));

@@ -12,7 +12,5 @@ export { default as OptimizedSidebar } from './OptimizedSidebar';
 
 // API & State Management
 export * from './chat/chatApi';
-export * from './chat/chatSlice';
 export * from './chat/sessionsApi';
-export * from './chat/websocketSlice';
-export * from './chat/streamSlice';
+// Note: chatSlice, websocketSlice, streamSlice replaced by consolidated store
